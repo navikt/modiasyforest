@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://appconfig.aura.nav.no" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://appconfig.aura.nav.no http://maven.adeo.no/xsd/appconfig.xsd">
+
+    <name>modiasyforest</name>
+
+    <artifacts>
+        <ear groupId="no.nav.sbl.dialogarena" artifactId="modia-syforest-jee"/>
+    </artifacts>
+
+    <security serviceUserResourceAlias="srvmodiasyforest">
+        <logins>
+            <spnego/>
+        </logins>
+    </security>
+
+    <resources>
+        <ldap alias="ldap" mapToProperty="ldap"/>
+        <applicationCertificate alias="srvmodiasyforest"/>
+    </resources>
+    <loadBalancer />
+
+</application>
