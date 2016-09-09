@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <defaultCache eternal="true" maxElementsInMemory="100" overflowToDisk="false" />
+    <cache name="arbeidsforhold" maxElementsInMemory="1000"
+           eternal="false"
+           timeToLiveSeconds="${cachetid.sekunder}"
+           diskPersistent="false"
+           overflowToDisk="false"/>
+
+    <cache name="aktoer" maxElementsInMemory="1000"
+           eternal="false"
+           timeToLiveSeconds="${cachetid.sekunder}"
+           diskPersistent="false"
+           overflowToDisk="false"/>
+
+    <cache name="diskresjonskode" maxElementsInMemory="1000"
+           eternal="false"
+           timeToLiveSeconds="${cachetid.sekunder}"
+           diskPersistent="false"
+           overflowToDisk="false"/>
+
+    <cache name="sykmelding" maxElementsInMemory="1000"
+           eternal="false"
+           timeToLiveSeconds="${cachetid.sekunder}"
+           diskPersistent="false"
+           overflowToDisk="false"/>
+
+    <cache name="organisasjon" maxElementsInMemory="1000"
+           eternal="false"
+           timeToLiveSeconds="${cachetid.sekunder}"
+           diskPersistent="false"
+           overflowToDisk="false"/>
+
+</ehcache>

@@ -6,6 +6,7 @@ import java.io.File;
 
 import static no.nav.modig.core.test.FilesAndDirs.TEST_RESOURCES;
 import static no.nav.modig.core.test.FilesAndDirs.WEBAPP_SOURCE;
+import static no.nav.modig.testcertificates.TestCertificates.setupKeyAndTrustStore;
 import static no.nav.sbl.dialogarena.common.jetty.Jetty.usingWar;
 import static no.nav.modig.lang.collections.FactoryUtils.gotKeypress;
 import static no.nav.modig.lang.collections.RunnableUtils.first;
@@ -21,6 +22,8 @@ public class StartJetty {
 
     private static void runJetty() {
         setFrom("jetty-environment.properties");
+        setupKeyAndTrustStore();
+
         Jetty jetty = usingWar(WEBAPP_SOURCE)
                 .at("modiasyforest")
                 .port(8084)
