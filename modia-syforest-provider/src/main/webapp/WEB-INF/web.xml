@@ -6,6 +6,19 @@
 
 <display-name>modia-syforest</display-name>
 
+
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+        <cookie-config>
+            <name>SYFOREST_JSESSIONID</name>
+            <http-only>true</http-only>
+            <secure>true</secure>
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
@@ -22,7 +35,6 @@
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-
     <security-role>
         <role-name>*</role-name>
     </security-role>
