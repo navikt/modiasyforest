@@ -16,6 +16,8 @@ import static no.nav.sbl.dialogarena.test.SystemProperties.setFrom;
 
 public class StartJetty {
 
+    // Ta Edit Confiugration på StartJetty. Sett Provider-modulen som working directory
+
     public static void main(String[] args) {
         runJetty();
     }
