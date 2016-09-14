@@ -4,7 +4,10 @@
 
     <name>modiasyforest</name>
 
-    <selftestPagePath>/modiasyforest/internal/selftest</selftestPagePath>
+    <selftest>
+        <path>modiasyforest/internal/selftest</path>
+        <humanReadablePath>modiasyforest/internal/selftest</humanReadablePath>
+    </selftest>
 
     <artifacts>
         <ear groupId="no.nav.sbl.dialogarena" artifactId="modia-syforest-jee"/>
