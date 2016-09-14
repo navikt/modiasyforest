@@ -16,7 +16,6 @@
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
-
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

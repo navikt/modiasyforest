@@ -25,8 +25,24 @@
         </cache:caching>
     </cache:advice>
 
+    <cache:advice id="aktoerAdvice" key-generator="simplekeygenerator">
+        <cache:caching cache="sykmelding">
+            <cache:cacheable method="hent*"/>
+            <cache:cacheable method="finn*"/>
+        </cache:caching>
+    </cache:advice>
+
+    <cache:advice id="organisasjonAdvice" key-generator="simplekeygenerator">
+        <cache:caching cache="sykmelding">
+            <cache:cacheable method="hent*"/>
+            <cache:cacheable method="finn*"/>
+        </cache:caching>
+    </cache:advice>
+
     <aop:config>
         <aop:advisor advice-ref="sykmeldingAdvice" pointcut="bean(sykmeldingV1)"/>
+        <aop:advisor advice-ref="aktoerAdvice" pointcut="bean(aktoerV2)"/>
+        <aop:advisor advice-ref="organisasjonAdvice" pointcut="bean(organisasjonPortType)"/>
     </aop:config>
 
 </beans>

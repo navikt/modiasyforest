@@ -1,0 +1,40 @@
+package no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje;
+
+import java.time.LocalDate;
+
+public class Hendelse {
+
+    public String id;
+    public LocalDate inntruffetdato;
+    public Hendelsestype type;
+    public Integer antallDager;
+    public String tekstkey;
+
+    public Hendelse withInntruffetdato(final LocalDate inntruffetdato) {
+        this.inntruffetdato = inntruffetdato;
+        return this;
+    }
+
+    public Hendelse withType(final Hendelsestype type) {
+        this.type = type;
+        return this;
+    }
+
+    public Hendelse withAntallDager(final Integer antallDager) {
+        this.antallDager = antallDager;
+        return this;
+    }
+
+    public Hendelse withTekstkey(final String tekstkey) {
+        this.tekstkey = tekstkey;
+        return this;
+    }
+
+    public Hendelse withId(final String id) {
+        this.id = id;
+        return this;
+    }
+}
+
+
+

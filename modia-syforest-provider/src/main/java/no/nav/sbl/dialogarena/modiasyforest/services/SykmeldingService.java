@@ -13,6 +13,7 @@ import static java.util.Collections.emptyList;
 import static no.nav.sbl.dialogarena.modiasyforest.mapper.SykmeldingMapper.sykmeldinger;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.*;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SykmeldingService {
@@ -22,6 +23,8 @@ public class SykmeldingService {
     private AktoerService aktoerService;
     @Inject
     private SykmeldingV1 sykmeldingV1;
+    @Inject
+    private OrganisasjonService organisasjonService;
 
     public List<Sykmelding> hentSykmeldinger(String fnr) {
         String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
@@ -36,7 +39,7 @@ public class SykmeldingService {
                     .withAktoerId(aktoerId);
 
             List<Sykmelding> sykmeldinger = mapTilSykmeldinger(request);
-//            populerMedArbeidsgivernavn(sykmeldinger);
+            populerMedArbeidsgivernavn(sykmeldinger);
             return sykmeldinger;
         } catch (Exception e) {
             LOG.error("Noe gikk galt under webservice-kall til syfoservice", e);
@@ -48,11 +51,11 @@ public class SykmeldingService {
         return sykmeldinger(sykmeldingV1.hentSykmeldingListe(request).getMeldingListe());
     }
 
-//    private void populerMedArbeidsgivernavn(List<Sykmelding> sykmeldinger) {
-//        sykmeldinger.stream()
-//                .filter(sykmelding -> isNotEmpty(sykmelding.orgnummer))
-//                .forEach(sykmelding -> sykmelding.innsendtArbeidsgivernavn = organisasjonService.hentNavn(sykmelding.orgnummer));
-//    }
+    private void populerMedArbeidsgivernavn(List<Sykmelding> sykmeldinger) {
+        sykmeldinger.stream()
+                .filter(sykmelding -> isNotEmpty(sykmelding.orgnummer))
+                .forEach(sykmelding -> sykmelding.innsendtArbeidsgivernavn = organisasjonService.hentNavn(sykmelding.orgnummer));
+    }
 
 
     public Sykmelding hentSykmelding(String fnr, String sykmeldingId) {

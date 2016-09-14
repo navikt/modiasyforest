@@ -21,7 +21,7 @@ public class AktoerConfig {
 
     @Bean
     public AktoerV2 aktoerV2() {
-        AktoerV2 prod =  aktoerPortType().withOutInterceptor(new UserSAMLOutInterceptor()).build();
+        AktoerV2 prod =  aktoerPortType().withOutInterceptor(new SystemSAMLOutInterceptor()).build();
         AktoerV2 mock =  new AktoerMock();
 
         return createMetricsProxyWithInstanceSwitcher("aktor", prod, mock, AKTOER_MOCK_KEY, AktoerV2.class);
