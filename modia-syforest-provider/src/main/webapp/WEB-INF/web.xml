@@ -6,8 +6,6 @@
 
 <display-name>modia-syforest</display-name>
 
-
-
     <session-config>
         <session-timeout>60</session-timeout>
         <cookie-config>
@@ -26,6 +24,33 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+
+    <servlet>
+        <servlet-name>selftest</servlet-name>
+        <servlet-class>no.nav.sbl.dialogarena.modiasyforest.selftest.SelftestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>selftest</servlet-name>
+        <url-pattern>/internal/selftest</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>jsonselftest</servlet-name>
+        <servlet-class>no.nav.sbl.dialogarena.modiasyforest.selftest.SelftestJsonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jsonselftest</servlet-name>
+        <url-pattern>/internal/selftest.json</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>isAliveServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>isAliveServlet</servlet-name>
+        <url-pattern>/internal/isAlive</url-pattern>
+    </servlet-mapping>
 
     <context-param>
         <param-name>contextClass</param-name>
@@ -49,6 +74,14 @@
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Public</web-resource-name>
+            <url-pattern>/internal/selftest</url-pattern>
+            <url-pattern>/internal/selftest.json</url-pattern>
+            <url-pattern>/internal/isAlive</url-pattern>
+        </web-resource-collection>
     </security-constraint>
     <security-role>
         <role-name>*</role-name>
