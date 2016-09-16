@@ -34,4 +34,9 @@ public class ServicesConfig {
 
     @Bean
     public TidslinjeHendelserService tidslinjeHendelserService() { return new TidslinjeHendelserService(); }
+
+    @Bean
+    public BrukerprofilService brukerprofilService() {
+        return new BrukerprofilService();
+    }
 }
