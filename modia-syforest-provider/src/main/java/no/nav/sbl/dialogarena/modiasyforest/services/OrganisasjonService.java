@@ -22,7 +22,7 @@ public class OrganisasjonService {
     private static final Logger LOG = getLogger(OrganisasjonService.class);
 
     @Inject
-    private OrganisasjonV4 organisasjonWebService;
+    private OrganisasjonV4 organisasjonV4;
 
     public String hentNavn(String orgnr) {
         String overstyrOrgnummerForSendingTilAltinnTest = getProperty("altinn.test.overstyr.orgnr");
@@ -31,7 +31,7 @@ public class OrganisasjonService {
         }
 
         try {
-            WSHentOrganisasjonResponse response = organisasjonWebService.hentOrganisasjon(request(orgnr));
+            WSHentOrganisasjonResponse response = organisasjonV4.hentOrganisasjon(request(orgnr));
             WSUstrukturertNavn ustrukturertNavn = (WSUstrukturertNavn) response.getOrganisasjon().getNavn();
 
             return ustrukturertNavn.getNavnelinje().stream()

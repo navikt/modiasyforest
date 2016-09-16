@@ -4,10 +4,8 @@ import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
 import no.nav.modig.security.ws.UserSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.BrukerprofilMock;
-import no.nav.sbl.dialogarena.modiasyforest.mocks.OrganisasjonMock;
 import no.nav.sbl.dialogarena.types.Pingable;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
-import no.nav.tjeneste.virksomhet.organisasjon.v4.OrganisasjonV4;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

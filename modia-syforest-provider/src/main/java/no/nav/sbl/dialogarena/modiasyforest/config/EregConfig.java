@@ -20,7 +20,7 @@ public class EregConfig {
     private static final String ORGANISASJON_EREG_MOCK_KEY = "organisasjon.ereg.withmock";
 
     @Bean
-    public OrganisasjonV4 organisasjonPortType() {
+    public OrganisasjonV4 organisasjonV4() {
         OrganisasjonV4 prod = factory().withOutInterceptor(new UserSAMLOutInterceptor()).build();
         OrganisasjonV4 mock = new OrganisasjonMock();
 

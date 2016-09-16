@@ -17,7 +17,8 @@ import org.springframework.context.annotation.Import;
         CacheConfig.class,
         SyfoServiceConfig.class,
         ServicesConfig.class,
-        EregConfig.class
+        EregConfig.class,
+        TpsConfig.class
 })
 public class ApplicationConfig {
 
