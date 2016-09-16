@@ -14,11 +14,11 @@ public class BrukerprofilService {
     @Inject
     private BrukerprofilV3 brukerprofilV3;
 
-    public String hentNavn(String aktoerId) {
+    public String hentNavn(String ident) {
         try {
             WSPerson wsPerson = brukerprofilV3.hentKontaktinformasjonOgPreferanser(new WSHentKontaktinformasjonOgPreferanserRequest()
                     .withIdent(new WSNorskIdent()
-                            .withIdent(aktoerId))).getBruker();
+                            .withIdent(ident))).getBruker();
             return wsPerson.getPersonnavn().getSammensattNavn();
         } catch (Exception e) {
             LOG.error("Exception mot TPS: {}", e.getMessage());
