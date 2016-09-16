@@ -59,7 +59,8 @@ public class SykeforloepService {
                                     .withTekstkey(fraHendelsetype(wsHendelse.getType()));
                             if (wsHendelse.getType().equals(WSHendelsestype.NY_NAERMESTE_LEDER)) {
                                 WSHendelseNyNaermesteLeder wsHendelseNyNaermesteLeder = (WSHendelseNyNaermesteLeder) wsHendelse;
-                                hendelse.withData("naermesteleder.navn", brukerprofilService.hentNavn(wsHendelseNyNaermesteLeder.getNaermesteLederAktoerId()));
+                                String fnr = aktoerService.hentFnrForAktoer(wsHendelseNyNaermesteLeder.getNaermesteLederAktoerId());
+                                hendelse.withData("naermesteleder.navn", brukerprofilService.hentNavn(fnr));
                             }
 
                             return hendelse;
