@@ -5,10 +5,7 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSHendelse;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSHendelsestype;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSMelding;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSOppfoelgingstilfelle;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
 
 import javax.inject.Inject;
@@ -22,7 +19,8 @@ public class SykeforloepService {
 
     @Inject
     private AktoerService aktoerService;
-
+    @Inject
+    private BrukerprofilService brukerprofilService;
     @Inject
     private SykmeldingV1 sykmeldingV1;
 
@@ -54,11 +52,18 @@ public class SykeforloepService {
     private List<Hendelse> tilHendelser(List<WSHendelse> hendelser) {
         return hendelser
                 .stream()
-                .map(wsHendelse ->
-                        new Hendelse()
-                                .withInntruffetdato(wsHendelse.getDato())
-                                .withType(valueOf(wsHendelse.getType().value()))
-                                .withTekstkey(fraHendelsetype(wsHendelse.getType()))
+                .map(wsHendelse -> {
+                            Hendelse hendelse = new Hendelse()
+                                    .withInntruffetdato(wsHendelse.getDato())
+                                    .withType(valueOf(wsHendelse.getType().value()))
+                                    .withTekstkey(fraHendelsetype(wsHendelse.getType()));
+                            if (wsHendelse.getType().equals(WSHendelsestype.NY_NAERMESTE_LEDER)) {
+                                WSHendelseNyNaermesteLeder wsHendelseNyNaermesteLeder = (WSHendelseNyNaermesteLeder) wsHendelse;
+                                hendelse.withData("naermesteleder.navn", brukerprofilService.hentNavn(wsHendelseNyNaermesteLeder.getNaermesteLederAktoerId()));
+                            }
+
+                            return hendelse;
+                        }
                 ).collect(toList());
     }
 

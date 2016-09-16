@@ -35,8 +35,10 @@
         <common-cxf.version>3.1.11</common-cxf.version>
         <ehcache.version>2.6.11</ehcache.version>
         <dial-nav-tjeneste-aktoer_v2.version>1.1</dial-nav-tjeneste-aktoer_v2.version>
-        <sykmeldingv1-tjenestespesifikasjon.version>1.1.4</sykmeldingv1-tjenestespesifikasjon.version>
+        <sykmeldingv1-tjenestespesifikasjon.version>1.1.5</sykmeldingv1-tjenestespesifikasjon.version>
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
+        <brukerprofil-v3-tjenestespesifikasjon.version>3.0.3</brukerprofil-v3-tjenestespesifikasjon.version>
+
     </properties>
 
 
@@ -247,6 +249,11 @@
                 <groupId>org.eclipse.jetty.orbit</groupId>
                 <artifactId>javax.servlet</artifactId>
                 <version>3.0.0.v201112011016</version>
+            </dependency>
+            <dependency>
+                <groupId>no.nav.sbl</groupId>
+                <artifactId>brukerprofil-v3-tjenestespesifikasjon</artifactId>
+                <version>${brukerprofil-v3-tjenestespesifikasjon.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

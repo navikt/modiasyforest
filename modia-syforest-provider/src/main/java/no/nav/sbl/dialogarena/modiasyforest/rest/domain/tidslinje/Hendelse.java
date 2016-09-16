@@ -1,6 +1,8 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Hendelse {
 
@@ -9,6 +11,7 @@ public class Hendelse {
     public Hendelsestype type;
     public Integer antallDager;
     public String tekstkey;
+    public Map data = new HashMap<>();
 
     public Hendelse withInntruffetdato(final LocalDate inntruffetdato) {
         this.inntruffetdato = inntruffetdato;
@@ -17,6 +20,11 @@ public class Hendelse {
 
     public Hendelse withType(final Hendelsestype type) {
         this.type = type;
+        return this;
+    }
+
+    public Hendelse withData(String key, String data) {
+        this.data.put(key, data);
         return this;
     }
 
