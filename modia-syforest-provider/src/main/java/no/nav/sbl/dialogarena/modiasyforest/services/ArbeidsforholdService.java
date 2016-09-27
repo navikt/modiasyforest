@@ -56,8 +56,7 @@ public class ArbeidsforholdService {
 
                         return new Arbeidsgiver()
                                 .withNavn(navn)
-                                .withOrgnummer(orgnummer)
-                                .withNaermesteledere(naermesteLederService.hentNaermesteleder(fnr));
+                                .withOrgnummer(orgnummer);
 
                     }).collect(toList());
 

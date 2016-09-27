@@ -5,7 +5,8 @@ public class Naermesteleder {
     public String navn;
     public String tlf;
     public String epost;
-
+    public Boolean aktiv;
+    public Arbeidsgiver arbeidsgiver;
 
     public Naermesteleder withNavn(String navn) {
         this.navn = navn;
@@ -19,6 +20,16 @@ public class Naermesteleder {
 
     public Naermesteleder withEpost(String epost) {
         this.epost = epost;
+        return this;
+    }
+
+    public Naermesteleder withAktiv(Boolean aktiv) {
+        this.aktiv = aktiv;
+        return this;
+    }
+
+    public Naermesteleder withArbeidsgiver(Arbeidsgiver arbeidsgiver) {
+        this.arbeidsgiver = arbeidsgiver;
         return this;
     }
 }

@@ -19,7 +19,7 @@ public class BrukerprofilService {
             WSPerson wsPerson = brukerprofilV3.hentKontaktinformasjonOgPreferanser(new WSHentKontaktinformasjonOgPreferanserRequest()
                     .withIdent(new WSNorskIdent()
                             .withIdent(ident))).getBruker();
-            return wsPerson.getPersonnavn().getSammensattNavn();
+            return wsPerson.getPersonnavn().getFornavn() + " " + wsPerson.getPersonnavn().getEtternavn();
         } catch (Exception e) {
             LOG.error("Exception mot TPS: {}", e.getMessage());
             return "Vi fant ikke navnet";

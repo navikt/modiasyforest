@@ -8,7 +8,7 @@ import static java.util.Arrays.asList;
 
 public class NaermesteLederService {
 
-    public List<Naermesteleder> hentNaermesteleder(String fnr) {
+    public List<Naermesteleder> hentNaermesteledere(String fnr) {
         return asList(
             new Naermesteleder().withNavn("John").withEpost("test@nav.no").withTlf("12345678")
         );

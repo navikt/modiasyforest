@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.metrics.aspects.Timed;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.brukerinfo.Bruker;
 import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +23,9 @@ public class BrukerRessurs {
 
     @GET
     @Timed
-    public String hentNavn(@QueryParam("fnr") String fnr){
-        return brukerprofilService.hentNavn(fnr);
+    public Bruker hentNavn(@QueryParam("fnr") String fnr){
+        return new Bruker()
+                .withNavn(brukerprofilService.hentNavn(fnr))
+                .withArbeidssituasjon("ARBEIDSTAKER");
     }
 }
