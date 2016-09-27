@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.arbeidsgiver.Naermesteleder;
 import no.nav.sbl.dialogarena.modiasyforest.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,5 +39,15 @@ public class ServicesConfig {
     @Bean
     public BrukerprofilService brukerprofilService() {
         return new BrukerprofilService();
+    }
+
+    @Bean
+    public ArbeidsforholdService arbeidsforholdService() {
+        return new ArbeidsforholdService();
+    }
+
+    @Bean
+    public NaermesteLederService naermesteLederService() {
+        return new NaermesteLederService();
     }
 }

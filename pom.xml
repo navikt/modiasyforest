@@ -38,7 +38,7 @@
         <sykmeldingv1-tjenestespesifikasjon.version>1.1.5</sykmeldingv1-tjenestespesifikasjon.version>
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
         <brukerprofil-v3-tjenestespesifikasjon.version>3.0.3</brukerprofil-v3-tjenestespesifikasjon.version>
-
+        <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
     </properties>
 
 
@@ -107,6 +107,12 @@
                 <artifactId>jersey-container-servlet-core</artifactId>
                 <version>${jersey.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>no.nav.tjenester.fim</groupId>
+                <artifactId>nav-arbeidsforhold-v3-tjenestespesifikasjon</artifactId>
+                <version>${nav-arbeidsforhold-v3-tjenestespesifikasjon.version}</version>
+                <classifier>jaxws</classifier>
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>
