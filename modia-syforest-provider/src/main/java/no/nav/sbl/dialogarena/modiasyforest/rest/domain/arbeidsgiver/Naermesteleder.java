@@ -3,6 +3,8 @@ package no.nav.sbl.dialogarena.modiasyforest.rest.domain.arbeidsgiver;
 public class Naermesteleder {
 
     public String navn;
+    public Integer id;
+    public String fodselsdato;
     public String tlf;
     public String epost;
     public Boolean aktiv;
@@ -32,4 +34,14 @@ public class Naermesteleder {
         this.arbeidsgiver = arbeidsgiver;
         return this;
     }
+    public Naermesteleder withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Naermesteleder withFodselsdato(String fodselsdato) {
+        this.fodselsdato = fodselsdato;
+        return this;
+    }
+
 }

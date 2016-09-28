@@ -32,6 +32,8 @@ public class NaermestelederRessurs {
 
         return asList(
                 new Naermesteleder()
+                        .withFodselsdato("071186")
+                        .withId(1)
                         .withNavn("Jobi")
                         .withEpost("jobi@test.no")
                         .withTlf("12345678")
@@ -40,6 +42,8 @@ public class NaermestelederRessurs {
                                 .withOrgnummer("***REMOVED***")
                                 .withNavn("***REMOVED*** CONSULTING AS")),
                 new Naermesteleder()
+                        .withFodselsdato("121276")
+                        .withId(2)
                         .withNavn("Carl Christian Christensen")
                         .withEpost("ccc@test.no")
                         .withTlf("12345678")
@@ -48,6 +52,8 @@ public class NaermestelederRessurs {
                                 .withOrgnummer("***REMOVED***")
                                 .withNavn("***REMOVED*** CONSULTING AS")),
                 new Naermesteleder()
+                        .withFodselsdato("010456")
+                        .withId(3)
                         .withNavn("Alexander Langtmannsnavnsomerlangt")
                         .withEpost("enveldiglangemailadressesomtesterlangestrenger")
                         .withTlf("12345678")
