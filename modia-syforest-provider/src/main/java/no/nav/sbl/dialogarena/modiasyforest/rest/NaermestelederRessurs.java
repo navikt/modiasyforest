@@ -1,10 +1,9 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.metrics.aspects.Timed;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.arbeidsgiver.Arbeidsgiver;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.arbeidsgiver.Naermesteleder;
-import no.nav.sbl.dialogarena.modiasyforest.services.ArbeidsforholdService;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
+import no.nav.syfo.domain.Arbeidsgiver;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;

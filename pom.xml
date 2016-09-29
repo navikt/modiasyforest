@@ -46,6 +46,11 @@
         <dependencies>
             <dependency>
                 <groupId>no.nav.sbl.dialogarena</groupId>
+                <artifactId>syforest-service</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.nav.sbl.dialogarena</groupId>
                 <artifactId>organisasjonv4-tjenestespesifikasjon</artifactId>
                 <version>${organisasjonv4-tjenestespesifikasjon.version}</version>
             </dependency>

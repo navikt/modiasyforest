@@ -1,4 +1,4 @@
-package no.nav.sbl.dialogarena.modiasyforest.rest.domain.brukerinfo;
+package no.nav.sbl.dialogarena.modiasyforest.rest.domain;
 
 public class Bruker {
 

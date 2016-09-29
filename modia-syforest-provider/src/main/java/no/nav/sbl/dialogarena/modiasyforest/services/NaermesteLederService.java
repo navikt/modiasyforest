@@ -1,6 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.arbeidsgiver.Naermesteleder;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
 
 import java.util.List;
 

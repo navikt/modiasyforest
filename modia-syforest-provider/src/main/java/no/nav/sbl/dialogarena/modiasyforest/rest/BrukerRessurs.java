@@ -1,7 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.metrics.aspects.Timed;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.brukerinfo.Bruker;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
 import org.springframework.stereotype.Controller;
 
