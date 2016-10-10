@@ -23,6 +23,7 @@
         <applicationProperties alias="syforest.properties"/>
         <applicationProperties alias="syfotoggles.properties"/>
         <webservice alias="Aktoer_v2" mapToProperty="aktoer.endpoint"/>
+        <webservice alias="Sykefravaersoppfoelging_v1" mapToProperty="sykefravaersoppfoelging.endpoint"/>
         <webservice alias="Sykmelding_v1" mapToProperty="sykmelding.endpoint"/>
         <webservice alias="virksomhet:Organisasjon_v4" mapToProperty="organisasjon.endpoint"/>
         <webservice alias="virksomhet:Brukerprofil_v3" mapToProperty="brukerprofilv3.endpoint"/>
