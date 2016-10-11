@@ -21,7 +21,7 @@ public class BrukerprofilService {
                             .withIdent(ident))).getBruker();
             return wsPerson.getPersonnavn().getFornavn() + " " + wsPerson.getPersonnavn().getEtternavn();
         } catch (Exception e) {
-            LOG.error("Exception mot TPS: {}", e.getMessage());
+            LOG.error("Exception mot TPS med ident {}  -  {}", ident, e.getMessage());
             return "Vi fant ikke navnet";
         }
     }
