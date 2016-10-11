@@ -1,9 +1,9 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
-import no.nav.syfo.domain.Arbeidsgiver;
-import no.nav.syfo.services.AktoerService;
-import no.nav.syfo.services.OrganisasjonService;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
+import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
+import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederListeElement;
 
 public class NaermesteLederMapper {

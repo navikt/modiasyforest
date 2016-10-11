@@ -1,19 +1,13 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
-import no.nav.syfo.services.AktoerService;
-import no.nav.syfo.services.OrganisasjonService;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeResponse;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederRequest;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
 
 public class NaermesteLederService {

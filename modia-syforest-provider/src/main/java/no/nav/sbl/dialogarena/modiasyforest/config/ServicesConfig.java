@@ -1,8 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.sbl.dialogarena.modiasyforest.services.*;
-import no.nav.syfo.services.*;
-import no.nav.syfo.services.interfaces.TidslinjeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,7 +29,7 @@ public class ServicesConfig {
 
     @Bean
     public TidslinjeService tidslinjeService() {
-        return new TidslinjeServiceImpl();
+        return new TidslinjeService();
     }
 
     @Bean

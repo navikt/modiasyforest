@@ -1,8 +1,9 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 
-import no.nav.syfo.domain.sykmelding.Sykmelding;
-import no.nav.syfo.services.SykmeldingService;
+
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

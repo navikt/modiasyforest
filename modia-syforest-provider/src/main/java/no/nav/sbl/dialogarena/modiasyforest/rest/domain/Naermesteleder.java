@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest.domain;
 
-import no.nav.syfo.domain.Arbeidsgiver;
 
 public class Naermesteleder {
 

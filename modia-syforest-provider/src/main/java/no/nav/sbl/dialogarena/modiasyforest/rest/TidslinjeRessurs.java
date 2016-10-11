@@ -1,8 +1,8 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.metrics.aspects.Timed;
-import no.nav.syfo.domain.tidslinje.Tidslinje;
-import no.nav.syfo.services.interfaces.TidslinjeService;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
+import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

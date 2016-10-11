@@ -2,8 +2,8 @@ package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 
 import no.nav.metrics.aspects.Timed;
-import no.nav.syfo.domain.Sykeforloep;
-import no.nav.syfo.services.SykeforloepService;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
+import no.nav.sbl.dialogarena.modiasyforest.services.SykeforloepService;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
