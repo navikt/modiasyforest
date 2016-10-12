@@ -26,7 +26,7 @@ public class NaermesteLederService {
                 .withKunAktive(true)).getNaermesteLederListe().stream()
                 .map(element -> tilNaermesteLeder(element,
                         organisasjonService.hentNavn(element.getOrgnummer()),
-                        aktoerService.hentFnrForAktoer(element.getNaermesteLederAktoerId().substring(0, 6))))
+                        fnr.substring(0, 6)))
                 .collect(toList());
     }
 }
