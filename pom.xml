@@ -47,7 +47,7 @@
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
         <brukerprofil-v3-tjenestespesifikasjon.version>3.0.3</brukerprofil-v3-tjenestespesifikasjon.version>
         <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
-        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.0</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
+        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.1</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
         <behandle-sykmeldingv1-tjenestespesifikasjon.version>1.0.2</behandle-sykmeldingv1-tjenestespesifikasjon.version>
 
     </properties>
