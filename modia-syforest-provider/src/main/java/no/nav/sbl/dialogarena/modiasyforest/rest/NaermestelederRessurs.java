@@ -25,6 +25,11 @@ public class NaermestelederRessurs {
     @GET
     @Timed
     public List<Naermesteleder> hentNaermesteledere(@QueryParam("fnr") String fnr) {
-        return naermesteLederService.hentNaermesteledere(fnr);
+        List<Naermesteleder> naermesteledere = naermesteLederService.hentNaermesteledere(fnr);
+        int idcounter = 0;
+        for (Naermesteleder naermesteleder : naermesteledere) {
+            naermesteleder.id = idcounter++;
+        }
+        return naermesteledere;
     }
 }
