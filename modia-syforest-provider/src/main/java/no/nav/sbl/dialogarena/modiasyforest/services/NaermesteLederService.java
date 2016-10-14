@@ -24,6 +24,7 @@ public class NaermesteLederService {
         return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()
                 .withAktoerId(aktoerService.hentAktoerIdForIdent(fnr))
                 .withKunAktive(true)).getNaermesteLederListe().stream()
+                .distinct()
                 .map(element -> tilNaermesteLeder(element,
                         organisasjonService.hentNavn(element.getOrgnummer()),
                         fnr.substring(0, 6)))
