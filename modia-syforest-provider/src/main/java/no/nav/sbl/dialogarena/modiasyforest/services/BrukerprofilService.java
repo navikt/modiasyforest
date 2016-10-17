@@ -19,8 +19,8 @@ public class BrukerprofilService {
             WSPerson wsPerson = brukerprofilV3.hentKontaktinformasjonOgPreferanser(new WSHentKontaktinformasjonOgPreferanserRequest()
                     .withIdent(new WSNorskIdent()
                             .withIdent(ident))).getBruker();
-            String mellomnavn = wsPerson.getPersonnavn().getMellomnavn();
-            if (mellomnavn.length() > 1) {
+            String mellomnavn = wsPerson.getPersonnavn().getMellomnavn() == null ? "" : wsPerson.getPersonnavn().getMellomnavn();
+            if (!"".equals(mellomnavn)) {
                 mellomnavn = mellomnavn + " ";
             }
             return wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
