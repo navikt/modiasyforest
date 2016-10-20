@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
+import no.nav.modig.security.ws.UserSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.ArbeidsforholdMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -20,7 +21,7 @@ public class AAregConfig {
 
     @Bean
     public ArbeidsforholdV3 arbeidsforholdV3() {
-        ArbeidsforholdV3 prod =  arbeidsforholdPortType().withOutInterceptor(new SystemSAMLOutInterceptor()).build();
+        ArbeidsforholdV3 prod =  arbeidsforholdPortType().withOutInterceptor(new UserSAMLOutInterceptor()).build();
         ArbeidsforholdV3 mock =  new ArbeidsforholdMock();
 
         return createMetricsProxyWithInstanceSwitcher("Arbeidsforhold-AAREG", prod, mock, ARBEIDSFORHOLD_AAREG_MOCK_KEY, ArbeidsforholdV3.class);
