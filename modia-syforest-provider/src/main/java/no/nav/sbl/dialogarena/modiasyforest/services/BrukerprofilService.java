@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
+import static org.apache.commons.lang3.text.WordUtils.capitalize;
+
 public class BrukerprofilService {
     private static final Logger LOG = LoggerFactory.getLogger(BrukerprofilService.class);
     @Inject
@@ -23,7 +25,8 @@ public class BrukerprofilService {
             if (!"".equals(mellomnavn)) {
                 mellomnavn = mellomnavn + " ";
             }
-            return wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
+            final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
+            return capitalize(navnFraTps.toLowerCase(), '-', ' ');
         } catch (Exception e) {
             LOG.error("Exception mot TPS med ident {}  -  {}", ident, e.getMessage());
             return "Vi fant ikke navnet";
