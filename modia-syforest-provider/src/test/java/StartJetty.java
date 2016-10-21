@@ -1,9 +1,12 @@
+import no.nav.modig.core.context.StaticSubjectHandler;
 import no.nav.modig.security.loginmodule.DummyRole;
 import no.nav.sbl.dialogarena.common.jetty.Jetty;
 import org.eclipse.jetty.jaas.JAASLoginService;
 
 import java.io.File;
 
+import static java.lang.System.setProperty;
+import static no.nav.modig.core.context.SubjectHandler.SUBJECTHANDLER_KEY;
 import static no.nav.modig.core.test.FilesAndDirs.TEST_RESOURCES;
 import static no.nav.modig.core.test.FilesAndDirs.WEBAPP_SOURCE;
 import static no.nav.modig.lang.collections.FactoryUtils.gotKeypress;
@@ -25,6 +28,7 @@ public class StartJetty {
     private static void runJetty() {
         setFrom("jetty-environment.properties");
         setupKeyAndTrustStore();
+        setProperty(SUBJECTHANDLER_KEY, StaticSubjectHandler.class.getName());
 
         Jetty jetty = usingWar(WEBAPP_SOURCE)
                 .at("modiasyforest")

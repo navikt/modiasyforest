@@ -23,11 +23,14 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Public</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-    </security-constraint>
+    <filter>
+        <filter-name>HttpSessionSecurityIntegrationFilter</filter-name>
+        <filter-class>filter.FakeLoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>HttpSessionSecurityIntegrationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 
 </web-app>
