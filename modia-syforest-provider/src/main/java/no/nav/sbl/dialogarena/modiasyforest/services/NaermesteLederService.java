@@ -3,6 +3,9 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
+import no.nav.sbl.dialogarena.modiasyforest.utils.DistinctFilter;
+import no.nav.tjeneste.virksomhet.aktoer.v2.HentIdentForAktoerIdPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
 
@@ -23,20 +26,29 @@ public class NaermesteLederService {
     private OrganisasjonService organisasjonService;
 
     public List<Naermesteleder> hentNaermesteledere(String fnr) {
-
         return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()
                 .withAktoerId(aktoerService.hentAktoerIdForIdent(fnr))
                 .withKunAktive(true)).getNaermesteLederListe().stream()
                 .distinct()
-                .map(element -> tilNaermesteLeder(element,
-                        organisasjonService.hentNavn(element.getOrgnummer()),
-                        fnr.substring(0, 6)))
+                .map(element ->  {
+                    String fodselsdato = "";
+                    try {
+                        fodselsdato = aktoerService.hentFnrForAktoer(element.getNaermesteLederAktoerId()).substring(0, 6);
+                    } catch(SyfoException e) {
+                        fodselsdato = "Ikke funnet";
+                    }
+                    return tilNaermesteLeder(element,
+                            organisasjonService.hentNavn(element.getOrgnummer()),
+                            fodselsdato);
+                })
                 .collect(toList());
     }
 
     public List<Naermesteleder> hentOrganisasjonerSomIkkeHarSvart(List<Naermesteleder> naermesteledere, List<Sykmelding> sykmeldinger) {
+        DistinctFilter<Sykmelding, String> distinctFilter = new DistinctFilter<>();
         return sykmeldinger.stream()
                 .filter(sykmelding -> "SENDT".equals(sykmelding.status))
+                .filter(distinctFilter.on(naermesteleder -> naermesteleder.orgnummer))
                 .filter(sykmelding -> !naermesteledere.stream()
                         .filter(naermesteleder -> sykmelding.orgnummer.equals(naermesteleder.arbeidsgiver.orgnummer))
                         .findAny()
@@ -50,7 +62,5 @@ public class NaermesteLederService {
                         .withFodselsdato("Ikke meldt inn")
                         .withTlf("Ikke meldt inn"))
                 .collect(toList());
-
-
     }
 }

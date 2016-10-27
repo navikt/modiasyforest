@@ -1,0 +1,129 @@
+package services;
+
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
+import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
+import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederListeElement;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.NY;
+import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.SENDT;
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
+
+@RunWith(MockitoJUnitRunner.class)
+public class NaermesteLederServiceTest {
+
+    @Mock
+    private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
+    @Mock
+    private AktoerService aktoerService;
+    @Mock
+    private OrganisasjonService organisasjonService;
+    @InjectMocks
+    private NaermesteLederService naermesteLederService;
+
+    @Before
+    public void setup() {
+        when(aktoerService.hentAktoerIdForIdent(anyString())).thenReturn("12345678901");
+        when(organisasjonService.hentNavn(anyString())).thenReturn("Testbedriften");
+        when(aktoerService.hentFnrForAktoer(anyString())).thenReturn("10987654321");
+    }
+
+    @Test
+    public void henterNaermesteledere() {
+        when(sykefravaersoppfoelgingV1.hentNaermesteLederListe(any())).thenReturn(new WSHentNaermesteLederListeResponse().withNaermesteLederListe(asList(
+                new WSNaermesteLederListeElement()
+                        .withAktiv(true)
+                        .withMobil("123")
+                        .withNavn("Navn")
+                        .withEpost("test@nav.no")
+                        .withOrgnummer("12345678"),
+                new WSNaermesteLederListeElement()
+                        .withAktiv(true)
+                        .withMobil("123")
+                        .withNavn("Navn")
+                        .withEpost("test@nav.no")
+                        .withOrgnummer("12345678"),
+                new WSNaermesteLederListeElement()
+                        .withAktiv(true)
+                        .withMobil("321")
+                        .withNavn("Navn2")
+                        .withEpost("test2@nav.no")
+                        .withOrgnummer("123456782")
+
+        )));
+        List<Naermesteleder> naermesteledere = naermesteLederService.hentNaermesteledere("12345678901");
+        //Henter distincte innslag
+        assertThat(naermesteledere.size()).isEqualTo(2);
+        assertThat(naermesteledere.get(0).navn).isEqualTo("Navn");
+
+        //Fodselsdato blir 6 foerste sifferene i FNR
+        assertThat(naermesteledere.get(0).fodselsdato).isEqualTo("109876");
+        assertThat(naermesteledere.get(0).arbeidsgiver.navn).isEqualTo("Testbedriften");
+    }
+
+    @Test
+    public void hentOrgSomIkkeHarsendtNaermesteLeder() {
+        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+                new Sykmelding()
+                        .withOrgnummer("2")
+                .withStatus(SENDT)
+        ));
+        assertThat(naermesteledere.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void hvisOrgHarSendtBlirIkkeSykmeldingenMed() {
+        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(asList(
+                new Naermesteleder()
+                        .withArbeidsgiver(new Arbeidsgiver()
+                                .withOrgnummer("1"))
+        ), asList(
+                new Sykmelding()
+                        .withOrgnummer("1")
+                        .withStatus(SENDT)
+        ));
+        assertThat(naermesteledere.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void ikkeSendteBlirIkkeMed() {
+        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+                new Sykmelding()
+                        .withOrgnummer("1")
+                        .withStatus(NY)
+        ));
+        assertThat(naermesteledere.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void multipleSendteSykmeldingerTilSammeArbeidsgiverBlirBareEn() {
+        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+                new Sykmelding()
+                        .withOrgnummer("1")
+                        .withStatus(SENDT),
+                new Sykmelding()
+                        .withOrgnummer("1")
+                        .withStatus(SENDT)
+        ));
+        assertThat(naermesteledere.size()).isEqualTo(1);
+    }
+}
