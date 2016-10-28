@@ -20,7 +20,7 @@
     </security>
 
     <resources>
-        <applicationProperties alias="syforest.properties"/>
+        <applicationProperties alias="modiasyforest.properties"/>
         <applicationProperties alias="syfotoggles.properties"/>
         <webservice alias="Aktoer_v2" mapToProperty="aktoer.endpoint"/>
         <webservice alias="Sykefravaersoppfoelging_v1" mapToProperty="sykefravaersoppfoelging.endpoint"/>

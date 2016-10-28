@@ -40,7 +40,7 @@
         <throwableExcluded>true</throwableExcluded>
     </appender>
 
-    <logger name="org.apache.cxf" level="INFO">
+    <logger name="org.apache.cxf" level="${modiasyforest.cxf.log.level:-OFF}">
         <appender-ref ref="infolog"/>
     </logger>
 
