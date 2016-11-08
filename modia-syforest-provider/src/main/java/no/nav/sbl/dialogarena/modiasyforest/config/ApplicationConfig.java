@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Import;
         ServicesConfig.class,
         EregConfig.class,
         TpsConfig.class,
+        TeksterConfig.class,
         AAregConfig.class,
         SykefravaerOppfoelgingConfig.class
 })

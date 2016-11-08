@@ -128,4 +128,12 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>teksterInvalideringServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>teksterInvalideringServlet</servlet-name>
+        <url-pattern>/internal/tekster/invalidate</url-pattern>
+    </servlet-mapping>
 </web-app>
