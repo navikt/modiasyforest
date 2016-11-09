@@ -30,17 +30,7 @@ public class NaermesteLederService {
                 .withAktoerId(aktoerService.hentAktoerIdForIdent(fnr))
                 .withKunAktive(true)).getNaermesteLederListe().stream()
                 .distinct()
-                .map(element ->  {
-                    String fodselsdato = "";
-                    try {
-                        fodselsdato = aktoerService.hentFnrForAktoer(element.getNaermesteLederAktoerId()).substring(0, 6);
-                    } catch(SyfoException e) {
-                        fodselsdato = "Ikke funnet";
-                    }
-                    return tilNaermesteLeder(element,
-                            organisasjonService.hentNavn(element.getOrgnummer()),
-                            fodselsdato);
-                })
+                .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
                 .collect(toList());
     }
 
@@ -59,7 +49,6 @@ public class NaermesteLederService {
                                 .withNavn(sykmelding.innsendtArbeidsgivernavn))
                         .withNavn("Ikke meldt inn")
                         .withEpost("Ikke meldt inn")
-                        .withFodselsdato("Ikke meldt inn")
                         .withTlf("Ikke meldt inn"))
                 .collect(toList());
     }
