@@ -76,7 +76,6 @@ public class NaermesteLederServiceTest {
         assertThat(naermesteledere.get(0).navn).isEqualTo("Navn");
 
         //Fodselsdato blir 6 foerste sifferene i FNR
-        assertThat(naermesteledere.get(0).fodselsdato).isEqualTo("109876");
         assertThat(naermesteledere.get(0).arbeidsgiver.navn).isEqualTo("Testbedriften");
     }
 

@@ -3,15 +3,12 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
 import no.nav.sbl.dialogarena.modiasyforest.utils.DistinctFilter;
-import no.nav.tjeneste.virksomhet.aktoer.v2.HentIdentForAktoerIdPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
@@ -47,9 +44,7 @@ public class NaermesteLederService {
                         .withArbeidsgiver(new Arbeidsgiver()
                                 .withOrgnummer(sykmelding.orgnummer)
                                 .withNavn(sykmelding.innsendtArbeidsgivernavn))
-                        .withNavn("Ikke meldt inn")
-                        .withEpost("Ikke meldt inn")
-                        .withTlf("Ikke meldt inn"))
+                        .withErOppgitt(false))
                 .collect(toList());
     }
 }

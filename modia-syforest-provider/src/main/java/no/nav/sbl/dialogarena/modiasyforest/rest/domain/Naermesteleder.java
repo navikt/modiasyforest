@@ -2,7 +2,6 @@ package no.nav.sbl.dialogarena.modiasyforest.rest.domain;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Naermesteleder {
 
@@ -11,6 +10,7 @@ public class Naermesteleder {
     public String tlf;
     public String epost;
     public Boolean aktiv;
+    public Boolean erOppgitt;
     public LocalDate fomDato;
     public Arbeidsgiver arbeidsgiver;
 
@@ -26,6 +26,11 @@ public class Naermesteleder {
 
     public Naermesteleder withEpost(String epost) {
         this.epost = epost;
+        return this;
+    }
+
+    public Naermesteleder withErOppgitt(Boolean erOppgitt) {
+        this.erOppgitt = erOppgitt;
         return this;
     }
 

@@ -14,6 +14,7 @@ public class NaermesteLederMapper {
                 .withFomDato(response.getAktivFom())
                 .withArbeidsgiver(new Arbeidsgiver()
                         .withOrgnummer(response.getOrgnummer())
-                .withNavn(organisasjon));
+                .withNavn(organisasjon))
+                .withErOppgitt(true);
     }
 }

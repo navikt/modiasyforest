@@ -40,7 +40,7 @@ public class OrganisasjonService {
 
         } catch (HentOrganisasjonOrganisasjonIkkeFunnet e) {
             LOG.warn("Kunne ikke hente organisasjon for {}", orgnr, e);
-            throw new SyfoException(ORGANISASJON_IKKE_FUNNET);
+            return "Fant ikke navn. Orgnummer: " + orgnr;
         } catch (HentOrganisasjonUgyldigInput e) {
             LOG.warn("Kunne ikke hente organisasjon for {}", orgnr, e);
             throw new SyfoException(ORGANISASJON_UGYLDIG_INPUT);

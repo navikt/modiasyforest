@@ -2,7 +2,10 @@ package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
+import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
@@ -13,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import java.util.List;
 
 import static java.lang.System.getProperty;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -23,8 +27,8 @@ public class NaermestelederRessurs {
 
     @Inject
     private NaermesteLederService naermesteLederService;
-//    @Inject
-//    private SykmeldingService sykmeldingService;
+    @Inject
+    private SykmeldingService sykmeldingService;
 
     @GET
     @Timed
@@ -32,9 +36,9 @@ public class NaermestelederRessurs {
         if ("true".equals(getProperty("toggle.naermesteleder.veileder"))) {
             return emptyList();
         }
-//        List<Sykmelding> sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, asList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER));
+        List<Sykmelding> sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, asList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER));
         List<Naermesteleder> naermesteledere = naermesteLederService.hentNaermesteledere(fnr);
-//        naermesteledere.addAll(naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(naermesteledere, sykmeldinger));
+        naermesteledere.addAll(naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(naermesteledere, sykmeldinger));
         int idcounter = 0;
         for (Naermesteleder naermesteleder : naermesteledere) {
             naermesteleder.id = idcounter++;
