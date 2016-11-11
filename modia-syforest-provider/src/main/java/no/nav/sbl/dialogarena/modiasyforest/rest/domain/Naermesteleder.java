@@ -1,14 +1,17 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest.domain;
 
 
+import java.time.LocalDate;
+
 public class Naermesteleder {
 
     public String navn;
     public Integer id;
-    public String fodselsdato;
     public String tlf;
     public String epost;
     public Boolean aktiv;
+    public Boolean erOppgitt;
+    public LocalDate fomDato;
     public Arbeidsgiver arbeidsgiver;
 
     public Naermesteleder withNavn(String navn) {
@@ -26,6 +29,11 @@ public class Naermesteleder {
         return this;
     }
 
+    public Naermesteleder withErOppgitt(Boolean erOppgitt) {
+        this.erOppgitt = erOppgitt;
+        return this;
+    }
+
     public Naermesteleder withAktiv(Boolean aktiv) {
         this.aktiv = aktiv;
         return this;
@@ -40,8 +48,8 @@ public class Naermesteleder {
         return this;
     }
 
-    public Naermesteleder withFodselsdato(String fodselsdato) {
-        this.fodselsdato = fodselsdato;
+    public Naermesteleder withFomDato(LocalDate fomDato) {
+        this.fomDato = fomDato;
         return this;
     }
 

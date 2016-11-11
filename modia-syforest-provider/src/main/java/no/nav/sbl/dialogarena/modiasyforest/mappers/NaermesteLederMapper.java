@@ -6,14 +6,15 @@ import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaerm
 
 public class NaermesteLederMapper {
 
-    public static Naermesteleder tilNaermesteLeder(WSNaermesteLederListeElement response, String organisasjon, String fodselsdato) {
+    public static Naermesteleder tilNaermesteLeder(WSNaermesteLederListeElement response, String organisasjon) {
         return new Naermesteleder()
-                .withFodselsdato(fodselsdato)
                 .withNavn(response.getNavn())
                 .withEpost(response.getEpost())
                 .withTlf(response.getMobil())
+                .withFomDato(response.getAktivFom())
                 .withArbeidsgiver(new Arbeidsgiver()
                         .withOrgnummer(response.getOrgnummer())
-                .withNavn(organisasjon));
+                .withNavn(organisasjon))
+                .withErOppgitt(true);
     }
 }
