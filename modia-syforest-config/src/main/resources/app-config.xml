@@ -31,6 +31,8 @@
 
         <ldap alias="ldap" mapToProperty="ldap"/>
         <applicationCertificate alias="srvmodiasyforest"/>
+
+        <fileLibrary alias="syfo.ledetekster.v1" mapToProperty="folder.ledetekster" />
     </resources>
 
     <loadBalancer isAlive="/modiasyforest/internal/isAlive" />
