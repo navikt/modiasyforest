@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class NaermesteLeder {
 
     public String navn;
-    public Integer id;
+    public Long id;
     public String tlf;
     public String epost;
     public Boolean aktiv;
@@ -45,12 +45,12 @@ public class NaermesteLeder {
         return this;
     }
 
-    public NaermesteLeder withOrganisasjonsnavn(final String organisasjonsNavn) {
+    public NaermesteLeder withOrganisasjonsNavn(final String organisasjonsNavn) {
         this.organisasjonsNavn = organisasjonsNavn;
         return this;
     }
 
-    public NaermesteLeder withId(Integer id) {
+    public NaermesteLeder withId(Long id) {
         this.id = id;
         return this;
     }
@@ -58,6 +58,10 @@ public class NaermesteLeder {
     public NaermesteLeder withFomDato(LocalDate fomDato) {
         this.fomDato = fomDato;
         return this;
+    }
+
+    public Long hentId() {
+        return id;
     }
 
 }
