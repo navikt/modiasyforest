@@ -10,7 +10,7 @@ import javax.servlet.ServletException;
 import java.util.Collection;
 
 public class SelftestServlet extends SelfTestBaseServlet{
-    private static final String APPLIKASJONS_NAVN = "syforest";
+    private static final String APPLIKASJONS_NAVN = "modiasyforest";
     private ApplicationContext ctx = null;
 
     @Override
