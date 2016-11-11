@@ -3,10 +3,7 @@ package no.nav.sbl.dialogarena.modiasyforest.mocks;
 
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeRequest;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeResponse;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +13,11 @@ import static java.util.Arrays.asList;
 import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.SENDT;
 
 public class SykmeldingV1Mock implements SykmeldingV1 {
+
+    @Override
+    public WSHentNaermesteLedersSykmeldingListeResponse hentNaermesteLedersSykmeldingListe(WSHentNaermesteLedersSykmeldingListeRequest wsHentNaermesteLedersSykmeldingListeRequest) {
+        return null;
+    }
 
     public WSHentSykmeldingListeResponse hentSykmeldingListe(WSHentSykmeldingListeRequest request) {
         try {

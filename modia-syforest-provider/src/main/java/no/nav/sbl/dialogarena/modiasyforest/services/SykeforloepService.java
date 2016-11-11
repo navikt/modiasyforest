@@ -55,11 +55,6 @@ public class SykeforloepService {
                                     .withInntruffetdato(wsHendelse.getDato())
                                     .withType(valueOf(wsHendelse.getType().value()))
                                     .withTekstkey(fraHendelsetype(wsHendelse.getType()));
-                            if (wsHendelse.getType().equals(WSHendelsestype.NY_NAERMESTE_LEDER)) {
-                                WSHendelseNyNaermesteLeder wsHendelseNyNaermesteLeder = (WSHendelseNyNaermesteLeder) wsHendelse;
-                                hendelse.withData("naermesteleder.navn", "Test " + wsHendelseNyNaermesteLeder.getNaermesteLederAktoerId());
-                            }
-
                             return hendelse;
                         }
                 ).collect(toList());
