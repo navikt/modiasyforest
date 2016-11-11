@@ -12,7 +12,8 @@ public class Naermesteleder {
     public Boolean aktiv;
     public Boolean erOppgitt;
     public LocalDate fomDato;
-    public Arbeidsgiver arbeidsgiver;
+    public String orgnummer;
+    public String organisasjonsNavn;
 
     public Naermesteleder withNavn(String navn) {
         this.navn = navn;
@@ -39,10 +40,16 @@ public class Naermesteleder {
         return this;
     }
 
-    public Naermesteleder withArbeidsgiver(Arbeidsgiver arbeidsgiver) {
-        this.arbeidsgiver = arbeidsgiver;
+    public Naermesteleder withOrgnummer(final String orgnummer) {
+        this.orgnummer = orgnummer;
         return this;
     }
+
+    public Naermesteleder withOrganisasjonsnavn(final String organisasjonsNavn) {
+        this.organisasjonsNavn = organisasjonsNavn;
+        return this;
+    }
+
     public Naermesteleder withId(Integer id) {
         this.id = id;
         return this;

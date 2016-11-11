@@ -75,8 +75,7 @@ public class NaermesteLederServiceTest {
         assertThat(naermesteledere.size()).isEqualTo(2);
         assertThat(naermesteledere.get(0).navn).isEqualTo("Navn");
 
-        //Fodselsdato blir 6 foerste sifferene i FNR
-        assertThat(naermesteledere.get(0).arbeidsgiver.navn).isEqualTo("Testbedriften");
+        assertThat(naermesteledere.get(0).organisasjonsNavn).isEqualTo("Testbedriften");
     }
 
     @Test
@@ -92,9 +91,7 @@ public class NaermesteLederServiceTest {
     @Test
     public void hvisOrgHarSendtBlirIkkeSykmeldingenMed() {
         List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(asList(
-                new Naermesteleder()
-                        .withArbeidsgiver(new Arbeidsgiver()
-                                .withOrgnummer("1"))
+                new Naermesteleder().withOrgnummer("1")
         ), asList(
                 new Sykmelding()
                         .withOrgnummer("1")

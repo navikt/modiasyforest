@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.utils.DistinctFilter;
@@ -37,13 +36,12 @@ public class NaermesteLederService {
                 .filter(sykmelding -> "SENDT".equals(sykmelding.status))
                 .filter(distinctFilter.on(naermesteleder -> naermesteleder.orgnummer))
                 .filter(sykmelding -> !naermesteledere.stream()
-                        .filter(naermesteleder -> sykmelding.orgnummer.equals(naermesteleder.arbeidsgiver.orgnummer))
+                        .filter(naermesteleder -> sykmelding.orgnummer.equals(naermesteleder.orgnummer))
                         .findAny()
                         .isPresent())
                 .map(sykmelding -> new Naermesteleder()
-                        .withArbeidsgiver(new Arbeidsgiver()
-                                .withOrgnummer(sykmelding.orgnummer)
-                                .withNavn(sykmelding.innsendtArbeidsgivernavn))
+                        .withOrganisasjonsnavn(sykmelding.innsendtArbeidsgivernavn)
+                        .withOrgnummer(sykmelding.orgnummer)
                         .withErOppgitt(false))
                 .collect(toList());
     }

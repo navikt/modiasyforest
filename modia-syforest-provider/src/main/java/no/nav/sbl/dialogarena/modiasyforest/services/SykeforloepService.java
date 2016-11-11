@@ -61,10 +61,13 @@ public class SykeforloepService {
     }
 
     private String fraHendelsetype(WSHendelsestype type) {
-        switch(type){
-            case AKTIVITETSKRAV_VARSEL: return "tidslinje.aktivitetskrav-varsel";
-            case NY_NAERMESTE_LEDER: return "tidslinje.ny-naermeste-leder";
-            default: return null;
+        switch (type) {
+            case AKTIVITETSKRAV_VARSEL:
+                return "tidslinje.aktivitetskrav-varsel";
+            case NY_NAERMESTE_LEDER:
+                return "tidslinje.ny-naermeste-leder";
+            default:
+                return null;
         }
     }
 }

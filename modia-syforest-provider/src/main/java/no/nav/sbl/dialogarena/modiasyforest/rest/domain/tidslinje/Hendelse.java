@@ -11,7 +11,7 @@ public class Hendelse {
     public Hendelsestype type;
     public Integer antallDager;
     public String tekstkey;
-    public Map data = new HashMap<>();
+    public Map<String, Object> data = new HashMap<>();
 
     public Hendelse withInntruffetdato(final LocalDate inntruffetdato) {
         this.inntruffetdato = inntruffetdato;
@@ -23,7 +23,7 @@ public class Hendelse {
         return this;
     }
 
-    public Hendelse withData(String key, String data) {
+    public Hendelse withData(String key, Object data) {
         this.data.put(key, data);
         return this;
     }
