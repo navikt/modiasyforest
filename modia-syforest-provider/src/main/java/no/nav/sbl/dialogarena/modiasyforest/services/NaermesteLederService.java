@@ -1,6 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.utils.DistinctFilter;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
@@ -21,7 +21,7 @@ public class NaermesteLederService {
     @Inject
     private OrganisasjonService organisasjonService;
 
-    public List<Naermesteleder> hentNaermesteledere(String fnr) {
+    public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()
                 .withAktoerId(aktoerService.hentAktoerIdForIdent(fnr))
                 .withKunAktive(true)).getNaermesteLederListe().stream()
@@ -30,7 +30,7 @@ public class NaermesteLederService {
                 .collect(toList());
     }
 
-    public List<Naermesteleder> hentOrganisasjonerSomIkkeHarSvart(List<Naermesteleder> naermesteledere, List<Sykmelding> sykmeldinger) {
+    public List<NaermesteLeder> hentOrganisasjonerSomIkkeHarSvart(List<NaermesteLeder> naermesteledere, List<Sykmelding> sykmeldinger) {
         DistinctFilter<Sykmelding, String> distinctFilter = new DistinctFilter<>();
         return sykmeldinger.stream()
                 .filter(sykmelding -> "SENDT".equals(sykmelding.status))
@@ -39,7 +39,7 @@ public class NaermesteLederService {
                         .filter(naermesteleder -> sykmelding.orgnummer.equals(naermesteleder.orgnummer))
                         .findAny()
                         .isPresent())
-                .map(sykmelding -> new Naermesteleder()
+                .map(sykmelding -> new NaermesteLeder()
                         .withOrganisasjonsnavn(sykmelding.innsendtArbeidsgivernavn)
                         .withOrgnummer(sykmelding.orgnummer)
                         .withErOppgitt(false))

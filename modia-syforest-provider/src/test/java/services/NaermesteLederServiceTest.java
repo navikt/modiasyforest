@@ -1,7 +1,6 @@
 package services;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
@@ -70,7 +69,7 @@ public class NaermesteLederServiceTest {
                         .withOrgnummer("123456782")
 
         )));
-        List<Naermesteleder> naermesteledere = naermesteLederService.hentNaermesteledere("12345678901");
+        List<NaermesteLeder> naermesteledere = naermesteLederService.hentNaermesteledere("12345678901");
         //Henter distincte innslag
         assertThat(naermesteledere.size()).isEqualTo(2);
         assertThat(naermesteledere.get(0).navn).isEqualTo("Navn");
@@ -80,7 +79,7 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void hentOrgSomIkkeHarsendtNaermesteLeder() {
-        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("2")
                 .withStatus(SENDT)
@@ -90,8 +89,8 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void hvisOrgHarSendtBlirIkkeSykmeldingenMed() {
-        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(asList(
-                new Naermesteleder().withOrgnummer("1")
+        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(asList(
+                new NaermesteLeder().withOrgnummer("1")
         ), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
@@ -102,7 +101,7 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void ikkeSendteBlirIkkeMed() {
-        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
                         .withStatus(NY)
@@ -112,7 +111,7 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void multipleSendteSykmeldingerTilSammeArbeidsgiverBlirBareEn() {
-        List<Naermesteleder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
                         .withStatus(SENDT),

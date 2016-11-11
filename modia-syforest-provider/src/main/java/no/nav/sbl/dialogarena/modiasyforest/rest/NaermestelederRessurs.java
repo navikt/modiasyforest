@@ -1,7 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.metrics.aspects.Timed;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Naermesteleder;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
@@ -32,15 +32,15 @@ public class NaermestelederRessurs {
 
     @GET
     @Timed
-    public List<Naermesteleder> hentNaermesteledere(@QueryParam("fnr") String fnr) {
+    public List<NaermesteLeder> hentNaermesteledere(@QueryParam("fnr") String fnr) {
         if ("true".equals(getProperty("toggle.naermesteleder.veileder"))) {
             return emptyList();
         }
         List<Sykmelding> sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, asList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER));
-        List<Naermesteleder> naermesteledere = naermesteLederService.hentNaermesteledere(fnr);
+        List<NaermesteLeder> naermesteledere = naermesteLederService.hentNaermesteledere(fnr);
         naermesteledere.addAll(naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(naermesteledere, sykmeldinger));
         int idcounter = 0;
-        for (Naermesteleder naermesteleder : naermesteledere) {
+        for (NaermesteLeder naermesteleder : naermesteledere) {
             naermesteleder.id = idcounter++;
         }
         return naermesteledere;
