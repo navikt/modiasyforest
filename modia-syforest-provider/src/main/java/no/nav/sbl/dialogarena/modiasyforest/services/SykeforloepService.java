@@ -84,7 +84,7 @@ public class SykeforloepService {
 
     private Stream<Hendelse> tilHendelseNyNaermesteLeder(Stream<WSHendelse> wsHendelseStream, String fnr) {
         try {
-            Function<NaermesteLeder, NaermesteLeder> berikMedOrgNavn = nl -> nl.withOrganisasjonsNavn(organisasjonService.hentNavn(nl.orgnummer));
+            Function<NaermesteLeder, NaermesteLeder> berikMedOrgNavn = nl -> nl.withOrganisasjonsnavn(organisasjonService.hentNavn(nl.orgnummer));
 
             Map<Long, NaermesteLeder> naermesteLedere = naermesteLederService.finnNarmesteLedere(fnr)
                     .stream()

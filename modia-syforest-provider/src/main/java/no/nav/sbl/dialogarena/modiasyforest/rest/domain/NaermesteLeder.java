@@ -13,7 +13,7 @@ public class NaermesteLeder {
     public Boolean erOppgitt;
     public LocalDate fomDato;
     public String orgnummer;
-    public String organisasjonsNavn;
+    public String organisasjonsnavn;
 
     public NaermesteLeder withNavn(String navn) {
         this.navn = navn;
@@ -45,8 +45,8 @@ public class NaermesteLeder {
         return this;
     }
 
-    public NaermesteLeder withOrganisasjonsNavn(final String organisasjonsNavn) {
-        this.organisasjonsNavn = organisasjonsNavn;
+    public NaermesteLeder withOrganisasjonsnavn(final String organisasjonsnavn) {
+        this.organisasjonsnavn = organisasjonsnavn;
         return this;
     }
 

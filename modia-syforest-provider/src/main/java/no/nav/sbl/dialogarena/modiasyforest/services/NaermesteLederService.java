@@ -46,7 +46,7 @@ public class NaermesteLederService {
                         .findAny()
                         .isPresent())
                 .map(sykmelding -> new NaermesteLeder()
-                        .withOrganisasjonsNavn(sykmelding.innsendtArbeidsgivernavn)
+                        .withOrganisasjonsnavn(sykmelding.innsendtArbeidsgivernavn)
                         .withOrgnummer(sykmelding.orgnummer)
                         .withErOppgitt(false))
                 .collect(toList());

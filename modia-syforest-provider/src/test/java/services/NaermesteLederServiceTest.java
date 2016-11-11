@@ -74,7 +74,7 @@ public class NaermesteLederServiceTest {
         assertThat(naermesteledere.size()).isEqualTo(2);
         assertThat(naermesteledere.get(0).navn).isEqualTo("Navn");
 
-        assertThat(naermesteledere.get(0).organisasjonsNavn).isEqualTo("Testbedriften");
+        assertThat(naermesteledere.get(0).organisasjonsnavn).isEqualTo("Testbedriften");
     }
 
     @Test
