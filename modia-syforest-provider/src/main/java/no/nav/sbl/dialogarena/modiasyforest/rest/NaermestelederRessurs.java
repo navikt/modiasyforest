@@ -15,9 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import java.util.List;
 
-import static java.lang.System.getProperty;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Controller
@@ -33,13 +31,10 @@ public class NaermestelederRessurs {
     @GET
     @Timed
     public List<NaermesteLeder> hentNaermesteledere(@QueryParam("fnr") String fnr) {
-        if ("true".equals(getProperty("toggle.naermesteleder.veileder"))) {
-            return emptyList();
-        }
         List<Sykmelding> sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, asList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER));
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentNaermesteledere(fnr);
         naermesteledere.addAll(naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(naermesteledere, sykmeldinger));
-        int idcounter = 0;
+        long idcounter = 0;
         for (NaermesteLeder naermesteleder : naermesteledere) {
             naermesteleder.id = idcounter++;
         }

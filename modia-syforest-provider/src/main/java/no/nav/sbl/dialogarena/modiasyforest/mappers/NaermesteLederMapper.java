@@ -12,7 +12,7 @@ public class NaermesteLederMapper {
                 .withTlf(response.getMobil())
                 .withFomDato(response.getAktivFom())
                 .withOrgnummer(response.getOrgnummer())
-                .withOrganisasjonsnavn(organisasjon)
+                .withOrganisasjonsNavn(organisasjon)
                 .withErOppgitt(true);
     }
 }
