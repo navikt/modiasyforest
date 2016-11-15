@@ -1,12 +1,14 @@
 package no.nav.sbl.dialogarena.modiasyforest.mocks;
 
 import no.nav.tjeneste.virksomhet.organisasjon.v4.*;
+import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.WSOrganisasjon;
+import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.WSUstrukturertNavn;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.*;
 
 public class OrganisasjonMock implements OrganisasjonV4 {
     @Override
     public WSHentOrganisasjonResponse hentOrganisasjon(WSHentOrganisasjonRequest wsHentOrganisasjonRequest) throws HentOrganisasjonOrganisasjonIkkeFunnet, HentOrganisasjonUgyldigInput {
-        return null;
+        return new WSHentOrganisasjonResponse().withOrganisasjon(new WSOrganisasjon().withNavn(new WSUstrukturertNavn().withNavnelinje("***REMOVED*** Consulting AS")));
     }
 
     @Override
