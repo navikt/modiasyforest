@@ -6,9 +6,12 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
+import static java.time.LocalDate.now;
 import static java.time.LocalDate.of;
+import static java.util.Arrays.*;
 import static java.util.Arrays.asList;
 import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.SENDT;
 
@@ -69,7 +72,11 @@ public class SykmeldingV1Mock implements SykmeldingV1 {
 
     @Override
     public WSHentOppfoelgingstilfelleListeResponse hentOppfoelgingstilfelleListe(WSHentOppfoelgingstilfelleListeRequest wsHentOppfoelgingstilfelleListeRequest) {
-        return null;
+        return new WSHentOppfoelgingstilfelleListeResponse()
+                .withOppfoelgingstilfelleListe(asList(
+                        new WSOppfoelgingstilfelle()
+                                .withOppfoelgingsdato(now())
+                ));
     }
 
     public void ping() {
@@ -116,5 +123,5 @@ public class SykmeldingV1Mock implements SykmeldingV1 {
 
         );
     }
-    
+
 }
