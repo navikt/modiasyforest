@@ -18,21 +18,21 @@
         <property name="locateExistingServerIfPossible" value="true"/>
     </bean>
 
-    <cache:advice id="sykmeldingAdvice" key-generator="simplekeygenerator">
+    <cache:advice id="sykmeldingAdvice" key-generator="sessionKeyGenerator">
         <cache:caching cache="sykmelding">
             <cache:cacheable method="hent*"/>
             <cache:cacheable method="finn*"/>
         </cache:caching>
     </cache:advice>
 
-    <cache:advice id="aktoerAdvice" key-generator="simplekeygenerator">
+    <cache:advice id="aktoerAdvice" key-generator="sessionKeyGenerator">
         <cache:caching cache="sykmelding">
             <cache:cacheable method="hent*"/>
             <cache:cacheable method="finn*"/>
         </cache:caching>
     </cache:advice>
 
-    <cache:advice id="organisasjonAdvice" key-generator="simplekeygenerator">
+    <cache:advice id="organisasjonAdvice" key-generator="sessionKeyGenerator">
         <cache:caching cache="sykmelding">
             <cache:cacheable method="hent*"/>
             <cache:cacheable method="finn*"/>

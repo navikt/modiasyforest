@@ -49,4 +49,9 @@ public class ServicesConfig {
     public NaermesteLederService naermesteLederService() {
         return new NaermesteLederService();
     }
+
+    @Bean
+    public SessionKeyGenerator sessionKeyGenerator() {
+        return new SessionKeyGenerator();
+    }
 }
