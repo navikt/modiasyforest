@@ -1,10 +1,12 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
-import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
+import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.HentOppfoelgingstilfelleListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
@@ -22,6 +24,7 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.SYKEFORLOEP_INGEN_TILGANG;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SykeforloepService {
@@ -40,13 +43,16 @@ public class SykeforloepService {
     public List<Sykeforloep> hentSykeforloep(String fnr) {
         String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
 
-        return sykmeldingV1.hentOppfoelgingstilfelleListe(
-                new WSHentOppfoelgingstilfelleListeRequest()
-                        .withAktoerId(aktoerId)).getOppfoelgingstilfelleListe().stream()
-                .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
-                .collect(toList());
+        try {
+            return sykmeldingV1.hentOppfoelgingstilfelleListe(
+                    new WSHentOppfoelgingstilfelleListeRequest()
+                            .withAktoerId(aktoerId)).getOppfoelgingstilfelleListe().stream()
+                    .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
+                    .collect(toList());
+        } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {
+            throw new SyfoException(SYKEFORLOEP_INGEN_TILGANG);
+        }
     }
-
 
     private Sykeforloep tilSykeforloep(WSOppfoelgingstilfelle wsOppfoelgingstilfelle, String fnr) {
         return new Sykeforloep()

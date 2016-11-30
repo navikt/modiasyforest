@@ -5,6 +5,7 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
 import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederListeElement;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeResponse;
@@ -47,7 +48,7 @@ public class NaermesteLederServiceTest {
     }
 
     @Test
-    public void henterNaermesteledere() {
+    public void henterNaermesteledere() throws HentNaermesteLederListeSikkerhetsbegrensning {
         when(sykefravaersoppfoelgingV1.hentNaermesteLederListe(any())).thenReturn(new WSHentNaermesteLederListeResponse().withNaermesteLederListe(asList(
                 new WSNaermesteLederListeElement()
                         .withAktiv(true)

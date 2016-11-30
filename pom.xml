@@ -44,13 +44,14 @@
 
 
         <dial-nav-tjeneste-aktoer_v2.version>1.1</dial-nav-tjeneste-aktoer_v2.version>
-        <sykmeldingv1-tjenestespesifikasjon.version>1.1.8</sykmeldingv1-tjenestespesifikasjon.version>
+        <sykmeldingv1-tjenestespesifikasjon.version>1.1.10</sykmeldingv1-tjenestespesifikasjon.version>
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
         <brukerprofil-v3-tjenestespesifikasjon.version>3.0.3</brukerprofil-v3-tjenestespesifikasjon.version>
         <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
-        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.4</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
-        <behandle-sykmeldingv1-tjenestespesifikasjon.version>1.0.2</behandle-sykmeldingv1-tjenestespesifikasjon.version>
 
+
+        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.6</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
+        <behandle-sykmeldingv1-tjenestespesifikasjon.version>1.0.2</behandle-sykmeldingv1-tjenestespesifikasjon.version>
     </properties>
 
 
@@ -95,7 +96,7 @@
                 <version>${ehcache.version}</version>
             </dependency>
             <dependency>
-                <groupId>no.nav.sbl.dialogarena</groupId>
+                <groupId>no.nav.syfo.tjenester</groupId>
                 <artifactId>sykmeldingv1-tjenestespesifikasjon</artifactId>
                 <version>${sykmeldingv1-tjenestespesifikasjon.version}</version>
             </dependency>
@@ -130,11 +131,6 @@
                 <artifactId>jersey-container-servlet-core</artifactId>
                 <version>${jersey.version}</version>
                 <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.sbl.dialogarena</groupId>
-                <artifactId>behandle-sykmeldingv1-tjenestespesifikasjon</artifactId>
-                <version>${behandle-sykmeldingv1-tjenestespesifikasjon.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenester.fim</groupId>
@@ -305,12 +301,10 @@
                 <version>${brukerprofil-v3-tjenestespesifikasjon.version}</version>
             </dependency>
             <dependency>
-                <groupId>no.nav.sbl.dialogarena</groupId>
+                <groupId>no.nav.syfo.tjenester</groupId>
                 <artifactId>sykefravaersoppfoelgingv1-tjenestespesifikasjon</artifactId>
                 <version>${sykefravaersoppfoelgingv1-tjenestespesifikasjon.version}</version>
             </dependency>
-
-
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>

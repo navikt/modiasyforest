@@ -2,6 +2,7 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.HentSykmeldingListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeRequest;
@@ -44,15 +45,18 @@ public class SykmeldingService {
             List<Sykmelding> sykmeldinger = mapTilSykmeldinger(request);
             populerMedArbeidsgivernavn(sykmeldinger);
             return sykmeldinger;
-        } catch (Exception e) {
+        } catch (HentSykmeldingListeSikkerhetsbegrensning e) {
+            throw new SyfoException(SYKMELDING_INGEN_TILGANG);
+        } catch (RuntimeException e) {
             LOG.error("Noe gikk galt under webservice-kall til syfoservice", e);
             throw new SyfoException(SYKMELDING_GENERELL_FEIL);
         }
     }
 
-    private List<Sykmelding> mapTilSykmeldinger(WSHentSykmeldingListeRequest request) {
+    private List<Sykmelding> mapTilSykmeldinger(WSHentSykmeldingListeRequest request) throws HentSykmeldingListeSikkerhetsbegrensning {
         return sykmeldinger(sykmeldingV1.hentSykmeldingListe(request).getMeldingListe());
     }
+
 
     private void populerMedArbeidsgivernavn(List<Sykmelding> sykmeldinger) {
         sykmeldinger.stream()

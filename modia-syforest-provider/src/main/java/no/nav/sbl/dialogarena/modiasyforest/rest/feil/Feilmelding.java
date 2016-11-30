@@ -30,17 +30,11 @@ public class Feilmelding {
         ARBEIDSFORHOLD_INGEN_TILGANG (
                 INTERNAL_SERVER_ERROR, "feilmelding.arbeidsgivere.sikkerhetsbegrensning"
         ),
-        SEND_SYKMELDING_INGEN_ID (
-                BAD_REQUEST, "feilmelding.send.sykmelding.ingen.id"
-        ),
-        SEND_SYKMELDING_INGEN_ARBEIDSGIVER (
-                BAD_REQUEST, "feilmelidng.send.sykmelding.ingen.arbeidsgiver"
-        ),
-        SEND_SYKMELDING_INGEN_TILGANG (
-                FORBIDDEN, "feilmelding.send.sykmelding.ingen.tilgang"
-        ),
         SYKMELDING_INGEN_TILGANG(
                 FORBIDDEN, "feilmelding.sykmelding.ingen.tilgang"
+        ),
+        SYKEFORLOEP_INGEN_TILGANG(
+                FORBIDDEN, "feilmelding.sykeforloep.ingen.tilgang"
         ),
         SEND_SYKMELDING_GENERELL_FEIL (
                 INTERNAL_SERVER_ERROR, "feilmelding.send.sykmelding.generell.feil"
@@ -62,12 +56,6 @@ public class Feilmelding {
         ),
         SYKMELDING_IKKE_FUNNET (
                 NOT_FOUND, "feilmelding.sykmelding.ikke.funnet"
-        ),
-        SYKMELDING_LAGRE_STATUS_FEIL (
-                INTERNAL_SERVER_ERROR, "feilmelding.sykmelding.lagre.status.feil"
-        ),
-        SYKMELDING_BEKREFT_MANGLER_ARBEIDSSITUASJON (
-                BAD_REQUEST, "feilmelding.sykmelding.bekreft.mangler.arbeidssituasjon"
         );
 
         Status status;

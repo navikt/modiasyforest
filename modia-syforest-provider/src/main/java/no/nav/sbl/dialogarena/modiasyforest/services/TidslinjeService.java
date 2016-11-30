@@ -3,8 +3,6 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
-import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeService;
-
 import javax.inject.Inject;
 import java.util.Comparator;
 import java.util.List;
