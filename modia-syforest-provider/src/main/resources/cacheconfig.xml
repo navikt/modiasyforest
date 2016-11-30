@@ -26,14 +26,14 @@
     </cache:advice>
 
     <cache:advice id="aktoerAdvice" key-generator="sessionKeyGenerator">
-        <cache:caching cache="sykmelding">
+        <cache:caching cache="aktoer">
             <cache:cacheable method="hent*"/>
             <cache:cacheable method="finn*"/>
         </cache:caching>
     </cache:advice>
 
     <cache:advice id="organisasjonAdvice" key-generator="sessionKeyGenerator">
-        <cache:caching cache="sykmelding">
+        <cache:caching cache="organisasjon">
             <cache:cacheable method="hent*"/>
             <cache:cacheable method="finn*"/>
         </cache:caching>
