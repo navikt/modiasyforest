@@ -44,7 +44,7 @@
         <appender-ref ref="infolog"/>
     </logger>
 
-    <root level="${ROOT_LOG_LEVEL:-ERROR}">
+    <root level="${ROOT_LOG_LEVEL:-INFO}">
         <appender-ref ref="exceptionlog"/>
         <appender-ref ref="infolog"/>
         <appender-ref ref="SYSLOG"/>
