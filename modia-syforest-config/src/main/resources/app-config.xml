@@ -35,6 +35,10 @@
         <fileLibrary alias="syfo.ledetekster.v1" mapToProperty="folder.ledetekster" />
     </resources>
 
+    <exposed-services>
+        <exposedRest path="/modiasyforest/rest" name="modiasyfoapi" description="Sykefravaer FSS REST-API"/>
+    </exposed-services>
+
     <loadBalancer isAlive="/modiasyforest/internal/isAlive" />
 
 </application>
