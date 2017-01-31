@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
+import no.nav.metrics.aspects.Count;
 import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
 import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeService;
@@ -22,6 +23,7 @@ public class TidslinjeRessurs {
 
     @GET
     @Timed
+    @Count(name = "hentTidslinje")
     public List<Tidslinje> hentTidslinje(@QueryParam("fnr") String fnr, @QueryParam("type") String type) {
         return tidslinjeService.hentTidslinjer(fnr, type);
     }

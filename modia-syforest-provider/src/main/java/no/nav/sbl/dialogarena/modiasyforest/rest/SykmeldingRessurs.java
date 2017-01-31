@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 
+import no.nav.metrics.aspects.Count;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
@@ -25,6 +26,7 @@ public class SykmeldingRessurs {
     private SykmeldingService sykmeldingService;
 
     @GET
+    @Count(name = "hentSykmeldinger")
     public List<Sykmelding> hentSykmeldinger(@QueryParam("fnr") String fnr, @QueryParam("type") String type) {
         List<WSSkjermes> filter = new ArrayList<>();
         if ("arbeidsgiver".equals(type)) {

@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
+import no.nav.metrics.aspects.Count;
 import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
@@ -38,6 +39,7 @@ public class NaermestelederRessurs {
 
     @GET
     @Timed
+    @Count(name = "hentNaermesteledere")
     public List<NaermesteLeder> hentNaermesteledere(@QueryParam("fnr") String fnr) throws HentNaermesteLederListeSikkerhetsbegrensning {
         List<Sykmelding> sykmeldinger = new ArrayList<>();
         try {
