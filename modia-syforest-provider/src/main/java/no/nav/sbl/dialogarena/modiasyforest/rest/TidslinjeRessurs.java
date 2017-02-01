@@ -4,6 +4,7 @@ import no.nav.metrics.aspects.Count;
 import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
 import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeService;
+import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+@Controller
 @Path("/tidslinje")
 @Produces(APPLICATION_JSON)
 public class TidslinjeRessurs {

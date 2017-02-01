@@ -5,6 +5,7 @@ import no.nav.metrics.aspects.Count;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
+import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -17,6 +18,7 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER;
 
+@Controller
 @Path("/sykmeldinger")
 @Produces(APPLICATION_JSON)
 public class SykmeldingRessurs {
