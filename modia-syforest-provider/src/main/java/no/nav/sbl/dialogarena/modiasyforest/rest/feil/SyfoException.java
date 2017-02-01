@@ -12,7 +12,7 @@ import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.NO_BIGI
 @Provider
 public class SyfoException extends RuntimeException implements ExceptionMapper<SyfoException> {
 
-    private Feil feil;
+    public Feil feil;
 
     @SuppressWarnings("unused")
     public SyfoException() {

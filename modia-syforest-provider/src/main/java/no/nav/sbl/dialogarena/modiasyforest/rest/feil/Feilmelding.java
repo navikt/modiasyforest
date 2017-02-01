@@ -58,8 +58,8 @@ public class Feilmelding {
                 NOT_FOUND, "feilmelding.sykmelding.ikke.funnet"
         );
 
-        Status status;
-        String id;
+        public Status status;
+        public String id;
         Feil(Status status, String id) {
             this.status = status;
             this.id = id;
