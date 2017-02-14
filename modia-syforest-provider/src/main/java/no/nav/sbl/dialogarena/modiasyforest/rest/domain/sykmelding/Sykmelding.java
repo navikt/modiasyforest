@@ -4,6 +4,7 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Sykmelding {
 
@@ -117,8 +118,8 @@ public class Sykmelding {
         return this;
     }
 
-    public Sykmelding withBidiagnose(final Diagnose bidiagnose) {
-        this.diagnose.bidiagnose = bidiagnose;
+    public Sykmelding withBidiagnose(List<Diagnose> bidiagnoser) {
+        this.diagnose.bidiagnoser = bidiagnoser;
         return this;
     }
 

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
@@ -39,7 +40,7 @@ public class SykmeldingMapper {
                             .withStatus(sykmeldingerWS.getStatus())
                             .withSendtTilArbeidsgiverDato(sykmeldingerWS.getSendtTilArbeidsgiverDato())
                             .withHoveddiagnose(hoveddiagnose(sm))
-                            .withBidiagnose(bidiagnose(sm))
+                            .withBidiagnose(bidiagnoser(sm))
                             .withFravaersgrunnLovfestet(fravaersgrunn(sm))
                             .withFravaerBeskrivelse(fravaerBeskrivelse(sm))
                             .withSykmelderTlf(sykmelderTlf(sm))
@@ -201,19 +202,21 @@ public class SykmeldingMapper {
         return null;
     }
 
-    private static Diagnose bidiagnose(WSSykmelding s) {
+    private static List<Diagnose> bidiagnoser(WSSykmelding s) {
         if (isTrue(s.getMedisinskVurdering().isSkalSkjermesForPasient())) {
-            return null;
+            return emptyList();
         }
 
-        if (!s.getMedisinskVurdering().getBidiagnoser().isEmpty()) {
+        List<Diagnose> bidiagnoser = new ArrayList<>();
+        for (WSDiagnose b : s.getMedisinskVurdering().getBidiagnoser()) {
             Diagnose bidiagnose = new Diagnose();
-            bidiagnose.diagnose = s.getMedisinskVurdering().getBidiagnoser().get(0).getValue();
-            bidiagnose.diagnosekode = s.getMedisinskVurdering().getBidiagnoser().get(0).getKodeRef();
-            bidiagnose.diagnosesystem = s.getMedisinskVurdering().getBidiagnoser().get(0).getKodeverksRef();
-            return bidiagnose;
+            bidiagnose.diagnose = b.getValue();
+            bidiagnose.diagnosekode = b.getKodeRef();
+            bidiagnose.diagnosesystem = b.getKodeverksRef();
+            bidiagnoser.add(bidiagnose);
         }
-        return null;
+
+        return bidiagnoser;
     }
 
     private static String fravaersgrunn(WSSykmelding s) {
