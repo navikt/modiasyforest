@@ -11,7 +11,6 @@ import java.util.List;
 
 import static java.time.LocalDate.now;
 import static java.time.LocalDate.of;
-import static java.util.Arrays.*;
 import static java.util.Arrays.asList;
 import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.SENDT;
 
@@ -48,6 +47,17 @@ public class SykmeldingV1Mock implements SykmeldingV1 {
                                     .withMedisinskVurdering(new WSMedisinskVurdering()
                                             .withHoveddiagnose(new WSDiagnose()
                                                     .withValue("Skikkelig syk i kneet"))
+                                            .withBidiagnoser(Arrays.asList(
+                                                    new WSDiagnose()
+                                                            .withValue("Bidiagnose 1")
+                                                            .withKodeRef("kodeverk1"),
+                                                    new WSDiagnose()
+                                                            .withValue("Bidiagnose 2")
+                                                            .withKodeRef("kodeverk2"),
+                                                    new WSDiagnose()
+                                                            .withValue("Bidiagnose 3")
+                                                            .withKodeRef("kodeverk3")
+                                            ))
                                             .withAnnenFravaersaarsak(new WSAarsak().withAarsaker(new WSAarsaker().withValue("Ingen (h)års(m)ak"))
                                                     .withBeskrivelse("Beskrivelse av fravær")))
                                     .withUtdypendeOpplysninger(new WSUtdypendeOpplysninger()
