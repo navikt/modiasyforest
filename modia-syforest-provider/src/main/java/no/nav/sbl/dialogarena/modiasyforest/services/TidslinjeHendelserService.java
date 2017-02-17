@@ -46,14 +46,14 @@ public class TidslinjeHendelserService {
         return new Hendelse()
                 .withType(BOBLE)
                 .withTekstkey("tidslinje.sykefravaer-startet")
-                .withAntallDager(0);
+                .withAntallDager(-1);
     }
 
     private Hendelse sykefravaerUtenArbeidsgiverStartet() {
         return new Hendelse()
                 .withType(BOBLE)
                 .withTekstkey("tidslinje.sykefravaer-startet")
-                .withAntallDager(0);
+                .withAntallDager(-1);
     }
 
     private Hendelse forberedelseDialogmoteArbeidsgiver() {
