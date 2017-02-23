@@ -2,12 +2,11 @@ package services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
-import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
-import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
+import no.nav.sbl.dialogarena.modiasyforest.services.*;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederListeElement;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederStatus;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,20 +49,23 @@ public class NaermesteLederServiceTest {
     @Test
     public void henterNaermesteledere() throws HentNaermesteLederListeSikkerhetsbegrensning {
         when(sykefravaersoppfoelgingV1.hentNaermesteLederListe(any())).thenReturn(new WSHentNaermesteLederListeResponse().withNaermesteLederListe(asList(
-                new WSNaermesteLederListeElement()
-                        .withAktiv(true)
+                new WSNaermesteLeder()
+                        .withNaermesteLederStatus(new WSNaermesteLederStatus()
+                                .withErAktiv(true))
                         .withMobil("123")
                         .withNavn("Navn")
                         .withEpost("test@nav.no")
                         .withOrgnummer("12345678"),
-                new WSNaermesteLederListeElement()
-                        .withAktiv(true)
+                new WSNaermesteLeder()
+                        .withNaermesteLederStatus(new WSNaermesteLederStatus()
+                                .withErAktiv(true))
                         .withMobil("123")
                         .withNavn("Navn")
                         .withEpost("test@nav.no")
                         .withOrgnummer("12345678"),
-                new WSNaermesteLederListeElement()
-                        .withAktiv(true)
+                new WSNaermesteLeder()
+                        .withNaermesteLederStatus(new WSNaermesteLederStatus()
+                                .withErAktiv(true))
                         .withMobil("321")
                         .withNavn("Navn2")
                         .withEpost("test2@nav.no")
@@ -83,7 +85,7 @@ public class NaermesteLederServiceTest {
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("2")
-                .withStatus(SENDT)
+                        .withStatus(SENDT)
         ));
         assertThat(naermesteledere.size()).isEqualTo(1);
     }

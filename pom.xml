@@ -51,8 +51,7 @@
         <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
 
 
-        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.9</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
-        <behandle-sykmeldingv1-tjenestespesifikasjon.version>1.0.2</behandle-sykmeldingv1-tjenestespesifikasjon.version>
+        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.10</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
     </properties>
 
 

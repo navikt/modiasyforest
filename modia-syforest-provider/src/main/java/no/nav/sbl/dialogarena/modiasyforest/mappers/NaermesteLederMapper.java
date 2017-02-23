@@ -1,16 +1,17 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederListeElement;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
+
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 public class NaermesteLederMapper {
 
-    public static NaermesteLeder tilNaermesteLeder(WSNaermesteLederListeElement response, String organisasjon) {
+    public static NaermesteLeder tilNaermesteLeder(WSNaermesteLeder response, String organisasjon) {
         return new NaermesteLeder()
                 .withNavn(capitalize(response.getNavn()))
                 .withEpost(response.getEpost())
                 .withTlf(response.getMobil())
-                .withFomDato(response.getAktivFom())
+                .withFomDato(response.getNaermesteLederStatus().getAktivFom())
                 .withOrgnummer(response.getOrgnummer())
                 .withOrganisasjonsnavn(organisasjon)
                 .withErOppgitt(true);
