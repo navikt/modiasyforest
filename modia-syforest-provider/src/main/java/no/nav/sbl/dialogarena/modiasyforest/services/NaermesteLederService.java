@@ -4,14 +4,9 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
 import no.nav.sbl.dialogarena.modiasyforest.utils.DistinctFilter;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.*;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederListeElement;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederRequest;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederResponse;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -73,7 +68,7 @@ public class NaermesteLederService {
         }
 
         return ofNullable(wsHentNaermesteLederResponse.getNaermesteLeder())
-                .filter(WSNaermesteLeder::isAktiv)
+                .filter(wsNaermesteLeder -> wsNaermesteLeder.getNaermesteLederStatus().isErAktiv())
                 .map(this::naermesteLeder);
     }
 
@@ -94,21 +89,14 @@ public class NaermesteLederService {
         }
     }
 
-    private NaermesteLeder naermesteLeder(WSNaermesteLederListeElement naermesteLeder) {
-        return new NaermesteLeder()
-                .withId(Long.valueOf(naermesteLeder.getNaermesteLederId()))
-                .withEpost(naermesteLeder.getEpost())
-                .withTlf(naermesteLeder.getMobil())
-                .withNavn(naermesteLeder.getNavn())
-                .withOrgnummer(naermesteLeder.getOrgnummer());
-    }
-
     private NaermesteLeder naermesteLeder(WSNaermesteLeder naermesteLeder) {
         return ofNullable(naermesteLeder).map(nl ->
                 new NaermesteLeder()
+                        .withId(Long.valueOf(naermesteLeder.getNaermesteLederId()))
                         .withEpost(naermesteLeder.getEpost())
                         .withTlf(naermesteLeder.getMobil())
-                        .withNavn(naermesteLeder.getNavn()))
+                        .withNavn(naermesteLeder.getNavn())
+                        .withOrgnummer(naermesteLeder.getOrgnummer()))
                 .orElse(null);
     }
 }
