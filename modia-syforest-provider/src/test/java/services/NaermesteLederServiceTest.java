@@ -19,8 +19,6 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.NY;
-import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.SENDT;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -85,7 +83,7 @@ public class NaermesteLederServiceTest {
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("2")
-                        .withStatus(SENDT)
+                        .withStatus("SENDT")
         ));
         assertThat(naermesteledere.size()).isEqualTo(1);
     }
@@ -97,7 +95,7 @@ public class NaermesteLederServiceTest {
         ), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(SENDT)
+                        .withStatus("SENDT")
         ));
         assertThat(naermesteledere.size()).isEqualTo(0);
     }
@@ -107,7 +105,7 @@ public class NaermesteLederServiceTest {
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(NY)
+                        .withStatus("NY")
         ));
         assertThat(naermesteledere.size()).isEqualTo(0);
     }
@@ -117,10 +115,10 @@ public class NaermesteLederServiceTest {
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(SENDT),
+                        .withStatus("SENDT"),
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(SENDT)
+                        .withStatus("SENDT")
         ));
         assertThat(naermesteledere.size()).isEqualTo(1);
     }

@@ -12,7 +12,6 @@ import java.util.List;
 import static java.time.LocalDate.now;
 import static java.time.LocalDate.of;
 import static java.util.Arrays.asList;
-import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.SENDT;
 
 public class SykmeldingV1Mock implements SykmeldingV1 {
 
@@ -29,7 +28,7 @@ public class SykmeldingV1Mock implements SykmeldingV1 {
                             .withArbeidsgiver("123456789")
                             .withIdentdato(of(2016, 2, 1))
                             .withSendtTilArbeidsgiverDato(LocalDateTime.of(2016, 6, 6, 12, 40))
-                            .withStatus(SENDT)
+                            .withStatus("SENDT")
                             .withSkalSkjermesForPasient(false)
                             .withSykmelding(new WSSykmelding()
                                     .withArbeidsgiver(new WSArbeidsgiver()
