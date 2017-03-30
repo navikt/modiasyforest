@@ -1,12 +1,12 @@
-import no.nav.modig.core.context.StaticSubjectHandler;
-import no.nav.modig.security.loginmodule.DummyRole;
+import no.nav.brukerdialog.security.context.JettySubjectHandler;
 import no.nav.sbl.dialogarena.common.jetty.Jetty;
-import org.eclipse.jetty.jaas.JAASLoginService;
+import org.apache.geronimo.components.jaspi.AuthConfigFactoryImpl;
 
+import javax.security.auth.message.config.AuthConfigFactory;
 import java.io.File;
+import java.security.Security;
 
 import static java.lang.System.setProperty;
-import static no.nav.modig.core.context.SubjectHandler.SUBJECTHANDLER_KEY;
 import static no.nav.modig.core.test.FilesAndDirs.TEST_RESOURCES;
 import static no.nav.modig.core.test.FilesAndDirs.WEBAPP_SOURCE;
 import static no.nav.modig.lang.collections.FactoryUtils.gotKeypress;
@@ -28,22 +28,16 @@ public class StartJetty {
     private static void runJetty() {
         setFrom("jetty-environment.properties");
         setupKeyAndTrustStore();
-        setProperty(SUBJECTHANDLER_KEY, StaticSubjectHandler.class.getName());
+        setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", JettySubjectHandler.class.getName());
+        setProperty("org.apache.geronimo.jaspic.configurationFile", "src/test/resources/jaspiconf.xml");
+        Security.setProperty(AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY, AuthConfigFactoryImpl.class.getCanonicalName());
 
         Jetty jetty = usingWar(WEBAPP_SOURCE)
                 .at("modiasyforest")
                 .port(8084)
+                .configureForJaspic()
                 .overrideWebXml(new File(TEST_RESOURCES, "override-web.xml"))
-                .withLoginService(createLoginService())
                 .buildJetty();
         jetty.startAnd(first(waitFor(gotKeypress())).then(jetty.stop));
-    }
-
-
-    public static JAASLoginService createLoginService() {
-        JAASLoginService jaasLoginService = new JAASLoginService("Simple Login Realm");
-        jaasLoginService.setLoginModuleName("simplelogin");
-        jaasLoginService.setRoleClassNames(new String[]{DummyRole.class.getName()});
-        return jaasLoginService;
     }
 }

@@ -1,8 +1,6 @@
 package filter;
 
 
-import no.nav.modig.core.context.SubjectHandlerUtils;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -23,7 +21,6 @@ public class FakeLoginFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        SubjectHandlerUtils.setInternBruker("Z990322");
 
         filterChain.doFilter(servletRequest, servletResponse);
     }

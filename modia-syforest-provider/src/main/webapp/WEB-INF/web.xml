@@ -83,35 +83,22 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Restricted</web-resource-name>
-            <url-pattern>/*</url-pattern>
+            <web-resource-name>Ubeskyttet</web-resource-name>
+            <url-pattern>/tjenester/login</url-pattern>
+            <url-pattern>/internal/*</url-pattern>
         </web-resource-collection>
-        <auth-constraint>
-            <role-name>*</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Public</web-resource-name>
-            <url-pattern>/internal/selftest</url-pattern>
-            <url-pattern>/internal/selftest.json</url-pattern>
-            <url-pattern>/internal/isAlive</url-pattern>
+            <web-resource-name>Alt annet beskyttet</web-resource-name>
+            <url-pattern>/*</url-pattern>
         </web-resource-collection>
+        <auth-constraint>
+            <!-- From Servlet spec 3.1 "**" means any authenticated user
+            ref: https://community.oracle.com/blogs/swchan2/2013/04/19/role-servlet-31-security-constraint -->
+            <role-name>**</role-name>
+        </auth-constraint>
     </security-constraint>
-    <security-role>
-        <role-name>0000-GA-BD06_ModiaGenerellTilgang</role-name>
-    </security-role>
-
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/login.html</form-login-page>
-            <form-error-page>/login.html</form-error-page>
-        </form-login-config>
-    </login-config>
 
     <servlet>
         <servlet-name>rest</servlet-name>

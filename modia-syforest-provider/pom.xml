@@ -69,7 +69,6 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
@@ -79,13 +78,14 @@
             <artifactId>modig-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jaas</artifactId>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -98,10 +98,6 @@
             <groupId>org.glassfish.hk2.external</groupId>
             <artifactId>javax.inject</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>javax.servlet</artifactId>
         </dependency>
         <dependency>
             <groupId>no.nav.sbl.dialogarena</groupId>
@@ -120,22 +116,16 @@
             <artifactId>common-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.modig</groupId>
-            <artifactId>modig-security-loginmodule</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.modig</groupId>
-            <artifactId>modig-security-loginmodule</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.modig</groupId>
+            <artifactId>modig-security-core</artifactId>
         </dependency>
         <dependency>
             <groupId>no.nav.modig</groupId>
@@ -183,16 +173,6 @@
             <classifier>jaxws</classifier>
         </dependency>
         <dependency>
-            <groupId>no.nav.modig</groupId>
-            <artifactId>modig-security-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.modig</groupId>
-            <artifactId>modig-security-core</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>no.nav.sbl.dialogarena</groupId>
             <artifactId>dial-nav-tjeneste-aktoer_v2</artifactId>
         </dependency>
@@ -211,6 +191,21 @@
         <dependency>
             <groupId>no.nav.syfo.tjenester</groupId>
             <artifactId>sykefravaersoppfoelgingv1-tjenestespesifikasjon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.components</groupId>
+            <artifactId>geronimo-jaspi</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.dialogarena</groupId>
+            <artifactId>oidc-security</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.dialogarena</groupId>
+            <artifactId>oidc-security</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>

@@ -13,11 +13,7 @@
         <ear groupId="no.nav.sbl.dialogarena" artifactId="modia-syforest-jee"/>
     </artifacts>
 
-    <security serviceUserResourceAlias="srvmodiasyforest">
-        <logins>
-            <spnego/>
-        </logins>
-    </security>
+    <security serviceUserResourceAlias="srvmodiasyforest" />
 
     <resources>
         <applicationProperties alias="modiasyforest.properties"/>
@@ -33,6 +29,11 @@
         <applicationCertificate alias="srvmodiasyforest"/>
 
         <fileLibrary alias="syfo.ledetekster.v1" mapToProperty="folder.ledetekster" />
+
+        <baseUrl alias="isso-host"/>
+        <baseUrl alias="isso-jwks"/>
+        <baseUrl alias="isso-issuer"/>
+        <credential alias="isso-rp-user"/>
     </resources>
 
     <exposed-services>
