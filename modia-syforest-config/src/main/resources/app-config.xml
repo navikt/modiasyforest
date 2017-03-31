@@ -16,6 +16,8 @@
     <security serviceUserResourceAlias="srvmodiasyforest" />
 
     <resources>
+        <rest alias="oidc-login-api" mapToProperty="oidc-redirect"/>
+
         <applicationProperties alias="modiasyforest.properties"/>
         <applicationProperties alias="syfotoggles.properties"/>
         <webservice alias="Aktoer_v2" mapToProperty="aktoer.endpoint"/>
