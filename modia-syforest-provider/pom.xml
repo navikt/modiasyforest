@@ -125,10 +125,6 @@
         </dependency>
         <dependency>
             <groupId>no.nav.modig</groupId>
-            <artifactId>modig-security-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.modig</groupId>
             <artifactId>modig-core-test</artifactId>
         </dependency>
         <dependency>
@@ -205,7 +201,6 @@
         <dependency>
             <groupId>no.nav.dialogarena</groupId>
             <artifactId>oidc-security</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>
