@@ -1,4 +1,4 @@
-import no.nav.brukerdialog.security.context.JettySubjectHandler;
+import no.nav.brukerdialog.security.context.InternbrukerSubjectHandler;
 import no.nav.sbl.dialogarena.common.jetty.Jetty;
 import org.apache.geronimo.components.jaspi.AuthConfigFactoryImpl;
 
@@ -7,6 +7,8 @@ import java.io.File;
 import java.security.Security;
 
 import static java.lang.System.setProperty;
+import static no.nav.brukerdialog.security.context.InternbrukerSubjectHandler.setServicebruker;
+import static no.nav.brukerdialog.security.context.InternbrukerSubjectHandler.setVeilederIdent;
 import static no.nav.modig.core.test.FilesAndDirs.TEST_RESOURCES;
 import static no.nav.modig.core.test.FilesAndDirs.WEBAPP_SOURCE;
 import static no.nav.modig.lang.collections.FactoryUtils.gotKeypress;
@@ -28,7 +30,10 @@ public class StartJetty {
     private static void runJetty() {
         setFrom("jetty-environment.properties");
         setupKeyAndTrustStore();
-        setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", JettySubjectHandler.class.getName());
+
+        setVeilederIdent("***REMOVED***");
+        setServicebruker("srvmodiasyforest");
+        setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", InternbrukerSubjectHandler.class.getName());
         setProperty("org.apache.geronimo.jaspic.configurationFile", "src/test/resources/jaspiconf.xml");
         Security.setProperty(AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY, AuthConfigFactoryImpl.class.getCanonicalName());
 
