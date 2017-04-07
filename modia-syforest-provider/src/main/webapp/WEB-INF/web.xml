@@ -95,7 +95,7 @@
         <auth-constraint>
             <!-- From Servlet spec 3.1 "**" means any authenticated user
             ref: https://community.oracle.com/blogs/swchan2/2013/04/19/role-servlet-31-security-constraint -->
-            <role-name>**</role-name>
+            <role-name>0000-GA-BD06_ModiaGenerellTilgang</role-name>
         </auth-constraint>
     </security-constraint>
 
