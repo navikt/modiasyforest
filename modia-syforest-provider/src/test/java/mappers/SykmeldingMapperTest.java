@@ -13,7 +13,6 @@ import java.util.List;
 import static java.time.LocalDate.of;
 import static java.util.Arrays.asList;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmelding;
-import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.NY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -59,7 +58,7 @@ public class SykmeldingMapperTest {
     private WSMelding meldingWS() throws Exception {
         return new WSMelding()
                 .withMeldingId("1")
-                .withStatus(NY)
+                .withStatus("NY")
                 .withSendtTilArbeidsgiverDato(LocalDateTime.of(2016, 4, 4, 12, 40))
                 .withIdentdato(of(2016, 4, 4))
                 .withSykmelding(new WSSykmelding()

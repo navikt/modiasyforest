@@ -1,7 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding;
 
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -108,8 +106,8 @@ public class Sykmelding {
         return this;
     }
 
-    public Sykmelding withStatus(final WSStatus status) {
-        this.status = status.value();
+    public Sykmelding withStatus(final String status) {
+        this.status = status;
         return this;
     }
 

@@ -2,7 +2,9 @@ package services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.sbl.dialogarena.modiasyforest.services.*;
+import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
+import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
+import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
@@ -19,8 +21,6 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.NY;
-import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSStatus.SENDT;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -85,7 +85,7 @@ public class NaermesteLederServiceTest {
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("2")
-                        .withStatus(SENDT)
+                        .withStatus("SENDT")
         ));
         assertThat(naermesteledere.size()).isEqualTo(1);
     }
@@ -97,7 +97,7 @@ public class NaermesteLederServiceTest {
         ), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(SENDT)
+                        .withStatus("SENDT")
         ));
         assertThat(naermesteledere.size()).isEqualTo(0);
     }
@@ -107,7 +107,7 @@ public class NaermesteLederServiceTest {
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(NY)
+                        .withStatus("NY")
         ));
         assertThat(naermesteledere.size()).isEqualTo(0);
     }
@@ -117,10 +117,10 @@ public class NaermesteLederServiceTest {
         List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(SENDT),
+                        .withStatus("SENDT"),
                 new Sykmelding()
                         .withOrgnummer("1")
-                        .withStatus(SENDT)
+                        .withStatus("SENDT")
         ));
         assertThat(naermesteledere.size()).isEqualTo(1);
     }
