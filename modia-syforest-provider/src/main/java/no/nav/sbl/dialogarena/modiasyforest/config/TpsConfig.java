@@ -1,13 +1,17 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
+import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.BrukerprofilMock;
+import no.nav.sbl.dialogarena.types.Pingable;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import static java.lang.System.getProperty;
 import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
+import static no.nav.sbl.dialogarena.types.Pingable.Ping.feilet;
+import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 
 @Configuration
 public class TpsConfig {
@@ -23,20 +27,20 @@ public class TpsConfig {
         return createMetricsProxyWithInstanceSwitcher("TPS", prod, mock, BRUKERPROFIL_TPS_MOCK_KEY, BrukerprofilV3.class);
     }
 
-//    @Bean
-//    public Pingable organisasjonPing() {
-//        final BrukerprofilV3 brukerprofilV3 = factory()
-//                .withOutInterceptor(new SystemSAMLOutInterceptor())
-//                .build();
-//        return () -> {
-//            try {
-//                brukerprofilV3.ping();
-//                return lyktes("BRUKERPROFIL_V3");
-//            } catch (Exception e) {
-//                return feilet("BRUKERPROFIL_V3", e);
-//            }
-//        };
-//    }
+    @Bean
+    public Pingable organisasjonPing() {
+        final BrukerprofilV3 brukerprofilV3 = factory()
+                .withOutInterceptor(new SystemSAMLOutInterceptor())
+                .build();
+        return () -> {
+            try {
+                brukerprofilV3.ping();
+                return lyktes("BRUKERPROFIL_V3");
+            } catch (Exception e) {
+                return feilet("BRUKERPROFIL_V3", e);
+            }
+        };
+    }
 
     private CXFClient<BrukerprofilV3> factory() {
         return new CXFClient<>(BrukerprofilV3.class).address(getProperty("brukerprofilv3.endpoint.url"));
