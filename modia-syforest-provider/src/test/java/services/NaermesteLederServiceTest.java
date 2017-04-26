@@ -2,7 +2,9 @@ package services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.sbl.dialogarena.modiasyforest.services.*;
+import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
+import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
+import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;

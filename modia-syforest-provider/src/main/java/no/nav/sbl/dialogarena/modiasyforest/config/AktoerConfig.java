@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
-import no.nav.modig.security.ws.UserSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.AktoerMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -21,7 +20,7 @@ public class AktoerConfig {
 
     @Bean
     public AktoerV2 aktoerV2() {
-        AktoerV2 prod =  aktoerPortType().withOutInterceptor(new UserSAMLOutInterceptor()).build();
+        AktoerV2 prod =  aktoerPortType().configureStsForOnBehalfOfWithJWT().build();
         AktoerV2 mock =  new AktoerMock();
 
         return createMetricsProxyWithInstanceSwitcher("aktor", prod, mock, AKTOER_MOCK_KEY, AktoerV2.class);

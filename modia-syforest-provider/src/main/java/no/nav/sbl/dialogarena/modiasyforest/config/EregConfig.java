@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
-import no.nav.modig.security.ws.UserSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.OrganisasjonMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -21,7 +20,7 @@ public class EregConfig {
 
     @Bean
     public OrganisasjonV4 organisasjonV4() {
-        OrganisasjonV4 prod = factory().withOutInterceptor(new UserSAMLOutInterceptor()).build();
+        OrganisasjonV4 prod = factory().configureStsForOnBehalfOfWithJWT().build();
         OrganisasjonV4 mock = new OrganisasjonMock();
 
         return createMetricsProxyWithInstanceSwitcher("Organisasjon-EREG", prod, mock, ORGANISASJON_EREG_MOCK_KEY, OrganisasjonV4.class);

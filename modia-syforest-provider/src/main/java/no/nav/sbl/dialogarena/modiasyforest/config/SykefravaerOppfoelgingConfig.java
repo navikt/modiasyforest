@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
-import no.nav.modig.security.ws.UserSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.OppfoelgingMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -21,7 +20,7 @@ public class SykefravaerOppfoelgingConfig {
 
     @Bean
     public SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1() {
-        SykefravaersoppfoelgingV1 prod =  sykmeldingPortType().withOutInterceptor(new UserSAMLOutInterceptor()).build();
+        SykefravaersoppfoelgingV1 prod =  sykmeldingPortType().configureStsForOnBehalfOfWithJWT().build();
         SykefravaersoppfoelgingV1 mock =  new OppfoelgingMock();
         return createMetricsProxyWithInstanceSwitcher("Oppfoelging-SyfoService", prod, mock, SYFOSERVICE_OPPFOELGING_MOCK_KEY, SykefravaersoppfoelgingV1.class);
     }

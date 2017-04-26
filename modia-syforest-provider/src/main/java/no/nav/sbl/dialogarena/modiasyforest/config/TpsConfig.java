@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
-import no.nav.modig.security.ws.UserSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.BrukerprofilMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -22,7 +21,7 @@ public class TpsConfig {
 
     @Bean
     public BrukerprofilV3 organisasjonPortType() {
-        BrukerprofilV3 prod = factory().withOutInterceptor(new UserSAMLOutInterceptor()).build();
+        BrukerprofilV3 prod = factory().configureStsForOnBehalfOfWithJWT().build();
         BrukerprofilV3 mock = new BrukerprofilMock();
 
         return createMetricsProxyWithInstanceSwitcher("TPS", prod, mock, BRUKERPROFIL_TPS_MOCK_KEY, BrukerprofilV3.class);

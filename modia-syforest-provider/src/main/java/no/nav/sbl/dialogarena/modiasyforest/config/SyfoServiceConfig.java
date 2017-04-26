@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
-import no.nav.modig.security.ws.UserSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.SykmeldingV1Mock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -21,7 +20,7 @@ public class SyfoServiceConfig {
 
     @Bean
     public SykmeldingV1 sykmeldingV1() {
-        SykmeldingV1 prod =  sykmeldingPortType().withOutInterceptor(new UserSAMLOutInterceptor()).build();
+        SykmeldingV1 prod =  sykmeldingPortType().configureStsForOnBehalfOfWithJWT().build();
         SykmeldingV1 mock =  new SykmeldingV1Mock();
         return createMetricsProxyWithInstanceSwitcher("Sykmelding-SyfoService", prod, mock, SYFOSERVICE_SYKMELDING_MOCK_KEY, SykmeldingV1.class);
     }
