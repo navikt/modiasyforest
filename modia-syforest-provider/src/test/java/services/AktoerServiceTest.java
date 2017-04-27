@@ -31,11 +31,11 @@ public class AktoerServiceTest {
 
     @Test
     public void hentAktoerId() throws HentAktoerIdForIdentPersonIkkeFunnet {
-        WSHentAktoerIdForIdentRequest request = new WSHentAktoerIdForIdentRequest().withIdent("123");
-        when(aktoerV2.hentAktoerIdForIdent(request)).thenReturn(new WSHentAktoerIdForIdentResponse().withAktoerId("456"));
+        WSHentAktoerIdForIdentRequest request = new WSHentAktoerIdForIdentRequest().withIdent("12345678901");
+        when(aktoerV2.hentAktoerIdForIdent(request)).thenReturn(new WSHentAktoerIdForIdentResponse().withAktoerId("1234567890112312"));
 
-        String aktoerId = aktoerService.hentAktoerIdForIdent("123");
-        assertThat(aktoerId).isEqualTo("456");
+        String aktoerId = aktoerService.hentAktoerIdForIdent("12345678901");
+        assertThat(aktoerId).isEqualTo("1234567890112312");
     }
 
     @Test(expected = SyfoException.class)

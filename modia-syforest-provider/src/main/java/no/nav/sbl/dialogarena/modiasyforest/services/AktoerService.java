@@ -22,16 +22,17 @@ public class AktoerService {
     @Inject
     private AktoerV2 aktoerV2;
 
-    public String hentAktoerIdForIdent(String ident) {
-        if (isBlank(ident)) {
+    public String hentAktoerIdForIdent(String fnr) {
+        if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.warn("Kan ikke hente aktør-id uten fødselsnummer");
             throw new SyfoException(IKKE_FOEDSELSNUMMER);
         }
 
+
         try {
             return aktoerV2.hentAktoerIdForIdent(
                     new WSHentAktoerIdForIdentRequest()
-                            .withIdent(ident)
+                            .withIdent(fnr)
             ).getAktoerId();
         } catch (HentAktoerIdForIdentPersonIkkeFunnet e) {
             LOG.warn("AktoerID ikke funnet for fødselsnummer!", e);

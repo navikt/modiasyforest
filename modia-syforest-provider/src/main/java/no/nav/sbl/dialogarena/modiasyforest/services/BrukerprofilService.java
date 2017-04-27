@@ -16,11 +16,14 @@ public class BrukerprofilService {
     @Inject
     private BrukerprofilV3 brukerprofilV3;
 
-    public String hentNavn(String ident) {
+    public String hentNavn(String fnr) {
+        if (!fnr.matches("\\d{11}$")) {
+            throw new RuntimeException();
+        }
         try {
             WSPerson wsPerson = brukerprofilV3.hentKontaktinformasjonOgPreferanser(new WSHentKontaktinformasjonOgPreferanserRequest()
                     .withIdent(new WSNorskIdent()
-                            .withIdent(ident))).getBruker();
+                            .withIdent(fnr))).getBruker();
             String mellomnavn = wsPerson.getPersonnavn().getMellomnavn() == null ? "" : wsPerson.getPersonnavn().getMellomnavn();
             if (!"".equals(mellomnavn)) {
                 mellomnavn = mellomnavn + " ";
@@ -28,7 +31,7 @@ public class BrukerprofilService {
             final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
             return capitalize(navnFraTps.toLowerCase(), '-', ' ');
         } catch (Exception e) {
-            LOG.error("Exception mot TPS med ident {}  -  {}", ident, e.getMessage());
+            LOG.error("Exception mot TPS med ident {}  -  {}", fnr, e.getMessage());
             return "Vi fant ikke navnet";
         }
     }

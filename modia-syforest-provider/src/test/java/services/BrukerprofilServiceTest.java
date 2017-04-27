@@ -22,16 +22,27 @@ import static org.mockito.Mockito.when;
 public class BrukerprofilServiceTest {
 
     @Mock
-    BrukerprofilV3 brukerprofilV3;
+    private BrukerprofilV3 brukerprofilV3;
 
     @InjectMocks
-    BrukerprofilService brukerprofilService;
+    private BrukerprofilService brukerprofilService;
 
 
     @Test
     public void captitalizerNavnet() throws HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning, HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt, HentKontaktinformasjonOgPreferanserPersonIkkeFunnet {
         when(brukerprofilV3.hentKontaktinformasjonOgPreferanser(any())).thenReturn(new WSHentKontaktinformasjonOgPreferanserResponse().withBruker(new WSBruker().withPersonnavn(new WSPersonnavn().withFornavn("TROND-VIGGO").withEtternavn("TORGERSEN"))));
-        final String navn = brukerprofilService.hentNavn("123");
+        final String navn = brukerprofilService.hentNavn("12345678901");
         assertThat(navn).isEqualTo("Trond-Viggo ***REMOVED***");
     }
+
+    @Test(expected = RuntimeException.class)
+    public void taklerIkkeStreng() throws HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning, HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt, HentKontaktinformasjonOgPreferanserPersonIkkeFunnet {
+        brukerprofilService.hentNavn("mote");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void maVaereIdentMedLengde11() throws HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning, HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt, HentKontaktinformasjonOgPreferanserPersonIkkeFunnet {
+        brukerprofilService.hentNavn("123");
+    }
+
 }
