@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import static java.lang.System.getProperty;
 import static java.util.Arrays.stream;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static no.nav.modig.core.context.SubjectHandler.getSubjectHandler;
+import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
 
 @Controller
 @Path("/toggle/tilgangmoteadmin")
