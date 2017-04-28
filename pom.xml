@@ -214,25 +214,6 @@
                 <groupId>no.nav.modig</groupId>
                 <artifactId>modig-security-ws</artifactId>
                 <version>${modig-security.version}</version>
-                <!--<exclusions>-->
-                    <!--<exclusion>-->
-                        <!--<groupId>xml-apis</groupId>-->
-                        <!--<artifactId>xml-apis</artifactId>-->
-                    <!--</exclusion>-->
-                    <!--<exclusion>-->
-                        <!--<groupId>com.sun.xml.bind</groupId>-->
-                        <!--<artifactId>jaxb-impl</artifactId>-->
-                    <!--</exclusion>-->
-                    <!--<exclusion>-->
-                        <!--<artifactId>commons-logging</artifactId>-->
-                        <!--<groupId>commons-logging</groupId>-->
-                    <!--</exclusion>-->
-                <!--</exclusions>-->
-            </dependency>
-            <dependency>
-                <groupId>no.nav.modig</groupId>
-                <artifactId>modig-security-core</artifactId>
-                <version>${modig-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.sbl.dialogarena</groupId>
