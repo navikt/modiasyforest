@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.AKTOER_IKKE_FUNNET;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.IKKE_FOEDSELSNUMMER;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.AKTOER_IKKE_FUNNET;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.IKKE_FOEDSELSNUMMER;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 

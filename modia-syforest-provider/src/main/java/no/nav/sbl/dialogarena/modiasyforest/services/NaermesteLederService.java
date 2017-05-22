@@ -3,19 +3,20 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
+import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoTilgangException;
 import no.nav.sbl.dialogarena.modiasyforest.utils.DistinctFilter;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.*;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.*;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.SYKEFORLOEP_INGEN_TILGANG;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.SYKEFORLOEP_INGEN_TILGANG;
 
 public class NaermesteLederService {
 
@@ -35,7 +36,7 @@ public class NaermesteLederService {
                     .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            throw new SyfoException(SYKEFORLOEP_INGEN_TILGANG);
+            throw new SyfoTilgangException(e.getFaultInfo().getFeilaarsak().toUpperCase());
         }
     }
 
@@ -51,25 +52,6 @@ public class NaermesteLederService {
                         .withOrgnummer(sykmelding.orgnummer)
                         .withErOppgitt(false))
                 .collect(toList());
-    }
-
-    public Optional<NaermesteLeder> finnNaermesteLeder(String orgnummer, String fnr) {
-        String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
-
-        WSHentNaermesteLederResponse wsHentNaermesteLederResponse;
-        try {
-            wsHentNaermesteLederResponse = sykefravaersoppfoelgingV1.hentNaermesteLeder(
-                    new WSHentNaermesteLederRequest()
-                            .withAktoerId(aktoerId)
-                            .withOrgnummer(orgnummer)
-            );
-        } catch (HentNaermesteLederSikkerhetsbegrensning e) {
-            throw new SyfoException(SYKEFORLOEP_INGEN_TILGANG);
-        }
-
-        return ofNullable(wsHentNaermesteLederResponse.getNaermesteLeder())
-                .filter(wsNaermesteLeder -> wsNaermesteLeder.getNaermesteLederStatus().isErAktiv())
-                .map(this::naermesteLeder);
     }
 
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
@@ -92,7 +74,7 @@ public class NaermesteLederService {
     private NaermesteLeder naermesteLeder(WSNaermesteLeder naermesteLeder) {
         return ofNullable(naermesteLeder).map(nl ->
                 new NaermesteLeder()
-                        .withId(Long.valueOf(naermesteLeder.getNaermesteLederId()))
+                        .withId(naermesteLeder.getNaermesteLederId())
                         .withEpost(naermesteLeder.getEpost())
                         .withTlf(naermesteLeder.getMobil())
                         .withNavn(naermesteLeder.getNavn())

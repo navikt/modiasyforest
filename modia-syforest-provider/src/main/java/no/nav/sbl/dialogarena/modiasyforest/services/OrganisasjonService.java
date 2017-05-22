@@ -14,7 +14,8 @@ import javax.inject.Inject;
 
 import static java.lang.System.getProperty;
 import static java.util.stream.Collectors.joining;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.*;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.ORGANISASJON_GENERELL_FEIL;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.ORGANISASJON_UGYLDIG_INPUT;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
