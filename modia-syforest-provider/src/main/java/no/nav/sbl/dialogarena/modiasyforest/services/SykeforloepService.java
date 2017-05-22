@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.SYKEFORLOEP_INGEN_TILGANG;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.SYKEFORLOEP_INGEN_TILGANG;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SykeforloepService {

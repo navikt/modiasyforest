@@ -12,8 +12,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.*;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmeldinger;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.*;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;

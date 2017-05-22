@@ -1,7 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest.feil;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;

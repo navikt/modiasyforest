@@ -8,7 +8,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.GENERELL_FEIL;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.GENERELL_FEIL;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.NO_BIGIP_5XX_REDIRECT;
 import static org.slf4j.LoggerFactory.getLogger;
 

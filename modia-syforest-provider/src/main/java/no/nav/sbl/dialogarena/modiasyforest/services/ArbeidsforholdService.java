@@ -25,7 +25,7 @@ import java.util.List;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.toList;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.Feil.*;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class ArbeidsforholdService {
