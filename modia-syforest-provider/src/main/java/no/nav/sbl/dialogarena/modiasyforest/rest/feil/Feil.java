@@ -44,8 +44,14 @@ public enum Feil {
     SYKEFORLOEP_INGEN_TILGANG(
             FORBIDDEN, "feilmelding.sykeforloep.ingen.tilgang"
     ),
+    SYKEPENGESOKNAD_INGEN_TILGANG(
+            FORBIDDEN, "feilmelding.sykeforloep.ingen.tilgang"
+    ),
     ORGANISASJON_UGYLDIG_INPUT (
             INTERNAL_SERVER_ERROR, "feilmelding.organisasjon.ugyldig.input"
+    ),
+    ORGANISASJON_IKKE_FUNNET (
+            NOT_FOUND, "feilmelding.organisasjon.ikke.funnet"
     ),
     ORGANISASJON_GENERELL_FEIL (
             INTERNAL_SERVER_ERROR, "feilmelding.organisasjon.generell.feil"

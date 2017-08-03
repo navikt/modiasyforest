@@ -51,6 +51,7 @@
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
         <brukerprofil-v3-tjenestespesifikasjon.version>3.0.3</brukerprofil-v3-tjenestespesifikasjon.version>
         <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
+        <sykepengesoeknadv1-tjenestespesifikasjon.version>1.0.9</sykepengesoeknadv1-tjenestespesifikasjon.version>
         <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.10</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
     </properties>
@@ -304,6 +305,16 @@
                 <groupId>no.nav.syfo.tjenester</groupId>
                 <artifactId>sykefravaersoppfoelgingv1-tjenestespesifikasjon</artifactId>
                 <version>${sykefravaersoppfoelgingv1-tjenestespesifikasjon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.nav.syfo.tjenester</groupId>
+                <artifactId>sykepengesoeknadv1-tjenestespesifikasjon</artifactId>
+                <version>${sykepengesoeknadv1-tjenestespesifikasjon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.nav.sbl</groupId>
+                <artifactId>java8-utils</artifactId>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>

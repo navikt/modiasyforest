@@ -48,6 +48,10 @@
             <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>no.nav.sbl</groupId>
+            <artifactId>java8-utils</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet-core</artifactId>
         </dependency>
@@ -187,6 +191,10 @@
         <dependency>
             <groupId>no.nav.syfo.tjenester</groupId>
             <artifactId>sykefravaersoppfoelgingv1-tjenestespesifikasjon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>sykepengesoeknadv1-tjenestespesifikasjon</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.geronimo.components</groupId>

@@ -12,13 +12,14 @@ import org.springframework.context.annotation.*;
 @Import({
         AktoerConfig.class,
         CacheConfig.class,
-        SyfoServiceConfig.class,
+        SykmeldingerConfig.class,
         ServicesConfig.class,
         EregConfig.class,
         TpsConfig.class,
         TeksterConfig.class,
         AAregConfig.class,
-        SykefravaerOppfoelgingConfig.class
+        SykefravaerOppfoelgingConfig.class,
+        SykepengesoknadConfig.class
 })
 public class ApplicationConfig {
 

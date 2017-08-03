@@ -14,7 +14,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.feilet;
 import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 
 @Configuration
-public class SyfoServiceConfig {
+public class SykmeldingerConfig {
 
     public static final String SYFOSERVICE_SYKMELDING_MOCK_KEY = "sykmelding.syfoservice.withmock";
 

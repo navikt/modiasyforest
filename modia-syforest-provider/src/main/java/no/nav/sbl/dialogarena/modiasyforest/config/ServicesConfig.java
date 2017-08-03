@@ -51,6 +51,11 @@ public class ServicesConfig {
     }
 
     @Bean
+    public SykepengesoknaderService sykepengesoknaderService() {
+        return new SykepengesoknaderService();
+    }
+
+    @Bean
     public SessionKeyGenerator sessionKeyGenerator() {
         return new SessionKeyGenerator();
     }
