@@ -28,6 +28,9 @@ public class Sykepengesoknad {
     public LocalDate sendtTilNAVDato;
     public LocalDate forrigeSykeforloepTom;
     public String korrigerer;
+    public LocalDate fom;
+    public LocalDate tom;
+    public int del;
 
     public Sykepengesoknad withAnsvarBekreftet(final boolean ansvarBekreftet) {
         this.ansvarBekreftet = ansvarBekreftet;
@@ -131,6 +134,21 @@ public class Sykepengesoknad {
 
     public Sykepengesoknad withKorrigerer(final String korrigerer) {
         this.korrigerer = korrigerer;
+        return this;
+    }
+
+    public Sykepengesoknad withFom(final LocalDate fom) {
+        this.fom = fom;
+        return this;
+    }
+
+    public Sykepengesoknad withTom(final LocalDate tom) {
+        this.tom = tom;
+        return this;
+    }
+
+    public Sykepengesoknad withDel(final int del) {
+        this.del = del;
         return this;
     }
 }
