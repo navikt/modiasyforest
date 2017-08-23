@@ -8,6 +8,7 @@ import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepenges
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import javax.ws.rs.ForbiddenException;
 import java.util.List;
 import java.util.function.Function;
 
@@ -36,8 +37,8 @@ public class SykepengesoknaderService {
 
         } catch (HentSykepengesoeknadListeSikkerhetsbegrensning e) {
             LOG.error("Bruker har ikke tilgang til søknadene det spørres om: {}", aktoerId);
+            throw new ForbiddenException();
         }
-        return emptyList();
     }
 
     private final Function<Sykepengesoknad, Sykepengesoknad> berikMedArbeidsgiverNavn =
