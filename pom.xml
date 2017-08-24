@@ -51,8 +51,8 @@
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
         <brukerprofil-v3-tjenestespesifikasjon.version>3.0.3</brukerprofil-v3-tjenestespesifikasjon.version>
         <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
-        <sykepengesoeknadv1-tjenestespesifikasjon.version>1.0.11</sykepengesoeknadv1-tjenestespesifikasjon.version>
-        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.10</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
+        <sykepengesoeknadv1-tjenestespesifikasjon.version>1.0.12</sykepengesoeknadv1-tjenestespesifikasjon.version>
+        <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.11</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
     </properties>
 
