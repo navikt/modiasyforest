@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
-import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.AktoerMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -33,7 +32,7 @@ public class AktoerConfig {
     public Pingable aktoerPing() {
         Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final AktoerV2 aktoerPing = aktoerPortType()
-                .withOutInterceptor(new SystemSAMLOutInterceptor())
+                .configureStsForSystemUserInFSS()
                 .build();
         return () -> {
             try {

@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
-import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.BrukerprofilMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -33,7 +32,7 @@ public class TpsConfig {
     public Pingable brukerprofilPing() {
         Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final BrukerprofilV3 brukerprofilV3 = factory()
-                .withOutInterceptor(new SystemSAMLOutInterceptor())
+                .configureStsForSystemUserInFSS()
                 .build();
         return () -> {
             try {

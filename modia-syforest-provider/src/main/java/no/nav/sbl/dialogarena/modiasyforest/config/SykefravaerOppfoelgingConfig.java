@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
-import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.OppfoelgingMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -37,7 +36,7 @@ public class SykefravaerOppfoelgingConfig {
     public Pingable sykmeldingPing() {
         Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final SykefravaersoppfoelgingV1 oppfoelgingPing = sykmeldingPortType()
-                .withOutInterceptor(new SystemSAMLOutInterceptor())
+                .configureStsForSystemUserInFSS()
                 .build();
         return () -> {
             try {

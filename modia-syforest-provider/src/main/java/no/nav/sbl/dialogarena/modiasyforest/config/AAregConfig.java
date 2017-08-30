@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
-import no.nav.modig.security.ws.SystemSAMLOutInterceptor;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.ArbeidsforholdMock;
 import no.nav.sbl.dialogarena.types.Pingable;
@@ -33,7 +32,7 @@ public class AAregConfig {
     public Pingable arbeidsforholdPing() {
         Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final ArbeidsforholdV3 arbeidsforholdPing = arbeidsforholdPortType()
-                .withOutInterceptor(new SystemSAMLOutInterceptor())
+                .configureStsForSystemUserInFSS()
                 .build();
         return () -> {
             try {
