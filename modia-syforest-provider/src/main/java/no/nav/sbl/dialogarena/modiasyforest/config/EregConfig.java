@@ -16,32 +16,36 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 @Configuration
 public class EregConfig {
 
-    private static final String ORGANISASJON_EREG_MOCK_KEY = "organisasjon.ereg.withmock";
+    private static final String MOCK_KEY = "organisasjon.ereg.withmock";
+    private static final String ENDEPUNKT_URL = getProperty("organisasjon.endpoint.url");
+    private static final String ENDEPUNKT_NAVN = "ORGANISASJON_V4";
+    private static final boolean KRITISK = true;
 
     @Bean
     public OrganisasjonV4 organisasjonV4() {
         OrganisasjonV4 prod = factory().configureStsForOnBehalfOfWithJWT().build();
         OrganisasjonV4 mock = new OrganisasjonMock();
 
-        return createMetricsProxyWithInstanceSwitcher("Organisasjon-EREG", prod, mock, ORGANISASJON_EREG_MOCK_KEY, OrganisasjonV4.class);
+        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, OrganisasjonV4.class);
     }
 
     @Bean
     public Pingable organisasjonPing() {
+        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final OrganisasjonV4 organisasjonPing = factory()
                 .withOutInterceptor(new SystemSAMLOutInterceptor())
                 .build();
         return () -> {
             try {
                 organisasjonPing.ping();
-                return lyktes("ORGANISASJON_TJENESTE");
+                return lyktes(pingMetadata);
             } catch (Exception e) {
-                return feilet("ORGANISASJON_TJENESTE", e);
+                return feilet(pingMetadata, e);
             }
         };
     }
 
     private CXFClient<OrganisasjonV4> factory() {
-        return new CXFClient<>(OrganisasjonV4.class).address(getProperty("organisasjon.endpoint.url"));
+        return new CXFClient<>(OrganisasjonV4.class).address(ENDEPUNKT_URL);
     }
 }

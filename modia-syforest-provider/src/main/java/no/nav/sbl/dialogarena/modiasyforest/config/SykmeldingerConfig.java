@@ -16,31 +16,34 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 @Configuration
 public class SykmeldingerConfig {
 
-    public static final String SYFOSERVICE_SYKMELDING_MOCK_KEY = "sykmelding.syfoservice.withmock";
-
+    private static final String MOCK_KEY = "sykmelding.syfoservice.withmock";
+    private static final String ENDEPUNKT_URL = getProperty("sykmelding.endpoint.url");
+    private static final String ENDEPUNKT_NAVN = "SYKMELDING_V1";
+    private static final boolean KRITISK = false;
     @Bean
     public SykmeldingV1 sykmeldingV1() {
         SykmeldingV1 prod =  sykmeldingPortType().configureStsForOnBehalfOfWithJWT().build();
         SykmeldingV1 mock =  new SykmeldingV1Mock();
-        return createMetricsProxyWithInstanceSwitcher("Sykmelding-SyfoService", prod, mock, SYFOSERVICE_SYKMELDING_MOCK_KEY, SykmeldingV1.class);
+        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykmeldingV1.class);
     }
 
     private CXFClient<SykmeldingV1> sykmeldingPortType() {
         return new CXFClient<>(SykmeldingV1.class)
-                .address(getProperty("sykmelding.endpoint.url"));
+                .address(ENDEPUNKT_URL);
     }
 
     @Bean
     public Pingable sykmeldingPing() {
+        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final SykmeldingV1 sykmeldingPing = sykmeldingPortType()
                 .withOutInterceptor(new SystemSAMLOutInterceptor())
                 .build();
         return () -> {
             try {
                 sykmeldingPing.ping();
-                return lyktes("SYKMELDING_TJENESTE");
+                return lyktes(pingMetadata);
             } catch (Exception e) {
-                return feilet("SYKMELDING_TJENESTE", e);
+                return feilet(pingMetadata, e);
             }
         };
     }

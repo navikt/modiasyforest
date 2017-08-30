@@ -17,27 +17,30 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class TpsConfig {
 
 
-    private static final String BRUKERPROFIL_TPS_MOCK_KEY = "brukerprofilv3.withmock";
-
+    private static final String MOCK_KEY = "brukerprofilv3.withmock";
+    private static final String ENDEPUNKT_URL = getProperty("brukerprofilv3.endpoint.url");
+    private static final String ENDEPUNKT_NAVN = "BRUKERPROFIL_V3";
+    private static final boolean KRITISK = true;
     @Bean
-    public BrukerprofilV3 organisasjonPortType() {
+    public BrukerprofilV3 brukerprofilV3() {
         BrukerprofilV3 prod = factory().configureStsForOnBehalfOfWithJWT().build();
         BrukerprofilV3 mock = new BrukerprofilMock();
 
-        return createMetricsProxyWithInstanceSwitcher("TPS", prod, mock, BRUKERPROFIL_TPS_MOCK_KEY, BrukerprofilV3.class);
+        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, BrukerprofilV3.class);
     }
 
     @Bean
-    public Pingable organisasjonPing() {
+    public Pingable brukerprofilPing() {
+        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final BrukerprofilV3 brukerprofilV3 = factory()
                 .withOutInterceptor(new SystemSAMLOutInterceptor())
                 .build();
         return () -> {
             try {
                 brukerprofilV3.ping();
-                return lyktes("BRUKERPROFIL_V3");
+                return lyktes(pingMetadata);
             } catch (Exception e) {
-                return feilet("BRUKERPROFIL_V3", e);
+                return feilet(pingMetadata, e);
             }
         };
     }

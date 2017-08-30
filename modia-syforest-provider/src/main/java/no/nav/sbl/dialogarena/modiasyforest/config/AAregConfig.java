@@ -16,37 +16,41 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 @Configuration
 public class AAregConfig {
 
-    public static final String ARBEIDSFORHOLD_AAREG_MOCK_KEY = "arbeidsforhold.aareg.withmock";
+    private static final String MOCK_KEY = "arbeidsforhold.aareg.withmock";
+    private static final String ENDEPUNKT_URL = getProperty("arbeidsforhold.endpoint.url");
+    private static final String ENDEPUNKT_NAVN = "ARBEIDSFORHOLD_V3";
+    private static final boolean KRITISK = true;
 
     @Bean
     public ArbeidsforholdV3 arbeidsforholdV3() {
         ArbeidsforholdV3 prod =  arbeidsforholdPortType().configureStsForOnBehalfOfWithJWT().build();
         ArbeidsforholdV3 mock =  new ArbeidsforholdMock();
 
-        return createMetricsProxyWithInstanceSwitcher("Arbeidsforhold-AAREG", prod, mock, ARBEIDSFORHOLD_AAREG_MOCK_KEY, ArbeidsforholdV3.class);
+        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, ArbeidsforholdV3.class);
     }
 
     @Bean
     public Pingable arbeidsforholdPing() {
+        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final ArbeidsforholdV3 arbeidsforholdPing = arbeidsforholdPortType()
                 .withOutInterceptor(new SystemSAMLOutInterceptor())
                 .build();
         return () -> {
             try {
                 arbeidsforholdPing.ping();
-                return lyktes("ARBEIDSFORHOLD_TJENESTE");
+                return lyktes(pingMetadata);
             } catch (Exception e) {
                 // TODO: Dette kan fjernes når Arbeidsforhold implementerer sin Ping uten avhengigheter bakover
                 if (e.getMessage().contains("Organisasjon")) {
-                    return lyktes("ARBEIDSFORHOLD FEIL: " + e.getMessage());
+                    return lyktes(new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, "Organisasjon feiler - ignorerer dette", KRITISK));
                 }
-                return feilet("ARBEIDSFORHOLD_TJENESTE", e);
+                return feilet(pingMetadata, e);
             }
         };
     }
 
     private CXFClient<ArbeidsforholdV3> arbeidsforholdPortType() {
         return new CXFClient<>(ArbeidsforholdV3.class)
-                .address(getProperty("arbeidsforhold.endpoint.url"));
+                .address(ENDEPUNKT_URL);
     }
 }

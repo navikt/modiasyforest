@@ -17,26 +17,30 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 @Configuration
 public class SykepengesoknadConfig {
 
-    private static final String SYFOSERVICE_SYKEPENGESOEKNAD_MOCK_KEY = "sykepengesoknad.syfoservice.withmock";
+    private static final String MOCK_KEY = "sykepengesoknad.syfoservice.withmock";
+    private static final String ENDEPUNKT_URL = getProperty("arbeidsforhold.endpoint.url");
+    private static final String ENDEPUNKT_NAVN = "SYKEPENGESOKNAD_V1";
+    private static final boolean KRITISK = false;
 
     @Bean
     public SykepengesoeknadV1 sykepengesoeknadV1() {
         SykepengesoeknadV1 prod =  sykepengesoeknadPortType().configureStsForOnBehalfOfWithJWT().build();
         SykepengesoeknadV1 mock =  new SykepengesoeknadV1Mock();
-        return createMetricsProxyWithInstanceSwitcher("Sykepengesoeknad-SyfoService", prod, mock, SYFOSERVICE_SYKEPENGESOEKNAD_MOCK_KEY, SykepengesoeknadV1.class);
+        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykepengesoeknadV1.class);
     }
 
     @Bean
     public Pingable sykepengesoeknadPing() {
+        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final SykepengesoeknadV1 sykepengesoeknadPing = sykepengesoeknadPortType()
                 .withOutInterceptor(new SystemSAMLOutInterceptor())
                 .build();
         return () -> {
             try {
                 sykepengesoeknadPing.ping();
-                return lyktes("SYKEPENGESOKNAD_TJENESTE");
+                return lyktes(pingMetadata);
             } catch (Exception e) {
-                return feilet("SYKEPENGESOKNAD_TJENESTE", e);
+                return feilet(pingMetadata, e);
             }
         };
     }

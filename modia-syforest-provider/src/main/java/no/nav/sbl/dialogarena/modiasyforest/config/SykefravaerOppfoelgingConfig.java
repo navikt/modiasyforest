@@ -16,31 +16,35 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 @Configuration
 public class SykefravaerOppfoelgingConfig {
 
-    public static final String SYFOSERVICE_OPPFOELGING_MOCK_KEY = "oppfoelging.syfoservice.withmock";
+    private static final String MOCK_KEY = "oppfoelging.syfoservice.withmock";
+    private static final String ENDEPUNKT_URL = getProperty("sykefravaersoppfoelging.endpoint.url");
+    private static final String ENDEPUNKT_NAVN = "SYKEFRAVAERSOPPFOELGING_V1";
+    private static final boolean KRITISK = true;
 
     @Bean
     public SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1() {
         SykefravaersoppfoelgingV1 prod =  sykmeldingPortType().configureStsForOnBehalfOfWithJWT().build();
         SykefravaersoppfoelgingV1 mock =  new OppfoelgingMock();
-        return createMetricsProxyWithInstanceSwitcher("Oppfoelging-SyfoService", prod, mock, SYFOSERVICE_OPPFOELGING_MOCK_KEY, SykefravaersoppfoelgingV1.class);
+        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykefravaersoppfoelgingV1.class);
     }
 
     private CXFClient<SykefravaersoppfoelgingV1> sykmeldingPortType() {
         return new CXFClient<>(SykefravaersoppfoelgingV1.class)
-                .address(getProperty("sykefravaersoppfoelging.endpoint.url"));
+                .address(ENDEPUNKT_URL);
     }
 
     @Bean
     public Pingable sykmeldingPing() {
+        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final SykefravaersoppfoelgingV1 oppfoelgingPing = sykmeldingPortType()
                 .withOutInterceptor(new SystemSAMLOutInterceptor())
                 .build();
         return () -> {
             try {
                 oppfoelgingPing.ping();
-                return lyktes("OPPFOLGING_TJENESTE");
+                return lyktes(pingMetadata);
             } catch (Exception e) {
-                return feilet("OPPFOLGING_TJENESTE", e);
+                return feilet(pingMetadata, e);
             }
         };
     }

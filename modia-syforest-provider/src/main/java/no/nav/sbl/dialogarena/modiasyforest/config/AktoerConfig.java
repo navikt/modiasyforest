@@ -16,33 +16,37 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 @Configuration
 public class AktoerConfig {
 
-    public static final String AKTOER_MOCK_KEY = "aktoer.withmock";
+    private static final String MOCK_KEY = "aktoer.withmock";
+    private static final String ENDEPUNKT_URL = getProperty("aktoer.endpoint.url");
+    private static final String ENDEPUNKT_NAVN = "AKTOER_V2";
+    private static final boolean KRITISK = true;
 
     @Bean
     public AktoerV2 aktoerV2() {
         AktoerV2 prod =  aktoerPortType().configureStsForOnBehalfOfWithJWT().build();
         AktoerV2 mock =  new AktoerMock();
 
-        return createMetricsProxyWithInstanceSwitcher("aktor", prod, mock, AKTOER_MOCK_KEY, AktoerV2.class);
+        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, AktoerV2.class);
     }
 
     @Bean
     public Pingable aktoerPing() {
+        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final AktoerV2 aktoerPing = aktoerPortType()
                 .withOutInterceptor(new SystemSAMLOutInterceptor())
                 .build();
         return () -> {
             try {
                 aktoerPing.ping();
-                return lyktes("AKTOER_TJENESTE");
+                return lyktes(pingMetadata);
             } catch (Exception e) {
-                return feilet("AKTOER_TJENESTE", e);
+                return feilet(pingMetadata, e);
             }
         };
     }
 
     private CXFClient<AktoerV2> aktoerPortType() {
         return new CXFClient<>(AktoerV2.class)
-                .address(getProperty("aktoer.endpoint.url"));
+                .address(ENDEPUNKT_URL);
     }
 }
