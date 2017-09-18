@@ -24,7 +24,7 @@
 
 
     <properties>
-        <common-web.version>5.0.16</common-web.version>
+        <common-web.version>5.0.22</common-web.version>
         <common-jetty.version>2.0.12</common-jetty.version>
         <common-types.version>2.0.10</common-types.version>
 
