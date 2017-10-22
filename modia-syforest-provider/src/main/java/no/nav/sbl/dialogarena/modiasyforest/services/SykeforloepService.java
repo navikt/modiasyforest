@@ -13,6 +13,7 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilf
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -60,7 +61,17 @@ public class SykeforloepService {
                         tilHendelser(wsOppfoelgingstilfelle.getHendelseListe(), fnr))
                 .withSykmeldinger(
                         tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe()))
-                .withOppfolgingsdato(wsOppfoelgingstilfelle.getOppfoelgingsdato());
+                .withOppfolgingsdato(wsOppfoelgingstilfelle.getOppfoelgingsdato())
+                .withSluttdato(sluttdato(tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe())));
+    }
+
+    public LocalDate sluttdato(List<Sykmelding> sykmeldinger) {
+        return sykmeldinger
+                .stream()
+                .flatMap(sykmelding -> sykmelding.mulighetForArbeid.perioder.stream())
+                .sorted((o1, o2) -> o2.tom.compareTo(o1.tom))
+                .map(sykmelding -> sykmelding.tom)
+                .findFirst().get();
     }
 
     private List<Sykmelding> tilSykmeldinger(List<WSMelding> meldinger) {

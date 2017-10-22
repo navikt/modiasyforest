@@ -12,6 +12,7 @@ public class Sykeforloep {
     public List<Sykmelding> sykmeldinger;
     public List<Hendelse> hendelser;
     public LocalDate oppfoelgingsdato;
+    public LocalDate sluttdato;
 
     public Sykeforloep withSykmeldinger(List<Sykmelding> sykmeldinger) {
         this.sykmeldinger = sykmeldinger;
@@ -25,6 +26,11 @@ public class Sykeforloep {
 
     public Sykeforloep withOppfolgingsdato(LocalDate dato) {
         this.oppfoelgingsdato = dato;
+        return this;
+    }
+
+    public Sykeforloep withSluttdato(LocalDate sluttdato) {
+        this.sluttdato = sluttdato;
         return this;
     }
 }
