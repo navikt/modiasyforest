@@ -6,6 +6,7 @@ import no.nav.sbl.dialogarena.modiasyforest.services.SykeforloepService;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSHendelse;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSHendelsestype;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSMelding;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSOppfoelgingstilfelle;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static testutils.SykmeldingMocks.getWSSykmelding;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SykeforloepServiceTest {
@@ -48,14 +50,14 @@ public class SykeforloepServiceTest {
                                                                 new WSHendelse()
                                                                         .withType(WSHendelsestype.AKTIVITETSKRAV_VARSEL)
                                                                         .withDato(now())))
-                                                .withMeldingListe())
+                                                .withMeldingListe(asList(
+                                                        new WSMelding()
+                                                            .withSykmelding(getWSSykmelding())
+                                                )))
                         ));
         List<Sykeforloep> sykeforloep = sykeforloepService.hentSykeforloep("12345678901");
         assertThat(sykeforloep.get(0).oppfoelgingsdato).isEqualTo(now());
         assertThat(sykeforloep.get(0).hendelser.size()).isEqualTo(1);
-        assertThat(sykeforloep.get(0).sykmeldinger.size()).isEqualTo(0);
-
-
-
+        assertThat(sykeforloep.get(0).sykmeldinger.size()).isEqualTo(1);
     }
 }
