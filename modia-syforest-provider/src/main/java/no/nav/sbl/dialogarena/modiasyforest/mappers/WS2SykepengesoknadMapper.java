@@ -19,7 +19,8 @@ public abstract class WS2SykepengesoknadMapper {
             new Avvik()
                     .withArbeidsgrad(wsKorrigertArbeidstid.getArbeidsgrad())
                     .withArbeidstimerNormalUke(wsKorrigertArbeidstid.getArbeidstimerNormaluke())
-                    .withTimer(wsKorrigertArbeidstid.getFaktiskeArbeidstimer());
+                    .withTimer(wsKorrigertArbeidstid.getFaktiskeArbeidstimer())
+                    .withBeregnetArbeidsgrad(wsKorrigertArbeidstid.getBeregnetArbeidsgrad());
 
     private static final Function<WSAnnenInntektskilde, AnnenInntektskilde> ws2AndreInntektskilder =
             wsAndreInntektskilder -> new AnnenInntektskilde()
@@ -86,7 +87,7 @@ public abstract class WS2SykepengesoknadMapper {
                             .withSendtTilArbeidsgiverDato(wsSykepengesoeknad.getSendtTilArbeidsgiverDato())
                             .withForrigeSykeforloepTom(wsSykepengesoeknad.getForrigeSykeforloepTom())
                             .withKorrigerer(wsSykepengesoeknad.getKorrigerer())
-                            .withFom(wsSykepengesoeknad.getPeriode().getFom())
-                            .withTom(wsSykepengesoeknad.getPeriode().getTom())
+                          //  .withFom(wsSykepengesoeknad.getPeriode().getFom())
+                           // .withTom(wsSykepengesoeknad.getPeriode().getTom())
                             .withDel(wsSykepengesoeknad.getDel());
 }

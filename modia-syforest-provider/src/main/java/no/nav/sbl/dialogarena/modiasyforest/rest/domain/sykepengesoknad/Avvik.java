@@ -4,6 +4,7 @@ public class Avvik {
     public Double arbeidstimerNormalUke;
     public Integer arbeidsgrad;
     public Double timer;
+    public Integer beregnetArbeidsgrad;
 
     public Avvik withArbeidstimerNormalUke(final Double arbeidstimerNormalUke) {
         this.arbeidstimerNormalUke = arbeidstimerNormalUke;
@@ -17,6 +18,11 @@ public class Avvik {
 
     public Avvik withTimer(final Double timer) {
         this.timer = timer;
+        return this;
+    }
+
+    public Avvik withBeregnetArbeidsgrad(final Integer beregnetArbeidsgrad) {
+        this.beregnetArbeidsgrad = beregnetArbeidsgrad;
         return this;
     }
 }
