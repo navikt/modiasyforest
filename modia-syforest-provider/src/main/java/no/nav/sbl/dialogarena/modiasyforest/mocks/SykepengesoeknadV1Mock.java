@@ -45,6 +45,7 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                                 .withKorrigertArbeidstid(new WSKorrigertArbeidstid()
                                                         .withArbeidstimerNormaluke(37.5)
                                                         .withFaktiskeArbeidstimer(40.0)
+                                                        .withBeregnetArbeidsgrad(19)
                                                 )))
                                 .withAnnenInntektskildeListe(
                                         new WSAnnenInntektskilde()
@@ -87,6 +88,7 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                                 .withKorrigertArbeidstid(new WSKorrigertArbeidstid()
                                                         .withArbeidstimerNormaluke(37.5)
                                                         .withFaktiskeArbeidstimer(40.0)
+                                                        .withBeregnetArbeidsgrad(29)
                                                 )))
                                 .withAnnenInntektskildeListe(
                                         new WSAnnenInntektskilde()
@@ -130,6 +132,7 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                                 .withKorrigertArbeidstid(new WSKorrigertArbeidstid()
                                                         .withArbeidstimerNormaluke(37.5)
                                                         .withFaktiskeArbeidstimer(40.0)
+                                                        .withBeregnetArbeidsgrad(39)
                                                 )))
                                 .withAnnenInntektskildeListe(
                                         new WSAnnenInntektskilde()
