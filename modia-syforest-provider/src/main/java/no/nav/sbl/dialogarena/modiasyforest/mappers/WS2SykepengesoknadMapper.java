@@ -87,7 +87,7 @@ public abstract class WS2SykepengesoknadMapper {
                             .withSendtTilArbeidsgiverDato(wsSykepengesoeknad.getSendtTilArbeidsgiverDato())
                             .withForrigeSykeforloepTom(wsSykepengesoeknad.getForrigeSykeforloepTom())
                             .withKorrigerer(wsSykepengesoeknad.getKorrigerer())
-                          //  .withFom(wsSykepengesoeknad.getPeriode().getFom())
-                           // .withTom(wsSykepengesoeknad.getPeriode().getTom())
+                            .withFom(wsSykepengesoeknad.getPeriode().getFom())
+                            .withTom(wsSykepengesoeknad.getPeriode().getTom())
                             .withDel(wsSykepengesoeknad.getDel());
 }
