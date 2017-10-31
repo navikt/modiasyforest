@@ -26,6 +26,7 @@ import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.SYKEFORLOEP_INGEN_TILGANG;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.SYKMELDING_IKKE_FUNNET;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SykeforloepService {
@@ -71,7 +72,7 @@ public class SykeforloepService {
                 .flatMap(sykmelding -> sykmelding.mulighetForArbeid.perioder.stream())
                 .sorted((o1, o2) -> o2.tom.compareTo(o1.tom))
                 .map(sykmelding -> sykmelding.tom)
-                .findFirst().get();
+                .findFirst().orElseThrow(() -> new SyfoException(SYKMELDING_IKKE_FUNNET));
     }
 
     private List<Sykmelding> tilSykmeldinger(List<WSMelding> meldinger) {
