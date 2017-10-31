@@ -14,7 +14,7 @@ public class NaermesteLederMapper {
                 .withFomDato(response.getNaermesteLederStatus().getAktivFom())
                 .withOrgnummer(response.getOrgnummer())
                 .withOrganisasjonsnavn(organisasjon)
-                .withAktivTom(response.getNaermesteLederStatus().getAktivFom())
+                .withAktivTom(response.getNaermesteLederStatus().getAktivTom())
                 .withErOppgitt(true);
     }
 }
