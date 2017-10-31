@@ -78,7 +78,10 @@ public class NaermesteLederService {
                         .withEpost(naermesteLeder.getEpost())
                         .withTlf(naermesteLeder.getMobil())
                         .withNavn(naermesteLeder.getNavn())
-                        .withOrgnummer(naermesteLeder.getOrgnummer()))
+                        .withAktoerId(naermesteLeder.getNaermesteLederAktoerId())
+                        .withFomDato(naermesteLeder.getNaermesteLederStatus().getAktivFom())
+                        .withOrgnummer(naermesteLeder.getOrgnummer())
+                        .withArbeidsgiverForskuttererLoenn(naermesteLeder.isArbeidsgiverForskuttererLoenn()))
                 .orElse(null);
     }
 }
