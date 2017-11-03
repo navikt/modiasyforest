@@ -7,6 +7,7 @@ public class NaermesteLeder {
 
     public String navn;
     public Long id;
+    public String aktoerId;
     public String tlf;
     public String epost;
     public Boolean aktiv;
@@ -14,6 +15,13 @@ public class NaermesteLeder {
     public LocalDate fomDato;
     public String orgnummer;
     public String organisasjonsnavn;
+    public LocalDate aktivTom;
+    public Boolean arbeidsgiverForskuttererLoenn;
+
+    public NaermesteLeder withAktoerId(final String aktoerId) {
+        this.aktoerId = aktoerId;
+        return this;
+    }
 
     public NaermesteLeder withNavn(String navn) {
         this.navn = navn;
@@ -64,4 +72,13 @@ public class NaermesteLeder {
         return id;
     }
 
+    public NaermesteLeder withAktivTom(final LocalDate aktivTom) {
+        this.aktivTom = aktivTom;
+        return this;
+    }
+
+    public NaermesteLeder withArbeidsgiverForskuttererLoenn(final Boolean arbeidsgiverForskuttererLoenn) {
+        this.arbeidsgiverForskuttererLoenn = arbeidsgiverForskuttererLoenn;
+        return this;
+    }
 }
