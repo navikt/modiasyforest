@@ -39,7 +39,15 @@
         </cache:caching>
     </cache:advice>
 
+    <cache:advice id="dkifAdvice" key-generator="sessionKeyGenerator">
+        <cache:caching cache="dkif">
+            <cache:cacheable method="hent*"/>
+            <cache:cacheable method="finn*"/>
+        </cache:caching>
+    </cache:advice>
+
     <aop:config>
+        <aop:advisor advice-ref="dkifAdvice" pointcut="bean(digitalKontaktinformasjonV1)"/>
         <aop:advisor advice-ref="sykmeldingAdvice" pointcut="bean(sykmeldingV1)"/>
         <aop:advisor advice-ref="aktoerAdvice" pointcut="bean(aktoerV2)"/>
         <aop:advisor advice-ref="organisasjonAdvice" pointcut="bean(organisasjonPortType)"/>

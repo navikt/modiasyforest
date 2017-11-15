@@ -56,6 +56,11 @@ public class ServicesConfig {
     }
 
     @Bean
+    public DkifService dkifService() {
+        return new DkifService();
+    }
+
+    @Bean
     public SessionKeyGenerator sessionKeyGenerator() {
         return new SessionKeyGenerator();
     }

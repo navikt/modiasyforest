@@ -19,7 +19,8 @@ import org.springframework.context.annotation.*;
         TeksterConfig.class,
         AAregConfig.class,
         SykefravaerOppfoelgingConfig.class,
-        SykepengesoknadConfig.class
+        SykepengesoknadConfig.class,
+        DkifConfig.class
 })
 public class ApplicationConfig {
 

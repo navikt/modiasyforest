@@ -3,6 +3,7 @@ package no.nav.sbl.dialogarena.modiasyforest.rest;
 import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
+import no.nav.sbl.dialogarena.modiasyforest.services.DkifService;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
@@ -20,12 +21,15 @@ public class BrukerRessurs {
 
     @Inject
     private BrukerprofilService brukerprofilService;
+    @Inject
+    private DkifService dkifService;
 
     @GET
     @Timed
     public Bruker hentNavn(@QueryParam("fnr") String fnr){
         return new Bruker()
-                .withNavn(brukerprofilService.hentNavn(fnr))
-                .withArbeidssituasjon("ARBEIDSTAKER");
+                .navn(brukerprofilService.hentNavn(fnr))
+                .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr))
+                .arbeidssituasjon("ARBEIDSTAKER");
     }
 }

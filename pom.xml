@@ -55,12 +55,18 @@
         <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
         <sykepengesoeknadv1-tjenestespesifikasjon.version>1.0.15</sykepengesoeknadv1-tjenestespesifikasjon.version>
         <sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>1.0.14</sykefravaersoppfoelgingv1-tjenestespesifikasjon.version>
+        <dkif-tjenestespesifikasjon.version>1.2</dkif-tjenestespesifikasjon.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>no.nav.syfo.tjenester</groupId>
+                <artifactId>dkif-tjenestespesifikasjon</artifactId>
+                <version>${dkif-tjenestespesifikasjon.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-core</artifactId>
@@ -354,6 +360,12 @@
                 <groupId>org.apache.geronimo.components</groupId>
                 <artifactId>geronimo-jaspi</artifactId>
                 <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.16</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

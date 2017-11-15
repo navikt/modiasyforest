@@ -27,6 +27,7 @@
         <webservice alias="virksomhet:Organisasjon_v4" mapToProperty="organisasjon.endpoint"/>
         <webservice alias="virksomhet:Brukerprofil_v3" mapToProperty="brukerprofilv3.endpoint"/>
         <webservice alias="virksomhet:Arbeidsforhold_v3" mapToProperty="arbeidsforhold.endpoint"/>
+        <webservice alias="virksomhet:DigitalKontakinformasjon_v1" mapToProperty="dkif.endpoint"/>
 
         <ldap alias="ldap" mapToProperty="ldap"/>
         <applicationCertificate alias="srvmodiasyforest"/>
