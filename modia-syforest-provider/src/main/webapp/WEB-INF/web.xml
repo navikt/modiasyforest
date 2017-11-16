@@ -19,6 +19,10 @@
     <filter>
         <filter-name>doubleSumbitCookieCsrfProtection</filter-name>
         <filter-class>no.nav.sbl.dialogarena.common.web.security.CsrfDoubleSubmitCookieFilter</filter-class>
+        <init-param>
+            <param-name>ignoredUrls</param-name>
+            <param-value>/internal,/mgmt</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>doubleSumbitCookieCsrfProtection</filter-name>
