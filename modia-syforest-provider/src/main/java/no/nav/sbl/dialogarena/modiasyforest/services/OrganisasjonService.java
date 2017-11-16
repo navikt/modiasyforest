@@ -14,7 +14,6 @@ import javax.inject.Inject;
 
 import static java.lang.System.getProperty;
 import static java.util.stream.Collectors.joining;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.ORGANISASJON_GENERELL_FEIL;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.ORGANISASJON_UGYLDIG_INPUT;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -47,7 +46,7 @@ public class OrganisasjonService {
             throw new SyfoException(ORGANISASJON_UGYLDIG_INPUT);
         } catch (RuntimeException e) {
             LOG.error("Feil ved henting av Organisasjon", e);
-            throw new SyfoException(ORGANISASJON_GENERELL_FEIL);
+            return "Fant ikke navn";
         }
     }
 
