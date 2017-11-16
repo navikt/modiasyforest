@@ -27,7 +27,11 @@
         <common-web.version>5.0.22</common-web.version>
         <common-jetty.version>2.0.12</common-jetty.version>
         <common-types.version>2.0.10</common-types.version>
+        <common-cxf.version>3.1.61</common-cxf.version>
+        <nav-metrics.version>3.3.1</nav-metrics.version>
 
+        <cxf.version>3.2.1</cxf.version>
+        <wss4j-ws-security.version>2.2.0</wss4j-ws-security.version>
         <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
         <jersey.version>2.23.2</jersey.version>
         <logback.version>1.1.6</logback.version>
@@ -35,14 +39,11 @@
         <modig-security.version>3.0.0</modig-security.version>
         <jackson.version>2.9.0</jackson.version>
         <utave.version>1.0.9</utave.version>
-        <nav-metrics.version>3.1.1</nav-metrics.version>
         <aspectjweaver.version>1.8.8</aspectjweaver.version>
-        <common-cxf.version>3.1.56</common-cxf.version>
         <ehcache.version>2.10.3</ehcache.version>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <oidc-security.version>3.68.18</oidc-security.version>
+        <oidc-security.version>2.0-digisyfo</oidc-security.version>
 
-        <cxf.version>3.1.11</cxf.version>
         <assertj.version>2.4.1</assertj.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
@@ -167,12 +168,12 @@
             <dependency>
                 <groupId>org.apache.wss4j</groupId>
                 <artifactId>wss4j-ws-security-common</artifactId>
-                <version>2.1.9</version>
+                <version>${wss4j-ws-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.wss4j</groupId>
                 <artifactId>wss4j-ws-security-dom</artifactId>
-                <version>2.1.9</version>
+                <version>${wss4j-ws-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>
