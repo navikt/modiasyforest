@@ -11,6 +11,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -26,6 +28,19 @@ public class SykeforloepRessurs {
     @GET
     @Timed
     public List<Sykeforloep> hentOppfoelgingstilfeller(@QueryParam("fnr") String fnr){
+        if ("true".equals(System.getProperty("test.local"))) {
+            return Arrays.asList(
+                    new Sykeforloep()
+                        .withOppfolgingsdato(LocalDate.now().minusWeeks(5))
+                        .withSluttdato(LocalDate.now().plusWeeks(5)),
+                    new Sykeforloep()
+                            .withOppfolgingsdato(LocalDate.now().minusWeeks(30))
+                            .withSluttdato(LocalDate.now().minusWeeks(15)),
+                    new Sykeforloep()
+                            .withOppfolgingsdato(LocalDate.now().minusYears(1))
+                            .withSluttdato(LocalDate.now().minusWeeks(40))
+            );
+        }
         return sykeforloepService.hentSykeforloep(fnr);
     }
 }
