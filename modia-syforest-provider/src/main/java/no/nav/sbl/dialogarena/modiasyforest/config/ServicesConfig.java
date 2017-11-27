@@ -61,6 +61,16 @@ public class ServicesConfig {
     }
 
     @Bean
+    public DiskresjonskodeService diskresjonskodeService() {
+        return new DiskresjonskodeService();
+    }
+
+    @Bean
+    public EgenAnsattService egenAnsattService() {
+        return new EgenAnsattService();
+    }
+
+    @Bean
     public SessionKeyGenerator sessionKeyGenerator() {
         return new SessionKeyGenerator();
     }
