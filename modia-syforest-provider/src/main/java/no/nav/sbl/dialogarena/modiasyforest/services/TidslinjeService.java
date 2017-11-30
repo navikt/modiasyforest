@@ -3,6 +3,7 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
+
 import javax.inject.Inject;
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +25,7 @@ public class TidslinjeService {
     private TidslinjeHendelserService tidslinjeHendelserService;
 
     public List<Tidslinje> hentTidslinjer(String fnr, String type) {
+
         List<Sykeforloep> sykeforloep = sykeforloepService.hentSykeforloep(fnr);
 
         if (sykeforloep.isEmpty()) {

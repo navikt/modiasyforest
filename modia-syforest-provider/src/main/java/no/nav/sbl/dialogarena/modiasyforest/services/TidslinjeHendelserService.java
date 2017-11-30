@@ -15,6 +15,7 @@ public class TidslinjeHendelserService {
             case MED_ARBEIDSGIVER:
                 return asList(
                         sykefravaerMedArbeidsgiverStartet(),
+                        sykmeldtHvaNaa(),
                         snakkMedArbeidsgiver(),
                         forberedelseDialogmoteArbeidsgiver(),
                         navVurdereKravOmAktivitet(),
@@ -25,6 +26,7 @@ public class TidslinjeHendelserService {
             case UTEN_ARBEIDSGIVER:
                 return asList(
                         sykefravaerUtenArbeidsgiverStartet(),
+                        sykmeldtHvaNaa(),
                         mulighetForAktivitetUtenArbeidsgiver(),
                         snakkMedNav(),
                         aktivitetsplan(),
@@ -49,11 +51,19 @@ public class TidslinjeHendelserService {
                 .withAntallDager(-1);
     }
 
+
     private Hendelse sykefravaerUtenArbeidsgiverStartet() {
         return new Hendelse()
                 .withType(BOBLE)
                 .withTekstkey("tidslinje.sykefravaer-startet")
                 .withAntallDager(-1);
+    }
+
+    private Hendelse sykmeldtHvaNaa() {
+        return new Hendelse()
+                .withType(BOBLE)
+                .withTekstkey("tidslinje.sykmeldt-hva-naa")
+                .withAntallDager(1);
     }
 
     private Hendelse forberedelseDialogmoteArbeidsgiver() {

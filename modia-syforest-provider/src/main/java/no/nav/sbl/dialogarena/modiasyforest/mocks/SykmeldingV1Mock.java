@@ -7,10 +7,10 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.*;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static java.time.LocalDate.now;
-import static java.time.LocalDate.of;
 import static java.util.Arrays.asList;
 
 public class SykmeldingV1Mock implements SykmeldingV1 {
@@ -133,10 +133,7 @@ public class SykmeldingV1Mock implements SykmeldingV1 {
     @Override
     public WSHentOppfoelgingstilfelleListeResponse hentOppfoelgingstilfelleListe(WSHentOppfoelgingstilfelleListeRequest wsHentOppfoelgingstilfelleListeRequest) {
         return new WSHentOppfoelgingstilfelleListeResponse()
-                .withOppfoelgingstilfelleListe(asList(
-                        new WSOppfoelgingstilfelle()
-                                .withOppfoelgingsdato(now())
-                ));
+                .withOppfoelgingstilfelleListe(Collections.emptyList());
     }
 
     public void ping() {

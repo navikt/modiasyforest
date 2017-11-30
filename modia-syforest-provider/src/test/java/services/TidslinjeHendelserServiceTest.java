@@ -24,7 +24,7 @@ public class TidslinjeHendelserServiceTest {
         List<Hendelse> hendelserMedArb = tidslinjeHendelserService.hentHendelser(MED_ARBEIDSGIVER);
         List<Hendelse> hendelserUtenArb = tidslinjeHendelserService.hentHendelser(UTEN_ARBEIDSGIVER);
 
-        assertThat(hendelserMedArb.size()).isEqualTo(7);
-        assertThat(hendelserUtenArb.size()).isEqualTo(5);
+        assertThat(hendelserMedArb.size()).isEqualTo(8);
+        assertThat(hendelserUtenArb.size()).isEqualTo(6);
     }
 }
