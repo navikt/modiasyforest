@@ -48,7 +48,8 @@ public class SykmeldingService {
         } catch (HentSykmeldingListeSikkerhetsbegrensning e) {
             throw new SyfoException(SYKMELDING_INGEN_TILGANG);
         } catch (RuntimeException e) {
-            LOG.error("Noe gikk galt under webservice-kall til syfoservice", e);
+            //TODO Skrur av denne logglinjen da den skaper veldig mye støy. Gjøres om når syfoservice tilbyr PIP over HTTP
+//            LOG.error("Noe gikk galt under webservice-kall til syfoservice", e);
             throw new SyfoException(SYKMELDING_GENERELL_FEIL);
         }
     }

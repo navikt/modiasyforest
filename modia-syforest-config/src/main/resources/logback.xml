@@ -40,7 +40,13 @@
         <throwableExcluded>true</throwableExcluded>
     </appender>
 
-    <logger name="org.apache.cxf" level="${modiasyforest.cxf.log.level:-OFF}">
+    <logger name="org.apache.cxf" level="ERROR" additivity="false">
+        <appender-ref ref="infolog"/>
+    </logger>
+    <logger name="no.nav.sbl.dialogarena.common.cxf" level="ERROR">
+        <appender-ref ref="infolog"/>
+    </logger>
+    <logger name="org.apache.wss4j.common.crypto.CryptoBase" level="ERROR">
         <appender-ref ref="infolog"/>
     </logger>
 
