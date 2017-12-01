@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import java.time.OffsetDateTime;
 
+import static java.util.Optional.ofNullable;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -34,7 +35,7 @@ public class DkifService {
                 return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(RESERVERT);
             }
 
-            if (harIkkeVerfisertSiste18Mnd(response.getEpostadresse(), response.getMobiltelefonnummer())) {
+            if (!harVerfisertSiste18Mnd(response.getEpostadresse(), response.getMobiltelefonnummer())) {
                 return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(UTGAATT);
             }
 
@@ -55,9 +56,21 @@ public class DkifService {
         }
     }
 
-    private boolean harIkkeVerfisertSiste18Mnd(WSEpostadresse epostadresse, WSMobiltelefonnummer mobiltelefonnummer) {
-        OffsetDateTime attenMndSiden = OffsetDateTime.now().minusMonths(18);
-        return epostadresse != null && epostadresse.getSistVerifisert() != null && epostadresse.getSistVerifisert().isBefore(attenMndSiden) &&
-                mobiltelefonnummer != null && mobiltelefonnummer.getSistVerifisert() != null && mobiltelefonnummer.getSistVerifisert().isBefore(attenMndSiden);
+    public boolean harVerfisertSiste18Mnd(WSEpostadresse epostadresse, WSMobiltelefonnummer mobiltelefonnummer) {
+        return harVerifisertEpostSiste18Mnd(epostadresse) && harVerifisertMobilSiste18Mnd(mobiltelefonnummer);
+    }
+
+    private boolean harVerifisertEpostSiste18Mnd(WSEpostadresse epostadresse) {
+        return ofNullable(epostadresse)
+                .map(WSEpostadresse::getSistVerifisert)
+                .filter(sistVerifisertEpost -> sistVerifisertEpost.isAfter(OffsetDateTime.now().minusMonths(18)))
+                .isPresent();
+    }
+
+    private boolean harVerifisertMobilSiste18Mnd(WSMobiltelefonnummer mobiltelefonnummer) {
+        return ofNullable(mobiltelefonnummer)
+                .map(WSMobiltelefonnummer::getSistVerifisert)
+                .filter(sistVerifisertEpost -> sistVerifisertEpost.isAfter(OffsetDateTime.now().minusMonths(18)))
+                .isPresent();
     }
 }
