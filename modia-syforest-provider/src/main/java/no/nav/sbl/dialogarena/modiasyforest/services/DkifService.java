@@ -57,6 +57,7 @@ public class DkifService {
 
     private boolean harIkkeVerfisertSiste18Mnd(WSEpostadresse epostadresse, WSMobiltelefonnummer mobiltelefonnummer) {
         OffsetDateTime attenMndSiden = OffsetDateTime.now().minusMonths(18);
-        return epostadresse.getSistVerifisert().isBefore(attenMndSiden) && mobiltelefonnummer.getSistVerifisert().isBefore(attenMndSiden);
+        return epostadresse != null && epostadresse.getSistVerifisert() != null && epostadresse.getSistVerifisert().isBefore(attenMndSiden) &&
+                mobiltelefonnummer != null && mobiltelefonnummer.getSistVerifisert() != null && mobiltelefonnummer.getSistVerifisert().isBefore(attenMndSiden);
     }
 }
