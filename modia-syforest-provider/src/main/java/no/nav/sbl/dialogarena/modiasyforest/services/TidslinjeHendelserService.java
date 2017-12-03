@@ -62,7 +62,7 @@ public class TidslinjeHendelserService {
     private Hendelse sykmeldtHvaNaa() {
         return new Hendelse()
                 .withType(BOBLE)
-                .withTekstkey("tidslinje.sykmeldt-hva-naa")
+                .withTekstkey("tidslinje.sykmeldt-hva-naa__modia")
                 .withAntallDager(1);
     }
 

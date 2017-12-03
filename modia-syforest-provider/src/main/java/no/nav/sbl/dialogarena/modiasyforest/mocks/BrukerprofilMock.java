@@ -21,6 +21,7 @@ public class BrukerprofilMock implements BrukerprofilV3 {
                 .withBruker(new WSBruker()
                         .withPersonnavn(new WSPersonnavn()
                                 .withFornavn("Test")
+                                .withMellomnavn("von")
                                 .withEtternavn("Testesen")));
     }
 }
