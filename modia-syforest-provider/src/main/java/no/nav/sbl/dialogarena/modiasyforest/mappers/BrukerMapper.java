@@ -4,71 +4,64 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.adresse.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;
 
+import java.util.Optional;
 import java.util.function.Function;
 
-import static no.nav.sbl.java8utils.MapUtil.mapNullable;
+import static java.util.Optional.ofNullable;
+import static no.nav.sbl.java8utils.MapUtil.map;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class BrukerMapper {
 
-    public static Function<WSPerson, Bruker> ws2bruker = wsPerson ->
+    public static Function<WSBruker, Bruker> ws2bruker = wsPerson ->
             new Bruker()
                     .navn(hentNavnTilPerson(wsPerson))
-                    .bostedsadresse(kanskjeBostedsadresse(wsPerson))
-                    .midlertidigAdresseNorge(kanskjeMidlertidigAdresseNorge(wsPerson))
-                    .midlertidigAdresseUtland(kanskjeMidlertidigAdresseUtland(wsPerson))
-                    .postAdresse(kanskjePostAdresse(wsPerson));
+                    .bostedsadresse(kanskjeBostedsadresse(wsPerson).orElse(null))
+                    .midlertidigAdresseNorge(kanskjeMidlertidigAdresseNorge(wsPerson).orElse(null))
+                    .midlertidigAdresseUtland(kanskjeMidlertidigAdresseUtland(wsPerson).orElse(null))
+                    .postAdresse(kanskjePostAdresse(wsPerson).orElse(null));
 
     private static String hentNavnTilPerson(WSPerson wsPerson) {
-        String mellomnavn = wsPerson.getPersonnavn().getMellomnavn() == null ? "" : wsPerson.getPersonnavn().getMellomnavn();
-        if (!"".equals(mellomnavn)) {
-            mellomnavn = mellomnavn + " ";
-        }
-        final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
+        String mellomnavn = ofNullable(wsPerson.getPersonnavn().getMellomnavn()).map(s -> s + " ").orElse("");
+        String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
         return capitalize(navnFraTps.toLowerCase(), '-', ' ');
     }
 
-    private static Bostedsadresse kanskjeBostedsadresse(WSPerson person) {
-        WSBostedsadresse wsBostedsadresse = person.getBostedsadresse();
-        return wsBostedsadresse != null ? new Bostedsadresse()
-                .strukturertAdresse(mapStrukturertAdresse(wsBostedsadresse.getStrukturertAdresse())) : null;
+    private static Optional<Bostedsadresse> kanskjeBostedsadresse(WSPerson person) {
+        return ofNullable(person.getBostedsadresse())
+                .map(bostedsadresse -> new Bostedsadresse()
+                        .strukturertAdresse(mapStrukturertAdresse(bostedsadresse.getStrukturertAdresse())));
     }
 
-    private static MidlertidigAdresseNorge kanskjeMidlertidigAdresseNorge(WSPerson person) {
-        if (person instanceof WSBruker) {
-            WSMidlertidigPostadresse wsMidlertidigPostadresse = ((WSBruker) person).getMidlertidigPostadresse();
-            if (wsMidlertidigPostadresse != null && wsMidlertidigPostadresse instanceof WSMidlertidigPostadresseNorge) {
-                new MidlertidigAdresseNorge()
-                        .strukturertAdresse(mapStrukturertAdresse(((WSMidlertidigPostadresseNorge) wsMidlertidigPostadresse).getStrukturertAdresse()));
-            }
-        }
-        return null;
+    private static Optional<MidlertidigAdresseNorge> kanskjeMidlertidigAdresseNorge(WSBruker person) {
+        return ofNullable(person.getMidlertidigPostadresse())
+                .filter(postadresse -> postadresse instanceof WSMidlertidigPostadresseNorge)
+                .map(postadresse -> (WSMidlertidigPostadresseNorge) postadresse)
+                .map(postadresse -> new MidlertidigAdresseNorge()
+                        .strukturertAdresse(mapStrukturertAdresse(postadresse.getStrukturertAdresse())));
     }
 
-    private static MidlertidigAdresseUtland kanskjeMidlertidigAdresseUtland(WSPerson person) {
-        if (person instanceof WSBruker) {
-            WSMidlertidigPostadresse wsMidlertidigPostadresse = ((WSBruker) person).getMidlertidigPostadresse();
-            if (wsMidlertidigPostadresse != null && wsMidlertidigPostadresse instanceof WSMidlertidigPostadresseUtland) {
-                return new MidlertidigAdresseUtland()
-                        .ustrukturertAdresse(mapNullable(((WSMidlertidigPostadresseUtland) wsMidlertidigPostadresse).getUstrukturertAdresse(), tilUstrukturertAdresse));
-            }
-        }
-        return null;
+    private static Optional<MidlertidigAdresseUtland> kanskjeMidlertidigAdresseUtland(WSBruker person) {
+        return ofNullable(person.getMidlertidigPostadresse())
+                .filter(postadresse -> postadresse instanceof WSMidlertidigPostadresseUtland)
+                .map(postadresse -> (WSMidlertidigPostadresseUtland) postadresse)
+                .map(postadresse -> new MidlertidigAdresseUtland()
+                        .ustrukturertAdresse(map(postadresse.getUstrukturertAdresse(), tilUstrukturertAdresse)));
     }
 
-    private static PostAdresse kanskjePostAdresse(WSPerson person) {
-        WSPostadresse wsPostadresse = person.getPostadresse();
-        return wsPostadresse != null ? new PostAdresse().ustrukturertAdresse(mapNullable(wsPostadresse.getUstrukturertAdresse(), tilUstrukturertAdresse)) : null;
+    private static Optional<PostAdresse> kanskjePostAdresse(WSBruker person) {
+        return ofNullable(person.getPostadresse())
+                .map(postadresse -> new PostAdresse().ustrukturertAdresse(map(postadresse.getUstrukturertAdresse(), tilUstrukturertAdresse)));
     }
 
     private static StrukturertAdresse mapStrukturertAdresse(WSStrukturertAdresse wsStrukturertadresse) {
-        StrukturertAdresse strukturertAdresse = mapNullable(wsStrukturertadresse, tilStrukturertAdresse);
+        StrukturertAdresse strukturertAdresse = map(wsStrukturertadresse, tilStrukturertAdresse);
         if (wsStrukturertadresse instanceof WSGateadresse) {
-            strukturertAdresse.gateadresse(mapNullable((WSGateadresse) wsStrukturertadresse, tilGateAdresse));
+            strukturertAdresse.gateadresse(map((WSGateadresse) wsStrukturertadresse, tilGateAdresse));
         } else if (wsStrukturertadresse instanceof WSPostboksadresseNorsk) {
-            strukturertAdresse.postboksadresseNorsk(mapNullable((WSPostboksadresseNorsk) wsStrukturertadresse, tilPostboksadresseNorsk));
+            strukturertAdresse.postboksadresseNorsk(map((WSPostboksadresseNorsk) wsStrukturertadresse, tilPostboksadresseNorsk));
         } else if (wsStrukturertadresse instanceof WSMatrikkeladresse) {
-            strukturertAdresse.matrikkeladresse(mapNullable((WSMatrikkeladresse) wsStrukturertadresse, tilMatrikkeladresse));
+            strukturertAdresse.matrikkeladresse(map((WSMatrikkeladresse) wsStrukturertadresse, tilMatrikkeladresse));
         }
         return strukturertAdresse;
     }

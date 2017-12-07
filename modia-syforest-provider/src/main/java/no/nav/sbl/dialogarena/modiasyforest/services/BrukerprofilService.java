@@ -2,6 +2,7 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPerson;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
@@ -38,12 +39,12 @@ public class BrukerprofilService {
         }
     }
 
-    public WSPerson hentBruker(String fnr) {
+    public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
             throw new RuntimeException();
         }
         try {
-            return brukerprofilV3.hentKontaktinformasjonOgPreferanser(new WSHentKontaktinformasjonOgPreferanserRequest()
+            return (WSBruker) brukerprofilV3.hentKontaktinformasjonOgPreferanser(new WSHentKontaktinformasjonOgPreferanserRequest()
                     .withIdent(new WSNorskIdent()
                             .withIdent(fnr))).getBruker();
         } catch (Exception e) {
