@@ -9,9 +9,7 @@ import java.util.function.Function;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
-import static no.nav.sbl.java8utils.MapUtil.map;
-import static no.nav.sbl.java8utils.MapUtil.mapListe;
-import static no.nav.sbl.java8utils.MapUtil.mapNullable;
+import static no.nav.sbl.java8utils.MapUtil.*;
 
 public abstract class WS2SykepengesoknadMapper {
 
@@ -89,5 +87,6 @@ public abstract class WS2SykepengesoknadMapper {
                             .withKorrigerer(wsSykepengesoeknad.getKorrigerer())
                             .withFom(wsSykepengesoeknad.getPeriode().getFom())
                             .withTom(wsSykepengesoeknad.getPeriode().getTom())
-                            .withDel(wsSykepengesoeknad.getDel());
+                            .withDel(wsSykepengesoeknad.getDel())
+                            .withForrigeSendteSoknadTom(wsSykepengesoeknad.getForrigeSykeforloepTom());
 }
