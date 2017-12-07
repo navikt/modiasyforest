@@ -27,6 +27,7 @@ public class Sykepengesoknad {
     public LocalDate sendtTilArbeidsgiverDato;
     public LocalDate sendtTilNAVDato;
     public LocalDate forrigeSykeforloepTom;
+    public LocalDate forrigeSendteSoknadTom;
     public String korrigerer;
     public LocalDate fom;
     public LocalDate tom;
@@ -149,6 +150,11 @@ public class Sykepengesoknad {
 
     public Sykepengesoknad withDel(final int del) {
         this.del = del;
+        return this;
+    }
+
+    public Sykepengesoknad withForrigeSendteSoknadTom(final LocalDate forrigeSendteSoknadTom) {
+        this.forrigeSendteSoknadTom = forrigeSendteSoknadTom;
         return this;
     }
 }
