@@ -12,7 +12,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import static java.lang.System.getProperty;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static no.nav.sbl.dialogarena.modiasyforest.mappers.BrukerMapper.ws2bruker;
+import static no.nav.sbl.dialogarena.modiasyforest.mock.brukerMock.brukerMedAdresser;
+import static no.nav.sbl.java8utils.MapUtil.map;
 
 @Controller
 @Path("/brukerinfo")
@@ -26,9 +30,11 @@ public class BrukerRessurs {
 
     @GET
     @Timed
-    public Bruker hentNavn(@QueryParam("fnr") String fnr){
-        return new Bruker()
-                .navn(brukerprofilService.hentNavn(fnr))
+    public Bruker hentNavn(@QueryParam("fnr") String fnr) {
+        if ("true".equals(getProperty("local.mock"))) {
+            return brukerMedAdresser();
+        }
+        return map(brukerprofilService.hentBruker(fnr), ws2bruker)
                 .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr))
                 .arbeidssituasjon("ARBEIDSTAKER");
     }
