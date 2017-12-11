@@ -24,10 +24,10 @@
 
 
     <properties>
-        <common-web.version>5.0.27</common-web.version>
+        <common-web.version>5.0.31</common-web.version>
         <common-jetty.version>2.0.12</common-jetty.version>
         <common-types.version>2.0.10</common-types.version>
-        <common-cxf.version>3.1.62</common-cxf.version>
+        <common-cxf.version>3.1.62.1</common-cxf.version>
         <nav-metrics.version>3.3.1</nav-metrics.version>
 
         <cxf.version>3.2.1</cxf.version>
