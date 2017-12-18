@@ -7,6 +7,7 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeRequest;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -29,6 +30,7 @@ public class SykmeldingService {
     @Inject
     private SykmeldingV1 sykmeldingV1;
 
+    @Cacheable(value = "sykmelding", keyGenerator = "userkeygenerator")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes) {
         String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
 

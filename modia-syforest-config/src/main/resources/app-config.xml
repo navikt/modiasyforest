@@ -42,6 +42,11 @@
         <credential alias="OpenIdConnectAgent"/>
     </resources>
 
+
+    <serverOptions>
+        <memoryParameters resourceAlias="modiasyforest-memparam"/>
+    </serverOptions>
+
     <exposed-services>
         <exposedRest path="/modiasyforest/rest" name="modiasyfoapi" description="Sykefravaer FSS REST-API"/>
     </exposed-services>

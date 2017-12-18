@@ -10,6 +10,7 @@ import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSKon
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSMobiltelefonnummer;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.meldinger.WSHentDigitalKontaktinformasjonRequest;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import java.time.OffsetDateTime;
@@ -24,6 +25,7 @@ public class DkifService {
     @Inject
     private DigitalKontaktinformasjonV1 dkifV1;
 
+    @Cacheable(value = "dkif", keyGenerator = "userkeygenerator")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
             throw new RuntimeException();

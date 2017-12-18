@@ -11,6 +11,7 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -42,6 +43,7 @@ public class SykeforloepService {
     @Inject
     private OrganisasjonService organisasjonService;
 
+    @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<Sykeforloep> hentSykeforloep(String fnr) {
         String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
 

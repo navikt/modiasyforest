@@ -9,6 +9,7 @@ import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonRe
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
@@ -24,6 +25,7 @@ public class OrganisasjonService {
     @Inject
     private OrganisasjonV4 organisasjonWebService;
 
+    @Cacheable(value = "organisasjon")
     public String hentNavn(String orgnr) {
         String overstyrOrgnummerForSendingTilAltinnTest = getProperty("altinn.test.overstyr.orgnr");
         if (isNotEmpty(overstyrOrgnummerForSendingTilAltinnTest) && orgnr.equals(overstyrOrgnummerForSendingTilAltinnTest)) {

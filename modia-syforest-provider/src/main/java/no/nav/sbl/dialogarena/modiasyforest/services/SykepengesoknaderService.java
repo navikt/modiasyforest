@@ -6,13 +6,13 @@ import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeRequest;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeResponse;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
 import java.util.List;
 import java.util.function.Function;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.WS2SykepengesoknadMapper.ws2Sykepengesoknad;
 import static no.nav.sbl.java8utils.MapUtil.mapListe;
@@ -27,6 +27,7 @@ public class SykepengesoknaderService {
     @Inject
     private OrganisasjonService organisasjonService;
 
+    @Cacheable(value = "sykepengesoknad", keyGenerator = "userkeygenerator")
     public List<Sykepengesoknad> hentSykepengesoknader(String aktoerId) {
         try {
             WSHentSykepengesoeknadListeResponse response = sykepengesoeknadV1.hentSykepengesoeknadListe(new WSHentSykepengesoeknadListeRequest().withAktoerId(aktoerId));

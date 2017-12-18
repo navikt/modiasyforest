@@ -9,6 +9,7 @@ import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederL
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -27,6 +28,7 @@ public class NaermesteLederService {
     @Inject
     private OrganisasjonService organisasjonService;
 
+    @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         try {
             return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()
@@ -54,6 +56,7 @@ public class NaermesteLederService {
                 .collect(toList());
     }
 
+    @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
         String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
 

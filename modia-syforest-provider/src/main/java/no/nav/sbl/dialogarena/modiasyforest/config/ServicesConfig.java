@@ -70,8 +70,4 @@ public class ServicesConfig {
         return new EgenAnsattService();
     }
 
-    @Bean
-    public SessionKeyGenerator sessionKeyGenerator() {
-        return new SessionKeyGenerator();
-    }
 }

@@ -4,6 +4,7 @@ import no.nav.tjeneste.pip.diskresjonskode.DiskresjonskodePortType;
 import no.nav.tjeneste.pip.diskresjonskode.meldinger.WSHentDiskresjonskodeRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
@@ -13,6 +14,7 @@ public class DiskresjonskodeService {
     @Inject
     private DiskresjonskodePortType diskresjonskodePortType;
 
+    @Cacheable(value = "diskresjonskode")
     public String diskresjonskode(String fnr) {
         try {
             return diskresjonskodePortType.hentDiskresjonskode(new WSHentDiskresjonskodeRequest()

@@ -7,6 +7,7 @@ import no.nav.tjeneste.virksomhet.aktoer.v2.HentIdentForAktoerIdPersonIkkeFunnet
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentAktoerIdForIdentRequest;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentIdentForAktoerIdRequest;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
@@ -22,6 +23,7 @@ public class AktoerService {
     @Inject
     private AktoerV2 aktoerV2;
 
+    @Cacheable(value = "aktoer")
     public String hentAktoerIdForIdent(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.warn("Kan ikke hente aktør-id uten fødselsnummer");
@@ -40,6 +42,7 @@ public class AktoerService {
         }
     }
 
+    @Cacheable(value = "aktoer")
     public String hentFnrForAktoer(String aktoerId) {
         if (isBlank(aktoerId)) {
             LOG.warn("Kan ikke hente fødselsnummer-id uten aktoerId");

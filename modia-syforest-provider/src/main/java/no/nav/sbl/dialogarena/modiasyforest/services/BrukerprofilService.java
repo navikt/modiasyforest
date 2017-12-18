@@ -8,6 +8,7 @@ import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPerson;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
@@ -19,6 +20,7 @@ public class BrukerprofilService {
     @Inject
     private BrukerprofilV3 brukerprofilV3;
 
+    @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
     public String hentNavn(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
             throw new RuntimeException();
@@ -39,6 +41,7 @@ public class BrukerprofilService {
         }
     }
 
+    @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
             throw new RuntimeException();

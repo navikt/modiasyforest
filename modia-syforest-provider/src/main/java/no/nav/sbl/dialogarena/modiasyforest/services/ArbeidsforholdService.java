@@ -44,14 +44,7 @@ public class ArbeidsforholdService {
     @Inject
     private OrganisasjonService organisasjonService;
 
-    /**
-     * *
-     * Bruk Cacheable her, ikke spring aop. For at det skal fungere må request/response ha implementert hashcode og equals,
-     * det gjør den ikke før vi få kjørt en egen tjenestespesifikasjon, og det gjør vi ikke pdd. pga en feil i .WSDL'en (brukt name="parameters")
-     * på både request og respons type. Det er rapportert til KES og når det er fikset kan denne fjernes og legges i cacheconfig.xml istedenfor.
-     *
-     */
-    @Cacheable("arbeidsforhold")
+    @Cacheable(value = "arbeidsforhold", keyGenerator = "userkeygenerator")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
         Sykmelding sykmelding = sykmeldingService.hentSykmelding(sykmeldingId, fnr);
 
