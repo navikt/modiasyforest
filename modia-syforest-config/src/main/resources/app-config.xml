@@ -30,7 +30,6 @@
         <webservice alias="virksomhet:DigitalKontakinformasjon_v1" mapToProperty="dkif.endpoint"/>
         <webservice alias="virksomhet:Diskresjonskode_v1" mapToProperty="diskresjonskode.endpoint"/>
         <webservice alias="virksomhet:EgenAnsatt_v1" mapToProperty="egenAnsatt.endpoint"/>
-        <ldap alias="ldap" mapToProperty="ldap"/>
         <applicationCertificate alias="srvmodiasyforest"/>
 
         <fileLibrary alias="syfo.ledetekster.v1" mapToProperty="folder.ledetekster" />
