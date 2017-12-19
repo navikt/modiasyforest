@@ -66,6 +66,10 @@ public class Sykmelding {
         return this;
     }
 
+    public Sykmelding withMellomnavn(final String mellomnavn) {
+        this.pasient.mellomnavn = mellomnavn;
+        return this;
+    }
     public Sykmelding withEtternavn(final String etternavn) {
         this.pasient.etternavn = etternavn;
         return this;

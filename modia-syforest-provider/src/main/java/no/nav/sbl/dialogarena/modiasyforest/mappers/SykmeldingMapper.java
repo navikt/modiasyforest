@@ -8,6 +8,7 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -34,6 +35,7 @@ public class SykmeldingMapper {
                             .withId(id(m))
                             .withFnr(fnr(sm))
                             .withFornavn(fornavn(sm))
+                            .withMellomnavn(mellomnavn(sm))
                             .withEtternavn(etternavn(sm))
                             .withSykmelder(sykmelder(sm))
                             .withOrgnummer(m.getArbeidsgiver())
@@ -177,6 +179,9 @@ public class SykmeldingMapper {
         return s.getPasient().getNavn().getFornavn();
     }
 
+    private static String mellomnavn(WSSykmelding s) {
+        return Optional.ofNullable(s.getPasient().getNavn().getMellomnavn()).orElse("");
+    }
     private static String etternavn(WSSykmelding s) {
         return s.getPasient().getNavn().getEtternavn();
     }
