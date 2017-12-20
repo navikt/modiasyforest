@@ -21,6 +21,7 @@ public class OppfoelgingMock implements SykefravaersoppfoelgingV1 {
                         .withEpost("trond@nav.no")
                         .withOrgnummer("***REMOVED***")
                         .withMobil("12356772")
+                        .withArbeidsgiverForskuttererLoenn(true)
                         .withNaermesteLederStatus(new WSNaermesteLederStatus()
                                 .withErAktiv(true)
                                 .withAktivFom(now()))

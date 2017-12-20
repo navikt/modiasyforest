@@ -41,6 +41,7 @@ public class SykmeldingV1Mock implements SykmeldingV1 {
                                     .withFnr("01010199999")
                                     .withNavn(new WSNavn()
                                             .withFornavn("Test")
+                                            .withMellomnavn("Mellomnavn")
                                             .withEtternavn("Testesen")))
                             .withMedisinskVurdering(new WSMedisinskVurdering()
                                     .withHoveddiagnose(new WSDiagnose()

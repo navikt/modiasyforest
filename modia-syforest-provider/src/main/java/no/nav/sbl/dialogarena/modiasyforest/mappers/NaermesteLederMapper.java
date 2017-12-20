@@ -15,6 +15,7 @@ public class NaermesteLederMapper {
                 .withOrgnummer(response.getOrgnummer())
                 .withOrganisasjonsnavn(organisasjon)
                 .withAktivTom(response.getNaermesteLederStatus().getAktivTom())
+                .withArbeidsgiverForskuttererLoenn(response.isArbeidsgiverForskuttererLoenn())
                 .withErOppgitt(true);
     }
 }
