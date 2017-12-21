@@ -4,6 +4,8 @@ import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.*;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.*;
 
+import java.time.LocalDate;
+
 import static java.time.LocalDate.now;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -24,6 +26,10 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                 .withIdentdato(now().minusDays(5))
                                 .withArbeidGjenopptattDato(now().minusDays(2))
                                 .withOpprettetDato(now().minusDays(1))
+                                .withPeriode(new WSPeriode()
+                                        .withFom(LocalDate.now().minusDays(2))
+                                        .withTom(LocalDate.now().plusDays(22))
+                                )
                                 .withFravaer(new WSFravaer()
                                         .withHarSoektOmSykepengerForOppholdet(false)
                                         .withEgenmeldingsperiodeListe(
@@ -67,6 +73,10 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                 .withIdentdato(now().minusDays(5))
                                 .withArbeidGjenopptattDato(now().minusDays(2))
                                 .withOpprettetDato(now().minusDays(1))
+                                .withPeriode(new WSPeriode()
+                                        .withFom(LocalDate.now().minusDays(2))
+                                        .withTom(LocalDate.now().plusDays(22))
+                                )
                                 .withFravaer(new WSFravaer()
                                         .withHarSoektOmSykepengerForOppholdet(false)
                                         .withEgenmeldingsperiodeListe(
@@ -108,6 +118,10 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                 .withSendtTilArbeidsgiverDato(now())
                                 .withSendtTilNAVDato(now())
                                 .withSykmeldingSkrevetDato(now().minusDays(2))
+                                .withPeriode(new WSPeriode()
+                                    .withFom(LocalDate.now().minusDays(2))
+                                    .withTom(LocalDate.now().plusDays(22))
+                                )
                                 .withIdentdato(now().minusDays(5))
                                 .withArbeidGjenopptattDato(now().minusDays(2))
                                 .withOpprettetDato(now().minusDays(1))
