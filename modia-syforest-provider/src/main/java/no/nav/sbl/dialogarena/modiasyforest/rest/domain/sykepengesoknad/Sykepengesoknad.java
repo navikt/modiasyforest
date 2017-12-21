@@ -10,6 +10,7 @@ public class Sykepengesoknad {
     public String id;
     public String status;
     public LocalDate opprettetDato;
+    public LocalDate avbruttDato;
     public Arbeidsgiver arbeidsgiver;
     public LocalDate identdato;
     public boolean ansvarBekreftet;
@@ -95,6 +96,11 @@ public class Sykepengesoknad {
 
     public Sykepengesoknad withIdentdato(final LocalDate identdato) {
         this.identdato = identdato;
+        return this;
+    }
+
+    public Sykepengesoknad withAvbruttDato(LocalDate avbruttDato) {
+        this.avbruttDato = avbruttDato;
         return this;
     }
 

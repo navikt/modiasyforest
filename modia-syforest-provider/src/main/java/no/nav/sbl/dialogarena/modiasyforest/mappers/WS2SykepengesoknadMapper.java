@@ -88,5 +88,6 @@ public abstract class WS2SykepengesoknadMapper {
                             .withFom(wsSykepengesoeknad.getPeriode().getFom())
                             .withTom(wsSykepengesoeknad.getPeriode().getTom())
                             .withDel(wsSykepengesoeknad.getDel())
+                            .withAvbruttDato(wsSykepengesoeknad.getAvbruttDato())
                             .withForrigeSendteSoknadTom(wsSykepengesoeknad.getForrigeSykeforloepTom());
 }

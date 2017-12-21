@@ -65,7 +65,8 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                 .withArbeidsgiverUtbetalerLoenn("NEI"),
                         new WSSykepengesoeknad()
                                 .withSykepengesoeknadId("sykepengesoeknadId2")
-                                .withStatus("SENDT")
+                                .withStatus("AVBRUTT")
+                                .withAvbruttDato(LocalDate.now())
                                 .withHarBekreftetOpplysningsplikt(true)
                                 .withHarBekreftetKorrektInformasjon(true)
                                 .withSendtTilArbeidsgiverDato(now())
