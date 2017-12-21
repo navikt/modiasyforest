@@ -14,9 +14,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import java.util.List;
 
+import static java.lang.System.getProperty;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static no.nav.metrics.MetricsFactory.createEvent;
+import static no.nav.sbl.dialogarena.modiasyforest.mock.tidslinjeMock.tidslinjeMock;
 
 @Controller
 @Path("/tidslinje")
@@ -30,6 +32,9 @@ public class TidslinjeRessurs {
     @Timed
     @Count(name = "hentTidslinje")
     public List<Tidslinje> hentTidslinje(@QueryParam("fnr") String fnr, @QueryParam("type") String type) {
+        if ("true".equals(getProperty("local.mock"))) {
+            return tidslinjeMock(type);
+        }
         try {
             return tidslinjeService.hentTidslinjer(fnr, type);
         } catch (SyfoException e) {
