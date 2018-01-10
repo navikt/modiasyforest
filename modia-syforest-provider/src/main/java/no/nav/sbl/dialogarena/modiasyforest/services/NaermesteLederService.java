@@ -9,6 +9,7 @@ import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederL
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
@@ -16,10 +17,15 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.IKKE_FOEDSELSNUMMER;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.SYKEFORLOEP_INGEN_TILGANG;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class NaermesteLederService {
+    private static final Logger LOG = getLogger(NaermesteLederService.class);
 
     @Inject
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
@@ -30,9 +36,13 @@ public class NaermesteLederService {
 
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
+        if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
+            LOG.error("{} prøvde å hente egenansattinfo med fnr {}", getSubjectHandler().getUid(), fnr);
+            throw new SyfoException(IKKE_FOEDSELSNUMMER);
+        }
         try {
             return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()
-                    .withAktoerId(aktoerService.hentAktoerIdForIdent(fnr))
+                    .withAktoerId(aktoerService.hentAktoerIdForFnr(fnr))
                     .withKunAktive(true)).getNaermesteLederListe().stream()
                     .distinct()
                     .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
@@ -58,7 +68,7 @@ public class NaermesteLederService {
 
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
-        String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
+        String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
 
         try {
             return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()

@@ -38,7 +38,7 @@ public class SykeforloepServiceTest {
 
     @Test
     public void hentSykeforloep() throws Exception {
-        when(aktoerService.hentAktoerIdForIdent(null)).thenReturn("456");
+        when(aktoerService.hentAktoerIdForFnr(null)).thenReturn("456");
         when(sykmeldingV1.hentOppfoelgingstilfelleListe(any())).thenReturn(
                 new WSHentOppfoelgingstilfelleListeResponse()
                         .withOppfoelgingstilfelleListe(

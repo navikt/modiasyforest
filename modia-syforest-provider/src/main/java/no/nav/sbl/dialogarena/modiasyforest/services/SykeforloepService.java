@@ -25,9 +25,10 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
+import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.SYKEFORLOEP_INGEN_TILGANG;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.SYKMELDING_IKKE_FUNNET;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.*;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SykeforloepService {
@@ -45,7 +46,12 @@ public class SykeforloepService {
 
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<Sykeforloep> hentSykeforloep(String fnr) {
-        String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
+        if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
+            LOG.error("{} prøvde å hente sykeforløp med fnr {}", getSubjectHandler().getUid(), fnr);
+            throw new SyfoException(IKKE_FOEDSELSNUMMER);
+        }
+
+        String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
 
         try {
             return sykmeldingV1.hentOppfoelgingstilfelleListe(

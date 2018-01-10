@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
+import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonKontaktinformasjonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonPersonIkkeFunnet;
@@ -16,7 +17,10 @@ import javax.inject.Inject;
 import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
+import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.IKKE_FOEDSELSNUMMER;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class DkifService {
@@ -27,8 +31,9 @@ public class DkifService {
 
     @Cacheable(value = "dkif", keyGenerator = "userkeygenerator")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
-        if (!fnr.matches("\\d{11}$")) {
-            throw new RuntimeException();
+        if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
+            LOG.error("{} prøvde å hente kontaktinfo med fnr {}", getSubjectHandler().getUid(), fnr);
+            throw new SyfoException(IKKE_FOEDSELSNUMMER);
         }
 
         try {
@@ -53,7 +58,7 @@ public class DkifService {
         } catch (HentDigitalKontaktinformasjonPersonIkkeFunnet e) {
             return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(PERSON_IKKE_FUNNET);
         } catch (RuntimeException e) {
-            LOG.error("Det skjedde en uventet feil mot DKIF. Kaster feil videre");
+            LOG.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getSubjectHandler().getUid(), fnr, e);
             throw e;
         }
     }

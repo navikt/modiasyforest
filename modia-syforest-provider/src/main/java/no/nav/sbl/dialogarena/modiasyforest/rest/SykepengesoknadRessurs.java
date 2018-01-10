@@ -27,7 +27,7 @@ public class SykepengesoknadRessurs {
     @Count(name = "hentSykepengesoknader")
     public List<Sykepengesoknad> hentSykepengesoknader(@QueryParam("fnr") String fnr){
         try {
-            return sykepengesoknaderService.hentSykepengesoknader(aktoerService.hentAktoerIdForIdent(fnr));
+            return sykepengesoknaderService.hentSykepengesoknader(aktoerService.hentAktoerIdForFnr(fnr));
         } catch (ForbiddenException e) {
             createEvent("hentSykepengesoknader.403").report();
             throw e;

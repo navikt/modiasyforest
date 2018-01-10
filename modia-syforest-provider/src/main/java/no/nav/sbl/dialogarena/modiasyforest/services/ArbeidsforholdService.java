@@ -25,7 +25,9 @@ import java.util.List;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.toList;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
+import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.*;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class ArbeidsforholdService {
@@ -46,6 +48,10 @@ public class ArbeidsforholdService {
 
     @Cacheable(value = "arbeidsforhold", keyGenerator = "userkeygenerator")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
+        if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
+            LOG.error("{} prøvde å hente arbeidsforhold med fnr {}", getSubjectHandler().getUid(), fnr);
+            throw new SyfoException(IKKE_FOEDSELSNUMMER);
+        }
         Sykmelding sykmelding = sykmeldingService.hentSykmelding(sykmeldingId, fnr);
 
         try {
@@ -62,13 +68,13 @@ public class ArbeidsforholdService {
                     }).distinct().collect(toList());
 
         } catch (FinnArbeidsforholdPrArbeidstakerUgyldigInput e) {
-            LOG.error("Feil ved henting av arbeidsforhold", e);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr, e);
             throw new SyfoException(ARBEIDSFORHOLD_UGYLDIG_INPUT);
         } catch (FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning e) {
-            LOG.error("Feil ved henting av arbeidsforhold", e);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr, e);
             throw new SyfoException(ARBEIDSFORHOLD_INGEN_TILGANG);
         } catch (RuntimeException e) {
-            LOG.error("Feil ved henting av arbeidsforhold", e);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr, e);
             throw new SyfoException(ARBEIDSFORHOLD_GENERELL_FEIL);
         }
     }

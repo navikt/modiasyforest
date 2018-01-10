@@ -20,7 +20,8 @@ import org.springframework.context.annotation.*;
         AAregConfig.class,
         SykefravaerOppfoelgingConfig.class,
         SykepengesoknadConfig.class,
-        DkifConfig.class
+        DkifConfig.class,
+        LdapConfig.class
 })
 public class ApplicationConfig {
 

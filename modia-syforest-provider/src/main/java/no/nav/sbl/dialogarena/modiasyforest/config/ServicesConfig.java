@@ -70,4 +70,9 @@ public class ServicesConfig {
         return new EgenAnsattService();
     }
 
+    @Bean
+    public TilgangService tilgangService() {
+        return new TilgangService();
+    }
+
 }

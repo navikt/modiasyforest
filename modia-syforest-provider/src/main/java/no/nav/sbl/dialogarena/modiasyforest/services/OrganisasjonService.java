@@ -15,7 +15,10 @@ import javax.inject.Inject;
 
 import static java.lang.System.getProperty;
 import static java.util.stream.Collectors.joining;
+import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.IKKE_FOEDSELSNUMMER;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.ORGANISASJON_UGYLDIG_INPUT;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -27,6 +30,10 @@ public class OrganisasjonService {
 
     @Cacheable(value = "organisasjon")
     public String hentNavn(String orgnr) {
+        if (isBlank(orgnr) || !orgnr.matches("\\d{9}$")) {
+            LOG.error("{} prøvde å hente navn med orgnr {}", getSubjectHandler().getUid(), orgnr);
+            throw new SyfoException(IKKE_FOEDSELSNUMMER);
+        }
         String overstyrOrgnummerForSendingTilAltinnTest = getProperty("altinn.test.overstyr.orgnr");
         if (isNotEmpty(overstyrOrgnummerForSendingTilAltinnTest) && orgnr.equals(overstyrOrgnummerForSendingTilAltinnTest)) {
             return "ALTINN-TEST";

@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
+import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.AKTOER_IKKE_FUNNET;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feil.IKKE_FOEDSELSNUMMER;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -24,12 +25,11 @@ public class AktoerService {
     private AktoerV2 aktoerV2;
 
     @Cacheable(value = "aktoer")
-    public String hentAktoerIdForIdent(String fnr) {
+    public String hentAktoerIdForFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.warn("Kan ikke hente aktør-id uten fødselsnummer");
+            LOG.error("{} prøvde å hente aktoerId med fnr {}", getSubjectHandler().getUid(), fnr);
             throw new SyfoException(IKKE_FOEDSELSNUMMER);
         }
-
 
         try {
             return aktoerV2.hentAktoerIdForIdent(
@@ -37,15 +37,15 @@ public class AktoerService {
                             .withIdent(fnr)
             ).getAktoerId();
         } catch (HentAktoerIdForIdentPersonIkkeFunnet e) {
-            LOG.warn("AktoerID ikke funnet for fødselsnummer!", e);
+            LOG.warn("AktoerID ikke funnet for fødselsnummer {}!", fnr, e);
             throw new SyfoException(AKTOER_IKKE_FUNNET);
         }
     }
 
     @Cacheable(value = "aktoer")
     public String hentFnrForAktoer(String aktoerId) {
-        if (isBlank(aktoerId)) {
-            LOG.warn("Kan ikke hente fødselsnummer-id uten aktoerId");
+        if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
+            LOG.error("{} prøvde å hente fnr med aktoerId {}", getSubjectHandler().getUid(), aktoerId);
             throw new SyfoException(IKKE_FOEDSELSNUMMER);
         }
 
@@ -55,7 +55,7 @@ public class AktoerService {
                             .withAktoerId(aktoerId)
             ).getIdent();
         } catch (HentIdentForAktoerIdPersonIkkeFunnet e) {
-            LOG.warn("AktoerID ikke funnet for fødselsnummer!", e);
+            LOG.error("Fnr ikke funnet for aktoerId {}!", aktoerId, e);
             throw new SyfoException(AKTOER_IKKE_FUNNET);
         }
     }

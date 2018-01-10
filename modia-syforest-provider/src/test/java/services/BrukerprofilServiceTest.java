@@ -1,5 +1,6 @@
 package services;
 
+import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
@@ -9,6 +10,7 @@ import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPrefer
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPersonnavn;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserResponse;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,6 +25,11 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BrukerprofilServiceTest {
+
+    @Before
+    public void setup() {
+        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
+    }
 
     @Mock
     private BrukerprofilV3 brukerprofilV3;

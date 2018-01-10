@@ -1,5 +1,6 @@
 package services;
 
+import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.ArbeidsforholdService;
@@ -31,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ArbeidsforholdServiceTest {
@@ -48,7 +48,7 @@ public class ArbeidsforholdServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
+        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
         when(arbeidsforholdV3.finnArbeidsforholdPrArbeidstaker(anyObject())).thenReturn(byggResponse("123456789"));
         when(sykmeldingService.hentSykmelding(anyString(), anyString())).thenReturn(new Sykmelding().withId("ID:ABC123").withIdentdato(now()));
         when(organisasjonService.hentNavn("123456789")).thenReturn("TEST AS, Avd. Øst");
@@ -56,7 +56,7 @@ public class ArbeidsforholdServiceTest {
 
     @Test
     public void testHentArbeidsgivereSkalReturnereEnListeMedEnArbeidsgiverDersomBrukerenHarEttArbeidsforhold() {
-        List<Arbeidsgiver> arbeidsgivere = arbeidsforholdService.hentArbeidsgivere("fnr", "ID:ABC123");
+        List<Arbeidsgiver> arbeidsgivere = arbeidsforholdService.hentArbeidsgivere("12345678901", "ID:ABC123");
         assertThat(arbeidsgivere).isNotEmpty();
 
         Arbeidsgiver arbeidsgiver = arbeidsgivere.get(0);
@@ -67,7 +67,7 @@ public class ArbeidsforholdServiceTest {
     @Test
     public void testHentArbeidsgivereSkalHenteForAordningenOgPeriodenIdentdatoOg4mndBakover() throws Exception {
         LocalDate identdato = now();
-        arbeidsforholdService.hentArbeidsgivere("fnr", "sykmeldingId");
+        arbeidsforholdService.hentArbeidsgivere("12345678901", "sykmeldingId");
         when(sykmeldingService.hentSykmelding("sykmeldingId", "12345678901")).thenReturn(new Sykmelding().withId("sykmeldingId").withIdentdato(identdato));
         ArgumentCaptor<FinnArbeidsforholdPrArbeidstakerRequest> request = ArgumentCaptor.forClass(FinnArbeidsforholdPrArbeidstakerRequest.class);
         verify(arbeidsforholdV3).finnArbeidsforholdPrArbeidstaker(request.capture());
@@ -80,7 +80,7 @@ public class ArbeidsforholdServiceTest {
     @Test
     public void tidspunktBlirSattTilMidnatt() throws FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning, FinnArbeidsforholdPrArbeidstakerUgyldigInput {
         LocalDate identdato = now().atTime(12, 12).toLocalDate();
-        arbeidsforholdService.hentArbeidsgivere("fnr", "sykmeldingId");
+        arbeidsforholdService.hentArbeidsgivere("12345678901", "sykmeldingId");
         when(sykmeldingService.hentSykmelding("sykmeldingId", "12345678901")).thenReturn(new Sykmelding().withId("sykmeldingId").withIdentdato(identdato));
         ArgumentCaptor<FinnArbeidsforholdPrArbeidstakerRequest> request = ArgumentCaptor.forClass(FinnArbeidsforholdPrArbeidstakerRequest.class);
         verify(arbeidsforholdV3).finnArbeidsforholdPrArbeidstaker(request.capture());
@@ -92,7 +92,7 @@ public class ArbeidsforholdServiceTest {
     @Test
     public void ignorerArbeidsforholdHvisArbeidsgiverErPerson() throws Exception {
         when(arbeidsforholdV3.finnArbeidsforholdPrArbeidstaker(anyObject())).thenReturn(personSomArbeidsgiver());
-        List<Arbeidsgiver> arbeidsgivere = arbeidsforholdService.hentArbeidsgivere("personSomArbeidsgiver", "personSomArbeidsgiver");
+        List<Arbeidsgiver> arbeidsgivere = arbeidsforholdService.hentArbeidsgivere("12345678901", "personSomArbeidsgiver");
 
         assertThat(arbeidsgivere).isEmpty();
     }
@@ -104,7 +104,7 @@ public class ArbeidsforholdServiceTest {
         response.getArbeidsforhold().add(byggArbeidsforhold("888888888", now().minusMonths(1), now().minusMonths(0)));
         when(arbeidsforholdV3.finnArbeidsforholdPrArbeidstaker(any())).thenReturn(response);
 
-        List<Arbeidsgiver> arbeidsgivere = arbeidsforholdService.hentArbeidsgivere("duplikater", "fjernet");
+        List<Arbeidsgiver> arbeidsgivere = arbeidsforholdService.hentArbeidsgivere("12345678901", "fjernet");
 
         assertThat(arbeidsgivere).hasSize(2);
         assertThat(arbeidsgivere).extracting("orgnummer").contains("888888888", "999999999");

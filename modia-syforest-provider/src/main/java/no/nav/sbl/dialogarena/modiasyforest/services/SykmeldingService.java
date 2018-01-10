@@ -32,7 +32,7 @@ public class SykmeldingService {
 
     @Cacheable(value = "sykmelding", keyGenerator = "userkeygenerator")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes) {
-        String aktoerId = aktoerService.hentAktoerIdForIdent(fnr);
+        String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
 
         if (isBlank(aktoerId)) {
             LOG.warn("Kan ikke hente sykmeldinger uten aktør-id");
