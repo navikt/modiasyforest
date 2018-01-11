@@ -37,7 +37,7 @@ public class NaermesteLederService {
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente egenansattinfo med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente naermesteledere med fnr {}", getSubjectHandler().getUid(), fnr);
             throw new SyfoException(IKKE_FOEDSELSNUMMER);
         }
         try {
@@ -48,7 +48,11 @@ public class NaermesteLederService {
                     .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
+            LOG.warn("{} fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person {}", getSubjectHandler().getUid(), e.getFaultInfo().getFeilaarsak().toUpperCase(), fnr);
             throw new SyfoTilgangException(e.getFaultInfo().getFeilaarsak().toUpperCase());
+        } catch (RuntimeException e) {
+            LOG.error("{} fikk Runtimefeil ved henting av naermeste ledere for person {}", getSubjectHandler().getUid(), fnr);
+            throw e;
         }
     }
 
@@ -80,7 +84,11 @@ public class NaermesteLederService {
                     .map(this::naermesteLeder)
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
+            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", getSubjectHandler().getUid(), fnr);
             throw new SyfoException(SYKEFORLOEP_INGEN_TILGANG);
+        } catch (RuntimeException e) {
+            LOG.error("{} fikk Runtimefeil ved henting av naermesteledere for person {}", getSubjectHandler().getUid(), fnr, e);
+            throw e;
         }
     }
 

@@ -60,7 +60,11 @@ public class SykeforloepService {
                     .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
                     .collect(toList());
         } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {
+            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getSubjectHandler().getUid(), fnr);
             throw new SyfoException(SYKEFORLOEP_INGEN_TILGANG);
+        } catch (RuntimeException e) {
+            LOG.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getSubjectHandler().getUid(), fnr);
+            throw e;
         }
     }
 
@@ -126,7 +130,7 @@ public class SykeforloepService {
             });
 
         } catch (RuntimeException e) {
-            LOG.error("Uventet feil i kall mot NaermesteLederService");
+            LOG.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getSubjectHandler().getUid(), fnr);
             return empty();
         }
     }

@@ -25,7 +25,6 @@ public class TidslinjeService {
     private TidslinjeHendelserService tidslinjeHendelserService;
 
     public List<Tidslinje> hentTidslinjer(String fnr, String type) {
-
         List<Sykeforloep> sykeforloep = sykeforloepService.hentSykeforloep(fnr);
 
         if (sykeforloep.isEmpty()) {

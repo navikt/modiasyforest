@@ -42,17 +42,17 @@ public class BrukerprofilService {
             }
             final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
             return capitalize(navnFraTps.toLowerCase(), '-', ' ');
-        }  catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", fnr, e);
+        } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", getSubjectHandler().getUid(), fnr, e);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
             LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getSubjectHandler().getUid(), fnr, e);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", fnr, e);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", getSubjectHandler().getUid(), fnr, e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("Exception mot TPS med ident {}  -  {}", fnr, e);
+            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getSubjectHandler().getUid(), fnr, e);
             return "Vi fant ikke navnet";
         }
     }
@@ -60,23 +60,24 @@ public class BrukerprofilService {
     @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
+            LOG.error("{} prøvde å hente navn med fnr {}", getSubjectHandler().getUid(), fnr);
             throw new RuntimeException();
         }
         try {
             return (WSBruker) brukerprofilV3.hentKontaktinformasjonOgPreferanser(new WSHentKontaktinformasjonOgPreferanserRequest()
                     .withIdent(new WSNorskIdent()
                             .withIdent(fnr))).getBruker();
-        }  catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", fnr, e);
+        } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR {}", getSubjectHandler().getUid(), fnr, e);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
             LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getSubjectHandler().getUid(), fnr, e);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", fnr, e);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR {}", getSubjectHandler().getUid(), fnr, e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("Exception mot TPS med ident {}  -  {}", fnr, e);
+            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getSubjectHandler().getUid(), fnr, e);
             throw e;
         }
     }

@@ -31,8 +31,8 @@ public class DiskresjonskodeService {
                     .withIdent(fnr)
             ).getDiskresjonskode();
         } catch (RuntimeException e) {
-            LOG.error("Det skjedde en uventet feil mot TPS", e);
-            throw new RuntimeException("Feil fra TPS");
+            LOG.error("{} fikk en Runtimefeil mot TPS ved bruker {}", getSubjectHandler().getUid(), fnr, e);
+            throw e;
         }
     }
 }
