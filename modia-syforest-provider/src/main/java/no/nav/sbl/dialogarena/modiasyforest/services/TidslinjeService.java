@@ -3,6 +3,7 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import java.util.Comparator;
@@ -24,6 +25,7 @@ public class TidslinjeService {
     @Inject
     private TidslinjeHendelserService tidslinjeHendelserService;
 
+    @Cacheable(value = "tidslinjer", keyGenerator = "userkeygenerator")
     public List<Tidslinje> hentTidslinjer(String fnr, String type) {
         List<Sykeforloep> sykeforloep = sykeforloepService.hentSykeforloep(fnr);
 

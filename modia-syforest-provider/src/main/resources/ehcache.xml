@@ -62,5 +62,10 @@
            diskPersistent="false"
            overflowToDisk="false"/>
 
+    <cache name="tidslinjer" maxElementsInMemory="1000"
+           eternal="false"
+           timeToLiveSeconds="${cachetid.sekunder}"
+           diskPersistent="false"
+           overflowToDisk="false"/>
 
 </ehcache>

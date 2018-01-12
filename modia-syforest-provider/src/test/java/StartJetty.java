@@ -1,4 +1,5 @@
 import no.nav.brukerdialog.security.context.CustomizableSubjectHandler;
+import no.nav.modig.core.domain.IdentType;
 import no.nav.sbl.dialogarena.common.jetty.Jetty;
 
 import java.io.File;
@@ -6,8 +7,7 @@ import java.io.IOException;
 
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
-import static no.nav.brukerdialog.security.context.CustomizableSubjectHandler.setInternSsoToken;
-import static no.nav.brukerdialog.security.context.CustomizableSubjectHandler.setUid;
+import static no.nav.brukerdialog.security.context.CustomizableSubjectHandler.*;
 import static no.nav.brukerdialog.tools.ISSOProvider.getIDToken;
 import static no.nav.modig.core.test.FilesAndDirs.TEST_RESOURCES;
 import static no.nav.modig.core.test.FilesAndDirs.WEBAPP_SOURCE;
@@ -25,7 +25,7 @@ public class StartJetty {
         setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", CustomizableSubjectHandler.class.getName());
         setUid(getProperty("veileder.username"));
         setInternSsoToken(getIDToken());
-
+        setIdentType(IdentType.InternBruker);
         Jetty jetty = usingWar(WEBAPP_SOURCE)
                 .at("modiasyforest")
                 .port(8084)
