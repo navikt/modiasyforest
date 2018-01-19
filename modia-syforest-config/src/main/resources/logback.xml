@@ -49,6 +49,8 @@
     <logger name="org.apache.wss4j.common.crypto.CryptoBase" level="ERROR">
         <appender-ref ref="infolog"/>
     </logger>
+    <logger name="no.nav.sbl.dialogarena.common.web.selftest.SelfTestBaseServlet" level="OFF" />
+
 
     <root level="${ROOT_LOG_LEVEL:-INFO}">
         <appender-ref ref="exceptionlog"/>
