@@ -68,10 +68,10 @@ public class ArbeidsforholdService {
                     }).distinct().collect(toList());
 
         } catch (FinnArbeidsforholdPrArbeidstakerUgyldigInput e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr);
             throw new SyfoException(ARBEIDSFORHOLD_UGYLDIG_INPUT);
         } catch (FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr);
             throw new SyfoException(ARBEIDSFORHOLD_INGEN_TILGANG);
         } catch (RuntimeException e) {
             LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr, e);

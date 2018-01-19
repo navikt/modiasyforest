@@ -48,10 +48,10 @@ public class OrganisasjonService {
                     .collect(joining(", "));
 
         } catch (HentOrganisasjonOrganisasjonIkkeFunnet e) {
-            LOG.warn("Kunne ikke hente organisasjon for {}", orgnr, e);
+            LOG.warn("Kunne ikke hente organisasjon for {}", orgnr);
             return "Fant ikke navn. Orgnummer: " + orgnr;
         } catch (HentOrganisasjonUgyldigInput e) {
-            LOG.warn("Kunne ikke hente organisasjon for {}", orgnr, e);
+            LOG.warn("Kunne ikke hente organisasjon for {}", orgnr);
             throw new SyfoException(ORGANISASJON_UGYLDIG_INPUT);
         } catch (RuntimeException e) {
             LOG.error("Feil ved henting av Organisasjon", e);
