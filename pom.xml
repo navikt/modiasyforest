@@ -42,7 +42,7 @@
         <aspectjweaver.version>1.8.8</aspectjweaver.version>
         <ehcache.version>2.10.4</ehcache.version>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <oidc-security.version>2.4-digisyfo</oidc-security.version>
+        <oidc-security.version>2.5-digisyfo</oidc-security.version>
 
         <assertj.version>2.4.1</assertj.version>
         <junit.version>4.12</junit.version>
