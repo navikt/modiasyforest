@@ -211,6 +211,10 @@
             <artifactId>sykepengesoeknadv1-tjenestespesifikasjon</artifactId>
         </dependency>
         <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>digisyfo-sykepengesoeknadoppsummering</artifactId>
+        </dependency>
+        <dependency>
             <groupId>no.nav.dialogarena</groupId>
             <artifactId>oidc-security</artifactId>
             <type>test-jar</type>

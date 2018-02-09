@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.oppsummering.Oppsummering;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,6 +34,12 @@ public class Sykepengesoknad {
     public LocalDate fom;
     public LocalDate tom;
     public int del;
+    public Oppsummering oppsummering;
+
+    public Sykepengesoknad withOppsummering(final Oppsummering oppsummering) {
+        this.oppsummering = oppsummering;
+        return this;
+    }
 
     public Sykepengesoknad withAnsvarBekreftet(final boolean ansvarBekreftet) {
         this.ansvarBekreftet = ansvarBekreftet;
