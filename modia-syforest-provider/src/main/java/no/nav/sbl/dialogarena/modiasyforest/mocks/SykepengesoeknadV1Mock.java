@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.mocks;
 
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.oppsummering.Oppsummering;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.*;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.*;
@@ -159,6 +160,7 @@ public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
                                                 .withErFulltidsstudie(false))
                                 .withArbeidsgiverId("orgnummer")
                                 .withArbeidsgiverUtbetalerLoenn("NEI")
+                                .withOppsummering(null)
                 ));
     }
 
