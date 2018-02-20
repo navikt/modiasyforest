@@ -22,7 +22,7 @@ public class TilgangService {
     @Cacheable(value = "tilgang", keyGenerator = "userkeygenerator")
     public void sjekkTilgangTilPerson(String fnr) {
         String ssoToken = SubjectHandler.getSubjectHandler().getInternSsoToken();
-        Response response = client.target(getProperty("syfo-tilgangskontroll-api.url") + "/tilgangtilbruker")
+        Response response = client.target(getProperty("syfo-tilgangskontroll.endpoint.url") + "/tilgangtilbruker")
                 .queryParam("fnr", fnr)
                 .request(MediaType.APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer " + ssoToken)
@@ -40,7 +40,7 @@ public class TilgangService {
     @Cacheable(value = "tilgang", keyGenerator = "userkeygenerator")
     public void sjekkTilgangTilTjenesten() {
         String ssoToken = SubjectHandler.getSubjectHandler().getInternSsoToken();
-        Response response = client.target(getProperty("syfo-tilgangskontroll-api.url") + "/tilgangtiltjenesten")
+        Response response = client.target(getProperty("syfo-tilgangskontroll.endpoint.url") + "/tilgangtiltjenesten")
                 .request(MediaType.APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer " + ssoToken)
                 .get();

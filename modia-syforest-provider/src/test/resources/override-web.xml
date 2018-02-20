@@ -16,7 +16,7 @@
 
     <filter>
         <filter-name>doubleSumbitCookieCsrfProtection</filter-name>
-        <filter-class>filter.PassThroughFilter</filter-class>
+        <filter-class>no.nav.sbl.dialogarena.modiasyforest.filter.PassThroughFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>doubleSumbitCookieCsrfProtection</filter-name>
@@ -25,7 +25,7 @@
 
     <filter>
         <filter-name>CORSFilter</filter-name>
-        <filter-class>filter.CORSFilter</filter-class>
+        <filter-class>no.nav.sbl.dialogarena.modiasyforest.filter.CORSFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CORSFilter</filter-name>
