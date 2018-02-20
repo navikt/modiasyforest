@@ -1,4 +1,4 @@
-package mappers;
+package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;

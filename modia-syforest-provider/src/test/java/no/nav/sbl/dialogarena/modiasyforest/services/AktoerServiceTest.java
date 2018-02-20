@@ -1,8 +1,7 @@
-package services;
+package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
-import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
 import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2;
 import no.nav.tjeneste.virksomhet.aktoer.v2.HentAktoerIdForIdentPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentAktoerIdForIdentRequest;

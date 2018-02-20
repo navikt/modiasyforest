@@ -1,7 +1,6 @@
-package services;
+package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
-import no.nav.sbl.dialogarena.modiasyforest.services.DkifService;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSEpostadresse;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSMobiltelefonnummer;

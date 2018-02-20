@@ -1,57 +1,57 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.Tilgang;
+import no.nav.brukerdialog.security.context.SubjectHandler;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
+import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import static no.nav.modig.core.context.SubjectHandler.getSubjectHandler;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.AdRoller.*;
+import static java.lang.System.getProperty;
+import static javax.ws.rs.client.ClientBuilder.newClient;
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
+@Component
 public class TilgangService {
 
-    @Inject
-    private LdapService ldapService;
-    @Inject
-    private DiskresjonskodeService diskresjonskodeService;
-    @Inject
-    private EgenAnsattService egenAnsattService;
+    private Client client = newClient();
 
     @Cacheable(value = "tilgang", keyGenerator = "userkeygenerator")
-    public Tilgang sjekkTilgang(String fnr) {
-        if (!harTilgangTilSykefravaersoppfoelging()) {
-            return new Tilgang().ikkeTilgang(true).ikkeTilgangGrunn(SYFO.name());
-        }
+    public void sjekkTilgangTilPerson(String fnr) {
+        String ssoToken = SubjectHandler.getSubjectHandler().getInternSsoToken();
+        Response response = client.target(getProperty("syfo-tilgangskontroll-api.url") + "/tilgangtilbruker")
+                .queryParam("fnr", fnr)
+                .request(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer " + ssoToken)
+                .get();
 
-        String diskresjonskode = diskresjonskodeService.diskresjonskode(fnr);
-        if ("6".equals(diskresjonskode)) {
-            return new Tilgang().ikkeTilgang(true).ikkeTilgangGrunn(KODE6.name());
-        } else if ("7".equals(diskresjonskode) && !harTilgangTilKode7()) {
-            return new Tilgang().ikkeTilgang(true).ikkeTilgangGrunn(KODE7.name());
+        if (200 != response.getStatus()) {
+            if (403 == response.getStatus()) {
+                throw new ForbiddenException("Brukeren har ikke tilgang til denne personen");
+            } else {
+                throw new WebApplicationException(response);
+            }
         }
-
-        if (egenAnsattService.erEgenAnsatt(fnr) && !harTilgangTilEgenAnsatt()) {
-            return new Tilgang().ikkeTilgang(true).ikkeTilgangGrunn(EGEN_ANSATT.name());
-        }
-
-        return new Tilgang().ikkeTilgang(false);
     }
 
     @Cacheable(value = "tilgang", keyGenerator = "userkeygenerator")
-    public boolean harTilgangTilTjenesten() {
-        return harTilgangTilSykefravaersoppfoelging();
+    public void sjekkTilgangTilTjenesten() {
+        String ssoToken = SubjectHandler.getSubjectHandler().getInternSsoToken();
+        Response response = client.target(getProperty("syfo-tilgangskontroll-api.url") + "/tilgangtiltjenesten")
+                .request(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer " + ssoToken)
+                .get();
+
+        if (200 != response.getStatus()) {
+            if (403 == response.getStatus()) {
+                throw new ForbiddenException("Brukeren har ikke tilgang til denne tjenesten");
+            } else {
+                throw new WebApplicationException(response);
+            }
+        }
     }
 
-
-    private boolean harTilgangTilSykefravaersoppfoelging() {
-        return ldapService.harTilgang(getSubjectHandler().getUid(), SYFO.rolle);
-    }
-
-    private boolean harTilgangTilKode7() {
-        return ldapService.harTilgang(getSubjectHandler().getUid(), KODE7.rolle);
-    }
-
-    private boolean harTilgangTilEgenAnsatt() {
-        return ldapService.harTilgang(getSubjectHandler().getUid(), EGEN_ANSATT.rolle);
-    }
 }

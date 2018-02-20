@@ -1,6 +1,5 @@
-package services;
+package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.OrganisasjonV4;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.WSOrganisasjon;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.WSUstrukturertNavn;

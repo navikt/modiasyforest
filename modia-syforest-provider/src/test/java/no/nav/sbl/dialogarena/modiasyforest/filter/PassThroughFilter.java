@@ -1,4 +1,4 @@
-package filter;
+package no.nav.sbl.dialogarena.modiasyforest.filter;
 
 import javax.servlet.*;
 import java.io.IOException;
