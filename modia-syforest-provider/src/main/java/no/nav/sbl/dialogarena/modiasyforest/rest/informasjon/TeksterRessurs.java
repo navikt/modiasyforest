@@ -30,7 +30,6 @@ public class TeksterRessurs {
     @Path("/tekster")
     public Properties hentTekster() throws IOException {
         Properties ledetekster = new Properties();
-//        ledetekster.putAll(convertResourceBundleToProperties(moteTekster.hentTekster("nb")));
         ledetekster.putAll(convertResourceBundleToProperties(syfoTekster.hentTekster("nb")));
         return ledetekster;
     }
