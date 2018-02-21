@@ -27,7 +27,7 @@ public class BrukerRessursTilgangTest extends AbstractRessursTilgangTest {
     private BrukerRessurs brukerRessurs;
 
     @Test
-    public void historikk_har_tilgang() {
+    public void har_tilgang() {
         when(tilgangskontrollResponse.getStatus()).thenReturn(200);
         when(brukerprofilService.hentBruker(FNR)).thenReturn(new WSBruker().withPersonnavn(new WSPersonnavn()));
         when(dkifService.hentKontaktinfoFnr(FNR)).thenReturn(new Kontaktinfo());
@@ -38,14 +38,14 @@ public class BrukerRessursTilgangTest extends AbstractRessursTilgangTest {
     }
 
     @Test(expected = ForbiddenException.class)
-    public void historikk_har_ikke_tilgang() {
+    public void har_ikke_tilgang() {
         when(tilgangskontrollResponse.getStatus()).thenReturn(403);
 
         brukerRessurs.hentNavn(FNR);
     }
 
     @Test(expected = WebApplicationException.class)
-    public void historikk_annen_tilgangsfeil() {
+    public void annen_tilgangsfeil() {
         when(tilgangskontrollResponse.getStatus()).thenReturn(500);
         when(tilgangskontrollResponse.getStatusInfo()).thenReturn(Statuses.from(500, "Tau i propellen"));
 
