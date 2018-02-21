@@ -21,7 +21,6 @@ import org.springframework.context.annotation.*;
         SykefravaerOppfoelgingConfig.class,
         SykepengesoknadConfig.class,
         DkifConfig.class,
-        LdapConfig.class
 })
 public class ApplicationConfig {
 

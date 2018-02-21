@@ -1,11 +1,8 @@
-package services;
+package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.sbl.dialogarena.modiasyforest.services.ArbeidsforholdService;
-import no.nav.sbl.dialogarena.modiasyforest.services.OrganisasjonService;
-import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.ArbeidsforholdV3;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerUgyldigInput;

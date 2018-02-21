@@ -1,4 +1,4 @@
-package testutils;
+package no.nav.sbl.dialogarena.modiasyforest.testutils;
 
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 

@@ -1,12 +1,9 @@
-package services;
+package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
-import no.nav.sbl.dialogarena.modiasyforest.services.SykeforloepService;
-import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeHendelserService;
-import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

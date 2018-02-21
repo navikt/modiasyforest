@@ -1,4 +1,4 @@
-package mappers;
+package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Periode;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
@@ -13,7 +13,7 @@ import java.util.List;
 import static java.time.LocalDate.of;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmelding;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testutils.SykmeldingMocks.getWSSykmelding;
+import static no.nav.sbl.dialogarena.modiasyforest.testutils.SykmeldingMocks.getWSSykmelding;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SykmeldingMapperTest {

@@ -1,7 +1,6 @@
-package services;
+package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
-import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeHendelserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
