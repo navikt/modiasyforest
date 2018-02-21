@@ -5,6 +5,7 @@ import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Tidslinje;
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
 import no.nav.sbl.dialogarena.modiasyforest.services.TidslinjeService;
+import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
@@ -26,12 +27,16 @@ import static no.nav.sbl.dialogarena.modiasyforest.mock.tidslinjeMock.tidslinjeM
 public class TidslinjeRessurs {
 
     @Inject
+    private TilgangService tilgangService;
+    @Inject
     private TidslinjeService tidslinjeService;
 
     @GET
     @Timed
     @Count(name = "hentTidslinje")
     public List<Tidslinje> hentTidslinje(@QueryParam("fnr") String fnr, @QueryParam("type") String type) {
+        tilgangService.sjekkTilgangTilPerson(fnr);
+
         if ("true".equals(getProperty("local.mock"))) {
             return tidslinjeMock(type);
         }

@@ -4,6 +4,7 @@ import no.nav.metrics.aspects.Count;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.Sykepengesoknad;
 import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykepengesoknaderService;
+import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
@@ -19,6 +20,8 @@ import static no.nav.metrics.MetricsFactory.createEvent;
 public class SykepengesoknadRessurs {
 
     @Inject
+    private TilgangService tilgangService;
+    @Inject
     private SykepengesoknaderService sykepengesoknaderService;
     @Inject
     private AktoerService aktoerService;
@@ -26,6 +29,8 @@ public class SykepengesoknadRessurs {
     @GET
     @Count(name = "hentSykepengesoknader")
     public List<Sykepengesoknad> hentSykepengesoknader(@QueryParam("fnr") String fnr){
+        tilgangService.sjekkTilgangTilPerson(fnr);
+
         try {
             return sykepengesoknaderService.hentSykepengesoknader(aktoerService.hentAktoerIdForFnr(fnr));
         } catch (ForbiddenException e) {

@@ -4,6 +4,7 @@ package no.nav.sbl.dialogarena.modiasyforest.rest;
 import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykeforloepService;
+import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
@@ -23,11 +24,15 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public class SykeforloepRessurs {
 
     @Inject
+    private TilgangService tilgangService;
+    @Inject
     private SykeforloepService sykeforloepService;
 
     @GET
     @Timed
     public List<Sykeforloep> hentOppfoelgingstilfeller(@QueryParam("fnr") String fnr){
+        tilgangService.sjekkTilgangTilPerson(fnr);
+
         if ("true".equals(System.getProperty("test.local"))) {
             return Arrays.asList(
                     new Sykeforloep()

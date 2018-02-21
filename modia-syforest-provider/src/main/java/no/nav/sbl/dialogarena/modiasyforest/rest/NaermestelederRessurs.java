@@ -7,6 +7,7 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
+import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import org.springframework.stereotype.Controller;
 
@@ -18,7 +19,7 @@ import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 import static no.nav.metrics.MetricsFactory.createEvent;
@@ -29,6 +30,8 @@ import static no.nav.metrics.MetricsFactory.createEvent;
 public class NaermestelederRessurs {
 
     @Inject
+    private TilgangService tilgangService;
+    @Inject
     private NaermesteLederService naermesteLederService;
     @Inject
     private SykmeldingService sykmeldingService;
@@ -37,9 +40,11 @@ public class NaermestelederRessurs {
     @Timed
     @Count(name = "hentNaermesteledere")
     public List<NaermesteLeder> hentNaermesteledere(@QueryParam("fnr") String fnr) {
+        tilgangService.sjekkTilgangTilPerson(fnr);
+
         List<Sykmelding> sykmeldinger = new ArrayList<>();
         try {
-            sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, asList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER));
+            sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, singletonList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER));
         } catch (SyfoException e) {
             if (e.feil.status.equals(FORBIDDEN)) {
                 createEvent("hentNaermesteledere.403").report();

@@ -5,6 +5,7 @@ import no.nav.metrics.aspects.Count;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.feil.SyfoException;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
+import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import org.springframework.stereotype.Controller;
 
@@ -29,11 +30,15 @@ import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes.SK
 public class SykmeldingRessurs {
 
     @Inject
+    private TilgangService tilgangService;
+    @Inject
     private SykmeldingService sykmeldingService;
 
     @GET
     @Count(name = "hentSykmeldinger")
     public List<Sykmelding> hentSykmeldinger(@QueryParam("fnr") String fnr, @QueryParam("type") String type) {
+        tilgangService.sjekkTilgangTilPerson(fnr);
+
         if ("true".equals(getProperty("local.mock"))) {
             return sykmeldingerMock();
         }
