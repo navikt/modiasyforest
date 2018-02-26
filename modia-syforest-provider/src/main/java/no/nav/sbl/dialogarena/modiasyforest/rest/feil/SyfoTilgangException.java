@@ -10,6 +10,10 @@ import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.NO_BIGI
 @Provider
 public class SyfoTilgangException  extends RuntimeException implements ExceptionMapper<SyfoTilgangException> {
 
+    public static final String DISKRESJON = "DISKRESJON";
+    public static final String GEOGRAFISK = "GEOGRAFISK";
+    public static final String EGENANSATT = "EGENANSATT";
+    public static final String SENSITIV = "SENSITIV";
     public String feilmelding;
 
     @SuppressWarnings("unused")
@@ -24,16 +28,16 @@ public class SyfoTilgangException  extends RuntimeException implements Exception
     public Response toResponse(SyfoTilgangException e) {
         Feilmelding feilmelding = new Feilmelding().withFeil(Feil.SYKEFORLOEP_INGEN_TILGANG);
         switch (e.feilmelding) {
-            case "DISKRESJON":
+            case DISKRESJON:
                 feilmelding.withFeil(Feil.IKKE_TILGANG_DISKRESJON);
                 break;
-            case "GEOGRAFISK":
+            case GEOGRAFISK:
                 feilmelding.withFeil(Feil.IKKE_TILGANG_GEOGRAFISK);
                 break;
-            case "EGENANSATT":
+            case EGENANSATT:
                 feilmelding.withFeil(Feil.IKKE_TILGANG_EGENANSATT);
                 break;
-            case "SENSITIV":
+            case SENSITIV:
                 feilmelding.withFeil(Feil.IKKE_TILGANG_SENSITIV);
                 break;
         }
