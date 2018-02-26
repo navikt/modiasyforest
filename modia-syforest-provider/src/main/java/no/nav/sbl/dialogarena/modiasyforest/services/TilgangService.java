@@ -44,7 +44,7 @@ public class TilgangService {
                 } else if(SYFO.name().equals(tilgang.ikkeTilgangGrunn)){
                     throw new SyfoTilgangException(SENSITIV);
                 } else {
-                    throw new SyfoTilgangException(SENSITIV);
+                    throw new SyfoException(Feil.GENERELL_FEIL);
                 }
             } else {
                 throw new SyfoException(Feil.GENERELL_FEIL);
