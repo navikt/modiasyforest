@@ -15,7 +15,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 @Configuration
 public class EgenAnsattConfig {
     private static final String MOCK_KEY = "egenansatt.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("egenAnsatt.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_EGENANSATT_V1_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "EGENANSATT_V1";
     private static final boolean KRITISK = false;
 

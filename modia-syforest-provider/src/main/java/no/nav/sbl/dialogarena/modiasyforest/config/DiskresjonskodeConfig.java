@@ -12,7 +12,7 @@ import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsPr
 @Configuration
 public class DiskresjonskodeConfig {
     private static final String MOCK_KEY = "diskresjonskodev1.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("diskresjonskode.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_DISKRESJONSKODE_V1_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "DISKRESJONSKODE_V1";
 
     @Bean

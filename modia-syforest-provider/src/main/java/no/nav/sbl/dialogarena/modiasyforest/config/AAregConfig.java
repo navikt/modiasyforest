@@ -16,7 +16,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class AAregConfig {
 
     private static final String MOCK_KEY = "arbeidsforhold.aareg.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("arbeidsforhold.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_ARBEIDSFORHOLD_V3_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "ARBEIDSFORHOLD_V3";
     private static final boolean KRITISK = true;
 

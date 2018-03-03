@@ -16,7 +16,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class EregConfig {
 
     private static final String MOCK_KEY = "organisasjon.ereg.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("organisasjon.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_ORGANISASJON_V4_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "ORGANISASJON_V4";
     private static final boolean KRITISK = true;
 

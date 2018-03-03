@@ -1,9 +1,10 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
+import no.nav.apiapp.ApiApplication;
+import no.nav.apiapp.config.ApiAppConfigurator;
 import no.nav.metrics.aspects.CountAspect;
 import no.nav.metrics.aspects.TimerAspect;
-import no.nav.sbl.dialogarena.modiasyforest.selftest.HealthCheckService;
-import no.nav.sbl.dialogarena.modiasyforest.selftest.IsAliveServlet;
+import no.nav.sbl.dialogarena.modiasyforest.config.caching.CacheConfig;
 import org.springframework.context.annotation.*;
 
 @Configuration
@@ -16,13 +17,12 @@ import org.springframework.context.annotation.*;
         ServicesConfig.class,
         EregConfig.class,
         TpsConfig.class,
-        TeksterConfig.class,
         AAregConfig.class,
         SykefravaerOppfoelgingConfig.class,
         SykepengesoknadConfig.class,
         DkifConfig.class,
 })
-public class ApplicationConfig {
+public class ApplicationConfig implements ApiApplication.NaisApiApplication {
 
     @Bean
     public TimerAspect timerAspect() {
@@ -34,13 +34,20 @@ public class ApplicationConfig {
         return new CountAspect();
     }
 
-    @Bean
-    public HealthCheckService healthCheckService() {
-        return new HealthCheckService();
+    @Override
+    public void configure(ApiAppConfigurator apiAppConfigurator) {
+        apiAppConfigurator
+                .issoLogin()
+                .sts();
     }
 
-    @Bean
-    public IsAliveServlet isAliveServlet() {
-        return new IsAliveServlet();
+    @Override
+    public String getApplicationName() {
+        return "modiasyforest";
+    }
+
+    @Override
+    public Sone getSone() {
+        return Sone.FSS;
     }
 }

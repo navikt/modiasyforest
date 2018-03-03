@@ -16,7 +16,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class SykefravaerOppfoelgingConfig {
 
     private static final String MOCK_KEY = "oppfoelging.syfoservice.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("sykefravaersoppfoelging.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("SYKEFRAVAERSOPPFOELGING_V1_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "SYKEFRAVAERSOPPFOELGING_V1";
     private static final boolean KRITISK = true;
 

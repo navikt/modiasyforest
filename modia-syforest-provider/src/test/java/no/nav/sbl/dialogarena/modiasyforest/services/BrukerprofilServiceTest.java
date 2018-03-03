@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.BrukerMapper.ws2bruker;
 import static no.nav.sbl.java8utils.MapUtil.map;

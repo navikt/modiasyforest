@@ -4,7 +4,7 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigInteger;
 

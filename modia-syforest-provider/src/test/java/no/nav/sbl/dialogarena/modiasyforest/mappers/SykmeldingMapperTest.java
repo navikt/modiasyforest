@@ -5,15 +5,15 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSMelding;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.time.LocalDate.of;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmelding;
-import static org.assertj.core.api.Assertions.assertThat;
 import static no.nav.sbl.dialogarena.modiasyforest.testutils.SykmeldingMocks.getWSSykmelding;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SykmeldingMapperTest {

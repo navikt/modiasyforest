@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSHendelse;
@@ -7,36 +8,39 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSHendelsestype;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSMelding;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSOppfoelgingstilfelle;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
 import static java.time.LocalDate.now;
 import static java.util.Arrays.asList;
+import static no.nav.sbl.dialogarena.modiasyforest.testutils.SykmeldingMocks.getWSSykmelding;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static no.nav.sbl.dialogarena.modiasyforest.testutils.SykmeldingMocks.getWSSykmelding;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SykeforloepServiceTest {
 
     @Mock
-    AktoerService aktoerService;
-
+    private AktoerService aktoerService;
     @Mock
-    SykmeldingV1 sykmeldingV1;
-
+    private SykmeldingV1 sykmeldingV1;
     @InjectMocks
-    SykeforloepService sykeforloepService;
+    private SykeforloepService sykeforloepService;
+
+    @Before
+    public void setup() {
+        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
+    }
 
     @Test
     public void hentSykeforloep() throws Exception {
-        when(aktoerService.hentAktoerIdForFnr(null)).thenReturn("456");
         when(sykmeldingV1.hentOppfoelgingstilfelleListe(any())).thenReturn(
                 new WSHentOppfoelgingstilfelleListeResponse()
                         .withOppfoelgingstilfelleListe(

@@ -8,7 +8,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.feil.Feilmelding.NO_BIGIP_5XX_REDIRECT;
 
 @Provider
-public class SyfoTilgangException  extends RuntimeException implements ExceptionMapper<SyfoTilgangException> {
+public class SyfoTilgangException extends RuntimeException implements ExceptionMapper<SyfoTilgangException> {
 
     public static final String DISKRESJON = "DISKRESJON";
     public static final String GEOGRAFISK = "GEOGRAFISK";

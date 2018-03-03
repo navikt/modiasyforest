@@ -17,7 +17,7 @@ public class TpsConfig {
 
 
     private static final String MOCK_KEY = "brukerprofilv3.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("brukerprofilv3.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_BRUKERPROFIL_V3_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "BRUKERPROFIL_V3";
     private static final boolean KRITISK = true;
     @Bean
@@ -45,7 +45,7 @@ public class TpsConfig {
     }
 
     private CXFClient<BrukerprofilV3> factory() {
-        return new CXFClient<>(BrukerprofilV3.class).address(getProperty("brukerprofilv3.endpoint.url"));
+        return new CXFClient<>(BrukerprofilV3.class).address(ENDEPUNKT_URL);
     }
 
 }

@@ -16,7 +16,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class SykepengesoknadConfig {
 
     private static final String MOCK_KEY = "sykepengesoknad.syfoservice.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("arbeidsforhold.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("SYKEPENGESOEKNAD_V1_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "SYKEPENGESOKNAD_V1";
     private static final boolean KRITISK = false;
 
@@ -45,7 +45,7 @@ public class SykepengesoknadConfig {
 
     private CXFClient<SykepengesoeknadV1> sykepengesoeknadPortType() {
         return new CXFClient<>(SykepengesoeknadV1.class)
-                .address(getProperty("sykepengesoeknad.endpoint.url"));
+                .address(ENDEPUNKT_URL);
     }
 
 }

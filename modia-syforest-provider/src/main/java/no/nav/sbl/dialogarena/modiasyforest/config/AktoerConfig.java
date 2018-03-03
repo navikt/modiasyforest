@@ -16,7 +16,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class AktoerConfig {
 
     private static final String MOCK_KEY = "aktoer.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("aktoer.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("AKTOER_V2_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "AKTOER_V2";
     private static final boolean KRITISK = true;
 

@@ -16,7 +16,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class SykmeldingerConfig {
 
     private static final String MOCK_KEY = "sykmelding.syfoservice.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("sykmelding.endpoint.url");
+    private static final String ENDEPUNKT_URL = getProperty("SYKMELDING_V1_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "SYKMELDING_V1";
     private static final boolean KRITISK = false;
     @Bean
