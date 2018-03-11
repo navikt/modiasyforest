@@ -1,3 +1,12 @@
+import no.nav.brukerdialog.security.context.CustomizableSubjectHandler;
+import no.nav.brukerdialog.security.domain.IdentType;
+
+import static java.lang.System.getProperty;
+import static java.lang.System.setProperty;
+import static no.nav.apiapp.ApiApp.startApp;
+import static no.nav.brukerdialog.security.context.CustomizableSubjectHandler.*;
+import static no.nav.brukerdialog.security.context.SubjectHandler.SUBJECTHANDLER_KEY;
+import static no.nav.brukerdialog.tools.ISSOProvider.getIDToken;
 import static no.nav.sbl.dialogarena.test.SystemProperties.setFrom;
 import static no.nav.testconfig.ApiAppTest.setupTestContext;
 
@@ -5,6 +14,12 @@ public class MainTest {
     public static void main(String[] args) throws Exception {
         setupTestContext();
         setFrom("jetty-environment.properties");
-        Main.main("8084");
+        setProperty(SUBJECTHANDLER_KEY, CustomizableSubjectHandler.class.getName());
+        setUid(getProperty("veileder.username"));
+        setInternSsoToken(getIDToken(getProperty("veileder.username"), getProperty("veileder.password")));
+        setIdentType(IdentType.InternBruker);
+
+        String[] _args = {"8084"};
+        startApp(ApplicationConfigTest.class, _args);
     }
 }
