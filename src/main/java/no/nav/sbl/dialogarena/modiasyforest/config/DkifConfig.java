@@ -16,7 +16,7 @@ import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
 public class DkifConfig {
 
     private static final String MOCK_KEY = "dkif.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_DIGITALKONTAKTINFORMASJON_V1_ENDPOINTURL");
+    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_DIGITALKONTAKINFORMASJON_V1_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "DIGITALKONTAKTINFORMASJON_V1";
     private static final boolean KRITISK = true;
 
