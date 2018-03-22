@@ -12,11 +12,9 @@ import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
-import static java.lang.System.getProperty;
 import static java.util.stream.Collectors.joining;
 import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class OrganisasjonService {
@@ -31,11 +29,6 @@ public class OrganisasjonService {
             LOG.error("{} prøvde å hente navn med orgnr {}", getSubjectHandler().getUid(), orgnr);
             throw new IllegalArgumentException();
         }
-        String overstyrOrgnummerForSendingTilAltinnTest = getProperty("altinn.test.overstyr.orgnr");
-        if (isNotEmpty(overstyrOrgnummerForSendingTilAltinnTest) && orgnr.equals(overstyrOrgnummerForSendingTilAltinnTest)) {
-            return "ALTINN-TEST";
-        }
-
         try {
             WSHentOrganisasjonResponse response = organisasjonWebService.hentOrganisasjon(request(orgnr));
             WSUstrukturertNavn ustrukturertNavn = (WSUstrukturertNavn) response.getOrganisasjon().getNavn();
