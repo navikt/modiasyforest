@@ -1,0 +1,64 @@
+# ref https://raw.githubusercontent.com/nais/naisd/master/nais_example.yaml
+image: docker.adeo.no:5000/digisyfo/modiasyforest
+replicas:
+  min: 1
+  max: 2
+  cpuThresholdPercentage: 50
+port: 8080
+healthcheck:
+  liveness:
+    path: modiasyforest/internal/isAlive
+    initialDelay: 60
+  readiness:
+    path: modiasyforest/internal/selftest
+    initialDelay: 60
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+fasitResources:
+  used:
+  - alias: srvmodiasyforest
+    resourceType: credential
+  - alias: loadbalancer:modiasyforest
+    resourceType: loadbalancerconfig
+  - alias: securityTokenService
+    resourceType: baseUrl
+  - alias: isso-host
+    resourceType: baseurl
+  - alias: isso-jwks
+    resourceType: baseurl
+  - alias: isso-issuer
+    resourceType: baseurl
+  - alias: isso.isalive
+    resourceType: baseurl
+  - alias: isso-rp-user
+    resourceType: credential
+  - alias: veilarblogin.redirect-url
+    resourceType: restservice
+  - alias: tilgangskontrollapi
+    resourceType: restservice
+  - alias: virksomhet:EgenAnsatt_v1
+    resourceType: webserviceendpoint
+  - alias: virksomhet:Diskresjonskode_v1
+    resourceType: webserviceendpoint
+  - alias: virksomhet:DigitalKontakinformasjon_v1
+    resourceType: webserviceendpoint
+  - alias: virksomhet:Arbeidsforhold_v3
+    resourceType: webserviceendpoint
+  - alias: virksomhet:Brukerprofil_v3
+    resourceType: webserviceendpoint
+  - alias: virksomhet:Organisasjon_v4
+    resourceType: webserviceendpoint
+  - alias: Sykmelding_v1
+    resourceType: webserviceendpoint
+  - alias: Sykefravaersoppfoelging_v1
+    resourceType: webserviceendpoint
+  - alias: Aktoer_v2
+    resourceType: webserviceendpoint
+  - alias: Sykepengesoeknad_v1
+    resourceType: webserviceendpoint
+  exposed:
+  - alias: modiasyfoapi
+    resourceType: restservice
+    path: /modiasyforest/rest
