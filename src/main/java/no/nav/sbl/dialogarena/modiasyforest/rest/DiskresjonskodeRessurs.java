@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.sbl.dialogarena.modiasyforest.services.DiskresjonskodeService;
-import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
@@ -16,14 +15,10 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public class DiskresjonskodeRessurs {
 
     @Inject
-    private TilgangService tilgangService;
-
-    @Inject
     private DiskresjonskodeService diskresjonskodeService;
 
     @GET
     public DiskresjonskodeSvar hentDiskresjonskode(@PathParam("fnr") String fnr) {
-        tilgangService.sjekkTilgangTilPerson(fnr);
         return new DiskresjonskodeSvar(diskresjonskodeService.diskresjonskode(fnr));
     }
 
