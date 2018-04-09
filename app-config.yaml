@@ -10,7 +10,7 @@ healthcheck:
     path: modiasyforest/internal/isAlive
     initialDelay: 60
   readiness:
-    path: modiasyforest/internal/selftest
+    path: modiasyforest/internal/isAlive
     initialDelay: 60
 resources:
   requests:
