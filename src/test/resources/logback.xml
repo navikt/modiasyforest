@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <logger name="no.nav" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT_JSON"/>
+    </logger>
+    <logger name="no.nav.sbl.dialogarena.common.web.selftest.SelfTestBaseServlet" level="OFF" />
+
+    <logger name="org.apache.cxf" level="ERROR" />
+    <logger name="no.nav.sbl.dialogarena.common.cxf" level="ERROR" />
+    <logger name="org.apache.wss4j.common.crypto.CryptoBase" level="ERROR" />
+    <logger name="org.apache.cxf" level="ERROR" />
+    <logger name="no.nav.sbl.dialogarena.common.cxf" level="ERROR" />
+    <logger name="org.springframework" level="ERROR" />
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT_JSON"/>
+    </root>
+
+</configuration>
