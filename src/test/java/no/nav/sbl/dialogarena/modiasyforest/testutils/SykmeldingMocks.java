@@ -13,7 +13,8 @@ public class SykmeldingMocks {
     public static WSSykmelding getWSSykmelding() throws Exception {
         return new WSSykmelding()
                 .withArbeidsgiver(new WSArbeidsgiver()
-                        .withNavn("NAV Consulting AS"))
+                        .withNavn("NAV Consulting AS")
+                        .withStillingsprosent(100))
                 .withBehandler(new WSBehandler()
                         .withNavn(new WSNavn()
                                 .withFornavn("Lars")
