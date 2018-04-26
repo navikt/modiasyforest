@@ -23,6 +23,7 @@ public class Sykmelding {
 
     // 2 ARBEIDSGIVER
     public String arbeidsgiver;
+    public Integer stillingsprosent;
 
     // 3 DIAGNOSE
     public Diagnoseinfo diagnose = new Diagnoseinfo();
@@ -107,6 +108,11 @@ public class Sykmelding {
 
     public Sykmelding withArbeidsgiver(final String arbeidsgiver) {
         this.arbeidsgiver = arbeidsgiver;
+        return this;
+    }
+
+    public Sykmelding withStillingsprosent(final Integer stillingsprosent) {
+        this.stillingsprosent = stillingsprosent;
         return this;
     }
 

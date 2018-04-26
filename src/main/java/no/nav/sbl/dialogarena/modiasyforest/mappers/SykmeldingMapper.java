@@ -47,6 +47,7 @@ public class SykmeldingMapper {
                             .withFravaerBeskrivelse(fravaerBeskrivelse(sm))
                             .withSykmelderTlf(sykmelderTlf(sm))
                             .withArbeidsgiver(arbeidsgiver(sm))
+                            .withStillingsprosent(stillingsprosent(sm))
                             .withValgtArbeidssituasjon(arbeidssituasjon(m))
                             .withArbeidsfoerEtterPerioden(arbeidsfoer(sm))
                             .withStartLegemeldtFravaer(fravaerStart(sm))
@@ -310,6 +311,10 @@ public class SykmeldingMapper {
 
     private static String arbeidsgiver(WSSykmelding s) {
         return s.getArbeidsgiver() != null ? s.getArbeidsgiver().getNavn() : null;
+    }
+
+    private static Integer stillingsprosent(final WSSykmelding wsSykmelding) {
+        return wsSykmelding.getArbeidsgiver() != null ? wsSykmelding.getArbeidsgiver().getStillingsprosent() : null;
     }
 
     private static String arbeidssituasjon(WSMelding m) {
