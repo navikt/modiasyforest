@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Diagnose;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.MottakendeArbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Periode;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
@@ -15,6 +16,7 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static no.nav.sbl.java8utils.MapUtil.mapNullable;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -38,6 +40,7 @@ public class SykmeldingMapper {
                             .withMellomnavn(mellomnavn(sm))
                             .withEtternavn(etternavn(sm))
                             .withSykmelder(sykmelder(sm))
+                            .withMottakendeArbeidsgiver(mottakendeArbeidsgiver(m.getMottakendeArbeidsgiver()))
                             .withOrgnummer(m.getArbeidsgiver())
                             .withStatus(m.getStatus())
                             .withSendtTilArbeidsgiverDato(sykmeldingerWS.getSendtTilArbeidsgiverDato())
@@ -315,6 +318,13 @@ public class SykmeldingMapper {
 
     private static Integer stillingsprosent(final WSSykmelding wsSykmelding) {
         return wsSykmelding.getArbeidsgiver() != null ? wsSykmelding.getArbeidsgiver().getStillingsprosent() : null;
+    }
+
+    private static MottakendeArbeidsgiver mottakendeArbeidsgiver(final WSMottakendeArbeidsgiver wsMottakendeArbeidsgiver) {
+        return mapNullable(wsMottakendeArbeidsgiver, ma -> new MottakendeArbeidsgiver()
+                .withNavn(ma.getNavn())
+                .withVirksomhetsnummer(ma.getVirksomhetsnummer())
+                .withJuridiskOrgnummer(ma.getJuridiskOrgnummer()));
     }
 
     private static String arbeidssituasjon(WSMelding m) {

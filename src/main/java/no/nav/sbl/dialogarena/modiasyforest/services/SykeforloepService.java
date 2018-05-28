@@ -137,7 +137,7 @@ public class SykeforloepService {
 
     private Hendelse tilHendelse(WSHendelse wsHendelse) {
         return new Hendelse()
-                .withInntruffetdato(wsHendelse.getDato())
+                .withInntruffetdato(wsHendelse.getTidspunkt().toLocalDate())
                 .withType(valueOf(wsHendelse.getType().value()))
                 .withTekstkey(fraHendelsetype(wsHendelse.getType()));
     }

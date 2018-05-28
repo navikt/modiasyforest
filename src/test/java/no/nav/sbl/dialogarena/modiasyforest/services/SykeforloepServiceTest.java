@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.time.LocalDate.now;
@@ -51,7 +52,7 @@ public class SykeforloepServiceTest {
                                                         asList(
                                                                 new WSHendelse()
                                                                         .withType(WSHendelsestype.AKTIVITETSKRAV_VARSEL)
-                                                                        .withDato(now())))
+                                                                        .withTidspunkt(LocalDateTime.now())))
                                                 .withMeldingListe(asList(
                                                         new WSMelding()
                                                             .withSykmelding(getWSSykmelding())

@@ -16,7 +16,6 @@ import java.util.List;
 import static java.util.Collections.emptyList;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmeldinger;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SykmeldingService {
@@ -25,8 +24,6 @@ public class SykmeldingService {
 
     @Inject
     private AktoerService aktoerService;
-    @Inject
-    private OrganisasjonService organisasjonService;
     @Inject
     private SykmeldingV1 sykmeldingV1;
 
@@ -60,13 +57,12 @@ public class SykmeldingService {
         return sykmeldinger(sykmeldingV1.hentSykmeldingListe(request).getMeldingListe());
     }
 
-
+    @Deprecated
     private void populerMedArbeidsgivernavn(List<Sykmelding> sykmeldinger) {
         sykmeldinger.stream()
-                .filter(sykmelding -> isNotEmpty(sykmelding.orgnummer))
-                .forEach(sykmelding -> sykmelding.innsendtArbeidsgivernavn = organisasjonService.hentNavn(sykmelding.orgnummer));
+                .filter(sykmelding -> sykmelding.mottakendeArbeidsgiver != null)
+                .forEach(sykmelding -> sykmelding.innsendtArbeidsgivernavn = sykmelding.mottakendeArbeidsgiver.navn);
     }
-
 
     public Sykmelding hentSykmelding(String sykmeldingId, String fnr) {
         return hentSykmeldinger(fnr, emptyList()).stream()
