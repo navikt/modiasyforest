@@ -34,13 +34,13 @@ public class TilgangService {
         if (200 != response.getStatus()) {
             if (403 == response.getStatus()) {
                 Tilgang tilgang = response.readEntity(Tilgang.class);
-                if(EGEN_ANSATT.name().equals(tilgang.ikkeTilgangGrunn)){
+                if(EGEN_ANSATT.name().equals(tilgang.begrunnelse)){
                     throw new ForbiddenException("sykefravaer.veileder.feilmelding.EGENANSATT.melding");
-                } else if(KODE6.name().equals(tilgang.ikkeTilgangGrunn)){
+                } else if(KODE6.name().equals(tilgang.begrunnelse)){
                     throw new ForbiddenException("sykefravaer.veileder.feilmelding.DISKRESJON.melding");
-                } else if(KODE7.name().equals(tilgang.ikkeTilgangGrunn)){
+                } else if(KODE7.name().equals(tilgang.begrunnelse)){
                     throw new ForbiddenException("sykefravaer.veileder.feilmelding.DISKRESJON.melding");
-                } else if(SYFO.name().equals(tilgang.ikkeTilgangGrunn)){
+                } else if(SYFO.name().equals(tilgang.begrunnelse)){
                     throw new ForbiddenException("sykefravaer.veileder.feilmelding.SENSITIV.melding");
                 } else {
                     throw new ForbiddenException("feilmelding.generell.feil");

@@ -45,7 +45,7 @@ public class NaermestelederRessursTilgangTest extends AbstractRessursTilgangTest
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_kode_6() {
         when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().ikkeTilgangGrunn(KODE6.name()));
+        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(KODE6.name()));
 
         naermestelederRessurs.hentNaermesteledere(FNR);
     }
@@ -53,7 +53,7 @@ public class NaermestelederRessursTilgangTest extends AbstractRessursTilgangTest
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_kode_7() {
         when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().ikkeTilgangGrunn(KODE7.name()));
+        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(KODE7.name()));
 
         naermestelederRessurs.hentNaermesteledere(FNR);
     }
@@ -61,7 +61,7 @@ public class NaermestelederRessursTilgangTest extends AbstractRessursTilgangTest
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_egenansatt() {
         when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().ikkeTilgangGrunn(EGEN_ANSATT.name()));
+        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(EGEN_ANSATT.name()));
 
         naermestelederRessurs.hentNaermesteledere(FNR);
     }
@@ -69,7 +69,7 @@ public class NaermestelederRessursTilgangTest extends AbstractRessursTilgangTest
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_sensitiv() {
         when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().ikkeTilgangGrunn(SYFO.name()));
+        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(SYFO.name()));
 
         naermestelederRessurs.hentNaermesteledere(FNR);
     }
