@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @EqualsAndHashCode
 public class Tilgang {
-    public boolean ikkeTilgang;
-    public String ikkeTilgangGrunn;
+    //The data is mapped from the Tilgang-object in syfo-tilgangskontroll, so they have to be compatible
+    public boolean harTilgang;
+    public String begrunnelse;
 }
