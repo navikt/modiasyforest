@@ -25,7 +25,7 @@ public class SykmeldingMapper {
 
     public static List<Sykmelding> sykmeldinger(final List<WSMelding> sykmeldingerWS) {
         return sykmeldingerWS.stream()
-                .map(wsMelding -> sykmelding(wsMelding) )
+                .map(wsMelding -> sykmelding(wsMelding))
                 .collect(toList());
     }
 
@@ -41,7 +41,7 @@ public class SykmeldingMapper {
                             .withEtternavn(etternavn(sm))
                             .withSykmelder(sykmelder(sm))
                             .withMottakendeArbeidsgiver(mottakendeArbeidsgiver(m.getMottakendeArbeidsgiver()))
-                            .withOrgnummer(m.getArbeidsgiver())
+                            .withOrgnummer(mapNullable(m.getMottakendeArbeidsgiver(), WSMottakendeArbeidsgiver::getVirksomhetsnummer))
                             .withStatus(m.getStatus())
                             .withSendtTilArbeidsgiverDato(sykmeldingerWS.getSendtTilArbeidsgiverDato())
                             .withHoveddiagnose(hoveddiagnose(sm))
@@ -186,6 +186,7 @@ public class SykmeldingMapper {
     private static String mellomnavn(WSSykmelding s) {
         return Optional.ofNullable(s.getPasient().getNavn().getMellomnavn()).orElse("");
     }
+
     private static String etternavn(WSSykmelding s) {
         return s.getPasient().getNavn().getEtternavn();
     }
