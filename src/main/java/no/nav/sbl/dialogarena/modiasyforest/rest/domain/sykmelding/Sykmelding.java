@@ -12,9 +12,11 @@ public class Sykmelding {
     public LocalDate identdato;
     public String status;
 
-    // TODO: Disse bør legges i et eget objekt
+    @Deprecated
     public String innsendtArbeidsgivernavn;
     public String valgtArbeidssituasjon;
+    public MottakendeArbeidsgiver mottakendeArbeidsgiver;
+    @Deprecated
     public String orgnummer;
     public LocalDateTime sendtdato;
 
@@ -91,11 +93,18 @@ public class Sykmelding {
         return this;
     }
 
+    public Sykmelding withMottakendeArbeidsgiver(final MottakendeArbeidsgiver mottakendeArbeidsgiver) {
+        this.mottakendeArbeidsgiver = mottakendeArbeidsgiver;
+        return this;
+    }
+
+    @Deprecated
     public Sykmelding withOrgnummer(final String orgnummer) {
         this.orgnummer = orgnummer;
         return this;
     }
 
+    @Deprecated
     public Sykmelding withInnsendtArbeidsgivernavn(final String innsendtArbeidsgivernavn) {
         this.innsendtArbeidsgivernavn = innsendtArbeidsgivernavn;
         return this;

@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Diagnose;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.MottakendeArbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Periode;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
@@ -15,6 +16,7 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static no.nav.sbl.java8utils.MapUtil.mapNullable;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -23,7 +25,7 @@ public class SykmeldingMapper {
 
     public static List<Sykmelding> sykmeldinger(final List<WSMelding> sykmeldingerWS) {
         return sykmeldingerWS.stream()
-                .map(wsMelding -> sykmelding(wsMelding) )
+                .map(wsMelding -> sykmelding(wsMelding))
                 .collect(toList());
     }
 
@@ -38,7 +40,8 @@ public class SykmeldingMapper {
                             .withMellomnavn(mellomnavn(sm))
                             .withEtternavn(etternavn(sm))
                             .withSykmelder(sykmelder(sm))
-                            .withOrgnummer(m.getArbeidsgiver())
+                            .withMottakendeArbeidsgiver(mottakendeArbeidsgiver(m.getMottakendeArbeidsgiver()))
+                            .withOrgnummer(mapNullable(m.getMottakendeArbeidsgiver(), WSMottakendeArbeidsgiver::getVirksomhetsnummer))
                             .withStatus(m.getStatus())
                             .withSendtTilArbeidsgiverDato(sykmeldingerWS.getSendtTilArbeidsgiverDato())
                             .withHoveddiagnose(hoveddiagnose(sm))
@@ -183,6 +186,7 @@ public class SykmeldingMapper {
     private static String mellomnavn(WSSykmelding s) {
         return Optional.ofNullable(s.getPasient().getNavn().getMellomnavn()).orElse("");
     }
+
     private static String etternavn(WSSykmelding s) {
         return s.getPasient().getNavn().getEtternavn();
     }
@@ -315,6 +319,13 @@ public class SykmeldingMapper {
 
     private static Integer stillingsprosent(final WSSykmelding wsSykmelding) {
         return wsSykmelding.getArbeidsgiver() != null ? wsSykmelding.getArbeidsgiver().getStillingsprosent() : null;
+    }
+
+    private static MottakendeArbeidsgiver mottakendeArbeidsgiver(final WSMottakendeArbeidsgiver wsMottakendeArbeidsgiver) {
+        return mapNullable(wsMottakendeArbeidsgiver, ma -> new MottakendeArbeidsgiver()
+                .withNavn(ma.getNavn())
+                .withVirksomhetsnummer(ma.getVirksomhetsnummer())
+                .withJuridiskOrgnummer(ma.getJuridiskOrgnummer()));
     }
 
     private static String arbeidssituasjon(WSMelding m) {
