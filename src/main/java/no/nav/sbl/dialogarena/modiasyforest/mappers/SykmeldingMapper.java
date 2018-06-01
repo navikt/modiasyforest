@@ -41,7 +41,7 @@ public class SykmeldingMapper {
                             .withEtternavn(etternavn(sm))
                             .withSykmelder(sykmelder(sm))
                             .withMottakendeArbeidsgiver(mottakendeArbeidsgiver(m.getMottakendeArbeidsgiver()))
-                            .withOrgnummer(mapNullable(m.getMottakendeArbeidsgiver(), WSMottakendeArbeidsgiver::getVirksomhetsnummer))
+                            .withOrgnummer(mapNullable(m.getMottakendeArbeidsgiver(), WSMottakendeArbeidsgiver::getVirksomhetsnummer, m.getArbeidsgiver()))
                             .withStatus(m.getStatus())
                             .withSendtTilArbeidsgiverDato(sykmeldingerWS.getSendtTilArbeidsgiverDato())
                             .withHoveddiagnose(hoveddiagnose(sm))
