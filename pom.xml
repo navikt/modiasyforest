@@ -19,7 +19,7 @@
         <wss4j-ws-security.version>2.2.0</wss4j-ws-security.version>
 
         <dial-nav-tjeneste-aktoer_v2.version>1.1</dial-nav-tjeneste-aktoer_v2.version>
-        <sykmeldingv1-tjenestespesifikasjon.version>1.1.16</sykmeldingv1-tjenestespesifikasjon.version>
+        <sykmeldingv1-tjenestespesifikasjon.version>1.1.18</sykmeldingv1-tjenestespesifikasjon.version>
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
         <brukerprofil-v3-tjenestespesifikasjon.version>3.0.3</brukerprofil-v3-tjenestespesifikasjon.version>
         <nav-arbeidsforhold-v3-tjenestespesifikasjon.version>3.0.0</nav-arbeidsforhold-v3-tjenestespesifikasjon.version>
