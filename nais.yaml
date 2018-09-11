@@ -1,5 +1,6 @@
 # ref https://raw.githubusercontent.com/nais/naisd/master/nais_example.yaml
 image: docker.adeo.no:5000/digisyfo/modiasyforest
+team: sykefravaer
 replicas:
   min: 1
   max: 2
@@ -8,16 +9,21 @@ port: 8080
 healthcheck:
   liveness:
     path: modiasyforest/internal/isAlive
-    initialDelay: 60
+    initialDelay: 120
   readiness:
     path: modiasyforest/internal/isAlive
-    initialDelay: 60
+    initialDelay: 120
 resources:
+  limits:
+    cpu: 3000m
+    memory: 512Mi
   requests:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 500m
+    memory: 384Mi
 fasitResources:
   used:
+  - alias: appdynamics
+    resourceType: applicationproperties
   - alias: srvmodiasyforest
     resourceType: credential
   - alias: loadbalancer:modiasyforest
