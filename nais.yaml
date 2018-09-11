@@ -13,6 +13,9 @@ healthcheck:
   readiness:
     path: modiasyforest/internal/isAlive
     initialDelay: 120
+prometheus:
+  enabled: true
+  path: modiasyforest/internal/prometheus
 resources:
   limits:
     cpu: 3000m
