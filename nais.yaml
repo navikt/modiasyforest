@@ -70,4 +70,4 @@ fasitResources:
   exposed:
   - alias: modiasyfoapi
     resourceType: restservice
-    path: /modiasyforest/rest
+    path: /modiasyforest/api
