@@ -1,9 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Diagnose;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.MottakendeArbeidsgiver;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Periode;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.Datospenn;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 
 import java.time.LocalDate;
@@ -16,6 +14,7 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static no.nav.sbl.java8utils.MapUtil.mapListe;
 import static no.nav.sbl.java8utils.MapUtil.mapNullable;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -28,6 +27,19 @@ public class SykmeldingMapper {
                 .map(wsMelding -> sykmelding(wsMelding))
                 .collect(toList());
     }
+
+    private static Function<WSDatospenn, Datospenn> ws2Datospenn = wsDatospenn ->
+            new Datospenn()
+                    .withFom(wsDatospenn.getFom())
+                    .withTom(wsDatospenn.getTom());
+
+    private static Function<WSSMSpoersmaal, Skjemasporsmal> ws2Sporsmal = wssmSpoersmaal ->
+            new Skjemasporsmal()
+                    .withArbeidssituasjon(wssmSpoersmaal.getArbeidssituasjon().value())
+                    .withDekningsgrad(wssmSpoersmaal.getForsikringsgrad())
+                    .withHarForsikring(wssmSpoersmaal.isHarForsikringsgrad())
+                    .withFravaersperioder(mapListe(wssmSpoersmaal.getAnnenFravaersperiodeListe(), ws2Datospenn))
+                    .withHarAnnetFravaer(wssmSpoersmaal.isHarAnnetFravaer());
 
     public static Sykmelding sykmelding(final WSMelding sykmeldingerWS) {
         Function<WSMelding, Sykmelding> toSykmelding =
@@ -75,7 +87,8 @@ public class SykmeldingMapper {
                             .withTilbakedatertBegrunnelse(begrunnIkkeKontakt(sm))
                             .withUtstedelsesdato(utstedelsesdato(sm))
                             .withSkalViseSkravertFelt(skalViseSkravertFelt(m))
-                            .withIdentdato(identdato(m));
+                            .withIdentdato(identdato(m))
+                            .withSporsmal(mapNullable(m.getSmSpoersmaal(), ws2Sporsmal));
 
                     perioder(sm, sykmelding);
                     utdypendeOpplysninger(sm, sykmelding);

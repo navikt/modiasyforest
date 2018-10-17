@@ -2,7 +2,10 @@ package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Periode;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSArbeidssituasjon;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSDatospenn;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSMelding;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSMSpoersmaal;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -53,6 +56,12 @@ public class SykmeldingMapperTest {
         assertThat(sykmelding.mulighetForArbeid.aarsakAktivitetIkkeMulig433).isNotEmpty();
 
         assertThat(sykmelding.bekreftelse.utstedelsesdato).isNotNull();
+
+        assertThat(sykmelding.sporsmal.arbeidssituasjon).isEqualTo("ARBEIDSTAKER");
+        assertThat(sykmelding.sporsmal.dekningsgrad).isEqualTo(60);
+        assertThat(sykmelding.sporsmal.fravaersperioder.get(0).fom).isEqualTo(of(2018,10,17));
+        assertThat(sykmelding.sporsmal.fravaersperioder.get(0).tom).isEqualTo(of(2018,10,17));
+
     }
 
     private WSMelding meldingWS() throws Exception {
@@ -61,7 +70,16 @@ public class SykmeldingMapperTest {
                 .withStatus("NY")
                 .withSendtTilArbeidsgiverDato(LocalDateTime.of(2016, 4, 4, 12, 40))
                 .withIdentdato(of(2016, 4, 4))
-                .withSykmelding(getWSSykmelding());
+                .withSykmelding(getWSSykmelding())
+                .withSmSpoersmaal(
+                        new WSSMSpoersmaal()
+                                .withHarAnnetFravaer(true)
+                                .withForsikringsgrad(60)
+                                .withHarForsikringsgrad(true)
+                                .withArbeidssituasjon(WSArbeidssituasjon.ARBEIDSTAKER)
+                                .withAnnenFravaersperiodeListe(new WSDatospenn()
+                                        .withFom(of(2018, 10, 17))
+                                        .withTom(of(2018, 10, 17))));
     }
 
 

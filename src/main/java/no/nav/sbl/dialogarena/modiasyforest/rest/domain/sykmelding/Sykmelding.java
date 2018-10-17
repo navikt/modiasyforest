@@ -53,6 +53,7 @@ public class Sykmelding {
 
     // 12 BEKREFTELSE
     public Bekreftelse bekreftelse = new Bekreftelse();
+    public Skjemasporsmal sporsmal;
 
     public Sykmelding withId(final String id) {
         this.id = id;
@@ -267,6 +268,11 @@ public class Sykmelding {
 
     public Sykmelding withIdentdato(final LocalDate identdato) {
         this.identdato = identdato;
+        return this;
+    }
+
+    public Sykmelding withSporsmal(final Skjemasporsmal sporsmal) {
+        this.sporsmal = sporsmal;
         return this;
     }
 }
