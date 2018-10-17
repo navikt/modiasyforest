@@ -113,6 +113,7 @@ public abstract class WS2SykepengesoknadMapper {
             wsSykepengesoeknad ->
                     new Sykepengesoknad()
                             .withId(wsSykepengesoeknad.getSykepengesoeknadId())
+                            .withSykmeldingId(wsSykepengesoeknad.getSykmeldingId())
                             .withStatus(wsSykepengesoeknad.getStatus())
                             .withOpprettetDato(wsSykepengesoeknad.getOpprettetDato())
                             .withAnsvarBekreftet(wsSykepengesoeknad.isHarBekreftetOpplysningsplikt())

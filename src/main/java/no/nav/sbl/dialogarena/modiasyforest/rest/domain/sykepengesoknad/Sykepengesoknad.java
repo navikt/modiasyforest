@@ -9,6 +9,7 @@ import java.util.List;
 public class Sykepengesoknad {
 
     public String id;
+    public String sykmeldingId;
     public String status;
     public LocalDate opprettetDato;
     public LocalDate avbruttDato;
@@ -168,6 +169,11 @@ public class Sykepengesoknad {
 
     public Sykepengesoknad withForrigeSendteSoknadTom(final LocalDate forrigeSendteSoknadTom) {
         this.forrigeSendteSoknadTom = forrigeSendteSoknadTom;
+        return this;
+    }
+
+    public Sykepengesoknad withSykmeldingId(final String sykmeldingId) {
+        this.sykmeldingId = sykmeldingId;
         return this;
     }
 }
