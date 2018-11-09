@@ -19,10 +19,13 @@ public class SykmeldingerConfig {
     private static final String ENDEPUNKT_URL = getProperty("SYKMELDING_V1_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "SYKMELDING_V1";
     private static final boolean KRITISK = false;
+
     @Bean
     public SykmeldingV1 sykmeldingV1() {
-        SykmeldingV1 prod =  sykmeldingPortType().configureStsForOnBehalfOfWithJWT().build();
-        SykmeldingV1 mock =  new SykmeldingV1Mock();
+        SykmeldingV1 prod = sykmeldingPortType()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
+        SykmeldingV1 mock = new SykmeldingV1Mock();
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykmeldingV1.class);
     }
 

@@ -17,7 +17,9 @@ public class DiskresjonskodeConfig {
 
     @Bean
     public DiskresjonskodePortType diskresjonskodeV1() {
-        DiskresjonskodePortType prod = factory().configureStsForOnBehalfOfWithJWT().build();
+        DiskresjonskodePortType prod = factory()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
         DiskresjonskodePortType mock = new DiskresjonskodeMock();
 
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, DiskresjonskodePortType.class);

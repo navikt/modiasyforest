@@ -22,8 +22,10 @@ public class SykepengesoknadConfig {
 
     @Bean
     public SykepengesoeknadV1 sykepengesoeknadV1() {
-        SykepengesoeknadV1 prod =  sykepengesoeknadPortType().configureStsForOnBehalfOfWithJWT().build();
-        SykepengesoeknadV1 mock =  new SykepengesoeknadV1Mock();
+        SykepengesoeknadV1 prod = sykepengesoeknadPortType()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
+        SykepengesoeknadV1 mock = new SykepengesoeknadV1Mock();
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykepengesoeknadV1.class);
     }
 

@@ -22,7 +22,9 @@ public class DkifConfig {
 
     @Bean
     public DigitalKontaktinformasjonV1 digitalKontaktinformasjonV1() {
-        DigitalKontaktinformasjonV1 prod = factory().configureStsForOnBehalfOfWithJWT().build();
+        DigitalKontaktinformasjonV1 prod = factory()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
         DigitalKontaktinformasjonV1 mock = new DKIFMock();
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, DigitalKontaktinformasjonV1.class);
     }

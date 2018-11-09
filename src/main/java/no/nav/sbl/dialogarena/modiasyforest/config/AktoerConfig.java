@@ -22,8 +22,10 @@ public class AktoerConfig {
 
     @Bean
     public AktoerV2 aktoerV2() {
-        AktoerV2 prod =  aktoerPortType().configureStsForOnBehalfOfWithJWT().build();
-        AktoerV2 mock =  new AktoerMock();
+        AktoerV2 prod = aktoerPortType()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
+        AktoerV2 mock = new AktoerMock();
 
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, AktoerV2.class);
     }

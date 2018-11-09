@@ -20,9 +20,12 @@ public class TpsConfig {
     private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_BRUKERPROFIL_V3_ENDPOINTURL");
     private static final String ENDEPUNKT_NAVN = "BRUKERPROFIL_V3";
     private static final boolean KRITISK = true;
+
     @Bean
     public BrukerprofilV3 brukerprofilV3() {
-        BrukerprofilV3 prod = factory().configureStsForOnBehalfOfWithJWT().build();
+        BrukerprofilV3 prod = factory()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
         BrukerprofilV3 mock = new BrukerprofilMock();
 
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, BrukerprofilV3.class);

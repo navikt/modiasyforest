@@ -22,8 +22,10 @@ public class AAregConfig {
 
     @Bean
     public ArbeidsforholdV3 arbeidsforholdV3() {
-        ArbeidsforholdV3 prod =  arbeidsforholdPortType().configureStsForOnBehalfOfWithJWT().build();
-        ArbeidsforholdV3 mock =  new ArbeidsforholdMock();
+        ArbeidsforholdV3 prod = arbeidsforholdPortType()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
+        ArbeidsforholdV3 mock = new ArbeidsforholdMock();
 
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, ArbeidsforholdV3.class);
     }

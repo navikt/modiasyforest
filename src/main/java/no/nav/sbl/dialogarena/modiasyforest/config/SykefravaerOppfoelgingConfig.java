@@ -22,8 +22,10 @@ public class SykefravaerOppfoelgingConfig {
 
     @Bean
     public SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1() {
-        SykefravaersoppfoelgingV1 prod =  sykmeldingPortType().configureStsForOnBehalfOfWithJWT().build();
-        SykefravaersoppfoelgingV1 mock =  new OppfoelgingMock();
+        SykefravaersoppfoelgingV1 prod = sykmeldingPortType()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
+        SykefravaersoppfoelgingV1 mock = new OppfoelgingMock();
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykefravaersoppfoelgingV1.class);
     }
 

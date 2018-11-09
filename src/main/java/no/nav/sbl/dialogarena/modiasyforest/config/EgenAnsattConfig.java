@@ -21,7 +21,9 @@ public class EgenAnsattConfig {
 
     @Bean
     public EgenAnsattV1 egenAnsattV1() {
-        EgenAnsattV1 prod = factory().configureStsForOnBehalfOfWithJWT().build();
+        EgenAnsattV1 prod = factory()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
         EgenAnsattV1 mock = new EgenansattMock();
 
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, EgenAnsattV1.class);

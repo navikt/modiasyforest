@@ -22,7 +22,9 @@ public class EregConfig {
 
     @Bean
     public OrganisasjonV4 organisasjonV4() {
-        OrganisasjonV4 prod = factory().configureStsForOnBehalfOfWithJWT().build();
+        OrganisasjonV4 prod = factory()
+                .configureStsForOnBehalfOfWithJWT()
+                .build();
         OrganisasjonV4 mock = new OrganisasjonMock();
 
         return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, OrganisasjonV4.class);
