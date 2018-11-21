@@ -58,7 +58,6 @@ public class SykmeldingMapperTest {
         assertThat(sykmelding.bekreftelse.utstedelsesdato).isNotNull();
 
         assertThat(sykmelding.sporsmal.arbeidssituasjon).isEqualTo("ARBEIDSTAKER");
-        assertThat(sykmelding.sporsmal.dekningsgrad).isEqualTo(60);
         assertThat(sykmelding.sporsmal.fravaersperioder.get(0).fom).isEqualTo(of(2018,10,17));
         assertThat(sykmelding.sporsmal.fravaersperioder.get(0).tom).isEqualTo(of(2018,10,17));
 

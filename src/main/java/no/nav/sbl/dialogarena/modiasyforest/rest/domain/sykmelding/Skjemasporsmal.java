@@ -6,18 +6,12 @@ import java.util.List;
 
 public class Skjemasporsmal {
     public String arbeidssituasjon;
-    public Integer dekningsgrad;
     public Boolean harForsikring;
     public List<Datospenn> fravaersperioder;
     public Boolean harAnnetFravaer;
 
     public Skjemasporsmal withArbeidssituasjon(final String arbeidssituasjon) {
         this.arbeidssituasjon = arbeidssituasjon;
-        return this;
-    }
-
-    public Skjemasporsmal withDekningsgrad(final Integer dekningsgrad) {
-        this.dekningsgrad = dekningsgrad;
         return this;
     }
 

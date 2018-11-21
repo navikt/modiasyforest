@@ -36,7 +36,6 @@ public class SykmeldingMapper {
     private static Function<WSSMSpoersmaal, Skjemasporsmal> ws2Sporsmal = wssmSpoersmaal ->
             new Skjemasporsmal()
                     .withArbeidssituasjon(wssmSpoersmaal.getArbeidssituasjon().value())
-                    .withDekningsgrad(wssmSpoersmaal.getForsikringsgrad())
                     .withHarForsikring(wssmSpoersmaal.isHarForsikringsgrad())
                     .withFravaersperioder(mapListe(wssmSpoersmaal.getAnnenFravaersperiodeListe(), ws2Datospenn))
                     .withHarAnnetFravaer(wssmSpoersmaal.isHarAnnetFravaer());

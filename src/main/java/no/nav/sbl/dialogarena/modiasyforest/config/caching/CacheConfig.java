@@ -52,8 +52,8 @@ public class CacheConfig {
     private static CacheConfiguration setupCache(String name) {
         return new CacheConfiguration(name, 1000)
                 .memoryStoreEvictionPolicy(LRU)
-                .timeToIdleSeconds(3600)
-                .timeToLiveSeconds(3600)
+                .timeToIdleSeconds(60)
+                .timeToLiveSeconds(60)
                 .persistence(new PersistenceConfiguration().strategy(NONE));
     }
 
