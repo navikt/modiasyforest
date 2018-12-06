@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
-import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -9,10 +8,7 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -48,7 +44,7 @@ public abstract class AbstractRessursTilgangTest {
     @Before
     public void setUp() {
         // Sett opp test-subjecthandler
-        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
+        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
 
         // Mock REST-klienten
         Invocation.Builder builderMock = mock(Invocation.Builder.class);

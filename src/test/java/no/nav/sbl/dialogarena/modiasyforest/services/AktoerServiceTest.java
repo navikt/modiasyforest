@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2;
 import no.nav.tjeneste.virksomhet.aktoer.v2.HentAktoerIdForIdentPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentAktoerIdForIdentRequest;
@@ -28,7 +27,7 @@ public class AktoerServiceTest {
 
     @Before
     public void setup() {
-        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
+        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
     }
 
     @Test(expected = IllegalArgumentException.class)

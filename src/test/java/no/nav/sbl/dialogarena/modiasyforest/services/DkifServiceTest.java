@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSEpostadresse;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSMobiltelefonnummer;
@@ -20,7 +19,7 @@ public class DkifServiceTest {
 
     @Before
     public void setup() {
-        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
+        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
     }
 
     @Mock

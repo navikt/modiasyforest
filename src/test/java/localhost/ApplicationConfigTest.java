@@ -23,8 +23,10 @@ public class ApplicationConfigTest extends ApplicationConfig {
             .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");;
     }
 
+    /*
     @Override
     public Sone getSone() {
         return null;
     }
+    */
 }

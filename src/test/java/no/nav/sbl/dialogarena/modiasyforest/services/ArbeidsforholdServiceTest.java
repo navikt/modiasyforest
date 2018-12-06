@@ -1,20 +1,15 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.ArbeidsforholdV3;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerUgyldigInput;
+import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.*;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.*;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.meldinger.FinnArbeidsforholdPrArbeidstakerRequest;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.meldinger.FinnArbeidsforholdPrArbeidstakerResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -45,7 +40,7 @@ public class ArbeidsforholdServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
+        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
         when(arbeidsforholdV3.finnArbeidsforholdPrArbeidstaker(anyObject())).thenReturn(byggResponse("123456789"));
         when(sykmeldingService.hentSykmelding(anyString(), anyString())).thenReturn(new Sykmelding().withId("ID:ABC123").withIdentdato(now()));
         when(organisasjonService.hentNavn("123456789")).thenReturn("TEST AS, Avd. Øst");

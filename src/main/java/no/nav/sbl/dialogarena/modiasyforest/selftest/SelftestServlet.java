@@ -9,21 +9,25 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.ServletException;
 import java.util.Collection;
 
-public class SelftestServlet extends SelfTestBaseServlet{
+public class SelftestServlet extends SelfTestBaseServlet {
     private static final String APPLIKASJONS_NAVN = "modiasyforest";
     private ApplicationContext ctx = null;
+
+    protected SelftestServlet(Collection<? extends Pingable> pingables) {
+        super(pingables);
+    }
+
 
     @Override
     public void init() throws ServletException {
         ctx = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
         super.init();
     }
-    @Override
+
     protected String getApplicationName() {
         return APPLIKASJONS_NAVN;
     }
 
-    @Override
     protected Collection<? extends Pingable> getPingables() {
         return ctx.getBeansOfType(Pingable.class).values();
     }
