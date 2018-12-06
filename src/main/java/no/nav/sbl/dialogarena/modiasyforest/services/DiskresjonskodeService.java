@@ -8,7 +8,7 @@ import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class DiskresjonskodeService {
@@ -20,7 +20,7 @@ public class DiskresjonskodeService {
     @Cacheable(value = "diskresjonskode")
     public String diskresjonskode(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente diskresjonskode med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente diskresjonskode med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -29,7 +29,7 @@ public class DiskresjonskodeService {
                     .withIdent(fnr)
             ).getDiskresjonskode();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk en Runtimefeil mot TPS ved bruker {}", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk en Runtimefeil mot TPS ved bruker {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
             throw e;
         }
     }

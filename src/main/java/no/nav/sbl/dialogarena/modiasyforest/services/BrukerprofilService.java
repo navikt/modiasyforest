@@ -1,12 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIkkeFunnet;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPerson;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.*;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
 
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
@@ -27,7 +22,7 @@ public class BrukerprofilService {
     @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
     public String hentNavn(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente navn med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new IllegalArgumentException();
         }
         try {
@@ -41,16 +36,16 @@ public class BrukerprofilService {
             final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
             return capitalize(navnFraTps.toLowerCase(), '-', ' ');
         } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", getSubjectHandler().getUid(), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
-            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", getSubjectHandler().getUid(), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
             return "Vi fant ikke navnet";
         }
     }
@@ -58,7 +53,7 @@ public class BrukerprofilService {
     @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente navn med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new RuntimeException();
         }
         try {
@@ -66,16 +61,16 @@ public class BrukerprofilService {
                     .withIdent(new WSNorskIdent()
                             .withIdent(fnr))).getBruker();
         } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
-            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
             throw e;
         }
     }

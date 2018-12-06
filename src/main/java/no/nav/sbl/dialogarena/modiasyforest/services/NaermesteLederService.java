@@ -16,7 +16,7 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -34,7 +34,7 @@ public class NaermesteLederService {
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente naermesteledere med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente naermesteledere med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new IllegalArgumentException();
         }
         try {
@@ -45,10 +45,10 @@ public class NaermesteLederService {
                     .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            LOG.warn("{} fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person {}", getSubjectHandler().getUid(), e.getFaultInfo().getFeilaarsak().toUpperCase(), fnr);
+            LOG.warn("{} fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person {}", getIdent().orElseThrow(IllegalArgumentException::new), e.getFaultInfo().getFeilaarsak().toUpperCase(), fnr);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk Runtimefeil ved henting av naermeste ledere for person {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} fikk Runtimefeil ved henting av naermeste ledere for person {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw e;
         }
     }
@@ -81,10 +81,10 @@ public class NaermesteLederService {
                     .map(this::naermesteLeder)
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", getSubjectHandler().getUid(), fnr);
+            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk Runtimefeil ved henting av naermesteledere for person {}", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk Runtimefeil ved henting av naermesteledere for person {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
             throw e;
         }
     }

@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import no.nav.common.auth.SubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.Tilgang;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.Response;
 import static java.lang.System.getProperty;
 import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SsoToken.Type.OIDC;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.AdRoller.*;
 
 @Component
@@ -24,11 +25,10 @@ public class TilgangService {
         if ("true".equals(getProperty("tilgang.withmock"))) {
             return;
         }
-        String ssoToken = getSubjectHandler().getInternSsoToken();
         Response response = client.target(getProperty("TILGANGSKONTROLLAPI_URL") + "/tilgangtilbruker")
                 .queryParam("fnr", fnr)
                 .request(MediaType.APPLICATION_JSON)
-                .header(AUTHORIZATION, "Bearer " + ssoToken)
+                .header(AUTHORIZATION, "Bearer " + SubjectHandler.getSsoToken(OIDC).orElseThrow(IllegalArgumentException::new))
                 .get();
 
         if (200 != response.getStatus()) {

@@ -14,7 +14,7 @@ import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmeldinger;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -31,7 +31,7 @@ public class SykmeldingService {
     @Cacheable(value = "sykmelding", keyGenerator = "userkeygenerator")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente sykmeldinger med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente sykmeldinger med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new IllegalArgumentException();
         }
 

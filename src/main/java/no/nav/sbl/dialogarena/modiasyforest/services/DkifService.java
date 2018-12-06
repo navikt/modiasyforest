@@ -1,13 +1,8 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonKontaktinformasjonIkkeFunnet;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonPersonIkkeFunnet;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonSikkerhetsbegrensing;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSEpostadresse;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSKontaktinformasjon;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSMobiltelefonnummer;
+import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.*;
+import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.meldinger.WSHentDigitalKontaktinformasjonRequest;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,7 +11,7 @@ import javax.inject.Inject;
 import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -30,7 +25,7 @@ public class DkifService {
     @Cacheable(value = "dkif", keyGenerator = "userkeygenerator")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente kontaktinfo med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente kontaktinfo med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -56,7 +51,7 @@ public class DkifService {
         } catch (HentDigitalKontaktinformasjonPersonIkkeFunnet e) {
             return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(PERSON_IKKE_FUNNET);
         } catch (RuntimeException e) {
-            LOG.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
             throw e;
         }
     }
