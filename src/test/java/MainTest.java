@@ -1,14 +1,13 @@
+import no.nav.testconfig.ApiAppTest;
+
+import static no.nav.sbl.dialogarena.test.SystemProperties.setFrom;
+import static no.nav.testconfig.ApiAppTest.setupTestContext;
+
 public class MainTest {
     public static void main(String[] args) throws Exception {
-       /* setupTestContext();
+        setupTestContext(ApiAppTest.Config.builder().applicationName("modiasyforest").build());
         setFrom("jetty-environment.properties");
-        setProperty(SUBJECTHANDLER_KEY, CustomizableSubjectHandler.class.getName());
-        setUid(getProperty("veileder.username"));
-        setInternSsoToken(getIDToken(getProperty("veileder.username"), getProperty("veileder.password")));
-        setIdentType(IdentType.InternBruker);
-
-        String[] _args = {"8084"};
-        startApp(ApplicationConfigTest.class, _args); */
+        Main.main("8084");
     }
 
 }
