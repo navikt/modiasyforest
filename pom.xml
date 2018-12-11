@@ -27,7 +27,6 @@
         <dkif-tjenestespesifikasjon.version>1.2</dkif-tjenestespesifikasjon.version>
         <diskresjonskodev1-tjenestespesifikasjon.version>1.0.0</diskresjonskodev1-tjenestespesifikasjon.version>
         <egenAnsatt-v1-tjenestespesifikasjon.version>1.0.1</egenAnsatt-v1-tjenestespesifikasjon.version>
-        <maven.test.skip>true</maven.test.skip>
     </properties>
 
 
@@ -284,6 +283,13 @@
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito2</artifactId>
             <version>1.7.3</version>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>auth</artifactId>
+            <type>test-jar</type>
         </dependency>
     </dependencies>
 

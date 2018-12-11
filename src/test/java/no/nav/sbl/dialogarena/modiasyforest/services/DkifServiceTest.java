@@ -1,13 +1,10 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSEpostadresse;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSMobiltelefonnummer;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.OffsetDateTime;
@@ -17,17 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class DkifServiceTest {
 
-    @Before
-    public void setup() {
-        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
-    }
-
-    @Mock
-    private DigitalKontaktinformasjonV1 dkifV1;
-
     @InjectMocks
     private DkifService dkifService;
-
 
     @Test
     public void verifisertSiste18mndErNullsafe() {

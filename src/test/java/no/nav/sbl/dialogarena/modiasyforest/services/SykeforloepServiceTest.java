@@ -4,7 +4,6 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -30,13 +29,11 @@ public class SykeforloepServiceTest {
     @Mock
     private SykmeldingV1 sykmeldingV1;
 
+    @Mock
+    private NaermesteLederService naermesteLederService;
+
     @InjectMocks
     private SykeforloepService sykeforloepService;
-
-    @Before
-    public void setup() {
-        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
-    }
 
     @Test
     public void hentSykeforloep() throws Exception {

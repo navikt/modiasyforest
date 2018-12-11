@@ -70,10 +70,8 @@ public class SykeforloepService {
 
     private Sykeforloep tilSykeforloep(WSOppfoelgingstilfelle wsOppfoelgingstilfelle, String fnr) {
         return new Sykeforloep()
-                .withHendelser(
-                        tilHendelser(wsOppfoelgingstilfelle.getHendelseListe(), fnr))
-                .withSykmeldinger(
-                        tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe()))
+                .withHendelser(tilHendelser(wsOppfoelgingstilfelle.getHendelseListe(), fnr))
+                .withSykmeldinger(tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe()))
                 .withOppfolgingsdato(wsOppfoelgingstilfelle.getOppfoelgingsdato())
                 .withSluttdato(sluttdato(tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe())));
     }

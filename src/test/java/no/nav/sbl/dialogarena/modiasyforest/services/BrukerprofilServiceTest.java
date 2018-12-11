@@ -5,7 +5,6 @@ import no.nav.tjeneste.virksomhet.brukerprofil.v3.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPersonnavn;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserResponse;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,11 +19,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BrukerprofilServiceTest {
-
-    @Before
-    public void setup() {
-        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
-    }
 
     @Mock
     private BrukerprofilV3 brukerprofilV3;

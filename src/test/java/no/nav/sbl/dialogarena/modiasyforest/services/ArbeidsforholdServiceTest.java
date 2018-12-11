@@ -40,7 +40,6 @@ public class ArbeidsforholdServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        //System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
         when(arbeidsforholdV3.finnArbeidsforholdPrArbeidstaker(anyObject())).thenReturn(byggResponse("123456789"));
         when(sykmeldingService.hentSykmelding(anyString(), anyString())).thenReturn(new Sykmelding().withId("ID:ABC123").withIdentdato(now()));
         when(organisasjonService.hentNavn("123456789")).thenReturn("TEST AS, Avd. Øst");
@@ -60,7 +59,6 @@ public class ArbeidsforholdServiceTest {
     public void testHentArbeidsgivereSkalHenteForAordningenOgPeriodenIdentdatoOg4mndBakover() throws Exception {
         LocalDate identdato = now();
         arbeidsforholdService.hentArbeidsgivere("12345678901", "sykmeldingId");
-        when(sykmeldingService.hentSykmelding("sykmeldingId", "12345678901")).thenReturn(new Sykmelding().withId("sykmeldingId").withIdentdato(identdato));
         ArgumentCaptor<FinnArbeidsforholdPrArbeidstakerRequest> request = ArgumentCaptor.forClass(FinnArbeidsforholdPrArbeidstakerRequest.class);
         verify(arbeidsforholdV3).finnArbeidsforholdPrArbeidstaker(request.capture());
 
@@ -73,7 +71,6 @@ public class ArbeidsforholdServiceTest {
     public void tidspunktBlirSattTilMidnatt() throws FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning, FinnArbeidsforholdPrArbeidstakerUgyldigInput {
         LocalDate identdato = now().atTime(12, 12).toLocalDate();
         arbeidsforholdService.hentArbeidsgivere("12345678901", "sykmeldingId");
-        when(sykmeldingService.hentSykmelding("sykmeldingId", "12345678901")).thenReturn(new Sykmelding().withId("sykmeldingId").withIdentdato(identdato));
         ArgumentCaptor<FinnArbeidsforholdPrArbeidstakerRequest> request = ArgumentCaptor.forClass(FinnArbeidsforholdPrArbeidstakerRequest.class);
         verify(arbeidsforholdV3).finnArbeidsforholdPrArbeidstaker(request.capture());
 
