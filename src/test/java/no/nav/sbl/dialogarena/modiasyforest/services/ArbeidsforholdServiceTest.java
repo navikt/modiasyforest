@@ -21,9 +21,9 @@ import static java.time.LocalDate.now;
 import static java.time.LocalDate.of;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ArbeidsforholdServiceTest {
@@ -62,6 +62,7 @@ public class ArbeidsforholdServiceTest {
         ArgumentCaptor<FinnArbeidsforholdPrArbeidstakerRequest> request = ArgumentCaptor.forClass(FinnArbeidsforholdPrArbeidstakerRequest.class);
         verify(arbeidsforholdV3).finnArbeidsforholdPrArbeidstaker(request.capture());
 
+        verify(sykmeldingService, times(1)).hentSykmelding("sykmeldingId", "12345678901");
         assertThat(request.getValue().getRapportertSomRegelverk().getValue()).isEqualTo("A_ORDNINGEN");
         assertThat(request.getValue().getArbeidsforholdIPeriode().getFom().toGregorianCalendar()).isEqualByComparingTo(convertToXmlGregorianCalendar(identdato.minusMonths(4)).toGregorianCalendar());
         assertThat(request.getValue().getArbeidsforholdIPeriode().getTom().toGregorianCalendar()).isEqualByComparingTo(convertToXmlGregorianCalendar(identdato.plusDays(1)).toGregorianCalendar());
