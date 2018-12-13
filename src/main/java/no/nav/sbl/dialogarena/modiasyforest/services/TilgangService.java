@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,7 +29,9 @@ public class TilgangService {
         Response response = client.target(getProperty("TILGANGSKONTROLLAPI_URL") + "/tilgangtilbruker")
                 .queryParam("fnr", fnr)
                 .request(MediaType.APPLICATION_JSON)
-                .header(AUTHORIZATION, "Bearer " + SubjectHandler.getSsoToken(OIDC).orElseThrow(IllegalArgumentException::new))
+                .header(AUTHORIZATION, "Bearer " +
+                        SubjectHandler.getSsoToken(OIDC)
+                                .orElseThrow(() -> new NotAuthorizedException("Finner ikke token")))
                 .get();
 
         if (200 != response.getStatus()) {
