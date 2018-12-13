@@ -20,7 +20,7 @@ public class Main {
     }
 
     private static void setupMetricsProperties() throws UnknownHostException {
-        setProperty("applicationName", "modiasyforest");
+        setProperty("applicationName", ApplicationConfig.APPLICATION_NAME);
         setProperty("node.hostname", InetAddress.getLocalHost().getHostName());
         setProperty("environment.name", getProperty("FASIT_ENVIRONMENT_NAME"));
     }
