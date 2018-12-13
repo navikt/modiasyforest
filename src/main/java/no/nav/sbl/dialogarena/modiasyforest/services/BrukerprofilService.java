@@ -22,7 +22,7 @@ public class BrukerprofilService {
     @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
     public String hentNavn(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
         try {
@@ -36,16 +36,16 @@ public class BrukerprofilService {
             final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
             return capitalize(navnFraTps.toLowerCase(), '-', ' ');
         } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
-            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
+            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             return "Vi fant ikke navnet";
         }
     }
@@ -53,7 +53,7 @@ public class BrukerprofilService {
     @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new RuntimeException();
         }
         try {
@@ -61,16 +61,16 @@ public class BrukerprofilService {
                     .withIdent(new WSNorskIdent()
                             .withIdent(fnr))).getBruker();
         } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
-            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
+            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }

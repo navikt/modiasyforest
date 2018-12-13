@@ -23,7 +23,7 @@ public class AktoerService {
     @Cacheable(value = "aktoer")
     public String hentAktoerIdForFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente aktoerId med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente aktoerId med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -41,7 +41,7 @@ public class AktoerService {
     @Cacheable(value = "aktoer")
     public String hentFnrForAktoer(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
-            LOG.error("{} prøvde å hente fnr med aktoerId {}", getIdent().orElseThrow(IllegalArgumentException::new), aktoerId);
+            LOG.error("{} prøvde å hente fnr med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
             throw new IllegalArgumentException();
         }
 

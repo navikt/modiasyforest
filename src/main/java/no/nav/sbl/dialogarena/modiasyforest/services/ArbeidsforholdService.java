@@ -43,7 +43,7 @@ public class ArbeidsforholdService {
     @Cacheable(value = "arbeidsforhold", keyGenerator = "userkeygenerator")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente arbeidsforhold med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente arbeidsforhold med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
         Sykmelding sykmelding = sykmeldingService.hentSykmelding(sykmeldingId, fnr);
@@ -62,13 +62,13 @@ public class ArbeidsforholdService {
                     }).distinct().collect(toList());
 
         } catch (FinnArbeidsforholdPrArbeidstakerUgyldigInput e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new IllegalArgumentException();
         } catch (FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         }
     }

@@ -24,7 +24,7 @@ public class OrganisasjonService {
     @Cacheable(value = "organisasjon")
     public String hentNavn(String orgnr) {
         if (isBlank(orgnr) || !orgnr.matches("\\d{9}$")) {
-            LOG.error("{} prøvde å hente navn med orgnr {}", getIdent().orElseThrow(IllegalArgumentException::new), orgnr);
+            LOG.error("{} prøvde å hente navn med orgnr {}", getIdent().orElse("<Ikke funnet>"), orgnr);
             throw new IllegalArgumentException();
         }
         try {

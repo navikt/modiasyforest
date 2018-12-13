@@ -47,7 +47,7 @@ public class SykeforloepService {
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<Sykeforloep> hentSykeforloep(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -60,10 +60,10 @@ public class SykeforloepService {
                     .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
                     .collect(toList());
         } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {
-            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }
@@ -128,7 +128,7 @@ public class SykeforloepService {
             });
 
         } catch (RuntimeException e) {
-            LOG.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             return empty();
         }
     }

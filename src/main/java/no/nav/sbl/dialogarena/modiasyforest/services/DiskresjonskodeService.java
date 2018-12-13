@@ -20,7 +20,7 @@ public class DiskresjonskodeService {
     @Cacheable(value = "diskresjonskode")
     public String diskresjonskode(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente diskresjonskode med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente diskresjonskode med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -29,7 +29,7 @@ public class DiskresjonskodeService {
                     .withIdent(fnr)
             ).getDiskresjonskode();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk en Runtimefeil mot TPS ved bruker {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
+            LOG.error("{} fikk en Runtimefeil mot TPS ved bruker {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }

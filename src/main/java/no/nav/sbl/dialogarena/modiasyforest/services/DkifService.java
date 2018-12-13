@@ -25,7 +25,7 @@ public class DkifService {
     @Cacheable(value = "dkif", keyGenerator = "userkeygenerator")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente kontaktinfo med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente kontaktinfo med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -51,7 +51,7 @@ public class DkifService {
         } catch (HentDigitalKontaktinformasjonPersonIkkeFunnet e) {
             return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(PERSON_IKKE_FUNNET);
         } catch (RuntimeException e) {
-            LOG.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getIdent().orElseThrow(IllegalArgumentException::new), fnr, e);
+            LOG.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }

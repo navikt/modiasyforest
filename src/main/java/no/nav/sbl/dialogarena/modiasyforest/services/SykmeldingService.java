@@ -31,7 +31,7 @@ public class SykmeldingService {
     @Cacheable(value = "sykmelding", keyGenerator = "userkeygenerator")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente sykmeldinger med fnr {}", getIdent().orElseThrow(IllegalArgumentException::new), fnr);
+            LOG.error("{} prøvde å hente sykmeldinger med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 

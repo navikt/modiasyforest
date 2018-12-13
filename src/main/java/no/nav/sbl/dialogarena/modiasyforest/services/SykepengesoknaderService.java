@@ -32,7 +32,7 @@ public class SykepengesoknaderService {
     @Cacheable(value = "sykepengesoknad", keyGenerator = "userkeygenerator")
     public List<Sykepengesoknad> hentSykepengesoknader(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
-            LOG.error("{} prøvde å hente sykepengesoknader med aktoerId {}", getIdent().orElseThrow(IllegalArgumentException::new), aktoerId);
+            LOG.error("{} prøvde å hente sykepengesoknader med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
             throw new IllegalArgumentException();
         }
 
@@ -44,10 +44,10 @@ public class SykepengesoknaderService {
                     .collect(toList());
 
         } catch (HentSykepengesoeknadListeSikkerhetsbegrensning e) {
-            LOG.error("{} har ikke tilgang til søknadene det spørres om: {}", getIdent().orElseThrow(IllegalArgumentException::new), aktoerId);
+            LOG.error("{} har ikke tilgang til søknadene det spørres om: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("Det skjedde en runtimefeil da {} spurte om søknadene til: {}", getIdent().orElseThrow(IllegalArgumentException::new), aktoerId, e);
+            LOG.error("Det skjedde en runtimefeil da {} spurte om søknadene til: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
             throw e;
         }
     }
