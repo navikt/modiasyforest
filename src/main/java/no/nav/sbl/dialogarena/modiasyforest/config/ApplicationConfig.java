@@ -27,8 +27,6 @@ public class ApplicationConfig implements ApiApplication.NaisApiApplication {
 
     public static final String VEILARBLOGIN_REDIRECT_URL_URL = "VEILARBLOGIN_REDIRECT_URL_URL";
 
-    public static final String APPLICATION_NAME = "modiasyforest";
-
     @Bean
     public TimerAspect timerAspect() {
         return new TimerAspect();
