@@ -2,13 +2,8 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.ArbeidsforholdV3;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerUgyldigInput;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.NorskIdent;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.Organisasjon;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.Periode;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.Regelverker;
+import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.*;
+import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.*;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.meldinger.FinnArbeidsforholdPrArbeidstakerRequest;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,7 +20,7 @@ import java.util.List;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.toList;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -48,7 +43,7 @@ public class ArbeidsforholdService {
     @Cacheable(value = "arbeidsforhold", keyGenerator = "userkeygenerator")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente arbeidsforhold med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente arbeidsforhold med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
         Sykmelding sykmelding = sykmeldingService.hentSykmelding(sykmeldingId, fnr);
@@ -67,13 +62,13 @@ public class ArbeidsforholdService {
                     }).distinct().collect(toList());
 
         } catch (FinnArbeidsforholdPrArbeidstakerUgyldigInput e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new IllegalArgumentException();
         } catch (FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getSubjectHandler().getUid(), fnr, e);
+            LOG.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         }
     }

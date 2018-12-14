@@ -1,18 +1,17 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
-import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
+import no.nav.brukerdialog.security.context.SubjectRule;
+import no.nav.brukerdialog.security.domain.IdentType;
+import no.nav.common.auth.SsoToken;
+import no.nav.common.auth.Subject;
 import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -33,9 +32,13 @@ public abstract class AbstractRessursTilgangTest {
 
     private static Client client;
     private static TilgangService tilgangService;
+    private static final SsoToken SSO_TOKEN = SsoToken.oidcToken("TestToken");
 
     @Mock
     Response tilgangskontrollResponse;
+
+    @Rule
+    public SubjectRule subjectRule = new SubjectRule();
 
     @BeforeClass
     public static void initialize() {
@@ -48,8 +51,6 @@ public abstract class AbstractRessursTilgangTest {
     @Before
     public void setUp() {
         // Sett opp test-subjecthandler
-        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
-
         // Mock REST-klienten
         Invocation.Builder builderMock = mock(Invocation.Builder.class);
         when(builderMock.get()).thenReturn(tilgangskontrollResponse);
@@ -60,6 +61,12 @@ public abstract class AbstractRessursTilgangTest {
         when(webTargetMock.queryParam(anyString(), anyString())).thenReturn(webTargetMock);
 
         when(client.target(anyString())).thenReturn(webTargetMock);
+        gittBrukerMedOidcAssertation();
+    }
+
+    private void gittBrukerMedOidcAssertation(){
+       Subject subject = new Subject(FNR, IdentType.InternBruker, SSO_TOKEN);
+       subjectRule.setSubject(subject);
     }
 
 }

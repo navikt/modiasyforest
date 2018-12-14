@@ -1,20 +1,15 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.ArbeidsforholdV3;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerUgyldigInput;
+import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.*;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.*;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.meldinger.FinnArbeidsforholdPrArbeidstakerRequest;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.meldinger.FinnArbeidsforholdPrArbeidstakerResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -26,9 +21,9 @@ import static java.time.LocalDate.now;
 import static java.time.LocalDate.of;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ArbeidsforholdServiceTest {
@@ -45,7 +40,6 @@ public class ArbeidsforholdServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
         when(arbeidsforholdV3.finnArbeidsforholdPrArbeidstaker(anyObject())).thenReturn(byggResponse("123456789"));
         when(sykmeldingService.hentSykmelding(anyString(), anyString())).thenReturn(new Sykmelding().withId("ID:ABC123").withIdentdato(now()));
         when(organisasjonService.hentNavn("123456789")).thenReturn("TEST AS, Avd. Øst");
@@ -65,10 +59,10 @@ public class ArbeidsforholdServiceTest {
     public void testHentArbeidsgivereSkalHenteForAordningenOgPeriodenIdentdatoOg4mndBakover() throws Exception {
         LocalDate identdato = now();
         arbeidsforholdService.hentArbeidsgivere("12345678901", "sykmeldingId");
-        when(sykmeldingService.hentSykmelding("sykmeldingId", "12345678901")).thenReturn(new Sykmelding().withId("sykmeldingId").withIdentdato(identdato));
         ArgumentCaptor<FinnArbeidsforholdPrArbeidstakerRequest> request = ArgumentCaptor.forClass(FinnArbeidsforholdPrArbeidstakerRequest.class);
         verify(arbeidsforholdV3).finnArbeidsforholdPrArbeidstaker(request.capture());
 
+        verify(sykmeldingService, times(1)).hentSykmelding("sykmeldingId", "12345678901");
         assertThat(request.getValue().getRapportertSomRegelverk().getValue()).isEqualTo("A_ORDNINGEN");
         assertThat(request.getValue().getArbeidsforholdIPeriode().getFom().toGregorianCalendar()).isEqualByComparingTo(convertToXmlGregorianCalendar(identdato.minusMonths(4)).toGregorianCalendar());
         assertThat(request.getValue().getArbeidsforholdIPeriode().getTom().toGregorianCalendar()).isEqualByComparingTo(convertToXmlGregorianCalendar(identdato.plusDays(1)).toGregorianCalendar());
@@ -78,7 +72,6 @@ public class ArbeidsforholdServiceTest {
     public void tidspunktBlirSattTilMidnatt() throws FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning, FinnArbeidsforholdPrArbeidstakerUgyldigInput {
         LocalDate identdato = now().atTime(12, 12).toLocalDate();
         arbeidsforholdService.hentArbeidsgivere("12345678901", "sykmeldingId");
-        when(sykmeldingService.hentSykmelding("sykmeldingId", "12345678901")).thenReturn(new Sykmelding().withId("sykmeldingId").withIdentdato(identdato));
         ArgumentCaptor<FinnArbeidsforholdPrArbeidstakerRequest> request = ArgumentCaptor.forClass(FinnArbeidsforholdPrArbeidstakerRequest.class);
         verify(arbeidsforholdV3).finnArbeidsforholdPrArbeidstaker(request.capture());
 

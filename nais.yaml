@@ -1,4 +1,5 @@
 # ref https://raw.githubusercontent.com/nais/naisd/master/nais_example.yaml
+name: modiasyforest
 image: docker.adeo.no:5000/digisyfo/modiasyforest
 team: teamsykefravr
 replicas:
@@ -6,6 +7,7 @@ replicas:
   max: 2
   cpuThresholdPercentage: 50
 port: 8080
+webproxy: true
 healthcheck:
   liveness:
     path: modiasyforest/internal/isAlive
@@ -67,6 +69,11 @@ fasitResources:
     resourceType: webserviceendpoint
   - alias: Sykepengesoeknad_v1
     resourceType: webserviceendpoint
+  # OIDC med AzureAD B2C
+  - alias: aad_b2c_clientid
+    resourceType: credential
+  - alias: aad_b2c_discovery
+    resourceType: baseurl
   exposed:
   - alias: modiasyfoapi
     resourceType: restservice

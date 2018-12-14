@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -47,7 +47,7 @@ public class SykeforloepService {
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<Sykeforloep> hentSykeforloep(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente sykeforløp med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -60,20 +60,18 @@ public class SykeforloepService {
                     .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
                     .collect(toList());
         } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {
-            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getSubjectHandler().getUid(), fnr);
+            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }
 
     private Sykeforloep tilSykeforloep(WSOppfoelgingstilfelle wsOppfoelgingstilfelle, String fnr) {
         return new Sykeforloep()
-                .withHendelser(
-                        tilHendelser(wsOppfoelgingstilfelle.getHendelseListe(), fnr))
-                .withSykmeldinger(
-                        tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe()))
+                .withHendelser(tilHendelser(wsOppfoelgingstilfelle.getHendelseListe(), fnr))
+                .withSykmeldinger(tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe()))
                 .withOppfolgingsdato(wsOppfoelgingstilfelle.getOppfoelgingsdato())
                 .withSluttdato(sluttdato(tilSykmeldinger(wsOppfoelgingstilfelle.getMeldingListe())));
     }
@@ -130,7 +128,7 @@ public class SykeforloepService {
             });
 
         } catch (RuntimeException e) {
-            LOG.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             return empty();
         }
     }

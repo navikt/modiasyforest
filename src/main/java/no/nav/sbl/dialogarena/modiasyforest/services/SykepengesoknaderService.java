@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.WS2SykepengesoknadMapper.ws2Sykepengesoknad;
 import static no.nav.sbl.java8utils.MapUtil.mapListe;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -32,7 +32,7 @@ public class SykepengesoknaderService {
     @Cacheable(value = "sykepengesoknad", keyGenerator = "userkeygenerator")
     public List<Sykepengesoknad> hentSykepengesoknader(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
-            LOG.error("{} prøvde å hente sykepengesoknader med aktoerId {}", getSubjectHandler().getUid(), aktoerId);
+            LOG.error("{} prøvde å hente sykepengesoknader med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
             throw new IllegalArgumentException();
         }
 
@@ -44,10 +44,10 @@ public class SykepengesoknaderService {
                     .collect(toList());
 
         } catch (HentSykepengesoeknadListeSikkerhetsbegrensning e) {
-            LOG.error("{} har ikke tilgang til søknadene det spørres om: {}", getSubjectHandler().getUid(), aktoerId);
+            LOG.error("{} har ikke tilgang til søknadene det spørres om: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("Det skjedde en runtimefeil da {} spurte om søknadene til: {}", getSubjectHandler().getUid(), aktoerId, e);
+            LOG.error("Det skjedde en runtimefeil da {} spurte om søknadene til: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
             throw e;
         }
     }

@@ -1,8 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2;
-import no.nav.tjeneste.virksomhet.aktoer.v2.HentAktoerIdForIdentPersonIkkeFunnet;
-import no.nav.tjeneste.virksomhet.aktoer.v2.HentIdentForAktoerIdPersonIkkeFunnet;
+import no.nav.tjeneste.virksomhet.aktoer.v2.*;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentAktoerIdForIdentRequest;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentIdentForAktoerIdRequest;
 import org.slf4j.Logger;
@@ -11,7 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -25,7 +23,7 @@ public class AktoerService {
     @Cacheable(value = "aktoer")
     public String hentAktoerIdForFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente aktoerId med fnr {}", getSubjectHandler().getUid(), fnr);
+            LOG.error("{} prøvde å hente aktoerId med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -43,7 +41,7 @@ public class AktoerService {
     @Cacheable(value = "aktoer")
     public String hentFnrForAktoer(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
-            LOG.error("{} prøvde å hente fnr med aktoerId {}", getSubjectHandler().getUid(), aktoerId);
+            LOG.error("{} prøvde å hente fnr med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
             throw new IllegalArgumentException();
         }
 

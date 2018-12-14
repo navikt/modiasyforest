@@ -6,9 +6,9 @@
     <packaging>war</packaging>
 
     <parent>
-        <groupId>no.nav.sbl</groupId>
+        <groupId>no.nav.common</groupId>
         <artifactId>mor-pom</artifactId>
-        <version>2018.02.28.19.39</version>
+        <version>2018.12.04.22.26</version>
     </parent>
 
     <groupId>no.nav.sbl.dialogarena</groupId>
@@ -16,8 +16,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <wss4j-ws-security.version>2.2.0</wss4j-ws-security.version>
-
         <dial-nav-tjeneste-aktoer_v2.version>1.1</dial-nav-tjeneste-aktoer_v2.version>
         <sykmeldingv1-tjenestespesifikasjon.version>1.1.18</sykmeldingv1-tjenestespesifikasjon.version>
         <organisasjonv4-tjenestespesifikasjon.version>1.0.0</organisasjonv4-tjenestespesifikasjon.version>
@@ -35,9 +33,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>no.nav.sbl</groupId>
+                <groupId>no.nav.common</groupId>
                 <artifactId>bom</artifactId>
-                <version>2018.02.28.19.39</version>
+                <version>2018.12.04.22.26</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -75,12 +73,10 @@
             <dependency>
                 <groupId>org.apache.wss4j</groupId>
                 <artifactId>wss4j-ws-security-common</artifactId>
-                <version>${wss4j-ws-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.wss4j</groupId>
                 <artifactId>wss4j-ws-security-dom</artifactId>
-                <version>${wss4j-ws-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.sbl.dialogarena</groupId>
@@ -117,17 +113,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>no.nav.sbl</groupId>
+            <groupId>no.nav.common</groupId>
             <artifactId>api-app</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.sbl.dialogarena</groupId>
+            <groupId>no.nav.common</groupId>
             <artifactId>test-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-common</artifactId>
-            <version>2.22.1</version>
         </dependency>
         <dependency>
             <artifactId>diskresjonskodev1-tjenestespesifikasjon</artifactId>
@@ -136,6 +127,18 @@
         <dependency>
             <groupId>no.nav.syfo.tjenester</groupId>
             <artifactId>egenAnsatt-v1-tjenestespesifikasjon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>rest</artifactId>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -152,10 +155,6 @@
             <artifactId>mockito-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.modig</groupId>
-            <artifactId>modig-testcertificates</artifactId>
-        </dependency>
-        <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
@@ -170,11 +169,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-spring3</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
@@ -211,10 +205,6 @@
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.sbl.dialogarena</groupId>
-            <artifactId>common-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
@@ -231,27 +221,23 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.modig</groupId>
-            <artifactId>modig-core-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sbl.dialogarena</groupId>
-            <artifactId>common-test</artifactId>
+            <groupId>no.nav.common</groupId>
+            <artifactId>test</artifactId>
         </dependency>
         <dependency>
             <groupId>no.nav.syfo.tjenester</groupId>
             <artifactId>sykmeldingv1-tjenestespesifikasjon</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.sbl.dialogarena</groupId>
-            <artifactId>common-types</artifactId>
+            <groupId>no.nav.common</groupId>
+            <artifactId>types</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.sbl.dialogarena</groupId>
-            <artifactId>common-cxf</artifactId>
+            <groupId>no.nav.common</groupId>
+            <artifactId>cxf</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav</groupId>
+            <groupId>no.nav.common</groupId>
             <artifactId>metrics</artifactId>
         </dependency>
         <dependency>
@@ -262,11 +248,6 @@
         <dependency>
             <groupId>no.nav.sbl.dialogarena</groupId>
             <artifactId>dial-nav-tjeneste-aktoer_v2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.modig</groupId>
-            <artifactId>modig-security-ws</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>no.nav.sbl.dialogarena</groupId>
@@ -289,16 +270,6 @@
             <artifactId>digisyfo-sykepengesoeknadoppsummering</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.dialogarena</groupId>
-            <artifactId>oidc-security</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.dialogarena</groupId>
-            <artifactId>oidc-security</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-core</artifactId>
             <version>1.7.3</version>
@@ -312,6 +283,13 @@
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito2</artifactId>
             <version>1.7.3</version>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>auth</artifactId>
+            <type>test-jar</type>
         </dependency>
     </dependencies>
 

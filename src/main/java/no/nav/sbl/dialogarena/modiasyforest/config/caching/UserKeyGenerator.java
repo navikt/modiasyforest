@@ -4,7 +4,7 @@ package no.nav.sbl.dialogarena.modiasyforest.config.caching;
 import java.lang.reflect.Method;
 
 import static java.lang.Integer.toHexString;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 
 public class UserKeyGenerator extends KeyGenerator {
 
@@ -19,7 +19,7 @@ public class UserKeyGenerator extends KeyGenerator {
     }
 
     private String getUser() {
-        return getSubjectHandler().getUid();
+        return getIdent().orElseThrow(IllegalArgumentException::new);
     }
 
 }

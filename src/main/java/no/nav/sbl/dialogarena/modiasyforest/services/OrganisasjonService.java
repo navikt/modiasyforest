@@ -1,8 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.tjeneste.virksomhet.organisasjon.v4.HentOrganisasjonOrganisasjonIkkeFunnet;
-import no.nav.tjeneste.virksomhet.organisasjon.v4.HentOrganisasjonUgyldigInput;
-import no.nav.tjeneste.virksomhet.organisasjon.v4.OrganisasjonV4;
+import no.nav.tjeneste.virksomhet.organisasjon.v4.*;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.WSUstrukturertNavn;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonRequest;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonResponse;
@@ -13,7 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import javax.inject.Inject;
 
 import static java.util.stream.Collectors.joining;
-import static no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler;
+import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -26,7 +24,7 @@ public class OrganisasjonService {
     @Cacheable(value = "organisasjon")
     public String hentNavn(String orgnr) {
         if (isBlank(orgnr) || !orgnr.matches("\\d{9}$")) {
-            LOG.error("{} prøvde å hente navn med orgnr {}", getSubjectHandler().getUid(), orgnr);
+            LOG.error("{} prøvde å hente navn med orgnr {}", getIdent().orElse("<Ikke funnet>"), orgnr);
             throw new IllegalArgumentException();
         }
         try {

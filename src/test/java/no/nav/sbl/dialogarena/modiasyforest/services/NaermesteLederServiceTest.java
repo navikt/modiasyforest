@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
@@ -39,11 +38,8 @@ public class NaermesteLederServiceTest {
 
     @Before
     public void setup() {
-        System.setProperty("no.nav.brukerdialog.security.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
-
         when(aktoerService.hentAktoerIdForFnr(anyString())).thenReturn("12345678901");
         when(organisasjonService.hentNavn(anyString())).thenReturn("Testbedriften");
-        when(aktoerService.hentFnrForAktoer(anyString())).thenReturn("10987654321");
     }
 
     @Test

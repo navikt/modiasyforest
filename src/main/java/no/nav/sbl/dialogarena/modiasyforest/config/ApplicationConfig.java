@@ -25,6 +25,8 @@ import org.springframework.context.annotation.*;
 })
 public class ApplicationConfig implements ApiApplication.NaisApiApplication {
 
+    public static final String VEILARBLOGIN_REDIRECT_URL_URL = "VEILARBLOGIN_REDIRECT_URL_URL";
+
     @Bean
     public TimerAspect timerAspect() {
         return new TimerAspect();
@@ -38,17 +40,9 @@ public class ApplicationConfig implements ApiApplication.NaisApiApplication {
     @Override
     public void configure(ApiAppConfigurator apiAppConfigurator) {
         apiAppConfigurator
-                .issoLogin()
-                .sts();
+                .sts()
+                .azureADB2CLogin()
+                .issoLogin();
     }
 
-    @Override
-    public String getApplicationName() {
-        return "modiasyforest";
-    }
-
-    @Override
-    public Sone getSone() {
-        return Sone.FSS;
-    }
 }
