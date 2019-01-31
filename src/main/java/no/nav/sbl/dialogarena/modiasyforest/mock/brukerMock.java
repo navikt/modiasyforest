@@ -10,7 +10,7 @@ public class brukerMock {
 
     public static Bruker brukerMedAdresser() {
         return new Bruker()
-                .navn("Sygve sykmeldt")
+                .navn("Sygvart sykmeldt")
                 .bostedsadresse(new Bostedsadresse()
                         .strukturertAdresse(new StrukturertAdresse()
                                 .tilleggsadresse("C/O NAV OSLO")

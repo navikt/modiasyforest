@@ -60,7 +60,7 @@ public class sykmeldingMock {
                 .withSkalViseSkravertFelt(true)
                 .withIdentdato(now().minusDays(30))
                 .withFnr("99008811772")
-                .withFornavn("Sygve")
+                .withFornavn("Sygvart")
                 .withMellomnavn("Mellomnavn")
                 .withEtternavn("Sykmeldt")
                 .withInnsendtArbeidsgivernavn("BERGEN TEST HR KONSERN")
