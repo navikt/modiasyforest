@@ -24,7 +24,7 @@ public class SykmeldingV1Mock implements SykmeldingV1 {
         try {
             WSMelding sendt = new WSMelding()
                     .withMeldingId("1")
-                    .withArbeidsgiver("***REMOVED***")
+                    .withArbeidsgiver("000123000")
                     .withIdentdato(now().minusDays(10))
                     .withSendtTilArbeidsgiverDato(LocalDateTime.now().minusDays(9))
                     .withStatus("SENDT")

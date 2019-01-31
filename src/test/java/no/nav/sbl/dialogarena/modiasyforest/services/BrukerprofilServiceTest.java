@@ -29,10 +29,10 @@ public class BrukerprofilServiceTest {
 
     @Test
     public void captitalizerNavnet() throws HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning, HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt, HentKontaktinformasjonOgPreferanserPersonIkkeFunnet {
-        when(brukerprofilV3.hentKontaktinformasjonOgPreferanser(any())).thenReturn(new WSHentKontaktinformasjonOgPreferanserResponse().withBruker(new WSBruker().withPersonnavn(new WSPersonnavn().withFornavn("TROND-VIGGO").withEtternavn("TORGERSEN"))));
+        when(brukerprofilV3.hentKontaktinformasjonOgPreferanser(any())).thenReturn(new WSHentKontaktinformasjonOgPreferanserResponse().withBruker(new WSBruker().withPersonnavn(new WSPersonnavn().withFornavn("TROND-VIGGO").withEtternavn("TESTESEN"))));
         Bruker bruker = map(brukerprofilService.hentBruker("12345678901"), ws2bruker);
         final String navn = bruker.navn;
-        assertThat(navn).isEqualTo("Trond-Viggo ***REMOVED***");
+        assertThat(navn).isEqualTo("Trond-Viggo Testesen");
     }
 
     @Test(expected = RuntimeException.class)

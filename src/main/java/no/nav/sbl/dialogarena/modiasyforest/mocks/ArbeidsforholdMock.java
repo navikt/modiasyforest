@@ -15,7 +15,7 @@ public class ArbeidsforholdMock implements ArbeidsforholdV3 {
             throws FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning, FinnArbeidsforholdPrArbeidstakerUgyldigInput {
         Arbeidsforhold arbeidsforhold = new Arbeidsforhold();
         Organisasjon arbeidsgiver = new Organisasjon();
-        arbeidsgiver.setOrgnummer("***REMOVED***");
+        arbeidsgiver.setOrgnummer("000321000");
         arbeidsforhold.setArbeidsgiver(arbeidsgiver);
         FinnArbeidsforholdPrArbeidstakerResponse response = new FinnArbeidsforholdPrArbeidstakerResponse();
         response.getArbeidsforhold().add(arbeidsforhold);
