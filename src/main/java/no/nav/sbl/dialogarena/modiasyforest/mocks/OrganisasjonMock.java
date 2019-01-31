@@ -8,7 +8,7 @@ import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.*;
 public class OrganisasjonMock implements OrganisasjonV4 {
     @Override
     public WSHentOrganisasjonResponse hentOrganisasjon(WSHentOrganisasjonRequest wsHentOrganisasjonRequest) throws HentOrganisasjonOrganisasjonIkkeFunnet, HentOrganisasjonUgyldigInput {
-        return new WSHentOrganisasjonResponse().withOrganisasjon(new WSOrganisasjon().withNavn(new WSUstrukturertNavn().withNavnelinje("TEST Consulting AS")));
+        return new WSHentOrganisasjonResponse().withOrganisasjon(new WSOrganisasjon().withNavn(new WSUstrukturertNavn().withNavnelinje("TEST Consult AS")));
     }
 
     @Override
