@@ -17,9 +17,9 @@ public class OppfoelgingMock implements SykefravaersoppfoelgingV1 {
     public WSHentNaermesteLederListeResponse hentNaermesteLederListe(WSHentNaermesteLederListeRequest request) {
         return new WSHentNaermesteLederListeResponse().withNaermesteLederListe(asList(
                 new WSNaermesteLeder()
-                        .withNavn("***REMOVED***")
-                        .withEpost("trond@nav.no")
-                        .withOrgnummer("***REMOVED***")
+                        .withNavn("Test Trondsen")
+                        .withEpost("testTron@nav.no")
+                        .withOrgnummer("000321000")
                         .withMobil("12356772")
                         .withArbeidsgiverForskuttererLoenn(true)
                         .withNaermesteLederStatus(new WSNaermesteLederStatus()
@@ -48,22 +48,22 @@ public class OppfoelgingMock implements SykefravaersoppfoelgingV1 {
         return new WSHentNaermesteLedersAnsattListeResponse().withAnsattListe(Arrays.asList(
                 new WSAnsatt()
                         .withNaermesteLederStatus(new WSNaermesteLederStatus().withAktivFom(now().minusDays(10)).withErAktiv(true))
-                        .withAktoerId("***REMOVED***")
+                        .withAktoerId("1112221112221")
                         .withNaermesteLederId(345)
                         .withNavn("Test Testesen")
-                        .withOrgnummer("***REMOVED***"),
+                        .withOrgnummer("112211221"),
                 new WSAnsatt()
                         .withNaermesteLederStatus(new WSNaermesteLederStatus().withAktivTom(now().minusDays(10)).withAktivFom(now().minusDays(20)).withErAktiv(false))
-                        .withAktoerId("***REMOVED***")
+                        .withAktoerId("2223332223332")
                         .withNaermesteLederId(234)
                         .withNavn("Test Testesen")
-                        .withOrgnummer("***REMOVED***"),
+                        .withOrgnummer("223322332"),
                 new WSAnsatt()
                         .withNaermesteLederStatus(new WSNaermesteLederStatus().withAktivFom(now().minusDays(10)).withErAktiv(true))
-                        .withAktoerId("***REMOVED***")
+                        .withAktoerId("3334443334443")
                         .withNaermesteLederId(346)
                         .withNavn("Test Testesen")
-                        .withOrgnummer("***REMOVED***")
+                        .withOrgnummer("334433443")
 
         ));
     }

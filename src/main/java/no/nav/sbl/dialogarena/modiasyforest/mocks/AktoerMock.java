@@ -7,7 +7,7 @@ import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.*;
 
 public class AktoerMock implements AktoerV2 {
 
-    public static final String AKTOER_ID_MOCK = "***REMOVED***";
+    public static final String AKTOER_ID_MOCK = "1234567893210";
 
     public WSHentAktoerIdForIdentListeResponse hentAktoerIdForIdentListe(WSHentAktoerIdForIdentListeRequest wsHentAktoerIdForIdentListeRequest) {
         throw new RuntimeException("Ikke implementert i mock. Se AktoerMock");

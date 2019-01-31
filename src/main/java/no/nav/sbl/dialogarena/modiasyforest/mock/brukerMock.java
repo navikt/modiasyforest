@@ -57,7 +57,7 @@ public class brukerMock {
                                 .adresselinje4("2320 FURNES")
                         ))
                 .kontaktinfo(new Kontaktinfo()
-                        .fnr("***REMOVED***")
+                        .fnr("99008811772")
                         .epost("test@nav.no")
                         .tlf("12345678")
                         .skalHaVarsel(true))
