@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
-import static no.nav.sbl.java8utils.MapUtil.map;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.map;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class BrukerMapper {

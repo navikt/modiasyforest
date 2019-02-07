@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.mocks;
 
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentHendelseListeSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.*;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSAnsatt;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederStatus;
@@ -31,6 +30,21 @@ public class OppfoelgingMock implements SykefravaersoppfoelgingV1 {
     @Override
     public void ping() {
 
+    }
+
+    @Override
+    public WSHentSykeforlopperiodeResponse hentSykeforlopperiode(WSHentSykeforlopperiodeRequest wsHentSykeforlopperiodeRequest) throws HentSykeforlopperiodeSikkerhetsbegrensning {
+        return null;
+    }
+
+    @Override
+    public WSHentNaermesteLedersHendelseListeResponse hentNaermesteLedersHendelseListe(WSHentNaermesteLedersHendelseListeRequest wsHentNaermesteLedersHendelseListeRequest) throws HentNaermesteLedersHendelseListeSikkerhetsbegrensning {
+        return null;
+    }
+
+    @Override
+    public WSBerikNaermesteLedersAnsattBolkResponse berikNaermesteLedersAnsattBolk(WSBerikNaermesteLedersAnsattBolkRequest wsBerikNaermesteLedersAnsattBolkRequest) throws BerikNaermesteLedersAnsattBolkSikkerhetsbegrensning {
+        return null;
     }
 
     @Override

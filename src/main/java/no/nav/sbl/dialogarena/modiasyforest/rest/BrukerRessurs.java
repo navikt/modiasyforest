@@ -17,7 +17,7 @@ import static java.lang.System.getProperty;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.BrukerMapper.ws2bruker;
 import static no.nav.sbl.dialogarena.modiasyforest.mock.brukerMock.brukerMedAdresser;
-import static no.nav.sbl.java8utils.MapUtil.map;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.map;
 
 @Controller
 @Path("/brukerinfo")
