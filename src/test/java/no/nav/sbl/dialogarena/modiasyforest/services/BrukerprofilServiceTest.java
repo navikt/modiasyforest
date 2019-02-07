@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.BrukerMapper.ws2bruker;
-import static no.nav.sbl.java8utils.MapUtil.map;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;

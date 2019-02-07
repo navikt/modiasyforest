@@ -16,7 +16,7 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.WS2SykepengesoknadMapper.ws2Sykepengesoknad;
-import static no.nav.sbl.java8utils.MapUtil.mapListe;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.mapListe;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 

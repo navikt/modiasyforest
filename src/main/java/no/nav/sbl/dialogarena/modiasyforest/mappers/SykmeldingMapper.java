@@ -5,17 +5,15 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static no.nav.sbl.java8utils.MapUtil.mapListe;
-import static no.nav.sbl.java8utils.MapUtil.mapNullable;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.mapListe;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.mapNullable;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 

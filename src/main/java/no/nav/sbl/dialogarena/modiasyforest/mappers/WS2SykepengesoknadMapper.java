@@ -16,7 +16,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.oppsummering.Seksjon.*;
-import static no.nav.sbl.java8utils.MapUtil.*;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.*;
 
 public abstract class WS2SykepengesoknadMapper {
 
