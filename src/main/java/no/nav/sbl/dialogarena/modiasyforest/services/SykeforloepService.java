@@ -1,10 +1,14 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.*;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentSykeforlopperiodeSikkerhetsbegrensning;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSSykeforlopperiode;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentSykeforlopperiodeRequest;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentSykeforlopperiodeResponse;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.HentOppfoelgingstilfelleListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
@@ -22,6 +26,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
@@ -43,6 +48,8 @@ public class SykeforloepService {
     private NaermesteLederService naermesteLederService;
     @Inject
     private OrganisasjonService organisasjonService;
+    @Inject
+    private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
 
     @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
     public List<Sykeforloep> hentSykeforloep(String fnr) {
@@ -149,5 +156,33 @@ public class SykeforloepService {
             default:
                 return null;
         }
+    }
+
+    public List<Oppfolgingstilfelle> hentOppfolgingstilfelle(String fnr, String orgnummer) {
+        String aktorId = aktoerService.hentAktoerIdForFnr(fnr);
+
+        WSHentSykeforlopperiodeRequest request = new WSHentSykeforlopperiodeRequest()
+                .withAktoerId(aktorId)
+                .withOrgnummer(orgnummer);
+
+        try {
+            WSHentSykeforlopperiodeResponse wsHentSykeforlopperiodeResponse = sykefravaersoppfoelgingV1.hentSykeforlopperiode(request);
+            return tilSykeforlopperiodeListe(wsHentSykeforlopperiodeResponse.getSykeforlopperiodeListe(), orgnummer);
+        } catch (HentSykeforlopperiodeSikkerhetsbegrensning e) {
+            LOG.warn("Sikkerhetsbegrensning ved henting av sykeforløpsperioder");
+            return emptyList();
+        }
+    }
+
+    private List<Oppfolgingstilfelle> tilSykeforlopperiodeListe(List<WSSykeforlopperiode> wsSykeforlopperiodeListe, String orgnummer) {
+        return wsSykeforlopperiodeListe
+                .stream()
+                .map(wsSykeforlopperiode -> new Oppfolgingstilfelle()
+                        .orgnummer(orgnummer)
+                        .fom(wsSykeforlopperiode.getFom())
+                        .tom(wsSykeforlopperiode.getTom())
+                        .grad(wsSykeforlopperiode.getGrad())
+                        .aktivitet(wsSykeforlopperiode.getAktivitet()))
+                .collect(toList());
     }
 }
