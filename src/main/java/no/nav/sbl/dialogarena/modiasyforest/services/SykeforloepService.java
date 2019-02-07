@@ -2,11 +2,15 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.config.SykmeldingerConfig;
 import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.*;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentSykeforlopperiodeSikkerhetsbegrensning;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSSykeforlopperiode;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentSykeforlopperiodeRequest;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentSykeforlopperiodeResponse;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.HentOppfoelgingstilfelleListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
@@ -27,6 +31,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
@@ -50,6 +55,7 @@ public class SykeforloepService {
     private OrganisasjonService organisasjonService;
     private SykmeldingerConfig sykmeldingerConfig;
     private SykmeldingV1 sykmeldingV1;
+    private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
 
     @Inject
     public SykeforloepService(
@@ -58,7 +64,8 @@ public class SykeforloepService {
             NaermesteLederService naermesteLederService,
             OrganisasjonService organisasjonService,
             SykmeldingerConfig sykmeldingerConfig,
-            SykmeldingV1 sykmeldingV1
+            SykmeldingV1 sykmeldingV1,
+            SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1
     ) {
         this.contextHolder = contextHolder;
         this.aktoerService = aktoerService;
@@ -66,6 +73,7 @@ public class SykeforloepService {
         this.organisasjonService = organisasjonService;
         this.sykmeldingerConfig = sykmeldingerConfig;
         this.sykmeldingV1 = sykmeldingV1;
+        this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
     @Cacheable(value = "syfo")
@@ -182,5 +190,33 @@ public class SykeforloepService {
             default:
                 return null;
         }
+    }
+
+    public List<Oppfolgingstilfelle> hentOppfolgingstilfelleperioder(String fnr, String orgnummer) {
+        String aktorId = aktoerService.hentAktoerIdForFnr(fnr);
+
+        WSHentSykeforlopperiodeRequest request = new WSHentSykeforlopperiodeRequest()
+                .withAktoerId(aktorId)
+                .withOrgnummer(orgnummer);
+
+        try {
+            WSHentSykeforlopperiodeResponse wsHentSykeforlopperiodeResponse = sykefravaersoppfoelgingV1.hentSykeforlopperiode(request);
+            return tilSykeforlopperiodeListe(wsHentSykeforlopperiodeResponse.getSykeforlopperiodeListe(), orgnummer);
+        } catch (HentSykeforlopperiodeSikkerhetsbegrensning e) {
+            LOG.warn("Sikkerhetsbegrensning ved henting av oppfølgingstilfelleperioder");
+            return emptyList();
+        }
+    }
+
+    private List<Oppfolgingstilfelle> tilSykeforlopperiodeListe(List<WSSykeforlopperiode> wsSykeforlopperiodeListe, String orgnummer) {
+        return wsSykeforlopperiodeListe
+                .stream()
+                .map(wsSykeforlopperiode -> new Oppfolgingstilfelle()
+                        .orgnummer(orgnummer)
+                        .fom(wsSykeforlopperiode.getFom())
+                        .tom(wsSykeforlopperiode.getTom())
+                        .grad(wsSykeforlopperiode.getGrad())
+                        .aktivitet(wsSykeforlopperiode.getAktivitet()))
+                .collect(toList());
     }
 }
