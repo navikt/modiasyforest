@@ -1,9 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.mocks;
 
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.*;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSAnsatt;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
-import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLederStatus;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.*;
 
 import java.util.Arrays;

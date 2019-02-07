@@ -2,10 +2,7 @@ package no.nav.sbl.dialogarena.modiasyforest.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 import static java.util.Optional.of;

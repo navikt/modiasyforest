@@ -5,9 +5,7 @@ import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
