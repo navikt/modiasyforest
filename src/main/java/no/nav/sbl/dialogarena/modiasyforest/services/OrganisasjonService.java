@@ -1,12 +1,15 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.tjeneste.virksomhet.organisasjon.v4.*;
+import no.nav.tjeneste.virksomhet.organisasjon.v4.HentOrganisasjonOrganisasjonIkkeFunnet;
+import no.nav.tjeneste.virksomhet.organisasjon.v4.HentOrganisasjonUgyldigInput;
+import no.nav.tjeneste.virksomhet.organisasjon.v4.OrganisasjonV4;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.WSUstrukturertNavn;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonRequest;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
@@ -15,11 +18,16 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Service
 public class OrganisasjonService {
     private static final Logger LOG = getLogger(OrganisasjonService.class);
 
-    @Inject
     private OrganisasjonV4 organisasjonWebService;
+
+    @Inject
+    public OrganisasjonService(OrganisasjonV4 organisasjonWebService) {
+        this.organisasjonWebService = organisasjonWebService;
+    }
 
     @Cacheable(value = "organisasjon")
     public String hentNavn(String orgnr) {

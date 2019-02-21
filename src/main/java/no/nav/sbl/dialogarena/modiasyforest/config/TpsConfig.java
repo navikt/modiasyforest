@@ -1,61 +1,31 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
-import no.nav.sbl.dialogarena.modiasyforest.mocks.BrukerprofilMock;
-import no.nav.sbl.dialogarena.types.Pingable;
-import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.UUID;
-
-import static java.lang.System.getProperty;
-import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.feilet;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class TpsConfig {
 
-    private static final String MOCK_KEY = "brukerprofilv3.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_BRUKERPROFIL_V3_ENDPOINTURL");
-    private static final String ENDEPUNKT_NAVN = "BRUKERPROFIL_V3";
-    private static final boolean KRITISK = true;
+    public static final String MOCK_KEY = "brukerprofilv3.withmock";
 
     @Bean
-    public BrukerprofilV3 brukerprofilV3() {
-        BrukerprofilV3 prod = factory()
-                .configureStsForOnBehalfOfWithJWT()
-                .build();
-        BrukerprofilV3 mock = new BrukerprofilMock();
-
-        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, BrukerprofilV3.class);
-    }
-
-    @Bean
-    public Pingable brukerprofilPing() {
-        PingMetadata pingMetadata = new PingMetadata(
-                UUID.randomUUID().toString(),
-                ENDEPUNKT_URL,
-                ENDEPUNKT_NAVN,
-                KRITISK
-        );
-        final BrukerprofilV3 brukerprofilV3 = factory()
+    @Primary
+    @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
+    public BrukerprofilV3 brukerprofilV3(@Value("${virksomhet.brukerprofil.v3.endpointurl}") String serviceUrl) {
+        BrukerprofilV3 prod = factory(serviceUrl)
                 .configureStsForSystemUser()
                 .build();
-        return () -> {
-            try {
-                brukerprofilV3.ping();
-                return lyktes(pingMetadata);
-            } catch (Exception e) {
-                return feilet(pingMetadata, e);
-            }
-        };
+
+        return prod;
     }
 
-    private CXFClient<BrukerprofilV3> factory() {
-        return new CXFClient<>(BrukerprofilV3.class).address(ENDEPUNKT_URL);
+    private CXFClient<BrukerprofilV3> factory(String serviceUrl) {
+        return new CXFClient<>(BrukerprofilV3.class).address(serviceUrl);
     }
 
 }

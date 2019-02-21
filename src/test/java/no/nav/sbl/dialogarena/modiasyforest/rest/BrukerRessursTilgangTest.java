@@ -1,82 +1,89 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
+import no.nav.sbl.dialogarena.modiasyforest.LocalApplication;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.Tilgang;
 import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
 import no.nav.sbl.dialogarena.modiasyforest.services.DkifService;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPersonnavn;
-import org.glassfish.jersey.message.internal.Statuses;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
 
-import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.AdRoller.*;
-import static org.mockito.Mockito.verify;
+import static no.nav.sbl.dialogarena.modiasyforest.testhelper.OidcTestHelper.loggInnVeileder;
+import static no.nav.sbl.dialogarena.modiasyforest.testhelper.UserConstants.ARBEIDSTAKER_FNR;
+import static no.nav.sbl.dialogarena.modiasyforest.testhelper.UserConstants.VEILEDER_ID;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = LocalApplication.class)
+@DirtiesContext
 public class BrukerRessursTilgangTest extends AbstractRessursTilgangTest {
 
-    @Mock
-    private BrukerprofilService brukerprofilService;
-    @Mock
-    private DkifService dkifService;
-
-    @InjectMocks
+    @Inject
     private BrukerRessurs brukerRessurs;
+
+    @MockBean
+    private BrukerprofilService brukerprofilService;
+    @MockBean
+    private DkifService dkifService;
 
     @Test
     public void har_tilgang() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(200);
-        when(brukerprofilService.hentBruker(FNR)).thenReturn(new WSBruker().withPersonnavn(new WSPersonnavn()));
-        when(dkifService.hentKontaktinfoFnr(FNR)).thenReturn(new Kontaktinfo());
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, OK);
 
-        brukerRessurs.hentNavn(FNR);
+        when(brukerprofilService.hentBruker(ARBEIDSTAKER_FNR)).thenReturn(new WSBruker().withPersonnavn(new WSPersonnavn()));
+        when(dkifService.hentKontaktinfoFnr(ARBEIDSTAKER_FNR)).thenReturn(new Kontaktinfo());
 
-        verify(tilgangskontrollResponse).getStatus();
+        brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_kode_6() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(KODE6.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        brukerRessurs.hentNavn(FNR);
+        brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_kode_7() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(KODE7.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        brukerRessurs.hentNavn(FNR);
+        brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_egenansatt() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(EGEN_ANSATT.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        brukerRessurs.hentNavn(FNR);
+        brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_sensitiv() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(SYFO.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        brukerRessurs.hentNavn(FNR);
+        brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = RuntimeException.class)
     public void annen_tilgangsfeil() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(500);
-        when(tilgangskontrollResponse.getStatusInfo()).thenReturn(Statuses.from(500, "Tau i propellen"));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, INTERNAL_SERVER_ERROR);
 
-        brukerRessurs.hentNavn(FNR);
+        brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);
     }
-
 
 }

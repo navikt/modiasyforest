@@ -1,65 +1,30 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
-import no.nav.sbl.dialogarena.modiasyforest.mocks.ArbeidsforholdMock;
-import no.nav.sbl.dialogarena.types.Pingable;
-import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.ArbeidsforholdV3;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.UUID;
-
-import static java.lang.System.getProperty;
-import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.feilet;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class AAregConfig {
 
-    private static final String MOCK_KEY = "arbeidsforhold.aareg.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_ARBEIDSFORHOLD_V3_ENDPOINTURL");
-    private static final String ENDEPUNKT_NAVN = "ARBEIDSFORHOLD_V3";
-    private static final boolean KRITISK = true;
+    public static final String MOCK_KEY = "arbeidsforhold.aareg.withmock";
 
     @Bean
-    public ArbeidsforholdV3 arbeidsforholdV3() {
-        ArbeidsforholdV3 prod = arbeidsforholdPortType()
-                .configureStsForOnBehalfOfWithJWT()
-                .build();
-        ArbeidsforholdV3 mock = new ArbeidsforholdMock();
-
-        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, ArbeidsforholdV3.class);
-    }
-
-    @Bean
-    public Pingable arbeidsforholdPing() {
-        PingMetadata pingMetadata = new PingMetadata(
-                UUID.randomUUID().toString(),
-                ENDEPUNKT_URL,
-                ENDEPUNKT_NAVN,
-                KRITISK
-        );
-        final ArbeidsforholdV3 arbeidsforholdPing = arbeidsforholdPortType()
+    @Primary
+    @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
+    public ArbeidsforholdV3 arbeidsforholdV3(@Value("${virksomhet.arbeidsforhold.v3.endpointurl}") String serviceUrl) {
+        ArbeidsforholdV3 port = arbeidsforholdPortType(serviceUrl)
                 .configureStsForSystemUser()
                 .build();
-        return () -> {
-            try {
-                arbeidsforholdPing.ping();
-                return lyktes(pingMetadata);
-            } catch (Exception e) {
-                // TODO: Dette kan fjernes når Arbeidsforhold implementerer sin Ping uten avhengigheter bakover
-                if (e.getMessage().contains("Organisasjon")) {
-                    return lyktes(new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, "Organisasjon feiler - ignorerer dette", KRITISK));
-                }
-                return feilet(pingMetadata, e);
-            }
-        };
+        return port;
     }
 
-    private CXFClient<ArbeidsforholdV3> arbeidsforholdPortType() {
+    private CXFClient<ArbeidsforholdV3> arbeidsforholdPortType(String serviceUrl) {
         return new CXFClient<>(ArbeidsforholdV3.class)
-                .address(ENDEPUNKT_URL);
+                .address(serviceUrl);
     }
 }

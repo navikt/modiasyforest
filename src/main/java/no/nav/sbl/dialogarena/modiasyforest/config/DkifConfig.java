@@ -1,57 +1,30 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
-import no.nav.sbl.dialogarena.modiasyforest.mocks.DKIFMock;
-import no.nav.sbl.dialogarena.types.Pingable;
-import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.UUID;
-
-import static java.lang.System.getProperty;
-import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.feilet;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class DkifConfig {
 
-    private static final String MOCK_KEY = "dkif.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_DIGITALKONTAKINFORMASJON_V1_ENDPOINTURL");
-    private static final String ENDEPUNKT_NAVN = "DIGITALKONTAKTINFORMASJON_V1";
-    private static final boolean KRITISK = true;
+    public static final String MOCK_KEY = "dkif.withmock";
 
     @Bean
-    public DigitalKontaktinformasjonV1 digitalKontaktinformasjonV1() {
-        DigitalKontaktinformasjonV1 prod = factory()
-                .configureStsForOnBehalfOfWithJWT()
+    @Primary
+    @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
+    public DigitalKontaktinformasjonV1 digitalKontaktinformasjonV1(@Value("${virksomhet.digitalkontakinformasjon.v1.endpointurl}") String serviceUrl) {
+        DigitalKontaktinformasjonV1 port = factory(serviceUrl)
+                .configureStsForSystemUser()
                 .build();
-        DigitalKontaktinformasjonV1 mock = new DKIFMock();
-        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, DigitalKontaktinformasjonV1.class);
+        return port;
     }
 
-    @Bean
-    public Pingable dkifV1Ping() {
-        PingMetadata pingMetadata = new PingMetadata(
-                UUID.randomUUID().toString(),
-                ENDEPUNKT_URL,
-                ENDEPUNKT_NAVN,
-                KRITISK
-        );
-        return () -> {
-            try {
-                factory().configureStsForSystemUser().build().ping();
-                return lyktes(pingMetadata);
-            } catch (Exception e) {
-                return feilet(pingMetadata, e);
-            }
-        };
-    }
-
-    private CXFClient<DigitalKontaktinformasjonV1> factory() {
+    private CXFClient<DigitalKontaktinformasjonV1> factory(String serviceUrl) {
         return new CXFClient<>(DigitalKontaktinformasjonV1.class)
-                .address(ENDEPUNKT_URL);
+                .address(serviceUrl);
     }
 }

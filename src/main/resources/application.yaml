@@ -1,0 +1,28 @@
+no.nav.security.oidc:
+  issuers: intern
+  issuer:
+    intern:
+      discoveryurl: <SETTES FRA FASIT>
+      accepted_audience: modiabrukerdialog-p,modiabrukerdialog-q1,veilarblogin-p,veilarblogin-q1
+      cookie_name: ID_token
+
+logging.config: classpath:logback-spring.xml
+
+management:
+  endpoint.prometheus.enabled: true
+  endpoints.web:
+    base-path: /internal
+    exposure.include: prometheus
+    path-mapping.prometheus: /prometheus
+
+server:
+  servlet:
+    context-path: /modiasyforest
+
+spring:
+  main.banner-mode: 'off'
+  jta.atomikos.datasource:
+    max-pool-size: 32
+    min-pool-size: 8
+
+dev: false

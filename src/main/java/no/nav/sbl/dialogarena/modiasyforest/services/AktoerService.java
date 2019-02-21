@@ -1,10 +1,13 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.tjeneste.virksomhet.aktoer.v2.*;
+import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2;
+import no.nav.tjeneste.virksomhet.aktoer.v2.HentAktoerIdForIdentPersonIkkeFunnet;
+import no.nav.tjeneste.virksomhet.aktoer.v2.HentIdentForAktoerIdPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentAktoerIdForIdentRequest;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentIdentForAktoerIdRequest;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
@@ -13,12 +16,17 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Service
 public class AktoerService {
 
     private static final Logger LOG = getLogger(AktoerService.class);
 
-    @Inject
     private AktoerV2 aktoerV2;
+
+    @Inject
+    public AktoerService(AktoerV2 aktoerV2) {
+        this.aktoerV2 = aktoerV2;
+    }
 
     @Cacheable(value = "aktoer")
     public String hentAktoerIdForFnr(String fnr) {

@@ -1,57 +1,56 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.common.auth.SubjectHandler;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.Tilgang;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.net.URI;
 
-import static java.lang.System.getProperty;
-import static javax.ws.rs.client.ClientBuilder.newClient;
-import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
-import static no.nav.common.auth.SsoToken.Type.OIDC;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.AdRoller.*;
+import static java.util.Collections.singletonMap;
+import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
-@Component
+@Service
 public class TilgangService {
-    private Client client = newClient();
 
-    @Cacheable(value = "tilgang", keyGenerator = "userkeygenerator")
-    public void sjekkTilgangTilPerson(String fnr) {
-        if ("true".equals(getProperty("tilgang.withmock"))) {
-            return;
-        }
-        Response response = client.target(getProperty("TILGANGSKONTROLLAPI_URL") + "/tilgangtilbruker")
-                .queryParam("fnr", fnr)
-                .request(MediaType.APPLICATION_JSON)
-                .header(AUTHORIZATION, "Bearer " +
-                        SubjectHandler.getSsoToken(OIDC)
-                                .orElseThrow(() -> new NotAuthorizedException("Finner ikke token")))
-                .get();
+    public static final String FNR = "fnr";
+    public static final String TILGANG_TIL_BRUKER_PATH = "/tilgangtilbruker";
+    private static final String FNR_PLACEHOLDER = "{" + FNR + "}";
+    private final RestTemplate template;
+    private final UriComponentsBuilder tilgangTilBrukerUriTemplate;
 
-        if (200 != response.getStatus()) {
-            if (403 == response.getStatus()) {
-                Tilgang tilgang = response.readEntity(Tilgang.class);
-                if(EGEN_ANSATT.name().equals(tilgang.begrunnelse)){
-                    throw new ForbiddenException("sykefravaer.veileder.feilmelding.EGENANSATT.melding");
-                } else if(KODE6.name().equals(tilgang.begrunnelse)){
-                    throw new ForbiddenException("sykefravaer.veileder.feilmelding.DISKRESJON.melding");
-                } else if(KODE7.name().equals(tilgang.begrunnelse)){
-                    throw new ForbiddenException("sykefravaer.veileder.feilmelding.DISKRESJON.melding");
-                } else if(SYFO.name().equals(tilgang.begrunnelse)){
-                    throw new ForbiddenException("sykefravaer.veileder.feilmelding.SENSITIV.melding");
-                } else {
-                    throw new ForbiddenException("feilmelding.generell.feil");
-                }
-            } else {
-                throw new RuntimeException("feilmelding.generell.feil");
-            }
+    public TilgangService(
+            @Value("${tilgangskontrollapi.url}") String tilgangskontrollUrl,
+            RestTemplate template
+    ) {
+        tilgangTilBrukerUriTemplate = fromHttpUrl(tilgangskontrollUrl)
+                .path(TILGANG_TIL_BRUKER_PATH)
+                .queryParam(FNR, FNR_PLACEHOLDER);
+        this.template = template;
+    }
+
+    @Cacheable("veiledertilgangperson")
+    public void sjekkVeiledersTilgangTilPerson(String fnr) {
+        URI tilgangTilBrukerUriMedFnr = tilgangTilBrukerUriTemplate.build(singletonMap(FNR, fnr));
+        boolean harTilgang = kallUriMedTemplate(tilgangTilBrukerUriMedFnr);
+        if (!harTilgang) {
+            throw new ForbiddenException();
         }
     }
 
+    private boolean kallUriMedTemplate(URI uri) {
+        try {
+            template.getForObject(uri, Object.class);
+            return true;
+        } catch (HttpClientErrorException e) {
+            if (e.getRawStatusCode() == 403) {
+                return false;
+            } else {
+                throw e;
+            }
+        }
+    }
 }

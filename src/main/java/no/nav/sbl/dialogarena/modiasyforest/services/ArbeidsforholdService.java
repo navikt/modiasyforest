@@ -7,6 +7,7 @@ import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.*
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.meldinger.FinnArbeidsforholdPrArbeidstakerRequest;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
@@ -24,6 +25,7 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Service
 public class ArbeidsforholdService {
 
     private static final Logger LOG = getLogger(ArbeidsforholdService.class);
@@ -33,14 +35,24 @@ public class ArbeidsforholdService {
         A_ORDNINGEN.setValue("A_ORDNINGEN");
     }
 
-    @Inject
     private SykmeldingService sykmeldingService;
-    @Inject
+
     private ArbeidsforholdV3 arbeidsforholdV3;
-    @Inject
+
     private OrganisasjonService organisasjonService;
 
-    @Cacheable(value = "arbeidsforhold", keyGenerator = "userkeygenerator")
+    @Inject
+    public ArbeidsforholdService(
+            SykmeldingService sykmeldingService,
+            ArbeidsforholdV3 arbeidsforholdV3,
+            OrganisasjonService organisasjonService
+    ) {
+        this.sykmeldingService = sykmeldingService;
+        this.arbeidsforholdV3 = arbeidsforholdV3;
+        this.organisasjonService = organisasjonService;
+    }
+
+    @Cacheable(value = "arbeidsforhold")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente arbeidsforhold med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);

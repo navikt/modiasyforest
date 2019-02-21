@@ -5,17 +5,24 @@ import no.nav.tjeneste.pip.diskresjonskode.meldinger.WSHentDiskresjonskodeReques
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
 import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+//@Service
 public class DiskresjonskodeService {
     private static final Logger LOG = LoggerFactory.getLogger(DiskresjonskodeService.class);
 
     @Inject
     private DiskresjonskodePortType diskresjonskodePortType;
+
+//    @Inject
+//    public DiskresjonskodeService(DiskresjonskodePortType diskresjonskodePortType) {
+//        this.diskresjonskodePortType = diskresjonskodePortType;
+//    }
 
     @Cacheable(value = "diskresjonskode")
     public String diskresjonskode(String fnr) {
