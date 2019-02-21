@@ -3,9 +3,12 @@ package no.nav.sbl.dialogarena.modiasyforest.config;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.DKIFMock;
 import no.nav.sbl.dialogarena.types.Pingable;
+import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.UUID;
 
 import static java.lang.System.getProperty;
 import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
@@ -31,10 +34,15 @@ public class DkifConfig {
 
     @Bean
     public Pingable dkifV1Ping() {
-        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
+        PingMetadata pingMetadata = new PingMetadata(
+                UUID.randomUUID().toString(),
+                ENDEPUNKT_URL,
+                ENDEPUNKT_NAVN,
+                KRITISK
+        );
         return () -> {
             try {
-                factory().configureStsForSystemUserInFSS().build().ping();
+                factory().configureStsForSystemUser().build().ping();
                 return lyktes(pingMetadata);
             } catch (Exception e) {
                 return feilet(pingMetadata, e);

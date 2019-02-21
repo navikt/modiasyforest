@@ -3,6 +3,7 @@ package no.nav.sbl.dialogarena.modiasyforest.config;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.OppfoelgingMock;
 import no.nav.sbl.dialogarena.types.Pingable;
+import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,7 @@ public class SykefravaerOppfoelgingConfig {
     public Pingable sykmeldingPing() {
         Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
         final SykefravaersoppfoelgingV1 oppfoelgingPing = sykmeldingPortType()
-                .configureStsForSystemUserInFSS()
+                .configureStsForSystemUser()
                 .build();
         return () -> {
             try {

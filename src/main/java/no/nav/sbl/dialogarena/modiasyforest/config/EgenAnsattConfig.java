@@ -3,9 +3,12 @@ package no.nav.sbl.dialogarena.modiasyforest.config;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.modiasyforest.mocks.EgenansattMock;
 import no.nav.sbl.dialogarena.types.Pingable;
+import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
 import no.nav.tjeneste.pip.egen.ansatt.v1.EgenAnsattV1;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.UUID;
 
 import static java.lang.System.getProperty;
 import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
@@ -31,9 +34,14 @@ public class EgenAnsattConfig {
 
     @Bean
     public Pingable ping() {
-        Pingable.Ping.PingMetadata pingMetadata = new Pingable.Ping.PingMetadata(ENDEPUNKT_URL, ENDEPUNKT_NAVN, KRITISK);
+        PingMetadata pingMetadata = new PingMetadata(
+                UUID.randomUUID().toString(),
+                ENDEPUNKT_URL,
+                ENDEPUNKT_NAVN,
+                KRITISK
+        );
         final EgenAnsattV1 egenAnsattV1 = factory()
-                .configureStsForSystemUserInFSS()
+                .configureStsForSystemUser()
                 .build();
         return () -> {
             try {
