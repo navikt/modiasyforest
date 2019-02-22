@@ -1,11 +1,17 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.*;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIkkeFunnet;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPerson;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
@@ -14,12 +20,18 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
+@Service
 public class BrukerprofilService {
     private static final Logger LOG = LoggerFactory.getLogger(BrukerprofilService.class);
-    @Inject
+
     private BrukerprofilV3 brukerprofilV3;
 
-    @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
+    @Inject
+    public BrukerprofilService(BrukerprofilV3 brukerprofilV3) {
+        this.brukerprofilV3 = brukerprofilV3;
+    }
+
+    @Cacheable(value = "tpsnavn")
     public String hentNavn(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
@@ -50,7 +62,7 @@ public class BrukerprofilService {
         }
     }
 
-    @Cacheable(value = "tps", keyGenerator = "userkeygenerator")
+    @Cacheable(value = "tpsbruker")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);

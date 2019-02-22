@@ -2,27 +2,32 @@ package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.metrics.aspects.Count;
 import no.nav.metrics.aspects.Timed;
+import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
 import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
+import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import java.io.IOException;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer.INTERN;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 
-@Controller
-@Path("/naermesteleder")
+@RestController
+@RequestMapping(value = "/api/naermesteleder")
 @Produces(APPLICATION_JSON)
 public class NaermestelederRessurs {
 
@@ -33,15 +38,16 @@ public class NaermestelederRessurs {
     @Inject
     private SykmeldingService sykmeldingService;
 
-    @GET
     @Timed
     @Count(name = "hentNaermesteledere")
-    public List<NaermesteLeder> hentNaermesteledere(@QueryParam("fnr") String fnr) {
-        tilgangService.sjekkTilgangTilPerson(fnr);
+    @ProtectedWithClaims(issuer = INTERN)
+    @GetMapping
+    public List<NaermesteLeder> hentNaermesteledere(@RequestParam(value = "fnr") String fnr) {
+        tilgangService.sjekkVeiledersTilgangTilPerson(fnr);
 
         List<Sykmelding> sykmeldinger;
         try {
-            sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, singletonList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER));
+            sykmeldinger = sykmeldingService.hentSykmeldinger(fnr, singletonList(WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER), OIDCIssuer.INTERN);
         } catch (Exception e) {
             sykmeldinger = emptyList();
         }
@@ -52,5 +58,15 @@ public class NaermestelederRessurs {
             naermesteleder.id = idcounter++;
         }
         return naermesteledere;
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    void handleBadRequests(HttpServletResponse response) throws IOException {
+        response.sendError(BAD_REQUEST.value(), "Vi kunne ikke tolke inndataene :/");
+    }
+
+    @ExceptionHandler({ForbiddenException.class})
+    void handleForbiddenRequests(HttpServletResponse response) throws IOException {
+        response.sendError(FORBIDDEN.value(), "Handling er forbudt");
     }
 }

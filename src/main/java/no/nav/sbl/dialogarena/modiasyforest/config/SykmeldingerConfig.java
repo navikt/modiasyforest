@@ -1,61 +1,52 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
-import no.nav.sbl.dialogarena.common.cxf.CXFClient;
-import no.nav.sbl.dialogarena.modiasyforest.mocks.SykmeldingV1Mock;
-import no.nav.sbl.dialogarena.types.Pingable;
-import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.LogErrorHandler;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.STSClientConfig;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.WsClient;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentSykeforlopperiodeRequest;
+import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentSykeforlopperiodeResponse;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.HentOppfoelgingstilfelleListeSikkerhetsbegrensning;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.HentSykmeldingListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeRequest;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeResponse;
+import org.apache.cxf.frontend.ClientProxy;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
-import java.util.UUID;
-
-import static java.lang.System.getProperty;
-import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.feilet;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
+import static java.util.Collections.singletonList;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.leggTilOnBehalfOfOutInterceptorForOIDC;
 
 @Configuration
 public class SykmeldingerConfig {
 
-    private static final String MOCK_KEY = "sykmelding.syfoservice.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("SYKMELDING_V1_ENDPOINTURL");
-    private static final String ENDEPUNKT_NAVN = "SYKMELDING_V1";
-    private static final boolean KRITISK = false;
+    public static final String MOCK_KEY = "sykmelding.syfoservice.withmock";
 
+    private SykmeldingV1 port;
+
+    @SuppressWarnings("unchecked")
     @Bean
-    public SykmeldingV1 sykmeldingV1() {
-        SykmeldingV1 prod = sykmeldingPortType()
-                .configureStsForOnBehalfOfWithJWT()
-                .build();
-        SykmeldingV1 mock = new SykmeldingV1Mock();
-        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykmeldingV1.class);
+    @Primary
+    @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
+    public SykmeldingV1 SykmeldingV1(@Value("${sykmelding.v1.endpointurl}") String serviceUrl) {
+        SykmeldingV1 port = new WsClient<SykmeldingV1>().createPort(serviceUrl, SykmeldingV1.class, singletonList(new LogErrorHandler()));
+        STSClientConfig.configureRequestSamlTokenOnBehalfOfOidc(port);
+        this.port = port;
+        return port;
     }
 
-    private CXFClient<SykmeldingV1> sykmeldingPortType() {
-        return new CXFClient<>(SykmeldingV1.class)
-                .address(ENDEPUNKT_URL);
+    public WSHentSykmeldingListeResponse hentSykmeldingListe(WSHentSykmeldingListeRequest request, String OIDCToken) throws HentSykmeldingListeSikkerhetsbegrensning {
+        leggTilOnBehalfOfOutInterceptorForOIDC(ClientProxy.getClient(port), OIDCToken);
+        return port.hentSykmeldingListe(request);
     }
 
-    @Bean
-    public Pingable sykmeldingPing() {
-        PingMetadata pingMetadata = new PingMetadata(
-                UUID.randomUUID().toString(),
-                ENDEPUNKT_URL,
-                ENDEPUNKT_NAVN,
-                KRITISK
-        );
-        final SykmeldingV1 sykmeldingPing = sykmeldingPortType()
-                .configureStsForSystemUser()
-                .build();
-        return () -> {
-            try {
-                sykmeldingPing.ping();
-                return lyktes(pingMetadata);
-            } catch (Exception e) {
-                return feilet(pingMetadata, e);
-            }
-        };
+    public WSHentOppfoelgingstilfelleListeResponse hentOppfoelgingstilfelleListe(WSHentOppfoelgingstilfelleListeRequest request, String OIDCToken) throws HentOppfoelgingstilfelleListeSikkerhetsbegrensning {
+        leggTilOnBehalfOfOutInterceptorForOIDC(ClientProxy.getClient(port), OIDCToken);
+        return port.hentOppfoelgingstilfelleListe(request);
     }
-
 }

@@ -9,6 +9,7 @@ import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaerm
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
@@ -21,17 +22,28 @@ import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Service
 public class NaermesteLederService {
     private static final Logger LOG = getLogger(NaermesteLederService.class);
 
-    @Inject
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
-    @Inject
+
     private AktoerService aktoerService;
-    @Inject
+
     private OrganisasjonService organisasjonService;
 
-    @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
+    @Inject
+    public NaermesteLederService(
+            AktoerService aktoerService,
+            OrganisasjonService organisasjonService,
+            SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1
+    ) {
+        this.aktoerService = aktoerService;
+        this.organisasjonService = organisasjonService;
+        this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
+    }
+
+    @Cacheable(value = "syfo")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente naermesteledere med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
@@ -67,7 +79,7 @@ public class NaermesteLederService {
                 .collect(toList());
     }
 
-    @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
+    @Cacheable(value = "syfo")
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
         String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
 

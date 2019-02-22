@@ -1,16 +1,21 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import no.nav.sbl.dialogarena.modiasyforest.config.SykmeldingerConfig;
 import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
+import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.HentOppfoelgingstilfelleListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
@@ -28,24 +33,43 @@ import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
 import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Service
 public class SykeforloepService {
 
     private static final Logger LOG = getLogger(SykeforloepService.class);
 
-    @Inject
+    @Value("${dev}")
+    private String dev;
+    private OIDCRequestContextHolder contextHolder;
     private AktoerService aktoerService;
-    @Inject
-    private SykmeldingV1 sykmeldingV1;
-    @Inject
     private NaermesteLederService naermesteLederService;
-    @Inject
     private OrganisasjonService organisasjonService;
+    private SykmeldingerConfig sykmeldingerConfig;
+    private SykmeldingV1 sykmeldingV1;
 
-    @Cacheable(value = "syfo", keyGenerator = "userkeygenerator")
-    public List<Sykeforloep> hentSykeforloep(String fnr) {
+    @Inject
+    public SykeforloepService(
+            OIDCRequestContextHolder contextHolder,
+            AktoerService aktoerService,
+            NaermesteLederService naermesteLederService,
+            OrganisasjonService organisasjonService,
+            SykmeldingerConfig sykmeldingerConfig,
+            SykmeldingV1 sykmeldingV1
+    ) {
+        this.contextHolder = contextHolder;
+        this.aktoerService = aktoerService;
+        this.naermesteLederService = naermesteLederService;
+        this.organisasjonService = organisasjonService;
+        this.sykmeldingerConfig = sykmeldingerConfig;
+        this.sykmeldingV1 = sykmeldingV1;
+    }
+
+    @Cacheable(value = "syfo")
+    public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
@@ -54,9 +78,18 @@ public class SykeforloepService {
         String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
 
         try {
-            return sykmeldingV1.hentOppfoelgingstilfelleListe(
-                    new WSHentOppfoelgingstilfelleListeRequest()
-                            .withAktoerId(aktoerId)).getOppfoelgingstilfelleListe().stream()
+            WSHentOppfoelgingstilfelleListeRequest request = new WSHentOppfoelgingstilfelleListeRequest()
+                    .withAktoerId(aktoerId);
+            WSHentOppfoelgingstilfelleListeResponse response;
+            if ("true".equals(dev)) {
+                response = sykmeldingV1.hentOppfoelgingstilfelleListe(request);
+            } else {
+                String oidcToken = tokenFraOIDC(this.contextHolder, oidcIssuer);
+                response = sykmeldingerConfig.hentOppfoelgingstilfelleListe(request, oidcToken);
+            }
+
+            return response.getOppfoelgingstilfelleListe()
+                    .stream()
                     .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
                     .collect(toList());
         } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {

@@ -1,0 +1,44 @@
+spring:
+  cache:
+    type: none
+server:
+  port: 8084
+  servlet:
+    context-path: /modiasyforest
+
+
+no.nav.modig.security.sts.url: "sts.url"
+no.nav.modig.security.systemuser.username: "sts.url"
+no.nav.modig.security.systemuser.password: "sts.url"
+securitytokenservice.url: "sts.url"
+srvmodiasyforest:
+  username: "kek"
+  password: "bur"
+
+aktoer.v2.endpointurl: "aktoerv2.url"
+sykefravaersoppfoelging.v1.endpointurl: "sykefravaeroppfoelgingv1.url"
+brukeroppgave.v1.endpointurl: "brukeroppgavev1.url"
+virksomhet:
+  diskresjonskode.v1.endpointurl: "diskresjonskode.url"
+  organisasjon.v4.endpointurl: "organisasjonv4.url"
+  arbeidsfordeling.v1.endpointurl: "arbeidsfordelingv1.url"
+  egenansatt.v1.endpointurl: "egenansattv1.url"
+
+fasit.environment.name: 'local'
+
+aktoer.withmock: true
+arbeidsforhold.aareg.withmock: true
+brukerprofilv3.withmock: true
+diskresjonskodev1.withmock: true
+dkif.withmock: true
+egenansatt.withmock: true
+organisasjon.ereg.withmock: true
+oppfoelging.syfoservice.withmock: true
+sykepengesoknad.syfoservice.withmock: true
+sykmelding.syfoservice.withmock: true
+sykefravaersoppfoelging.syfoservice.withmock: false
+
+dev: true
+local.mock: false
+
+tilgangskontrollapi.url: "https://www.ikke.no"

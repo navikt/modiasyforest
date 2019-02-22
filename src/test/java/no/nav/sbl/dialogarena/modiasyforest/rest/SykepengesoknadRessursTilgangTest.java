@@ -1,81 +1,82 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.Tilgang;
+import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.services.AktoerService;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykepengesoknaderService;
-import org.glassfish.jersey.message.internal.Statuses;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
 
 import static java.util.Collections.emptyList;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tilgang.AdRoller.*;
-import static org.mockito.Mockito.verify;
+import static no.nav.sbl.dialogarena.modiasyforest.testhelper.OidcTestHelper.loggInnVeileder;
+import static no.nav.sbl.dialogarena.modiasyforest.testhelper.UserConstants.ARBEIDSTAKER_FNR;
+import static no.nav.sbl.dialogarena.modiasyforest.testhelper.UserConstants.VEILEDER_ID;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.*;
 
 public class SykepengesoknadRessursTilgangTest extends AbstractRessursTilgangTest {
 
     private static final String AKTOR_ID = "42";
 
-    @Mock
+    @Inject
+    private SykepengesoknadRessurs sykepengesoknadRessurs;
+
+    @MockBean
     private SykepengesoknaderService sykepengesoknaderService;
-    @Mock
+    @MockBean
     private AktoerService aktoerService;
 
-    @InjectMocks
-    private SykepengesoknadRessurs sykepengesoknadRessurs;
 
     @Test
     public void har_tilgang() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(200);
-        when(aktoerService.hentAktoerIdForFnr(FNR)).thenReturn(AKTOR_ID);
-        when(sykepengesoknaderService.hentSykepengesoknader(AKTOR_ID)).thenReturn(emptyList());
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, OK);
+        when(aktoerService.hentAktoerIdForFnr(ARBEIDSTAKER_FNR)).thenReturn(AKTOR_ID);
+        when(sykepengesoknaderService.hentSykepengesoknader(AKTOR_ID, OIDCIssuer.INTERN)).thenReturn(emptyList());
 
-        sykepengesoknadRessurs.hentSykepengesoknader(FNR);
-
-        verify(tilgangskontrollResponse).getStatus();
+        sykepengesoknadRessurs.hentSykepengesoknader(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_kode_6() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(KODE6.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        sykepengesoknadRessurs.hentSykepengesoknader(FNR);
+        sykepengesoknadRessurs.hentSykepengesoknader(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_kode_7() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(KODE7.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        sykepengesoknadRessurs.hentSykepengesoknader(FNR);
+        sykepengesoknadRessurs.hentSykepengesoknader(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_egenansatt() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(EGEN_ANSATT.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        sykepengesoknadRessurs.hentSykepengesoknader(FNR);
+        sykepengesoknadRessurs.hentSykepengesoknader(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = ForbiddenException.class)
     public void har_ikke_tilgang_sensitiv() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(403);
-        when(tilgangskontrollResponse.readEntity(Tilgang.class)).thenReturn(new Tilgang().begrunnelse(SYFO.name()));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, FORBIDDEN);
 
-        sykepengesoknadRessurs.hentSykepengesoknader(FNR);
+        sykepengesoknadRessurs.hentSykepengesoknader(ARBEIDSTAKER_FNR);
     }
 
     @Test(expected = RuntimeException.class)
     public void annen_tilgangsfeil() {
-        when(tilgangskontrollResponse.getStatus()).thenReturn(500);
-        when(tilgangskontrollResponse.getStatusInfo()).thenReturn(Statuses.from(500, "Tau i propellen"));
+        loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
+        mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, INTERNAL_SERVER_ERROR);
 
-        sykepengesoknadRessurs.hentSykepengesoknader(FNR);
+        sykepengesoknadRessurs.hentSykepengesoknader(ARBEIDSTAKER_FNR);
     }
 
 }

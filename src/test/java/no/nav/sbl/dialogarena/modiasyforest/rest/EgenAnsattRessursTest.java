@@ -1,20 +1,30 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
+import no.nav.sbl.dialogarena.modiasyforest.LocalApplication;
 import no.nav.sbl.dialogarena.modiasyforest.services.EgenAnsattService;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.inject.Inject;
+
+import static no.nav.sbl.dialogarena.modiasyforest.services.TilgangService.FNR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class EgenAnsattRessursTest extends AbstractRessursTilgangTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = LocalApplication.class)
+@DirtiesContext
+public class EgenAnsattRessursTest {
 
-    @Mock
-    private EgenAnsattService egenAnsattService;
-
-    @InjectMocks
+    @Inject
     private EgenAnsattRessurs egenAnsattRessurs;
+
+    @MockBean
+    private EgenAnsattService egenAnsattService;
 
     @Test
     public void henter_egen_ansatt_flagg() {

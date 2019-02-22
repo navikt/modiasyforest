@@ -1,61 +1,42 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
-import no.nav.sbl.dialogarena.common.cxf.CXFClient;
-import no.nav.sbl.dialogarena.modiasyforest.mocks.SykepengesoeknadV1Mock;
-import no.nav.sbl.dialogarena.types.Pingable;
-import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.LogErrorHandler;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.STSClientConfig;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.WsClient;
+import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.HentSykepengesoeknadListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1;
+import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeRequest;
+import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeResponse;
+import org.apache.cxf.frontend.ClientProxy;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
-import java.util.UUID;
-
-import static java.lang.System.getProperty;
-import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.feilet;
-import static no.nav.sbl.dialogarena.types.Pingable.Ping.lyktes;
+import static java.util.Collections.singletonList;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.leggTilOnBehalfOfOutInterceptorForOIDC;
 
 @Configuration
 public class SykepengesoknadConfig {
 
-    private static final String MOCK_KEY = "sykepengesoknad.syfoservice.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("SYKEPENGESOEKNAD_V1_ENDPOINTURL");
-    private static final String ENDEPUNKT_NAVN = "SYKEPENGESOKNAD_V1";
-    private static final boolean KRITISK = false;
+    public static final String MOCK_KEY = "sykepengesoknad.syfoservice.withmock";
 
+    private SykepengesoeknadV1 port;
+
+    @SuppressWarnings("unchecked")
     @Bean
-    public SykepengesoeknadV1 sykepengesoeknadV1() {
-        SykepengesoeknadV1 prod = sykepengesoeknadPortType()
-                .configureStsForOnBehalfOfWithJWT()
-                .build();
-        SykepengesoeknadV1 mock = new SykepengesoeknadV1Mock();
-        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, SykepengesoeknadV1.class);
+    @Primary
+    @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
+    public SykepengesoeknadV1 sykepengesoeknadV1(@Value("${sykepengesoeknad.v1.endpointurl}") String serviceUrl) {
+        SykepengesoeknadV1 port = new WsClient<SykepengesoeknadV1>().createPort(serviceUrl, SykepengesoeknadV1.class, singletonList(new LogErrorHandler()));
+        STSClientConfig.configureRequestSamlTokenOnBehalfOfOidc(port);
+        this.port = port;
+        return port;
     }
 
-    @Bean
-    public Pingable sykepengesoeknadPing() {
-        PingMetadata pingMetadata = new PingMetadata(
-                UUID.randomUUID().toString(),
-                ENDEPUNKT_URL,
-                ENDEPUNKT_NAVN,
-                KRITISK
-        );
-        final SykepengesoeknadV1 sykepengesoeknadPing = sykepengesoeknadPortType()
-                .configureStsForSystemUser()
-                .build();
-        return () -> {
-            try {
-                sykepengesoeknadPing.ping();
-                return lyktes(pingMetadata);
-            } catch (Exception e) {
-                return feilet(pingMetadata, e);
-            }
-        };
+    public WSHentSykepengesoeknadListeResponse hentSykepengesoeknadListe(WSHentSykepengesoeknadListeRequest request, String OIDCToken) throws HentSykepengesoeknadListeSikkerhetsbegrensning {
+        leggTilOnBehalfOfOutInterceptorForOIDC(ClientProxy.getClient(port), OIDCToken);
+        return port.hentSykepengesoeknadListe(request);
     }
-
-    private CXFClient<SykepengesoeknadV1> sykepengesoeknadPortType() {
-        return new CXFClient<>(SykepengesoeknadV1.class)
-                .address(ENDEPUNKT_URL);
-    }
-
 }

@@ -1,31 +1,29 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
-import no.nav.sbl.dialogarena.modiasyforest.mocks.DiskresjonskodeMock;
 import no.nav.tjeneste.pip.diskresjonskode.DiskresjonskodePortType;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static java.lang.System.getProperty;
-import static no.nav.sbl.dialogarena.common.cxf.InstanceSwitcher.createMetricsProxyWithInstanceSwitcher;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class DiskresjonskodeConfig {
-    private static final String MOCK_KEY = "diskresjonskodev1.withmock";
-    private static final String ENDEPUNKT_URL = getProperty("VIRKSOMHET_DISKRESJONSKODE_V1_ENDPOINTURL");
-    private static final String ENDEPUNKT_NAVN = "DISKRESJONSKODE_V1";
+
+    public static final String MOCK_KEY = "diskresjonskodev1.withmock";
 
     @Bean
-    public DiskresjonskodePortType diskresjonskodeV1() {
-        DiskresjonskodePortType prod = factory()
-                .configureStsForOnBehalfOfWithJWT()
+    @Primary
+    @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
+    public DiskresjonskodePortType DiskresjonskodePortType(@Value("${virksomhet.diskresjonskode.v1.endpointurl}") String serviceUrl) {
+        DiskresjonskodePortType port = factory(serviceUrl)
+                .configureStsForSystemUser()
                 .build();
-        DiskresjonskodePortType mock = new DiskresjonskodeMock();
-
-        return createMetricsProxyWithInstanceSwitcher(ENDEPUNKT_NAVN, prod, mock, MOCK_KEY, DiskresjonskodePortType.class);
+        return port;
     }
 
-    private CXFClient<DiskresjonskodePortType> factory() {
-        return new CXFClient<>(DiskresjonskodePortType.class).address(ENDEPUNKT_URL);
+    private CXFClient<DiskresjonskodePortType> factory(String serviceUrl) {
+        return new CXFClient<>(DiskresjonskodePortType.class).address(serviceUrl);
     }
 }

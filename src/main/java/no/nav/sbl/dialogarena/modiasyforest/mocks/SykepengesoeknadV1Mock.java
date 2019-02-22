@@ -3,14 +3,19 @@ package no.nav.sbl.dialogarena.modiasyforest.mocks;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.*;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 import static java.time.LocalDate.now;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static no.nav.sbl.dialogarena.modiasyforest.config.SykepengesoknadConfig.MOCK_KEY;
 import static no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.informasjon.WSAnnenInntektskildeType.FRILANSER;
 
+@Service
+@ConditionalOnProperty(value = MOCK_KEY, havingValue = "true")
 public class SykepengesoeknadV1Mock implements SykepengesoeknadV1 {
     @Override
     public WSHentSykepengesoeknadListeResponse hentSykepengesoeknadListe(WSHentSykepengesoeknadListeRequest request) throws HentSykepengesoeknadListeSikkerhetsbegrensning {

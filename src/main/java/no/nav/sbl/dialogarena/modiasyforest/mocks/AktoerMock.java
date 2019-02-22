@@ -4,9 +4,16 @@ import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2;
 import no.nav.tjeneste.virksomhet.aktoer.v2.HentAktoerIdForIdentPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.aktoer.v2.HentIdentForAktoerIdPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
+import static no.nav.sbl.dialogarena.modiasyforest.config.AktoerConfig.MOCK_KEY;
+
+@Service
+@ConditionalOnProperty(value = MOCK_KEY, havingValue = "true")
 public class AktoerMock implements AktoerV2 {
 
+    private static final String MOCK_AKTORID_PREFIX = "10";
     public static final String AKTOER_ID_MOCK = "1234567893210";
 
     public WSHentAktoerIdForIdentListeResponse hentAktoerIdForIdentListe(WSHentAktoerIdForIdentListeRequest wsHentAktoerIdForIdentListeRequest) {
@@ -27,4 +34,8 @@ public class AktoerMock implements AktoerV2 {
     }
 
     public void ping() { }
+
+    public static String mockAktorId(String fnr) {
+        return MOCK_AKTORID_PREFIX.concat(fnr);
+    }
 }

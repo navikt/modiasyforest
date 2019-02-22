@@ -7,14 +7,18 @@ replicas:
   max: 2
   cpuThresholdPercentage: 50
 port: 8080
-webproxy: true
+#webproxy: true
 healthcheck:
   liveness:
-    path: modiasyforest/internal/isAlive
+    path: /modiasyforest/internal/isAlive
     initialDelay: 120
+    timeout: 1
+    periodSeconds: 10
+    failureThreshold: 3
   readiness:
-    path: modiasyforest/internal/isAlive
+    path: /modiasyforest/internal/isReady
     initialDelay: 120
+    timeout: 1
 prometheus:
   enabled: true
   path: modiasyforest/internal/prometheus
@@ -72,8 +76,16 @@ fasitResources:
   # OIDC med AzureAD B2C
   - alias: aad_b2c_clientid
     resourceType: credential
+    propertyMap:
+      username: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_ACCEPTEDAUDIENCE
   - alias: aad_b2c_discovery
     resourceType: baseurl
+    propertyMap:
+      url: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_DISCOVERYURL
+  - alias: opam_oidc_discovery
+    resourceType: baseurl
+    propertyMap:
+      url: NO_NAV_SECURITY_OIDC_ISSUER_INTERN_DISCOVERYURL
   exposed:
   - alias: modiasyfoapi
     resourceType: restservice
