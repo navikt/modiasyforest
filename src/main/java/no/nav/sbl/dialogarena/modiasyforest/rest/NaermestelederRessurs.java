@@ -1,13 +1,12 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
-import no.nav.metrics.aspects.Count;
-import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.NaermesteLederService;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
 import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
+import no.nav.sbl.dialogarena.modiasyforest.utils.Metrikk;
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import org.springframework.web.bind.annotation.*;
@@ -32,17 +31,19 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 public class NaermestelederRessurs {
 
     @Inject
+    private Metrikk metrikk;
+    @Inject
     private TilgangService tilgangService;
     @Inject
     private NaermesteLederService naermesteLederService;
     @Inject
     private SykmeldingService sykmeldingService;
 
-    @Timed
-    @Count(name = "hentNaermesteledere")
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping
     public List<NaermesteLeder> hentNaermesteledere(@RequestParam(value = "fnr") String fnr) {
+        metrikk.tellEndepunktKall("hent_naermesteledere");
+
         tilgangService.sjekkVeiledersTilgangTilPerson(fnr);
 
         List<Sykmelding> sykmeldinger;

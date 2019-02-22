@@ -1,6 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
-import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.sbl.dialogarena.modiasyforest.services.*;
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
@@ -44,7 +43,6 @@ public class BrukerRessurs {
         this.tilgangsKontroll = tilgangsKontroll;
     }
 
-    @Timed
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public Bruker hentNavn(@RequestParam(value = "fnr") String fnr) {

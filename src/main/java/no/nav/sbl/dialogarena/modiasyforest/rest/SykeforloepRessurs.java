@@ -1,7 +1,5 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
-
-import no.nav.metrics.aspects.Timed;
 import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykeforloepService;
@@ -33,7 +31,6 @@ public class SykeforloepRessurs {
     @Inject
     private SykeforloepService sykeforloepService;
 
-    @Timed
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping
     public List<Sykeforloep> hentOppfoelgingstilfeller(@RequestParam(value = "fnr") String fnr) {

@@ -1,11 +1,11 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 
-import no.nav.metrics.aspects.Count;
 import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.services.SykmeldingService;
 import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
+import no.nav.sbl.dialogarena.modiasyforest.utils.Metrikk;
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import org.springframework.web.bind.annotation.*;
@@ -32,17 +32,20 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 public class SykmeldingRessurs {
 
     @Inject
+    private Metrikk metrikk;
+    @Inject
     private TilgangService tilgangService;
     @Inject
     private SykmeldingService sykmeldingService;
 
-    @Count(name = "hentSykmeldinger")
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping
     public List<Sykmelding> hentSykmeldinger(
             @RequestParam(value = "fnr") String fnr,
             @RequestParam(value = "type", required = false) String type
     ) {
+        metrikk.tellEndepunktKall("hent_sykmeldinger");
+
         tilgangService.sjekkVeiledersTilgangTilPerson(fnr);
 
         if ("true".equals(getProperty("local.mock"))) {

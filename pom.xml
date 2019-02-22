@@ -37,7 +37,7 @@
         <oidc-spring-support.version>0.2.4</oidc-spring-support.version>
         <cxf.version>3.2.0</cxf.version>
         <lombok.version>1.16.22</lombok.version>
-        <aspectjweaver.version>1.8.8</aspectjweaver.version>
+        <micrometer-registry-prometheus.version>1.0.6</micrometer-registry-prometheus.version>
 
         <nav-common.version>2018.12.04.22.26</nav-common.version>
     </properties>
@@ -168,6 +168,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Metric -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer-registry-prometheus.version}</version>
+        </dependency>
+
         <!-- Cache -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -274,10 +281,6 @@
             <artifactId>cxf</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>metrics</artifactId>
-        </dependency>
-        <dependency>
             <groupId>no.nav.tjenester.fim</groupId>
             <artifactId>nav-arbeidsforhold-v3-tjenestespesifikasjon</artifactId>
             <classifier>jaxws</classifier>
@@ -305,12 +308,6 @@
         <dependency>
             <groupId>no.nav.syfo.tjenester</groupId>
             <artifactId>digisyfo-sykepengesoeknadoppsummering</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${aspectjweaver.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- test dependencies -->
