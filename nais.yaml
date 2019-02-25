@@ -7,7 +7,6 @@ replicas:
   max: 2
   cpuThresholdPercentage: 50
 port: 8080
-#webproxy: true
 healthcheck:
   liveness:
     path: /modiasyforest/internal/isAlive
@@ -21,7 +20,7 @@ healthcheck:
     timeout: 1
 prometheus:
   enabled: true
-  path: modiasyforest/internal/prometheus
+  path: /modiasyforest/internal/prometheus
 resources:
   limits:
     cpu: 3000m
