@@ -1,7 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -32,7 +31,6 @@ public class TilgangService {
         this.template = template;
     }
 
-    @Cacheable("veiledertilgangperson")
     public void sjekkVeiledersTilgangTilPerson(String fnr) {
         URI tilgangTilBrukerUriMedFnr = tilgangTilBrukerUriTemplate.build(singletonMap(FNR, fnr));
         boolean harTilgang = kallUriMedTemplate(tilgangTilBrukerUriMedFnr);

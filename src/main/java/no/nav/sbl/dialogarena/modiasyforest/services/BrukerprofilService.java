@@ -31,7 +31,7 @@ public class BrukerprofilService {
         this.brukerprofilV3 = brukerprofilV3;
     }
 
-    @Cacheable(value = "tpsnavn")
+    @Cacheable(cacheNames = "tpsnavn", key = "#fnr", condition = "#fnr != null")
     public String hentNavn(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
@@ -62,7 +62,7 @@ public class BrukerprofilService {
         }
     }
 
-    @Cacheable(value = "tpsbruker")
+    @Cacheable(cacheNames = "tpsbruker", key = "#fnr", condition = "#fnr != null")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);

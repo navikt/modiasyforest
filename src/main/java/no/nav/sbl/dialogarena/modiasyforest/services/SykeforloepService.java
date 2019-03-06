@@ -2,7 +2,9 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import no.nav.sbl.dialogarena.modiasyforest.config.SykmeldingerConfig;
 import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.*;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Oppfolgingstilfelle;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
@@ -76,7 +78,7 @@ public class SykeforloepService {
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
-    @Cacheable(value = "syfo")
+    @Cacheable(cacheNames = "syfosykeforlop", key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);

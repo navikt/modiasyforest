@@ -33,7 +33,7 @@ public class DkifService {
         this.dkifV1 = dkifV1;
     }
 
-    @Cacheable(value = "dkif")
+    @Cacheable(cacheNames = "dkiffnr", key = "#fnr", condition = "#fnr != null")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente kontaktinfo med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);

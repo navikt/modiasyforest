@@ -29,7 +29,7 @@ public class OrganisasjonService {
         this.organisasjonWebService = organisasjonWebService;
     }
 
-    @Cacheable(value = "organisasjon")
+    @Cacheable(cacheNames = "organisasjonnavn", key = "#orgnr", condition = "#orgnr != null")
     public String hentNavn(String orgnr) {
         if (isBlank(orgnr) || !orgnr.matches("\\d{9}$")) {
             LOG.error("{} prøvde å hente navn med orgnr {}", getIdent().orElse("<Ikke funnet>"), orgnr);

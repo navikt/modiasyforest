@@ -43,7 +43,7 @@ public class NaermesteLederService {
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
-    @Cacheable(value = "syfo")
+    @Cacheable(cacheNames = "syfoledere", key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente naermesteledere med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
@@ -79,7 +79,7 @@ public class NaermesteLederService {
                 .collect(toList());
     }
 
-    @Cacheable(value = "syfo")
+    @Cacheable(cacheNames = "syfofinnledere", key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
         String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
 

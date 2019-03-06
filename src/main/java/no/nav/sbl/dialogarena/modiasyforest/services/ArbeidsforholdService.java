@@ -52,7 +52,7 @@ public class ArbeidsforholdService {
         this.organisasjonService = organisasjonService;
     }
 
-    @Cacheable(value = "arbeidsforhold")
+    @Cacheable(cacheNames = "arbeidsforhold", key = "#fnr.concat(#sykmeldingId)", condition = "#fnr != null && #sykmeldingId != null")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente arbeidsforhold med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);

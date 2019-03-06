@@ -50,7 +50,7 @@ public class SykepengesoknaderService {
         this.sykepengesoknadConfig = sykepengesoknadConfig;
     }
 
-    @Cacheable(value = "sykepengesoknad")
+    @Cacheable(cacheNames = "sykepengesoknad", key = "#aktoerId.concat(#oidcIssuer)", condition = "#aktoerId != null && #oidcIssuer != null")
     public List<Sykepengesoknad> hentSykepengesoknader(String aktoerId, String oidcIssuer) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
             LOG.error("{} prøvde å hente sykepengesoknader med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);

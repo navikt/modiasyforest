@@ -28,7 +28,7 @@ public class AktoerService {
         this.aktoerV2 = aktoerV2;
     }
 
-    @Cacheable(value = "aktoer")
+    @Cacheable(cacheNames = "aktoerid", key = "#fnr", condition = "#fnr != null")
     public String hentAktoerIdForFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente aktoerId med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
@@ -46,7 +46,7 @@ public class AktoerService {
         }
     }
 
-    @Cacheable(value = "aktoer")
+    @Cacheable(cacheNames = "aktoerfnr", key = "#aktoerId", condition = "#aktoerId != null")
     public String hentFnrForAktoer(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
             LOG.error("{} prøvde å hente fnr med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);

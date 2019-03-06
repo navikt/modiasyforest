@@ -23,7 +23,7 @@ public class EgenAnsattService {
         this.egenAnsattV1 = egenAnsattV1;
     }
 
-    @Cacheable(value = "egenansatt")
+    @Cacheable(cacheNames = "egenansatt", key = "#fnr", condition = "#fnr != null")
     public boolean erEgenAnsatt(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             LOG.error("{} prøvde å hente egenansattinfo med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
