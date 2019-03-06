@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.utils.DistinctFilter;
@@ -7,7 +8,6 @@ import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederL
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
-import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,10 @@ import static java.util.stream.Collectors.toList;
 import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.slf4j.LoggerFactory.getLogger;
 
+@Slf4j
 @Service
 public class NaermesteLederService {
-    private static final Logger LOG = getLogger(NaermesteLederService.class);
 
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
 
@@ -46,7 +45,7 @@ public class NaermesteLederService {
     @Cacheable(cacheNames = "syfoledere", key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente naermesteledere med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("{} prøvde å hente naermesteledere med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
         try {
@@ -57,10 +56,10 @@ public class NaermesteLederService {
                     .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            LOG.warn("{} fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), e.getFaultInfo().getFeilaarsak().toUpperCase(), fnr, e);
+            log.warn("{} fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), e.getFaultInfo().getFeilaarsak().toUpperCase(), fnr, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk Runtimefeil ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk Runtimefeil ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }
@@ -93,10 +92,10 @@ public class NaermesteLederService {
                     .map(this::naermesteLeder)
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.warn("{} fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk Runtimefeil ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk Runtimefeil ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }

@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.config.SykmeldingerConfig;
 import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
@@ -18,7 +19,6 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -42,12 +42,10 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.slf4j.LoggerFactory.getLogger;
 
+@Slf4j
 @Service
 public class SykeforloepService {
-
-    private static final Logger LOG = getLogger(SykeforloepService.class);
 
     @Value("${dev}")
     private String dev;
@@ -81,7 +79,7 @@ public class SykeforloepService {
     @Cacheable(cacheNames = "syfosykeforlop", key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -103,10 +101,10 @@ public class SykeforloepService {
                     .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
                     .collect(toList());
         } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {
-            LOG.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }
@@ -171,7 +169,7 @@ public class SykeforloepService {
             });
 
         } catch (RuntimeException e) {
-            LOG.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             return empty();
         }
     }
@@ -205,7 +203,7 @@ public class SykeforloepService {
             WSHentSykeforlopperiodeResponse wsHentSykeforlopperiodeResponse = sykefravaersoppfoelgingV1.hentSykeforlopperiode(request);
             return tilSykeforlopperiodeListe(wsHentSykeforlopperiodeResponse.getSykeforlopperiodeListe(), orgnummer);
         } catch (HentSykeforlopperiodeSikkerhetsbegrensning e) {
-            LOG.warn("Sikkerhetsbegrensning ved henting av oppfølgingstilfelleperioder");
+            log.warn("Sikkerhetsbegrensning ved henting av oppfølgingstilfelleperioder");
             return emptyList();
         }
     }

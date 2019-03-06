@@ -1,11 +1,11 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2;
 import no.nav.tjeneste.virksomhet.aktoer.v2.HentAktoerIdForIdentPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.aktoer.v2.HentIdentForAktoerIdPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentAktoerIdForIdentRequest;
 import no.nav.tjeneste.virksomhet.aktoer.v2.meldinger.WSHentIdentForAktoerIdRequest;
-import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,10 @@ import javax.ws.rs.NotFoundException;
 
 import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.slf4j.LoggerFactory.getLogger;
 
+@Slf4j
 @Service
 public class AktoerService {
-
-    private static final Logger LOG = getLogger(AktoerService.class);
 
     private AktoerV2 aktoerV2;
 
@@ -31,7 +29,7 @@ public class AktoerService {
     @Cacheable(cacheNames = "aktoerid", key = "#fnr", condition = "#fnr != null")
     public String hentAktoerIdForFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente aktoerId med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("{} prøvde å hente aktoerId med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -41,7 +39,7 @@ public class AktoerService {
                             .withIdent(fnr)
             ).getAktoerId();
         } catch (HentAktoerIdForIdentPersonIkkeFunnet e) {
-            LOG.warn("AktoerID ikke funnet for fødselsnummer {}!", fnr, e);
+            log.warn("AktoerID ikke funnet for fødselsnummer {}!", fnr, e);
             throw new NotFoundException();
         }
     }
@@ -49,7 +47,7 @@ public class AktoerService {
     @Cacheable(cacheNames = "aktoerfnr", key = "#aktoerId", condition = "#aktoerId != null")
     public String hentFnrForAktoer(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
-            LOG.error("{} prøvde å hente fnr med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
+            log.error("{} prøvde å hente fnr med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
             throw new IllegalArgumentException();
         }
 
@@ -59,7 +57,7 @@ public class AktoerService {
                             .withAktoerId(aktoerId)
             ).getIdent();
         } catch (HentIdentForAktoerIdPersonIkkeFunnet e) {
-            LOG.error("Fnr ikke funnet for aktoerId {}!", aktoerId, e);
+            log.error("Fnr ikke funnet for aktoerId {}!", aktoerId, e);
             throw new NotFoundException();
         }
     }

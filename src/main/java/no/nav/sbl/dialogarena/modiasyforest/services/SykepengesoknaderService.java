@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.config.SykepengesoknadConfig;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.Sykepengesoknad;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
@@ -7,7 +8,6 @@ import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.HentSykepengesoeknadListeS
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeRequest;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeResponse;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,10 @@ import static no.nav.sbl.dialogarena.modiasyforest.mappers.WS2SykepengesoknadMap
 import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.mapListe;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.slf4j.LoggerFactory.getLogger;
 
+@Slf4j
 @Service
 public class SykepengesoknaderService {
-
-    private static final Logger LOG = getLogger(SykepengesoknaderService.class);
 
     @Value("${dev}")
     private String dev;
@@ -53,7 +51,7 @@ public class SykepengesoknaderService {
     @Cacheable(cacheNames = "sykepengesoknad", key = "#aktoerId.concat(#oidcIssuer)", condition = "#aktoerId != null && #oidcIssuer != null")
     public List<Sykepengesoknad> hentSykepengesoknader(String aktoerId, String oidcIssuer) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
-            LOG.error("{} prøvde å hente sykepengesoknader med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
+            log.error("{} prøvde å hente sykepengesoknader med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
             throw new IllegalArgumentException();
         }
 
@@ -72,10 +70,10 @@ public class SykepengesoknaderService {
                     .collect(toList());
 
         } catch (HentSykepengesoeknadListeSikkerhetsbegrensning e) {
-            LOG.error("{} har ikke tilgang til søknadene det spørres om: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
+            log.error("{} har ikke tilgang til søknadene det spørres om: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            LOG.error("Det skjedde en runtimefeil da {} spurte om søknadene til: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
+            log.error("Det skjedde en runtimefeil da {} spurte om søknadene til: {}", getIdent().orElse("<Ikke funnet>"), aktoerId, e);
             throw e;
         }
     }

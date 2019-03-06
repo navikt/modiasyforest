@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.config.SykmeldingerConfig;
 import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
@@ -9,7 +10,6 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeRequest;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeResponse;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,12 +24,10 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmeldinger;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.slf4j.LoggerFactory.getLogger;
 
+@Slf4j
 @Service
 public class SykmeldingService {
-
-    private static final Logger LOG = getLogger(SykmeldingService.class);
 
     @Value("${dev}")
     private String dev;
@@ -54,7 +52,7 @@ public class SykmeldingService {
     @Cacheable(cacheNames = "sykmelding", key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente sykmeldinger med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("{} prøvde å hente sykmeldinger med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -72,7 +70,7 @@ public class SykmeldingService {
             throw new ForbiddenException();
         } catch (RuntimeException e) {
             //TODO Skrur av denne logglinjen da den skaper veldig mye støy. Gjøres om når syfoservice tilbyr PIP over HTTP
-//            LOG.error("Noe gikk galt under webservice-kall til syfoservice", e);
+//            log.error("Noe gikk galt under webservice-kall til syfoservice", e);
             throw new RuntimeException();
         }
     }

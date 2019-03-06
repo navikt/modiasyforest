@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIkkeFunnet;
@@ -8,8 +9,6 @@ import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPerson;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +19,9 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
+@Slf4j
 @Service
 public class BrukerprofilService {
-    private static final Logger LOG = LoggerFactory.getLogger(BrukerprofilService.class);
 
     private BrukerprofilV3 brukerprofilV3;
 
@@ -34,7 +33,7 @@ public class BrukerprofilService {
     @Cacheable(cacheNames = "tpsnavn", key = "#fnr", condition = "#fnr != null")
     public String hentNavn(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
         try {
@@ -48,16 +47,16 @@ public class BrukerprofilService {
             final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
             return capitalize(navnFraTps.toLowerCase(), '-', ' ');
         } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
-            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             return "Vi fant ikke navnet";
         }
     }
@@ -65,7 +64,7 @@ public class BrukerprofilService {
     @Cacheable(cacheNames = "tpsbruker", key = "#fnr", condition = "#fnr != null")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("{} prøvde å hente navn med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new RuntimeException();
         }
         try {
@@ -73,16 +72,16 @@ public class BrukerprofilService {
                     .withIdent(new WSNorskIdent()
                             .withIdent(fnr))).getBruker();
         } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
-            LOG.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Sikkerhetsbegrensning for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new ForbiddenException();
         } catch (HentKontaktinformasjonOgPreferanserPersonIkkeFunnet e) {
-            LOG.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet for {} med FNR {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            LOG.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk RuntimeException mot TPS med ved oppslag av {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }

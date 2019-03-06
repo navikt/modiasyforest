@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonKontaktinformasjonIkkeFunnet;
@@ -9,7 +10,6 @@ import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSEpo
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSKontaktinformasjon;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.WSMobiltelefonnummer;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.meldinger.WSHentDigitalKontaktinformasjonRequest;
-import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,10 @@ import static java.util.Optional.ofNullable;
 import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.slf4j.LoggerFactory.getLogger;
 
+@Slf4j
 @Service
 public class DkifService {
-    private static final Logger LOG = getLogger(DkifService.class);
 
     private DigitalKontaktinformasjonV1 dkifV1;
 
@@ -36,7 +35,7 @@ public class DkifService {
     @Cacheable(cacheNames = "dkiffnr", key = "#fnr", condition = "#fnr != null")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            LOG.error("{} prøvde å hente kontaktinfo med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("{} prøvde å hente kontaktinfo med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
             throw new IllegalArgumentException();
         }
 
@@ -62,7 +61,7 @@ public class DkifService {
         } catch (HentDigitalKontaktinformasjonPersonIkkeFunnet e) {
             return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(PERSON_IKKE_FUNNET);
         } catch (RuntimeException e) {
-            LOG.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getIdent().orElse("<Ikke funnet>"), fnr, e);
             throw e;
         }
     }
