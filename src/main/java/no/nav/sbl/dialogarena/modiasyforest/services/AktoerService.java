@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -29,7 +28,7 @@ public class AktoerService {
     @Cacheable(cacheNames = "aktoerid", key = "#fnr", condition = "#fnr != null")
     public String hentAktoerIdForFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente aktoerId med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Prøvde å hente aktoerId med fnr");
             throw new IllegalArgumentException();
         }
 
@@ -47,7 +46,7 @@ public class AktoerService {
     @Cacheable(cacheNames = "aktoerfnr", key = "#aktoerId", condition = "#aktoerId != null")
     public String hentFnrForAktoer(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
-            log.error("{} prøvde å hente fnr med aktoerId {}", getIdent().orElse("<Ikke funnet>"), aktoerId);
+            log.error("Prøvde å hente fnr med aktoerId {}", aktoerId);
             throw new IllegalArgumentException();
         }
 

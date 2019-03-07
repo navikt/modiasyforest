@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 
 import static java.util.stream.Collectors.joining;
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -31,7 +30,7 @@ public class OrganisasjonService {
     @Cacheable(cacheNames = "organisasjonnavn", key = "#orgnr", condition = "#orgnr != null")
     public String hentNavn(String orgnr) {
         if (isBlank(orgnr) || !orgnr.matches("\\d{9}$")) {
-            log.error("{} prøvde å hente navn med orgnr {}", getIdent().orElse("<Ikke funnet>"), orgnr);
+            log.error("Prøvde å hente navn med orgnr {}", orgnr);
             throw new IllegalArgumentException();
         }
         try {

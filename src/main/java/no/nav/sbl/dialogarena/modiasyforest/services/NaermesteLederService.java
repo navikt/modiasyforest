@@ -17,7 +17,6 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -45,7 +44,7 @@ public class NaermesteLederService {
     @Cacheable(cacheNames = "syfoledere", key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente naermesteledere med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Pprøvde å hente naermesteledere med fnr");
             throw new IllegalArgumentException();
         }
         try {
@@ -56,10 +55,10 @@ public class NaermesteLederService {
                     .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            log.warn("{} fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), e.getFaultInfo().getFeilaarsak().toUpperCase(), fnr, e);
+            log.warn("Fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person", e.getFaultInfo().getFeilaarsak().toUpperCase(), e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            log.error("{} fikk Runtimefeil ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk Runtimefeil ved henting av naermeste ledere for person", e);
             throw e;
         }
     }
@@ -92,10 +91,10 @@ public class NaermesteLederService {
                     .map(this::naermesteLeder)
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            log.warn("{} fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.warn("Fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            log.error("{} fikk Runtimefeil ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk Runtimefeil ved henting av naermesteledere for person", e);
             throw e;
         }
     }

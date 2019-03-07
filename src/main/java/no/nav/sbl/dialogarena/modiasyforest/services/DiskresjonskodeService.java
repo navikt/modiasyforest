@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -25,7 +24,7 @@ public class DiskresjonskodeService {
     @Cacheable(cacheNames = "diskresjonskode", key = "#fnr", condition = "#fnr != null")
     public String diskresjonskode(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente diskresjonskode med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Prøvde å hente diskresjonskode med fnr");
             throw new IllegalArgumentException();
         }
 
@@ -34,7 +33,7 @@ public class DiskresjonskodeService {
                     .withIdent(fnr)
             ).getDiskresjonskode();
         } catch (RuntimeException e) {
-            log.error("{} fikk en Runtimefeil mot TPS ved bruker {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("{} fikk en Runtimefeil mot TPS ved bruker", e);
             throw e;
         }
     }

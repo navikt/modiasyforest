@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -35,7 +34,7 @@ public class DkifService {
     @Cacheable(cacheNames = "dkiffnr", key = "#fnr", condition = "#fnr != null")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente kontaktinfo med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Prøvde å hente kontaktinfo med fnr {}");
             throw new IllegalArgumentException();
         }
 
@@ -61,7 +60,7 @@ public class DkifService {
         } catch (HentDigitalKontaktinformasjonPersonIkkeFunnet e) {
             return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(PERSON_IKKE_FUNNET);
         } catch (RuntimeException e) {
-            log.error("{} fikk en uventet feil mot DKIF med fnr {}. Kaster feil videre", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk en uventet feil mot DKIF med fnr. Kaster feil videre", e);
             throw e;
         }
     }

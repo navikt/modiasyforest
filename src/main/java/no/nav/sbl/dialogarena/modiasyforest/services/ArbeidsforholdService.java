@@ -26,7 +26,6 @@ import java.util.List;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.toList;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -57,7 +56,7 @@ public class ArbeidsforholdService {
     @Cacheable(cacheNames = "arbeidsforhold", key = "#fnr.concat(#sykmeldingId)", condition = "#fnr != null && #sykmeldingId != null")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente arbeidsforhold med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Prøvde å hente arbeidsforhold med fnr");
             throw new IllegalArgumentException();
         }
         Sykmelding sykmelding = sykmeldingService.hentSykmelding(sykmeldingId, fnr);
@@ -76,13 +75,13 @@ public class ArbeidsforholdService {
                     }).distinct().collect(toList());
 
         } catch (FinnArbeidsforholdPrArbeidstakerUgyldigInput e) {
-            log.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk en feil ved henting av arbeidsforhold for fnr", e);
             throw new IllegalArgumentException();
         } catch (FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning e) {
-            log.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk en feil ved henting av arbeidsforhold for fnr", e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            log.error("{} fikk en feil ved henting av arbeidsforhold for fnr {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk en feil ved henting av arbeidsforhold for fnr", e);
             throw new RuntimeException();
         }
     }

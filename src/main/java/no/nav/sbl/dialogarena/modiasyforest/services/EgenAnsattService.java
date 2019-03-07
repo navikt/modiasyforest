@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -25,7 +24,7 @@ public class EgenAnsattService {
     @Cacheable(cacheNames = "egenansatt", key = "#fnr", condition = "#fnr != null")
     public boolean erEgenAnsatt(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente egenansattinfo med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Prøvde å hente egenansattinfo med fnr");
             throw new IllegalArgumentException();
         }
         return egenAnsattV1.hentErEgenAnsattEllerIFamilieMedEgenAnsatt(new WSHentErEgenAnsattEllerIFamilieMedEgenAnsattRequest()

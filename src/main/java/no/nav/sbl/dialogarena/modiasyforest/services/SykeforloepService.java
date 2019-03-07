@@ -38,7 +38,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -79,7 +78,7 @@ public class SykeforloepService {
     @Cacheable(cacheNames = "syfosykeforlop", key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente sykeforløp med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Prøvde å hente sykeforløp med fnr");
             throw new IllegalArgumentException();
         }
 
@@ -101,10 +100,10 @@ public class SykeforloepService {
                     .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
                     .collect(toList());
         } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {
-            log.warn("{} fikk sikkerhetsbegrensning ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.warn("Fikk sikkerhetsbegrensning ved henting av sykeforloep for person", e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            log.error("{} fikk runtimeexception ved henting av sykeforloep for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk runtimeexception ved henting av sykeforloep for person", e);
             throw e;
         }
     }
@@ -169,7 +168,7 @@ public class SykeforloepService {
             });
 
         } catch (RuntimeException e) {
-            log.error("{} fikk runtimeexception ved henting av naermesteledere for person {}", getIdent().orElse("<Ikke funnet>"), fnr, e);
+            log.error("Fikk runtimeexception ved henting av naermesteledere for person", e);
             return empty();
         }
     }

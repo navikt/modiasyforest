@@ -20,7 +20,6 @@ import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
-import static no.nav.common.auth.SubjectHandler.getIdent;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmeldinger;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -52,7 +51,7 @@ public class SykmeldingService {
     @Cacheable(cacheNames = "sykmelding", key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("{} prøvde å hente sykmeldinger med fnr {}", getIdent().orElse("<Ikke funnet>"), fnr);
+            log.error("Prøvde å hente sykmeldinger med fnr");
             throw new IllegalArgumentException();
         }
 
