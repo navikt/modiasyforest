@@ -39,20 +39,18 @@ public class ArbeidsforholdService {
         A_ORDNINGEN.setValue("A_ORDNINGEN");
     }
 
-    private SykmeldingService sykmeldingService;
-
     private ArbeidsforholdV3 arbeidsforholdV3;
-
+    private SykmeldingService sykmeldingService;
     private OrganisasjonService organisasjonService;
 
     @Inject
     public ArbeidsforholdService(
-            SykmeldingService sykmeldingService,
             ArbeidsforholdV3 arbeidsforholdV3,
+            SykmeldingService sykmeldingService,
             OrganisasjonService organisasjonService
     ) {
-        this.sykmeldingService = sykmeldingService;
         this.arbeidsforholdV3 = arbeidsforholdV3;
+        this.sykmeldingService = sykmeldingService;
         this.organisasjonService = organisasjonService;
     }
 

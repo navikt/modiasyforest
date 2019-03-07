@@ -27,9 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class BrukerRessurs {
 
     private BrukerprofilService brukerprofilService;
-
     private DkifService dkifService;
-
     private TilgangService tilgangsKontroll;
 
     @Inject

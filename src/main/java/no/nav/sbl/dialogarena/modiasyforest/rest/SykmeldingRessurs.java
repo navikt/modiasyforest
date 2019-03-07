@@ -31,12 +31,20 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @Produces(APPLICATION_JSON)
 public class SykmeldingRessurs {
 
-    @Inject
     private Metrikk metrikk;
-    @Inject
-    private TilgangService tilgangService;
-    @Inject
     private SykmeldingService sykmeldingService;
+    private TilgangService tilgangService;
+
+    @Inject
+    public SykmeldingRessurs(
+            Metrikk metrikk,
+            SykmeldingService sykmeldingService,
+            TilgangService tilgangService
+    ) {
+        this.metrikk = metrikk;
+        this.sykmeldingService = sykmeldingService;
+        this.tilgangService = tilgangService;
+    }
 
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping

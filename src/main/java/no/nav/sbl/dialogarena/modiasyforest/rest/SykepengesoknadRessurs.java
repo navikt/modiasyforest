@@ -26,14 +26,23 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @Produces(APPLICATION_JSON)
 public class SykepengesoknadRessurs {
 
-    @Inject
     private Metrikk metrikk;
-    @Inject
-    private TilgangService tilgangService;
-    @Inject
-    private SykepengesoknaderService sykepengesoknaderService;
-    @Inject
     private AktoerService aktoerService;
+    private SykepengesoknaderService sykepengesoknaderService;
+    private TilgangService tilgangService;
+
+    @Inject
+    public SykepengesoknadRessurs(
+            Metrikk metrikk,
+            AktoerService aktoerService,
+            SykepengesoknaderService sykepengesoknaderService,
+            TilgangService tilgangService
+    ) {
+        this.metrikk = metrikk;
+        this.aktoerService = aktoerService;
+        this.sykepengesoknaderService = sykepengesoknaderService;
+        this.tilgangService = tilgangService;
+    }
 
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping

@@ -26,10 +26,17 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @Produces(APPLICATION_JSON)
 public class SykeforloepRessurs {
 
-    @Inject
-    private TilgangService tilgangService;
-    @Inject
     private SykeforloepService sykeforloepService;
+    private TilgangService tilgangService;
+
+    @Inject
+    public SykeforloepRessurs(
+            SykeforloepService sykeforloepService,
+            TilgangService tilgangService
+    ) {
+        this.sykeforloepService = sykeforloepService;
+        this.tilgangService = tilgangService;
+    }
 
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping

@@ -30,14 +30,23 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @Produces(APPLICATION_JSON)
 public class NaermestelederRessurs {
 
-    @Inject
     private Metrikk metrikk;
-    @Inject
-    private TilgangService tilgangService;
-    @Inject
     private NaermesteLederService naermesteLederService;
-    @Inject
     private SykmeldingService sykmeldingService;
+    private TilgangService tilgangService;
+
+    @Inject
+    public NaermestelederRessurs(
+            Metrikk metrikk,
+            NaermesteLederService naermesteLederService,
+            SykmeldingService sykmeldingService,
+            TilgangService tilgangService
+    ) {
+        this.metrikk = metrikk;
+        this.naermesteLederService = naermesteLederService;
+        this.sykmeldingService = sykmeldingService;
+        this.tilgangService = tilgangService;
+    }
 
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping

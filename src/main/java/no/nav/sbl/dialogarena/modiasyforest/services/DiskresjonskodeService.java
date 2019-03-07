@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.tjeneste.pip.diskresjonskode.DiskresjonskodePortType;
 import no.nav.tjeneste.pip.diskresjonskode.meldinger.WSHentDiskresjonskodeRequest;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
@@ -11,10 +12,15 @@ import static no.nav.common.auth.SubjectHandler.getIdent;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
+@Service
 public class DiskresjonskodeService {
 
-    @Inject
     private DiskresjonskodePortType diskresjonskodePortType;
+
+    @Inject
+    public DiskresjonskodeService(DiskresjonskodePortType diskresjonskodePortType) {
+        this.diskresjonskodePortType = diskresjonskodePortType;
+    }
 
     @Cacheable(cacheNames = "diskresjonskode", key = "#fnr", condition = "#fnr != null")
     public String diskresjonskode(String fnr) {

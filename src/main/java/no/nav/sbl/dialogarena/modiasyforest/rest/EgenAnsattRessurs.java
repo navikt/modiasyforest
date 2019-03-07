@@ -20,8 +20,12 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @Consumes(APPLICATION_JSON)
 public class EgenAnsattRessurs {
 
-    @Inject
     private EgenAnsattService egenAnsattService;
+
+    @Inject
+    public EgenAnsattRessurs(EgenAnsattService egenAnsattService) {
+        this.egenAnsattService = egenAnsattService;
+    }
 
     @ProtectedWithClaims(issuer = INTERN)
     @GetMapping
