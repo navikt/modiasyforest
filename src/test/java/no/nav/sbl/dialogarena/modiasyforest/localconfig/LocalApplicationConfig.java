@@ -16,15 +16,6 @@ import static java.util.Objects.requireNonNull;
 public class LocalApplicationConfig {
 
     public LocalApplicationConfig(Environment environment) {
-        /*
-            Her kan du ta inn properties som normalt settes av platformen slik at de er tilgjengelige runtime lokalt
-            Eks: System.setProperty("APPNAVN_USERNAME", environment.getProperty("appnavn.username"));
-         */
-
-        System.setProperty("no.nav.modig.security.sts.url", requireNonNull(environment.getProperty("securitytokenservice.url")));
-        System.setProperty("no.nav.modig.security.systemuser.username", requireNonNull(environment.getProperty("srvmodiasyforest.username")));
-        System.setProperty("no.nav.modig.security.systemuser.password", requireNonNull(environment.getProperty("srvmodiasyforest.password")));
-
         System.setProperty("SECURITYTOKENSERVICE_URL", requireNonNull(environment.getProperty("securitytokenservice.url")));
         System.setProperty("SRVMODIASYFOREST_USERNAME", requireNonNull(environment.getProperty("srvmodiasyforest.username")));
         System.setProperty("SRVMODIASYFOREST_PASSWORD", requireNonNull(environment.getProperty("srvmodiasyforest.password")));

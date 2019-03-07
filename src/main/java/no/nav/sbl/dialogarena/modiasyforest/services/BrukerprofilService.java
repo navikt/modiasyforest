@@ -46,7 +46,7 @@ public class BrukerprofilService {
             final String navnFraTps = wsPerson.getPersonnavn().getFornavn() + " " + mellomnavn + wsPerson.getPersonnavn().getEtternavn();
             return capitalize(navnFraTps.toLowerCase(), '-', ' ');
         } catch (HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt e) {
-            log.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt for med FNR", e);
+            log.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt med FNR", e);
             throw new RuntimeException();
         } catch (HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning e) {
             log.error("Sikkerhetsbegrensning med FNR", e);

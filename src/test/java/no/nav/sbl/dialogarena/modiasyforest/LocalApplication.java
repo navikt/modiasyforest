@@ -11,4 +11,3 @@ public class LocalApplication {
         SpringApplication.run(LocalApplication.class, args);
     }
 }
-

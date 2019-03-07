@@ -78,7 +78,7 @@ public class SykeforloepService {
     @Cacheable(cacheNames = "syfosykeforlop", key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("Prøvde å hente sykeforløp med fnr");
+            log.error("Prøvde å hente sykeforløp med fnr og oidcIssuer {}");
             throw new IllegalArgumentException();
         }
 
@@ -168,7 +168,7 @@ public class SykeforloepService {
             });
 
         } catch (RuntimeException e) {
-            log.error("Fikk runtimeexception ved henting av naermesteledere for person", e);
+            log.error("Fikk runtimeexception ved henting av naermesteledere for person med fnr", e);
             return empty();
         }
     }

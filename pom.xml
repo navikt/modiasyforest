@@ -37,89 +37,71 @@
         <oidc-spring-support.version>0.2.4</oidc-spring-support.version>
         <cxf.version>3.2.0</cxf.version>
         <lombok.version>1.16.22</lombok.version>
+        <cxf.version>3.2.0</cxf.version>
         <micrometer-registry-prometheus.version>1.0.6</micrometer-registry-prometheus.version>
 
         <nav-common.version>2018.12.04.22.26</nav-common.version>
     </properties>
 
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>no.nav.common</groupId>
-                <artifactId>bom</artifactId>
-                <version>2018.12.04.22.26</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>dkif-tjenestespesifikasjon</artifactId>
-                <version>${dkif-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <artifactId>diskresjonskodev1-tjenestespesifikasjon</artifactId>
-                <groupId>no.nav.sbl.dialogarena</groupId>
-                <version>${diskresjonskodev1-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>egenAnsatt-v1-tjenestespesifikasjon</artifactId>
-                <version>${egenAnsatt-v1-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.sbl.dialogarena</groupId>
-                <artifactId>organisasjonv4-tjenestespesifikasjon</artifactId>
-                <version>${organisasjonv4-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>sykmeldingv1-tjenestespesifikasjon</artifactId>
-                <version>${sykmeldingv1-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.tjenester.fim</groupId>
-                <artifactId>nav-arbeidsforhold-v3-tjenestespesifikasjon</artifactId>
-                <version>${nav-arbeidsforhold-v3-tjenestespesifikasjon.version}</version>
-                <classifier>jaxws</classifier>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.wss4j</groupId>
-                <artifactId>wss4j-ws-security-common</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.wss4j</groupId>
-                <artifactId>wss4j-ws-security-dom</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>aktoer-v2</artifactId>
-                <version>${aktoer.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>brukerprofil-v3-tjenestespesifikasjon</artifactId>
-                <version>${brukerprofil-v3-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>sykefravaersoppfoelgingv1-tjenestespesifikasjon</artifactId>
-                <version>${sykefravaersoppfoelgingv1-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>sykepengesoeknadv1-tjenestespesifikasjon</artifactId>
-                <version>${sykepengesoeknadv1-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.syfo.tjenester</groupId>
-                <artifactId>digisyfo-sykepengesoeknadoppsummering</artifactId>
-                <version>${sykepengesoeknadoppsummering.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
+        <!-- TJENESTER -->
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>dkif-tjenestespesifikasjon</artifactId>
+            <version>${dkif-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>diskresjonskodev1-tjenestespesifikasjon</artifactId>
+            <groupId>no.nav.sbl.dialogarena</groupId>
+            <version>${diskresjonskodev1-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>egenAnsatt-v1-tjenestespesifikasjon</artifactId>
+            <version>${egenAnsatt-v1-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.sbl.dialogarena</groupId>
+            <artifactId>organisasjonv4-tjenestespesifikasjon</artifactId>
+            <version>${organisasjonv4-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>sykmeldingv1-tjenestespesifikasjon</artifactId>
+            <version>${sykmeldingv1-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.tjenester.fim</groupId>
+            <artifactId>nav-arbeidsforhold-v3-tjenestespesifikasjon</artifactId>
+            <version>${nav-arbeidsforhold-v3-tjenestespesifikasjon.version}</version>
+            <classifier>jaxws</classifier>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>aktoer-v2</artifactId>
+            <version>${aktoer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>brukerprofil-v3-tjenestespesifikasjon</artifactId>
+            <version>${brukerprofil-v3-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>sykefravaersoppfoelgingv1-tjenestespesifikasjon</artifactId>
+            <version>${sykefravaersoppfoelgingv1-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>sykepengesoeknadv1-tjenestespesifikasjon</artifactId>
+            <version>${sykepengesoeknadv1-tjenestespesifikasjon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.syfo.tjenester</groupId>
+            <artifactId>digisyfo-sykepengesoeknadoppsummering</artifactId>
+            <version>${sykepengesoeknadoppsummering.version}</version>
+        </dependency>
+
         <!-- SPRING -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -151,6 +133,7 @@
             <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- OIDC -->
         <dependency>
             <groupId>no.nav.security</groupId>
             <artifactId>oidc-support</artifactId>
@@ -168,6 +151,28 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- CXF -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-policy</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
         <!-- Metric -->
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -182,139 +187,34 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>test-config</artifactId>
-        </dependency>
-        <dependency>
-            <artifactId>diskresjonskodev1-tjenestespesifikasjon</artifactId>
-            <groupId>no.nav.sbl.dialogarena</groupId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>egenAnsatt-v1-tjenestespesifikasjon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>auth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>rest</artifactId>
-        </dependency>
+        <!-- Div. Eksterne -->
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>3.5</version>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
+            <version>1</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>4.10</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.hk2.external</groupId>
-            <artifactId>javax.inject</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>dkif-tjenestespesifikasjon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>sykmeldingv1-tjenestespesifikasjon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>types</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>cxf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.tjenester.fim</groupId>
-            <artifactId>nav-arbeidsforhold-v3-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>aktoer-v2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.sbl.dialogarena</groupId>
-            <artifactId>organisasjonv4-tjenestespesifikasjon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>brukerprofil-v3-tjenestespesifikasjon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>sykefravaersoppfoelgingv1-tjenestespesifikasjon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>sykepengesoeknadv1-tjenestespesifikasjon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.nav.syfo.tjenester</groupId>
-            <artifactId>digisyfo-sykepengesoeknadoppsummering</artifactId>
-        </dependency>
-
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>auth</artifactId>
-            <type>test-jar</type>
         </dependency>
     </dependencies>
 

@@ -44,7 +44,7 @@ public class NaermesteLederService {
     @Cacheable(cacheNames = "syfoledere", key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("Pprøvde å hente naermesteledere med fnr");
+            log.error("Prøvde å hente naermesteledere med fnr");
             throw new IllegalArgumentException();
         }
         try {

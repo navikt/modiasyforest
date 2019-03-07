@@ -1,12 +1,16 @@
 package no.nav.sbl.dialogarena.modiasyforest.config;
 
-import no.nav.sbl.dialogarena.common.cxf.CXFClient;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.LogErrorHandler;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.STSClientConfig;
+import no.nav.sbl.dialogarena.modiasyforest.services.ws.WsClient;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.OrganisasjonV4;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 public class EregConfig {
@@ -17,13 +21,14 @@ public class EregConfig {
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
     public OrganisasjonV4 organisasjonV4(@Value("${virksomhet.organisasjon.v4.endpointurl}") String serviceUrl) {
-        OrganisasjonV4 port = factory(serviceUrl)
-                .configureStsForSystemUser()
-                .build();
+        OrganisasjonV4 port = factory(serviceUrl);
+        STSClientConfig.configureRequestSamlToken(port);
         return port;
     }
 
-    private CXFClient<OrganisasjonV4> factory(String serviceUrl) {
-        return new CXFClient<>(OrganisasjonV4.class).address(serviceUrl);
+    @SuppressWarnings("unchecked")
+    private OrganisasjonV4 factory(String serviceUrl) {
+        return new WsClient<OrganisasjonV4>()
+                .createPort(serviceUrl, OrganisasjonV4.class, singletonList(new LogErrorHandler()));
     }
 }
