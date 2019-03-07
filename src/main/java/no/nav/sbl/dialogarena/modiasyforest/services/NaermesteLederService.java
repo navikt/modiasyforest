@@ -91,7 +91,7 @@ public class NaermesteLederService {
                     .map(this::naermesteLeder)
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
-            log.warn("Fikk sikkerhetsbegrensning ved henting av naermeste ledere for person {}", e);
+            log.warn("Fikk sikkerhetsbegrensning ved henting av naermeste ledere for person", e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
             log.error("Fikk Runtimefeil ved henting av naermesteledere for person", e);

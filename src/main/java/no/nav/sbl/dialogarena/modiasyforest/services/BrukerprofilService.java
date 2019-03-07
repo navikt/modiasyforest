@@ -32,7 +32,7 @@ public class BrukerprofilService {
     @Cacheable(cacheNames = "tpsnavn", key = "#fnr", condition = "#fnr != null")
     public String hentNavn(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("Prøvde å hente navn med fnr {}");
+            log.error("Prøvde å hente navn med fnr");
             throw new IllegalArgumentException();
         }
         try {
@@ -55,7 +55,7 @@ public class BrukerprofilService {
             log.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet med FNR", e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            log.error("{} fikk RuntimeException mot TPS med ved oppslag", e);
+            log.error("Fikk RuntimeException mot TPS med ved oppslag", e);
             return "Vi fant ikke navnet";
         }
     }
@@ -80,7 +80,7 @@ public class BrukerprofilService {
             log.error("HentKontaktinformasjonOgPreferanserPersonIkkeFunnet med FNR", e);
             throw new RuntimeException();
         } catch (RuntimeException e) {
-            log.error("{} fikk RuntimeException mot TPS med ved oppslag", e);
+            log.error("Fikk RuntimeException mot TPS med ved oppslag", e);
             throw e;
         }
     }

@@ -34,7 +34,7 @@ public class DkifService {
     @Cacheable(cacheNames = "dkiffnr", key = "#fnr", condition = "#fnr != null")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
-            log.error("Prøvde å hente kontaktinfo med fnr {}");
+            log.error("Prøvde å hente kontaktinfo med fnr");
             throw new IllegalArgumentException();
         }
 

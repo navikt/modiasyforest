@@ -38,7 +38,7 @@ public class AktoerService {
                             .withIdent(fnr)
             ).getAktoerId();
         } catch (HentAktoerIdForIdentPersonIkkeFunnet e) {
-            log.warn("AktoerID ikke funnet for fødselsnummer {}!", fnr, e);
+            log.warn("AktoerID ikke funnet for fødselsnummer", e);
             throw new NotFoundException();
         }
     }

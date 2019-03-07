@@ -33,7 +33,7 @@ public class DiskresjonskodeService {
                     .withIdent(fnr)
             ).getDiskresjonskode();
         } catch (RuntimeException e) {
-            log.error("{} fikk en Runtimefeil mot TPS ved bruker", e);
+            log.error("Fikk en Runtimefeil mot TPS ved bruker", e);
             throw e;
         }
     }
