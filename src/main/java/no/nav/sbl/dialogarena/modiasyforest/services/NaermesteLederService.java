@@ -17,6 +17,8 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_SYFOFINNLEDERE;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_SYFOLEDERE;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.NaermesteLederMapper.tilNaermesteLeder;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -41,7 +43,7 @@ public class NaermesteLederService {
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
-    @Cacheable(cacheNames = "syfoledere", key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = CACHENAME_SYFOLEDERE, key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente naermesteledere med fnr");
@@ -77,7 +79,7 @@ public class NaermesteLederService {
                 .collect(toList());
     }
 
-    @Cacheable(cacheNames = "syfofinnledere", key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = CACHENAME_SYFOFINNLEDERE, key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
         String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
 

@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_DKIFFNR;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -31,7 +32,7 @@ public class DkifService {
         this.dkifV1 = dkifV1;
     }
 
-    @Cacheable(cacheNames = "dkiffnr", key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = CACHENAME_DKIFFNR, key = "#fnr", condition = "#fnr != null")
     public Kontaktinfo hentKontaktinfoFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente kontaktinfo med fnr");

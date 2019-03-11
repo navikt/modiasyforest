@@ -29,7 +29,7 @@ public class STSClientConfig {
 
     public static <T> T configureRequestSamlToken(T port) {
         Client client = ClientProxy.getClient(port);
-        // do not have onbehalfof token so cache token in endpoint
+        // do not have onbehalfof token so scheduler token in endpoint
         configureStsRequestSamlToken(client, true);
         return port;
     }
@@ -42,7 +42,7 @@ public class STSClientConfig {
         // the application.
         client.getOutInterceptors().add(new OnBehalfOfOutInterceptor());
 
-        // want to cache the token with the OnBehalfOfToken, not per proxy
+        // want to scheduler the token with the OnBehalfOfToken, not per proxy
         configureStsRequestSamlToken(client, false);
         return port;
     }

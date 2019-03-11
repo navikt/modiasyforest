@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 
 import static java.util.stream.Collectors.joining;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_ORGANISASJONNAVN;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -27,7 +28,7 @@ public class OrganisasjonService {
         this.organisasjonWebService = organisasjonWebService;
     }
 
-    @Cacheable(cacheNames = "organisasjonnavn", key = "#orgnr", condition = "#orgnr != null")
+    @Cacheable(cacheNames = CACHENAME_ORGANISASJONNAVN, key = "#orgnr", condition = "#orgnr != null")
     public String hentNavn(String orgnr) {
         if (isBlank(orgnr) || !orgnr.matches("\\d{9}$")) {
             log.error("Prøvde å hente navn med orgnr {}", orgnr);

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
 
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_TPSBRUKER;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_TPSNAVN;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
@@ -29,7 +31,7 @@ public class BrukerprofilService {
         this.brukerprofilV3 = brukerprofilV3;
     }
 
-    @Cacheable(cacheNames = "tpsnavn", key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = CACHENAME_TPSNAVN, key = "#fnr", condition = "#fnr != null")
     public String hentNavn(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente navn med fnr");
@@ -60,7 +62,7 @@ public class BrukerprofilService {
         }
     }
 
-    @Cacheable(cacheNames = "tpsbruker", key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = CACHENAME_TPSBRUKER, key = "#fnr", condition = "#fnr != null")
     public WSBruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente navn med fnr");
