@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="60 seconds">
+<configuration scan="false" debug="false">
 
-    <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%t, %d, %-5p, %C:%L] - %.-100000m%n</pattern>
+        </encoder>
     </appender>
 
-    <logger name="no.nav" level="INFO" additivity="false">
-        <appender-ref ref="STDOUT_JSON"/>
-    </logger>
-    <logger name="no.nav.sbl.dialogarena.common.web.selftest.SelfTestBaseServlet" level="OFF" />
-
-    <logger name="org.apache.cxf" level="ERROR" />
-    <logger name="no.nav.sbl.dialogarena.common.cxf" level="ERROR" />
-    <logger name="org.apache.wss4j.common.crypto.CryptoBase" level="ERROR" />
-    <logger name="org.apache.cxf" level="ERROR" />
-    <logger name="no.nav.sbl.dialogarena.common.cxf" level="ERROR" />
-    <logger name="org.springframework" level="ERROR" />
+    <logger name="org.apache.cxf.common.logging" level="WARN" additivity="false"/>
 
     <root level="INFO">
-        <appender-ref ref="STDOUT_JSON"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
+
+    <logger name="no.nav.sbl.dialogarena.modiasyforest" level="INFO"/>
 
 </configuration>
