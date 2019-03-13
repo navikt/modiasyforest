@@ -12,6 +12,6 @@
 		<appender-ref ref="CONSOLE"/>
 	</root>
 
-	<logger name="no.nav.syfo" level="INFO"/>
+	<logger name="no.nav.sbl.dialogarena.modiasyforest" level="INFO"/>
 	<logger name="org.springframework" level="INFO"/>
 </included>
