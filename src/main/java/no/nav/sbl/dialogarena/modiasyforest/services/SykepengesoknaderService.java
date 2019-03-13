@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_SYKEPENGESOKNAD;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.WS2SykepengesoknadMapper.ws2Sykepengesoknad;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.mapListe;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
@@ -47,7 +48,7 @@ public class SykepengesoknaderService {
         this.sykepengesoknadConfig = sykepengesoknadConfig;
     }
 
-    @Cacheable(cacheNames = "sykepengesoknad", key = "#aktoerId.concat(#oidcIssuer)", condition = "#aktoerId != null && #oidcIssuer != null")
+    @Cacheable(cacheNames = CACHENAME_SYKEPENGESOKNAD, key = "#aktoerId.concat(#oidcIssuer)", condition = "#aktoerId != null && #oidcIssuer != null")
     public List<Sykepengesoknad> hentSykepengesoknader(String aktoerId, String oidcIssuer) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
             log.error("Pøvde å hente sykepengesoknader med aktoerId {}", aktoerId);

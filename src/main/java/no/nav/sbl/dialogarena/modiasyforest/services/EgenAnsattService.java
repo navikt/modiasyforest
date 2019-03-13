@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_EGENANSATT;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -21,7 +22,7 @@ public class EgenAnsattService {
         this.egenAnsattV1 = egenAnsattV1;
     }
 
-    @Cacheable(cacheNames = "egenansatt", key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = CACHENAME_EGENANSATT, key = "#fnr", condition = "#fnr != null")
     public boolean erEgenAnsatt(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente egenansattinfo med fnr");

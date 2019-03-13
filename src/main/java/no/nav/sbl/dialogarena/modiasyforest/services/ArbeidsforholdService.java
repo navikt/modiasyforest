@@ -26,6 +26,7 @@ import java.util.List;
 import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.toList;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_ARBEIDSFORHOLD;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -53,7 +54,7 @@ public class ArbeidsforholdService {
         this.organisasjonService = organisasjonService;
     }
 
-    @Cacheable(cacheNames = "arbeidsforhold", key = "#fnr.concat(#sykmeldingId)", condition = "#fnr != null && #sykmeldingId != null")
+    @Cacheable(cacheNames = CACHENAME_ARBEIDSFORHOLD, key = "#fnr.concat(#sykmeldingId)", condition = "#fnr != null && #sykmeldingId != null")
     public List<Arbeidsgiver> hentArbeidsgivere(String fnr, String sykmeldingId) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente arbeidsforhold med fnr");

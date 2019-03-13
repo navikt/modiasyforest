@@ -20,6 +20,7 @@ import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_SYKMELDING;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmeldinger;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -48,7 +49,7 @@ public class SykmeldingService {
         this.sykmeldingV1 = sykmeldingV1;
     }
 
-    @Cacheable(cacheNames = "sykmelding", key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
+    @Cacheable(cacheNames = CACHENAME_SYKMELDING, key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente sykmeldinger med fnr");

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_AKTORFNR;
+import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_AKTORID;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
@@ -25,7 +27,7 @@ public class AktoerService {
         this.aktoerV2 = aktoerV2;
     }
 
-    @Cacheable(cacheNames = "aktoerid", key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = CACHENAME_AKTORID, key = "#fnr", condition = "#fnr != null")
     public String hentAktoerIdForFnr(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente aktoerId med fnr");
@@ -43,7 +45,7 @@ public class AktoerService {
         }
     }
 
-    @Cacheable(cacheNames = "aktoerfnr", key = "#aktoerId", condition = "#aktoerId != null")
+    @Cacheable(cacheNames = CACHENAME_AKTORFNR, key = "#aktoerId", condition = "#aktoerId != null")
     public String hentFnrForAktoer(String aktoerId) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
             log.error("Prøvde å hente fnr med aktoerId {}", aktoerId);
