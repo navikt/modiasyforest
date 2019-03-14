@@ -17,6 +17,9 @@ import javax.ws.rs.ForbiddenException;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+    private final String BAD_REQUEST_MSG = "Vi kunne ikke tolke inndataene";
+    private final String FORBIDDEN_MSG = "Handling er forbudt";
+
     private Metrikk metrikk;
 
     @Inject
@@ -39,25 +42,22 @@ public class ControllerExceptionHandler {
 
             return handleIllegalArgumentException(cnae, headers, status, request);
         } else {
-            metrikk.tellHttpKall(HttpStatus.INTERNAL_SERVER_ERROR.value());
             HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
             return handleExceptionInternal(ex, null, headers, status, request);
         }
     }
 
     private ResponseEntity<ApiError> handleForbiddenException(ForbiddenException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String errorMessage = "Handling er forbudt";
-
-        return handleExceptionInternal(ex, new ApiError(errorMessage), headers, status, request);
+        return handleExceptionInternal(ex, new ApiError(FORBIDDEN_MSG), headers, status, request);
     }
 
     private ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String errorMessage = "Vi kunne ikke tolke inndataene";
-
-        return handleExceptionInternal(ex, new ApiError(errorMessage), headers, status, request);
+        return handleExceptionInternal(ex, new ApiError(BAD_REQUEST_MSG), headers, status, request);
     }
 
     private ResponseEntity<ApiError> handleExceptionInternal(Exception ex, ApiError body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        metrikk.tellHttpKall(status.value());
+
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
         }
