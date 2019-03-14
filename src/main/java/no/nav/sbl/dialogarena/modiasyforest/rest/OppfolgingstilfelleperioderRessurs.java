@@ -46,14 +46,4 @@ public class OppfolgingstilfelleperioderRessurs {
 
         return sykeforloepService.hentOppfolgingstilfelleperioder(fnr, orgnummer);
     }
-
-    @ExceptionHandler({IllegalArgumentException.class})
-    void handleBadRequests(HttpServletResponse response) throws IOException {
-        response.sendError(BAD_REQUEST.value(), "Vi kunne ikke tolke inndataene :/");
-    }
-
-    @ExceptionHandler({ForbiddenException.class})
-    void handleForbiddenRequests(HttpServletResponse response) throws IOException {
-        response.sendError(FORBIDDEN.value(), "Handling er forbudt");
-    }
 }

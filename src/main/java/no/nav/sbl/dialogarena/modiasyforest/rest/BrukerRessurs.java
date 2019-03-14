@@ -1,15 +1,17 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
-import no.nav.sbl.dialogarena.modiasyforest.services.*;
+import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
+import no.nav.sbl.dialogarena.modiasyforest.services.DkifService;
+import no.nav.sbl.dialogarena.modiasyforest.services.TilgangService;
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.*;
-
-import java.io.IOException;
+import javax.ws.rs.Produces;
 
 import static java.lang.System.getProperty;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -17,8 +19,6 @@ import static no.nav.sbl.dialogarena.modiasyforest.mappers.BrukerMapper.ws2bruke
 import static no.nav.sbl.dialogarena.modiasyforest.mock.brukerMock.brukerMedAdresser;
 import static no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer.INTERN;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.map;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -52,15 +52,5 @@ public class BrukerRessurs {
         return map(brukerprofilService.hentBruker(fnr), ws2bruker)
                 .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr))
                 .arbeidssituasjon("ARBEIDSTAKER");
-    }
-
-    @ExceptionHandler({IllegalArgumentException.class})
-    void handleBadRequests(HttpServletResponse response) throws IOException {
-        response.sendError(BAD_REQUEST.value(), "Vi kunne ikke tolke inndataene :/");
-    }
-
-    @ExceptionHandler({ForbiddenException.class})
-    void handleForbiddenRequests(HttpServletResponse response) throws IOException {
-        response.sendError(FORBIDDEN.value(), "Handling er forbudt");
     }
 }

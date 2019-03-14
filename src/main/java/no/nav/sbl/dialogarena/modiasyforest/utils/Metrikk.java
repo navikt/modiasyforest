@@ -30,4 +30,19 @@ public class Metrikk {
                 Tags.of("type", "info")
         ).increment();
     }
+
+    public void tellHttpKall(int kode) {
+        registry.counter(
+                addPrefix("httpstatus"),
+                Tags.of(
+                        "type", "info",
+                        "kode", String.valueOf(kode)
+                )
+        ).increment();
+    }
+
+    private String addPrefix(String navn) {
+        String METRIKK_PREFIX = "modiasyforest_";
+        return METRIKK_PREFIX + navn;
+    }
 }
