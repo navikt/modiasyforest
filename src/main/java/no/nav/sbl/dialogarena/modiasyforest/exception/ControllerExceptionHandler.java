@@ -19,6 +19,7 @@ public class ControllerExceptionHandler {
 
     private final String BAD_REQUEST_MSG = "Vi kunne ikke tolke inndataene";
     private final String FORBIDDEN_MSG = "Handling er forbudt";
+    private final String INTERNAL_MSG = "Det skjedde en uventet feil";
 
     private Metrikk metrikk;
 
@@ -33,26 +34,26 @@ public class ControllerExceptionHandler {
 
         if (ex instanceof ForbiddenException) {
             HttpStatus status = HttpStatus.FORBIDDEN;
-            ForbiddenException unfe = (ForbiddenException) ex;
+            ForbiddenException forbiddenException = (ForbiddenException) ex;
 
-            return handleForbiddenException(unfe, headers, status, request);
+            return handleForbiddenException(forbiddenException, headers, status, request);
         } else if (ex instanceof IllegalArgumentException) {
             HttpStatus status = HttpStatus.BAD_REQUEST;
-            IllegalArgumentException cnae = (IllegalArgumentException) ex;
+            IllegalArgumentException illegalArgumentException = (IllegalArgumentException) ex;
 
-            return handleIllegalArgumentException(cnae, headers, status, request);
+            return handleIllegalArgumentException(illegalArgumentException, headers, status, request);
         } else {
             HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return handleExceptionInternal(ex, null, headers, status, request);
+            return handleExceptionInternal(ex, new ApiError(status.value(), INTERNAL_MSG), headers, status, request);
         }
     }
 
     private ResponseEntity<ApiError> handleForbiddenException(ForbiddenException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return handleExceptionInternal(ex, new ApiError(FORBIDDEN_MSG), headers, status, request);
+        return handleExceptionInternal(ex, new ApiError(status.value(), FORBIDDEN_MSG), headers, status, request);
     }
 
     private ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return handleExceptionInternal(ex, new ApiError(BAD_REQUEST_MSG), headers, status, request);
+        return handleExceptionInternal(ex, new ApiError(status.value(), BAD_REQUEST_MSG), headers, status, request);
     }
 
     private ResponseEntity<ApiError> handleExceptionInternal(Exception ex, ApiError body, HttpHeaders headers, HttpStatus status, WebRequest request) {
