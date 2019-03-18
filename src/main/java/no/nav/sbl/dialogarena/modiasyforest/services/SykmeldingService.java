@@ -49,7 +49,6 @@ public class SykmeldingService {
         this.sykmeldingV1 = sykmeldingV1;
     }
 
-    @Cacheable(cacheNames = CACHENAME_SYKMELDING, key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykmelding> hentSykmeldinger(String fnr, List<WSSkjermes> skjermes, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente sykmeldinger med fnr");
