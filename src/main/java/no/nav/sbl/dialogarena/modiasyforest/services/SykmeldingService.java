@@ -11,7 +11,6 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeRequest;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -20,7 +19,6 @@ import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
-import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_SYKMELDING;
 import static no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper.sykmeldinger;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
