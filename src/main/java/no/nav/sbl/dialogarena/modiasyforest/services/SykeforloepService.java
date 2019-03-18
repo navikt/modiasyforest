@@ -76,7 +76,6 @@ public class SykeforloepService {
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
-    @Cacheable(cacheNames = CACHENAME_SYFOSYKEFORLOP, key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente sykeforløp med fnr og oidcIssuer {}");
