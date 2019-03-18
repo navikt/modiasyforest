@@ -3,9 +3,7 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.config.SykmeldingerConfig;
 import no.nav.sbl.dialogarena.modiasyforest.mappers.SykmeldingMapper;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.NaermesteLeder;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Oppfolgingstilfelle;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Sykeforloep;
+import no.nav.sbl.dialogarena.modiasyforest.rest.domain.*;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelse;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
@@ -20,7 +18,6 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -38,7 +35,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.concat;
 import static java.util.stream.Stream.empty;
-import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_SYFOSYKEFORLOP;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.tidslinje.Hendelsestype.valueOf;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -76,7 +72,6 @@ public class SykeforloepService {
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
-    @Cacheable(cacheNames = CACHENAME_SYFOSYKEFORLOP, key = "#fnr.concat(#oidcIssuer)", condition = "#fnr != null && #oidcIssuer != null")
     public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente sykeforløp med fnr og oidcIssuer {}");
