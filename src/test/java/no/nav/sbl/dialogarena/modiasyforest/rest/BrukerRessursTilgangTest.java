@@ -1,6 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
 import no.nav.sbl.dialogarena.modiasyforest.LocalApplication;
+import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
 import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
 import no.nav.sbl.dialogarena.modiasyforest.services.DkifService;
@@ -41,7 +42,7 @@ public class BrukerRessursTilgangTest extends AbstractRessursTilgangTest {
         mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, OK);
 
         when(brukerprofilService.hentBruker(ARBEIDSTAKER_FNR)).thenReturn(new WSBruker().withPersonnavn(new WSPersonnavn()));
-        when(dkifService.hentKontaktinfoFnr(ARBEIDSTAKER_FNR)).thenReturn(new Kontaktinfo());
+        when(dkifService.hentKontaktinfoFnr(ARBEIDSTAKER_FNR, OIDCIssuer.INTERN)).thenReturn(new Kontaktinfo());
 
         brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);
     }

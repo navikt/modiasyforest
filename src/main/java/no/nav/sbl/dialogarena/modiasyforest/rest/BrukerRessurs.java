@@ -1,5 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.rest;
 
+import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
 import no.nav.sbl.dialogarena.modiasyforest.services.BrukerprofilService;
 import no.nav.sbl.dialogarena.modiasyforest.services.DkifService;
@@ -50,7 +51,7 @@ public class BrukerRessurs {
             return brukerMedAdresser();
         }
         return map(brukerprofilService.hentBruker(fnr), ws2bruker)
-                .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr))
+                .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr, OIDCIssuer.INTERN))
                 .arbeidssituasjon("ARBEIDSTAKER");
     }
 }

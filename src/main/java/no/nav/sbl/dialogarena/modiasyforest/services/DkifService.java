@@ -1,7 +1,9 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.sbl.dialogarena.modiasyforest.config.DkifConfig;
 import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
+import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonKontaktinformasjonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonPersonIkkeFunnet;
@@ -19,28 +21,37 @@ import java.time.OffsetDateTime;
 import static java.util.Optional.ofNullable;
 import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_DKIFFNR;
 import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
+import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
 @Service
 public class DkifService {
 
-    private DigitalKontaktinformasjonV1 dkifV1;
+    private DkifConfig dkifConfig;
+    private OIDCRequestContextHolder contextHolder;
 
     @Inject
-    public DkifService(DigitalKontaktinformasjonV1 dkifV1) {
-        this.dkifV1 = dkifV1;
+    public DkifService(
+            final DkifConfig dkifConfig,
+            final OIDCRequestContextHolder contextHolder
+    ) {
+        this.dkifConfig = dkifConfig;
+        this.contextHolder = contextHolder;
     }
 
     @Cacheable(cacheNames = CACHENAME_DKIFFNR, key = "#fnr", condition = "#fnr != null")
-    public Kontaktinfo hentKontaktinfoFnr(String fnr) {
+    public Kontaktinfo hentKontaktinfoFnr(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente kontaktinfo med fnr");
             throw new IllegalArgumentException();
         }
 
         try {
-            WSKontaktinformasjon response = dkifV1.hentDigitalKontaktinformasjon(new WSHentDigitalKontaktinformasjonRequest().withPersonident(fnr)).getDigitalKontaktinformasjon();
+            String oidcToken = tokenFraOIDC(this.contextHolder, oidcIssuer);
+            WSHentDigitalKontaktinformasjonRequest request = new WSHentDigitalKontaktinformasjonRequest().withPersonident(fnr);
+            WSKontaktinformasjon response = dkifConfig.hentDigitalKontaktinformasjon(request, oidcToken).getDigitalKontaktinformasjon();
+
             if ("true".equalsIgnoreCase(response.getReservasjon())) {
                 return new Kontaktinfo().fnr(fnr).skalHaVarsel(false).feilAarsak(RESERVERT);
             }
