@@ -30,7 +30,7 @@ public class ControllerExceptionHandler {
         this.metrikk = metrikk;
     }
 
-    @ExceptionHandler({Exception.class, IllegalArgumentException.class, ForbiddenException.class})
+    @ExceptionHandler({Exception.class, OIDCUnauthorizedException.class, IllegalArgumentException.class, ForbiddenException.class})
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
 
