@@ -1,7 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Periode;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.Periode;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSArbeidssituasjon;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSDatospenn;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSMelding;

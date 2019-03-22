@@ -2,7 +2,7 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.config.SykepengesoknadConfig;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.Sykepengesoknad;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykepengesoknad.Sykepengesoknad;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.HentSykepengesoeknadListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1;

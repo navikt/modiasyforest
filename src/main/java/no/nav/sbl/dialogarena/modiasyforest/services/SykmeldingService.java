@@ -3,7 +3,7 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.config.SykmeldingerConfig;
 import no.nav.sbl.dialogarena.modiasyforest.oidc.OIDCIssuer;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.Sykmelding;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.HentSykmeldingListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;

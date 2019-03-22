@@ -1,6 +1,6 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.Bruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPersonnavn;

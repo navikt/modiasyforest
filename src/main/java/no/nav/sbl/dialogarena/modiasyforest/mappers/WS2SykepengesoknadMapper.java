@@ -1,9 +1,9 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
 import no.nav.melding.virksomhet.sykepengesoeknadoppsummering.v1.sykepengesoeknadoppsummering.*;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.*;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.oppsummering.*;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.Arbeidsgiver;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykepengesoknad.*;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykepengesoknad.oppsummering.*;
 import no.nav.sbl.dialogarena.modiasyforest.utils.JAXB;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.informasjon.*;
 
@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykepengesoknad.oppsummering.Seksjon.*;
+import static no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykepengesoknad.oppsummering.Seksjon.*;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.MapUtil.*;
 
 public abstract class WS2SykepengesoknadMapper {

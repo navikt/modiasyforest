@@ -2,9 +2,8 @@ package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.sbl.dialogarena.modiasyforest.config.DkifConfig;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.Kontaktinfo;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
-import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.DigitalKontaktinformasjonV1;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonKontaktinformasjonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonPersonIkkeFunnet;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.HentDigitalKontaktinformasjonSikkerhetsbegrensing;
@@ -20,7 +19,7 @@ import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
 import static no.nav.sbl.dialogarena.modiasyforest.config.CacheConfig.CACHENAME_DKIFFNR;
-import static no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo.FeilAarsak.*;
+import static no.nav.sbl.dialogarena.modiasyforest.controller.domain.Kontaktinfo.FeilAarsak.*;
 import static no.nav.sbl.dialogarena.modiasyforest.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 

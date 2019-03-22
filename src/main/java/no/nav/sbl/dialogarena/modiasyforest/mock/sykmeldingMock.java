@@ -1,9 +1,9 @@
 package no.nav.sbl.dialogarena.modiasyforest.mock;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Diagnose;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.MulighetForArbeid;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Periode;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.Diagnose;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.MulighetForArbeid;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.Periode;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.Sykmelding;
 
 import java.time.LocalDateTime;
 import java.util.List;

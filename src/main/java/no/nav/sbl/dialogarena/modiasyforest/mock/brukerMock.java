@@ -1,8 +1,8 @@
 package no.nav.sbl.dialogarena.modiasyforest.mock;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Kontaktinfo;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.adresse.*;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.Bruker;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.Kontaktinfo;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.adresse.*;
 
 import java.math.BigInteger;
 

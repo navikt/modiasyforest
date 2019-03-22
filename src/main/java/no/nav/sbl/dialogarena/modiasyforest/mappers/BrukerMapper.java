@@ -1,7 +1,7 @@
 package no.nav.sbl.dialogarena.modiasyforest.mappers;
 
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Bruker;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.adresse.*;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.Bruker;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.adresse.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;
 
 import java.util.Optional;

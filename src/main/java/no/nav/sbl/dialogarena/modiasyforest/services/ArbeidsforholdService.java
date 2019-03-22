@@ -1,8 +1,8 @@
 package no.nav.sbl.dialogarena.modiasyforest.services;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.Arbeidsgiver;
-import no.nav.sbl.dialogarena.modiasyforest.rest.domain.sykmelding.Sykmelding;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.Arbeidsgiver;
+import no.nav.sbl.dialogarena.modiasyforest.controller.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.ArbeidsforholdV3;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.FinnArbeidsforholdPrArbeidstakerUgyldigInput;
