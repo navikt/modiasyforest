@@ -16,7 +16,7 @@ public class DiskresjonskodeConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public DiskresjonskodePortType DiskresjonskodePortType(@Value("${virksomhet.diskresjonskode.v1.endpointurl}") String serviceUrl) {
+    public DiskresjonskodePortType DiskresjonskodePortType(@Value("${diskresjonskode.v1.url}") String serviceUrl) {
         DiskresjonskodePortType port = factory(serviceUrl);
         STSClientConfig.configureRequestSamlToken(port);
         return port;

@@ -24,7 +24,7 @@ public class SykepengesoknadConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public SykepengesoeknadV1 sykepengesoeknadV1(@Value("${sykepengesoeknad.v1.endpointurl}") String serviceUrl) {
+    public SykepengesoeknadV1 sykepengesoeknadV1(@Value("${sykepengesoeknad.v1.url}") String serviceUrl) {
         SykepengesoeknadV1 port = new WsClient<SykepengesoeknadV1>().createPort(serviceUrl, SykepengesoeknadV1.class, singletonList(new LogErrorHandler()));
         STSClientConfig.configureRequestSamlTokenOnBehalfOfOidc(port);
         this.port = port;

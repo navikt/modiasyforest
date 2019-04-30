@@ -20,7 +20,7 @@ public class TpsConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public BrukerprofilV3 brukerprofilV3(@Value("${virksomhet.brukerprofil.v3.endpointurl}") String serviceUrl) {
+    public BrukerprofilV3 brukerprofilV3(@Value("${brukerprofil.v3.url}") String serviceUrl) {
         BrukerprofilV3 port = factory(serviceUrl);
         STSClientConfig.configureRequestSamlToken(port);
         return port;

@@ -1,5 +1,6 @@
 package no.nav.syfo.consumer.util.ws
 
+import no.nav.syfo.util.EnvironmentUtil
 import org.apache.cxf.Bus
 import org.apache.cxf.binding.soap.Soap12
 import org.apache.cxf.binding.soap.SoapMessage
@@ -10,15 +11,9 @@ import org.apache.cxf.ws.policy.PolicyEngine
 import org.apache.cxf.ws.policy.attachment.reference.RemoteReferenceResolver
 import org.apache.cxf.ws.security.trust.STSClient
 import org.apache.neethi.Policy
-import java.lang.IllegalStateException
-
-import java.util.HashMap
+import java.util.*
 
 object STSClientConfig {
-    private const val STS_URL_KEY = "SECURITYTOKENSERVICE_URL"
-    private const val SERVICEUSER_USERNAME = "SRVMODIASYFOREST_USERNAME"
-    private const val SERVICEUSER_PASSWORD = "SRVMODIASYFOREST_PASSWORD"
-
     // Only use no transportbinding on localhost, should use the requestSamlPolicy.xml with transport binding https
     // when in production.
     private const val STS_REQUEST_SAML_POLICY = "classpath:policy/requestSamlPolicy.xml"
@@ -38,10 +33,10 @@ object STSClientConfig {
     }
 
     private fun configureStsWithPolicyForClient(stsClient: STSClient, client: Client, policyReference: String,
-                                                 cacheTokenInEndpoint: Boolean) {
-        val location = requireProperty(STS_URL_KEY)
-        val username = requireProperty(SERVICEUSER_USERNAME)
-        val password = requireProperty(SERVICEUSER_PASSWORD)
+                                                cacheTokenInEndpoint: Boolean) {
+        val location = EnvironmentUtil.getEnvVar("SECURITYTOKENSERVICE_URL")
+        val username = EnvironmentUtil.getEnvVar("srv_username")
+        val password = EnvironmentUtil.getEnvVar("srv_password")
 
         configureSTSClient(stsClient, location, username, password)
 
@@ -64,7 +59,7 @@ object STSClientConfig {
     }
 
     private fun configureSTSClient(stsClient: STSClient, location: String, username: String,
-                                    password: String): STSClient {
+                                   password: String): STSClient {
 
         stsClient.isEnableAppliesTo = false
         stsClient.isAllowRenewing = false

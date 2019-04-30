@@ -22,7 +22,7 @@ public class DkifConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public DigitalKontaktinformasjonV1 digitalKontaktinformasjonV1(@Value("${virksomhet.digitalkontakinformasjon.v1.endpointurl}") String serviceUrl) {
+    public DigitalKontaktinformasjonV1 digitalKontaktinformasjonV1(@Value("${digitalkontakinformasjon.v1.url}") String serviceUrl) {
         DigitalKontaktinformasjonV1 port = factory(serviceUrl);
         STSClientConfig.configureRequestSamlTokenOnBehalfOfOidc(port);
         this.port = port;

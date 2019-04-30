@@ -16,7 +16,7 @@ public class EregConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public OrganisasjonV4 organisasjonV4(@Value("${virksomhet.organisasjon.v4.endpointurl}") String serviceUrl) {
+    public OrganisasjonV4 organisasjonV4(@Value("${organisasjon.v4.url}") String serviceUrl) {
         OrganisasjonV4 port = factory(serviceUrl);
         STSClientConfig.configureRequestSamlToken(port);
         return port;

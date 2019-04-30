@@ -22,7 +22,7 @@ public class SykmeldingerConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public SykmeldingV1 SykmeldingV1(@Value("${sykmelding.v1.endpointurl}") String serviceUrl) {
+    public SykmeldingV1 SykmeldingV1(@Value("${sykmelding.v1.url}") String serviceUrl) {
         SykmeldingV1 port = new WsClient<SykmeldingV1>().createPort(serviceUrl, SykmeldingV1.class, singletonList(new LogErrorHandler()));
         STSClientConfig.configureRequestSamlTokenOnBehalfOfOidc(port);
         this.port = port;
