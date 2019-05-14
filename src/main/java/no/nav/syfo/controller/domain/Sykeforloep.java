@@ -1,0 +1,36 @@
+package no.nav.syfo.controller.domain;
+
+import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
+import no.nav.syfo.controller.domain.tidslinje.Hendelse;
+
+import java.time.LocalDate;
+import java.util.List;
+
+
+public class Sykeforloep {
+
+    public List<Sykmelding> sykmeldinger;
+    public List<Hendelse> hendelser;
+    public LocalDate oppfoelgingsdato;
+    public LocalDate sluttdato;
+
+    public Sykeforloep withSykmeldinger(List<Sykmelding> sykmeldinger) {
+        this.sykmeldinger = sykmeldinger;
+        return this;
+    }
+
+    public Sykeforloep withHendelser(List<Hendelse> hendelser) {
+        this.hendelser = hendelser;
+        return this;
+    }
+
+    public Sykeforloep withOppfolgingsdato(LocalDate dato) {
+        this.oppfoelgingsdato = dato;
+        return this;
+    }
+
+    public Sykeforloep withSluttdato(LocalDate sluttdato) {
+        this.sluttdato = sluttdato;
+        return this;
+    }
+}
