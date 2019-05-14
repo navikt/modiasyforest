@@ -1,6 +1,7 @@
 package no.nav.syfo.services;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.utils.DistinctFilter;
@@ -28,17 +29,17 @@ public class NaermesteLederService {
 
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
 
-    private AktoerService aktoerService;
+    private AktorConsumer aktorConsumer;
 
     private OrganisasjonService organisasjonService;
 
     @Inject
     public NaermesteLederService(
-            AktoerService aktoerService,
+            AktorConsumer aktorConsumer,
             OrganisasjonService organisasjonService,
             SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1
     ) {
-        this.aktoerService = aktoerService;
+        this.aktorConsumer = aktorConsumer;
         this.organisasjonService = organisasjonService;
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
@@ -51,7 +52,7 @@ public class NaermesteLederService {
         }
         try {
             return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()
-                    .withAktoerId(aktoerService.hentAktoerIdForFnr(fnr))
+                    .withAktoerId(aktorConsumer.hentAktoerIdForFnr(fnr))
                     .withKunAktive(true)).getNaermesteLederListe().stream()
                     .distinct()
                     .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
@@ -81,7 +82,7 @@ public class NaermesteLederService {
 
     @Cacheable(cacheNames = CACHENAME_SYFOFINNLEDERE, key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
-        String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
+        String aktoerId = aktorConsumer.hentAktoerIdForFnr(fnr);
 
         try {
             return sykefravaersoppfoelgingV1.hentNaermesteLederListe(new WSHentNaermesteLederListeRequest()

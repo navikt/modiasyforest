@@ -1,10 +1,11 @@
 package no.nav.syfo.services;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
-import no.nav.syfo.config.SykmeldingerConfig;
-import no.nav.syfo.oidc.OIDCIssuer;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
+import no.nav.syfo.config.SykmeldingerConfig;
+import no.nav.syfo.consumer.AktorConsumer;
+import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
+import no.nav.syfo.oidc.OIDCIssuer;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.HentSykmeldingListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
@@ -30,19 +31,19 @@ public class SykmeldingService {
     @Value("${dev}")
     private String dev;
     private OIDCRequestContextHolder contextHolder;
-    private AktoerService aktoerService;
+    private AktorConsumer aktorConsumer;
     private SykmeldingerConfig sykmeldingerConfig;
     private SykmeldingV1 sykmeldingV1;
 
     @Inject
     public SykmeldingService(
             OIDCRequestContextHolder contextHolder,
-            AktoerService aktoerService,
+            AktorConsumer aktorConsumer,
             SykmeldingerConfig sykmeldingerConfig,
             SykmeldingV1 sykmeldingV1
     ) {
         this.contextHolder = contextHolder;
-        this.aktoerService = aktoerService;
+        this.aktorConsumer = aktorConsumer;
         this.sykmeldingerConfig = sykmeldingerConfig;
         this.sykmeldingV1 = sykmeldingV1;
     }
@@ -53,7 +54,7 @@ public class SykmeldingService {
             throw new IllegalArgumentException();
         }
 
-        String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
+        String aktoerId = aktorConsumer.hentAktoerIdForFnr(fnr);
 
         try {
             WSHentSykmeldingListeRequest request = new WSHentSykmeldingListeRequest()

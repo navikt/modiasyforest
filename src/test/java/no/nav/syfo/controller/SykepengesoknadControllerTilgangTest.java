@@ -1,7 +1,7 @@
 package no.nav.syfo.controller;
 
+import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.services.AktoerService;
 import no.nav.syfo.services.SykepengesoknaderService;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,14 +26,14 @@ public class SykepengesoknadControllerTilgangTest extends AbstractControllerTilg
     @MockBean
     private SykepengesoknaderService sykepengesoknaderService;
     @MockBean
-    private AktoerService aktoerService;
+    private AktorConsumer aktorConsumer;
 
 
     @Test
     public void har_tilgang() {
         loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
         mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, OK);
-        when(aktoerService.hentAktoerIdForFnr(ARBEIDSTAKER_FNR)).thenReturn(AKTOR_ID);
+        when(aktorConsumer.hentAktoerIdForFnr(ARBEIDSTAKER_FNR)).thenReturn(AKTOR_ID);
         when(sykepengesoknaderService.hentSykepengesoknader(AKTOR_ID, OIDCIssuer.INTERN)).thenReturn(emptyList());
 
         sykepengesoknadController.hentSykepengesoknader(ARBEIDSTAKER_FNR);

@@ -1,5 +1,6 @@
 package no.nav.syfo.services;
 
+import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
@@ -23,14 +24,13 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class NaermesteLederServiceTest {
 
     @Mock
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
     @Mock
-    private AktoerService aktoerService;
+    private AktorConsumer aktorConsumer;
     @Mock
     private OrganisasjonService organisasjonService;
     @InjectMocks
@@ -38,7 +38,7 @@ public class NaermesteLederServiceTest {
 
     @Before
     public void setup() {
-        when(aktoerService.hentAktoerIdForFnr(anyString())).thenReturn("12345678901");
+        when(aktorConsumer.hentAktoerIdForFnr(anyString())).thenReturn("12345678901");
         when(organisasjonService.hentNavn(anyString())).thenReturn("Testbedriften");
     }
 

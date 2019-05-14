@@ -1,16 +1,13 @@
 package no.nav.syfo.controller;
 
+import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
+import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad;
 import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.services.AktoerService;
 import no.nav.syfo.services.SykepengesoknaderService;
 import no.nav.syfo.services.TilgangService;
 import no.nav.syfo.utils.Metrikk;
-import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
@@ -26,19 +23,19 @@ import static no.nav.syfo.oidc.OIDCIssuer.INTERN;
 public class SykepengesoknadController {
 
     private Metrikk metrikk;
-    private AktoerService aktoerService;
+    private AktorConsumer aktorConsumer;
     private SykepengesoknaderService sykepengesoknaderService;
     private TilgangService tilgangService;
 
     @Inject
     public SykepengesoknadController(
             Metrikk metrikk,
-            AktoerService aktoerService,
+            AktorConsumer aktorConsumer,
             SykepengesoknaderService sykepengesoknaderService,
             TilgangService tilgangService
     ) {
         this.metrikk = metrikk;
-        this.aktoerService = aktoerService;
+        this.aktorConsumer = aktorConsumer;
         this.sykepengesoknaderService = sykepengesoknaderService;
         this.tilgangService = tilgangService;
     }
@@ -50,7 +47,7 @@ public class SykepengesoknadController {
         tilgangService.sjekkVeiledersTilgangTilPerson(fnr);
 
         try {
-            return sykepengesoknaderService.hentSykepengesoknader(aktoerService.hentAktoerIdForFnr(fnr), OIDCIssuer.INTERN);
+            return sykepengesoknaderService.hentSykepengesoknader(aktorConsumer.hentAktoerIdForFnr(fnr), OIDCIssuer.INTERN);
         } catch (ForbiddenException e) {
             metrikk.tellHentSykepengesoknader403();
             throw e;
