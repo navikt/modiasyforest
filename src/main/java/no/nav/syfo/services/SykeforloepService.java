@@ -3,6 +3,7 @@ package no.nav.syfo.services;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.syfo.config.SykmeldingerConfig;
+import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.*;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.controller.domain.tidslinje.Hendelse;
@@ -46,7 +47,7 @@ public class SykeforloepService {
     @Value("${dev}")
     private String dev;
     private OIDCRequestContextHolder contextHolder;
-    private AktoerService aktoerService;
+    private AktorConsumer aktorConsumer;
     private NaermesteLederService naermesteLederService;
     private OrganisasjonService organisasjonService;
     private SykmeldingerConfig sykmeldingerConfig;
@@ -56,7 +57,7 @@ public class SykeforloepService {
     @Inject
     public SykeforloepService(
             OIDCRequestContextHolder contextHolder,
-            AktoerService aktoerService,
+            AktorConsumer aktorConsumer,
             NaermesteLederService naermesteLederService,
             OrganisasjonService organisasjonService,
             SykmeldingerConfig sykmeldingerConfig,
@@ -64,7 +65,7 @@ public class SykeforloepService {
             SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1
     ) {
         this.contextHolder = contextHolder;
-        this.aktoerService = aktoerService;
+        this.aktorConsumer = aktorConsumer;
         this.naermesteLederService = naermesteLederService;
         this.organisasjonService = organisasjonService;
         this.sykmeldingerConfig = sykmeldingerConfig;
@@ -78,7 +79,7 @@ public class SykeforloepService {
             throw new IllegalArgumentException();
         }
 
-        String aktoerId = aktoerService.hentAktoerIdForFnr(fnr);
+        String aktoerId = aktorConsumer.hentAktoerIdForFnr(fnr);
 
         try {
             WSHentOppfoelgingstilfelleListeRequest request = new WSHentOppfoelgingstilfelleListeRequest()
@@ -188,7 +189,7 @@ public class SykeforloepService {
     }
 
     public List<Oppfolgingstilfelle> hentOppfolgingstilfelleperioder(String fnr, String orgnummer) {
-        String aktorId = aktoerService.hentAktoerIdForFnr(fnr);
+        String aktorId = aktorConsumer.hentAktoerIdForFnr(fnr);
 
         WSHentSykeforlopperiodeRequest request = new WSHentSykeforlopperiodeRequest()
                 .withAktoerId(aktorId)
