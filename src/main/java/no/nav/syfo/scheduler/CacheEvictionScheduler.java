@@ -1,14 +1,12 @@
 package no.nav.syfo.scheduler;
 
 import org.springframework.cache.CacheManager;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
 @Component
-@EnableScheduling
 public class CacheEvictionScheduler {
 
     private final int MINUTE_MS = 60 * 1000;
