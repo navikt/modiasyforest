@@ -29,8 +29,6 @@ resources:
     memory: 512Mi
 fasitResources:
   used:
-  - alias: appdynamics
-    resourceType: applicationproperties
   - alias: srvmodiasyforest
     resourceType: credential
   - alias: loadbalancer:modiasyforest
