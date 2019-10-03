@@ -35,18 +35,6 @@ fasitResources:
     resourceType: loadbalancerconfig
   - alias: securityTokenService
     resourceType: baseUrl
-  - alias: isso-host
-    resourceType: baseurl
-  - alias: isso-jwks
-    resourceType: baseurl
-  - alias: isso-issuer
-    resourceType: baseurl
-  - alias: isso.isalive
-    resourceType: baseurl
-  - alias: isso-rp-user
-    resourceType: credential
-  - alias: veilarblogin.redirect-url
-    resourceType: restservice
   - alias: tilgangskontrollapi
     resourceType: restservice
   - alias: virksomhet:EgenAnsatt_v1
@@ -69,15 +57,6 @@ fasitResources:
     resourceType: webserviceendpoint
   - alias: Sykepengesoeknad_v1
     resourceType: webserviceendpoint
-  # OIDC med AzureAD B2C
-  - alias: aad_b2c_clientid
-    resourceType: credential
-    propertyMap:
-      username: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_ACCEPTEDAUDIENCE
-  - alias: aad_b2c_discovery
-    resourceType: baseurl
-    propertyMap:
-      url: NO_NAV_SECURITY_OIDC_ISSUER_SELVBETJENING_DISCOVERYURL
   - alias: opam_oidc_discovery
     resourceType: baseurl
     propertyMap:
