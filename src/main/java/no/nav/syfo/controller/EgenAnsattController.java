@@ -1,11 +1,8 @@
 package no.nav.syfo.controller;
 
-import no.nav.syfo.services.EgenAnsattService;
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import no.nav.syfo.services.EgenAnsattService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

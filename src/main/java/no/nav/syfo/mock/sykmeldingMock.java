@@ -1,9 +1,6 @@
 package no.nav.syfo.mock;
 
-import no.nav.syfo.controller.domain.sykmelding.Diagnose;
-import no.nav.syfo.controller.domain.sykmelding.MulighetForArbeid;
-import no.nav.syfo.controller.domain.sykmelding.Periode;
-import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
+import no.nav.syfo.controller.domain.sykmelding.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +18,7 @@ public class sykmeldingMock {
                 sykmeldingAvbrutt()
         );
     }
+
     private static Diagnose hovedDiagnose() {
         Diagnose diagnose = new Diagnose();
         diagnose.diagnose = "TENDINITT INA";
@@ -52,7 +50,7 @@ public class sykmeldingMock {
     }
 
     private static Sykmelding sykmeldingBasic() {
-        Sykmelding sykmelding =  new Sykmelding();
+        Sykmelding sykmelding = new Sykmelding();
         sykmelding.mulighetForArbeid = mulighetForArbeid();
 
         return sykmelding.withId("8d775034-8e3e-4489-9784-52a1e99e0ab5")

@@ -1,11 +1,9 @@
 package no.nav.syfo.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.syfo.utils.Metrikk;
 import no.nav.security.spring.oidc.validation.interceptor.OIDCUnauthorizedException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import no.nav.syfo.utils.Metrikk;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;

@@ -1,13 +1,8 @@
 package no.nav.syfo.services;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserPersonIkkeFunnet;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPerson;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.*;
+import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

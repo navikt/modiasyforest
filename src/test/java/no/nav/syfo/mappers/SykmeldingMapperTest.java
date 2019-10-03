@@ -3,10 +3,7 @@ package no.nav.syfo.mappers;
 import no.nav.syfo.controller.domain.sykmelding.Periode;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.testutils.SykmeldingMocks;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSArbeidssituasjon;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSDatospenn;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSMelding;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSMSpoersmaal;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -58,8 +55,8 @@ public class SykmeldingMapperTest {
         assertThat(sykmelding.bekreftelse.utstedelsesdato).isNotNull();
 
         assertThat(sykmelding.sporsmal.arbeidssituasjon).isEqualTo("ARBEIDSTAKER");
-        assertThat(sykmelding.sporsmal.fravaersperioder.get(0).fom).isEqualTo(of(2018,10,17));
-        assertThat(sykmelding.sporsmal.fravaersperioder.get(0).tom).isEqualTo(of(2018,10,17));
+        assertThat(sykmelding.sporsmal.fravaersperioder.get(0).fom).isEqualTo(of(2018, 10, 17));
+        assertThat(sykmelding.sporsmal.fravaersperioder.get(0).tom).isEqualTo(of(2018, 10, 17));
 
     }
 

@@ -1,15 +1,10 @@
 package no.nav.syfo.controller;
 
+import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.Bruker;
 import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.services.BrukerprofilService;
-import no.nav.syfo.services.DkifService;
-import no.nav.syfo.services.TilgangService;
-import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import no.nav.syfo.services.*;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.Produces;

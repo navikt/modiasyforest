@@ -1,9 +1,9 @@
 package no.nav.syfo.controller;
 
+import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.Oppfolgingstilfelle;
 import no.nav.syfo.services.SykeforloepService;
 import no.nav.syfo.services.TilgangService;
-import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;

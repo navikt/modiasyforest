@@ -4,6 +4,7 @@ import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
 
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
+
 public class NaermesteLederMapper {
 
     public static NaermesteLeder tilNaermesteLeder(WSNaermesteLeder response, String organisasjon) {

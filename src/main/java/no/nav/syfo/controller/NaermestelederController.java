@@ -1,18 +1,13 @@
 package no.nav.syfo.controller;
 
+import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.services.NaermesteLederService;
-import no.nav.syfo.services.SykmeldingService;
-import no.nav.syfo.services.TilgangService;
+import no.nav.syfo.services.*;
 import no.nav.syfo.utils.Metrikk;
-import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.Produces;

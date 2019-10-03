@@ -24,5 +24,4 @@ class WsClient<T> {
         Arrays.stream(interceptors).forEach{ client.outInterceptors.add(it) }
         return port
     }
-
 }

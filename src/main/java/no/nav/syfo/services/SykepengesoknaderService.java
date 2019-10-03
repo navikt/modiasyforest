@@ -1,9 +1,9 @@
 package no.nav.syfo.services;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad;
-import no.nav.syfo.config.SykepengesoknadConfig;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
+import no.nav.syfo.config.SykepengesoknadConfig;
+import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.HentSykepengesoeknadListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeRequest;
