@@ -10,13 +10,6 @@ val cxfVersion = "3.3.3"
 val oidcSpringSupportVersion = "0.2.4"
 val springBootVersion = "2.1.8.RELEASE"
 
-val jaxWsApiVersion = "2.3.1"
-val javaxAnnotationApiVersion = "1.3.2"
-val jaxbApiVersion = "2.4.0-b180830.0359"
-val jaxbRuntimeVersion = "2.4.0-b180830.0438"
-val javaxActivationVersion = "1.1.1"
-val jaxwsToolsVersion = "2.3.1"
-
 plugins {
     kotlin("jvm") version "1.3.31"
     id("com.github.johnrengelman.shadow") version "4.0.3"
@@ -51,15 +44,6 @@ repositories {
 }
 
 dependencies {
-    implementation("javax.xml.ws:jaxws-api:$jaxWsApiVersion")
-    implementation("javax.annotation:javax.annotation-api:$javaxAnnotationApiVersion")
-    implementation("javax.xml.bind:jaxb-api:$jaxbApiVersion")
-    implementation("org.glassfish.jaxb:jaxb-runtime:$jaxbRuntimeVersion")
-    implementation("javax.activation:activation:$javaxActivationVersion")
-    implementation("com.sun.xml.ws:jaxws-tools:$jaxwsToolsVersion") {
-        exclude(group = "com.sun.xml.ws", module = "policy")
-    }
-
     implementation("no.nav.syfo.tjenester:dkif-tjenestespesifikasjon:1.2")
     implementation("no.nav.sbl.dialogarena:diskresjonskodev1-tjenestespesifikasjon:1.0.0")
     implementation("no.nav.syfo.tjenester:egenAnsatt-v1-tjenestespesifikasjon:1.0.1")
