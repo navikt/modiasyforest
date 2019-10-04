@@ -16,7 +16,7 @@ public class SykefravaerOppfoelgingConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1(@Value("${sykefravaersoppfoelging.v1.endpointurl}") String serviceUrl) {
+    public SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1(@Value("${sykefravaersoppfoelging.v1.url}") String serviceUrl) {
         SykefravaersoppfoelgingV1 port = factory(serviceUrl);
         STSClientConfig.configureRequestSamlToken(port);
         return port;

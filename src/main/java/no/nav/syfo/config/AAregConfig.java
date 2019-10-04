@@ -16,7 +16,7 @@ public class AAregConfig {
     @Bean
     @Primary
     @ConditionalOnProperty(value = MOCK_KEY, havingValue = "false", matchIfMissing = true)
-    public ArbeidsforholdV3 arbeidsforholdV3(@Value("${virksomhet.arbeidsforhold.v3.endpointurl}") String serviceUrl) {
+    public ArbeidsforholdV3 arbeidsforholdV3(@Value("${arbeidsforhold.v3.url}") String serviceUrl) {
         ArbeidsforholdV3 port = factory(serviceUrl);
         STSClientConfig.configureRequestSamlToken(port);
         return port;

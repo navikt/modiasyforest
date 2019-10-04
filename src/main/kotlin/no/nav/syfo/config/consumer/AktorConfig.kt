@@ -18,7 +18,7 @@ class AktorConfig {
     @Bean
     @ConditionalOnProperty(value = [MOCK_KEY], havingValue = "false", matchIfMissing = true)
     @Primary
-    fun aktoerV2(@Value("\${aktoer.v2.endpointurl}") serviceUrl: String): AktoerV2 {
+    fun aktoerV2(@Value("\${aktoer.v2}") serviceUrl: String): AktoerV2 {
         val port: AktoerV2 = WsClient<AktoerV2>().createPort(serviceUrl, AktoerV2::class.java, singletonList(LogErrorHandler()))
         STSClientConfig.configureRequestSamlToken(port)
         return port
