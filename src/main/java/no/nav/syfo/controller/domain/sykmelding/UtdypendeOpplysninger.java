@@ -5,4 +5,6 @@ public class UtdypendeOpplysninger {
     public String paavirkningArbeidsevne;
     public String resultatAvBehandling;
     public String henvisningUtredningBehandling;
+    public String sykehistoriePunkt63;
+    public String henvisningUtredningBehandlingPunkt63;
 }

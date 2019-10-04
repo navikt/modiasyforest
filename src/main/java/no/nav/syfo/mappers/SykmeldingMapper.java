@@ -374,6 +374,12 @@ public class SykmeldingMapper {
                     case "6.2.4":
                         sykmelding.utdypendeOpplysninger.henvisningUtredningBehandling = spoersmaal.getSvar();
                         break;
+                    case "6.3.1":
+                        sykmelding.utdypendeOpplysninger.sykehistoriePunkt63 = spoersmaal.getSvar();
+                        break;
+                    case "6.3.2":
+                        sykmelding.utdypendeOpplysninger.henvisningUtredningBehandlingPunkt63 = spoersmaal.getSvar();
+                        break;
                 }
             }
         }
