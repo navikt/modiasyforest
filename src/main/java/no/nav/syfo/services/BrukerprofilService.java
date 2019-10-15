@@ -1,9 +1,9 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,12 @@ import static no.nav.syfo.config.CacheConfig.CACHENAME_TPSBRUKER;
 import static no.nav.syfo.config.CacheConfig.CACHENAME_TPSNAVN;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class BrukerprofilService {
+
+    private static final Logger log = getLogger(BrukerprofilService.class);
 
     private BrukerprofilV3 brukerprofilV3;
 

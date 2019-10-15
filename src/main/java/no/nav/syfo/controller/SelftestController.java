@@ -1,11 +1,9 @@
 package no.nav.syfo.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.security.spring.oidc.validation.api.Unprotected;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @RestController
 @Unprotected
 @RequestMapping(value = "/internal")

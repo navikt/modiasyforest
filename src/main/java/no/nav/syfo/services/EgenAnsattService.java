@@ -1,8 +1,8 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.tjeneste.pip.egen.ansatt.v1.EgenAnsattV1;
 import no.nav.tjeneste.pip.egen.ansatt.v1.WSHentErEgenAnsattEllerIFamilieMedEgenAnsattRequest;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,12 @@ import javax.inject.Inject;
 
 import static no.nav.syfo.config.CacheConfig.CACHENAME_EGENANSATT;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class EgenAnsattService {
+
+    private static final Logger log = getLogger(EgenAnsattService.class);
 
     private EgenAnsattV1 egenAnsattV1;
 

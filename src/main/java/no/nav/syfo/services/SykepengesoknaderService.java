@@ -1,6 +1,5 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.syfo.config.SykepengesoknadConfig;
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad;
@@ -8,6 +7,7 @@ import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.HentSykepengesoeknadListeS
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeRequest;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeResponse;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,12 @@ import static no.nav.syfo.mappers.WS2SykepengesoknadMapper.ws2Sykepengesoknad;
 import static no.nav.syfo.utils.MapUtil.mapListe;
 import static no.nav.syfo.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class SykepengesoknaderService {
+
+    private static final Logger log = getLogger(SykepengesoknaderService.class);
 
     @Value("${dev}")
     private String dev;

@@ -1,6 +1,5 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.syfo.config.SykmeldingerConfig;
 import no.nav.syfo.consumer.AktorConsumer;
@@ -11,6 +10,7 @@ import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeRequest;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentSykmeldingListeResponse;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +23,12 @@ import static java.util.Collections.emptyList;
 import static no.nav.syfo.mappers.SykmeldingMapper.sykmeldinger;
 import static no.nav.syfo.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class SykmeldingService {
+
+    private static final Logger log = getLogger(SykmeldingService.class);
 
     @Value("${dev}")
     private String dev;

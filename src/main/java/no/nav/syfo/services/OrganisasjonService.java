@@ -1,11 +1,11 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.*;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.informasjon.WSUstrukturertNavn;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonRequest;
 import no.nav.tjeneste.virksomhet.organisasjon.v4.meldinger.WSHentOrganisasjonResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,12 @@ import javax.inject.Inject;
 import static java.util.stream.Collectors.joining;
 import static no.nav.syfo.config.CacheConfig.CACHENAME_ORGANISASJONNAVN;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class OrganisasjonService {
+
+    private static final Logger log = getLogger(OrganisasjonService.class);
 
     private OrganisasjonV4 organisasjonWebService;
 

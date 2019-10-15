@@ -1,12 +1,12 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.syfo.config.DkifConfig;
 import no.nav.syfo.controller.domain.Kontaktinfo;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.*;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.meldinger.WSHentDigitalKontaktinformasjonRequest;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,12 @@ import static java.util.Optional.ofNullable;
 import static no.nav.syfo.config.CacheConfig.CACHENAME_DKIFFNR;
 import static no.nav.syfo.utils.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class DkifService {
+
+    private static final Logger log = getLogger(DkifService.class);
 
     private DkifConfig dkifConfig;
     private OIDCRequestContextHolder contextHolder;

@@ -1,11 +1,11 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.syfo.controller.domain.Arbeidsgiver;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.binding.*;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.informasjon.arbeidsforhold.*;
 import no.nav.tjeneste.virksomhet.arbeidsforhold.v3.meldinger.FinnArbeidsforholdPrArbeidstakerRequest;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +23,12 @@ import static java.util.stream.Collectors.toList;
 import static javax.xml.datatype.DatatypeFactory.newInstance;
 import static no.nav.syfo.config.CacheConfig.CACHENAME_ARBEIDSFORHOLD;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class ArbeidsforholdService {
+
+    private static final Logger log = getLogger(ArbeidsforholdService.class);
 
     private static final Regelverker A_ORDNINGEN = new Regelverker();
 

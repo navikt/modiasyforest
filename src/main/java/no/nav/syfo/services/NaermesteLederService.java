@@ -1,6 +1,5 @@
 package no.nav.syfo.services;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
@@ -9,6 +8,7 @@ import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederL
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.WSHentNaermesteLederListeRequest;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +22,12 @@ import static no.nav.syfo.config.CacheConfig.CACHENAME_SYFOFINNLEDERE;
 import static no.nav.syfo.config.CacheConfig.CACHENAME_SYFOLEDERE;
 import static no.nav.syfo.mappers.NaermesteLederMapper.tilNaermesteLeder;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 @Service
 public class NaermesteLederService {
+
+    private static final Logger log = getLogger(NaermesteLederService.class);
 
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
 

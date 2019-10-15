@@ -1,6 +1,5 @@
 package no.nav.syfo.services.ws;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.binding.soap.SoapHeader;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.interceptor.Fault;
@@ -8,6 +7,7 @@ import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.slf4j.Logger;
 import org.slf4j.MDC;
 
 import javax.xml.bind.JAXBException;
@@ -15,9 +15,11 @@ import javax.xml.namespace.QName;
 
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.randomUUID;
+import static org.slf4j.LoggerFactory.getLogger;
 
-@Slf4j
 public class CallIdHeader extends AbstractPhaseInterceptor<Message> {
+
+    private static final Logger log = getLogger(CallIdHeader.class);
 
     public CallIdHeader() {
         super(Phase.PRE_STREAM);
