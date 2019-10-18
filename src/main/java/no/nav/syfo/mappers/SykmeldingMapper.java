@@ -358,6 +358,8 @@ public class SykmeldingMapper {
         boolean harUtdypendeOpplysninger = !sm.getUtdypendeOpplysninger().isEmpty();
 
         if (harUtdypendeOpplysninger) {
+            sykmelding.utdypendeOpplysninger.grupper = utdypendeOpplysningerGrupper(sm);
+
             List<WSSpoersmaal> spoersmaals = sm.getUtdypendeOpplysninger().get(0).getSpoersmaal();
 
             for (WSSpoersmaal spoersmaal : spoersmaals) {
@@ -383,6 +385,23 @@ public class SykmeldingMapper {
                 }
             }
         }
+    }
+
+    private static List<Sporsmalsgruppe> utdypendeOpplysningerGrupper(WSSykmelding sm) {
+        return sm.getUtdypendeOpplysninger()
+                .stream()
+                .sorted(Comparator.comparing(WSUtdypendeOpplysninger::getGruppeId))
+                .map(gruppe ->
+                        new Sporsmalsgruppe()
+                                .withId(gruppe.getGruppeId())
+                                .withSporsmal(gruppe.getSpoersmaal()
+                                        .stream()
+                                        .sorted(Comparator.comparing(WSSpoersmaal::getSpoersmaalId))
+                                        .map(wsSpoersmaal -> new Sporsmal()
+                                                .withId(wsSpoersmaal.getSpoersmaalId())
+                                                .withSvar(wsSpoersmaal.getSvar()))
+                                        .collect(toList())))
+                .collect(toList());
     }
 
     private static Boolean returTilSammeArbeidsgiver(WSSykmelding sm) {
