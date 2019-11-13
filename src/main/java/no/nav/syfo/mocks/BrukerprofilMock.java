@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 @ConditionalOnProperty(value = TpsConfig.MOCK_KEY, havingValue = "true")
 public class BrukerprofilMock implements BrukerprofilV3 {
+
+    public final static String PERSON_FORNAVN = "Fornavn";
+    public final static String PERSON_ETTERNAVN = "Etternavn";
+
     @Override
     public void ping() {
     }
@@ -24,8 +28,7 @@ public class BrukerprofilMock implements BrukerprofilV3 {
         return new WSHentKontaktinformasjonOgPreferanserResponse()
                 .withBruker(new WSBruker()
                         .withPersonnavn(new WSPersonnavn()
-                                .withFornavn("Test")
-                                .withMellomnavn("von")
-                                .withEtternavn("Testesen")));
+                                .withFornavn(PERSON_FORNAVN)
+                                .withEtternavn(PERSON_ETTERNAVN)));
     }
 }
