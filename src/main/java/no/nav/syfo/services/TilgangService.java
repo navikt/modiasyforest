@@ -45,15 +45,15 @@ public class TilgangService {
         }
     }
 
-    public void throwExceptionIfVeilederWithoutAccess(Fnr fnr) {
+    public void throwExceptionIfVeilederWithoutAccess(String fnr) {
         boolean harTilgang = isVeilederGrantedAccessToUserWithAD(fnr);
         if (!harTilgang) {
             throw new ForbiddenException();
         }
     }
 
-    public boolean isVeilederGrantedAccessToUserWithAD(Fnr fnr) {
-        URI tilgangTilBrukerViaAzureUriMedFnr = tilgangTilBrukerViaAzureUriTemplate.build(singletonMap(FNR, fnr.getFnr()));
+    public boolean isVeilederGrantedAccessToUserWithAD(String fnr) {
+        URI tilgangTilBrukerViaAzureUriMedFnr = tilgangTilBrukerViaAzureUriTemplate.build(singletonMap(FNR, fnr));
         return kallUriMedTemplate(tilgangTilBrukerViaAzureUriMedFnr);
     }
 

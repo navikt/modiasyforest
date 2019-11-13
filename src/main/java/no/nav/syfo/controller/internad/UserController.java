@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public Bruker getUser(@RequestParam(value = "fnr") String fnr) {
-        tilgangsKontroll.throwExceptionIfVeilederWithoutAccess(Fnr.of(fnr));
+        tilgangsKontroll.throwExceptionIfVeilederWithoutAccess(fnr);
 
         return map(brukerprofilService.hentBruker(fnr), ws2bruker)
                 .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr, AZURE))
