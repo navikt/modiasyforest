@@ -9,9 +9,11 @@ version = "1.0.0"
 val cxfVersion = "3.3.3"
 val oidcSpringSupportVersion = "0.2.4"
 val springBootVersion = "2.1.8.RELEASE"
+val kotlinVersion = "1.3.50"
+val kotlinJacksonVersion = "2.9.8"
 
 plugins {
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.50"
     id("com.github.johnrengelman.shadow") version "4.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.3.50"
     id("java")
@@ -44,6 +46,10 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$kotlinJacksonVersion")
+
     implementation("no.nav.syfo.tjenester:dkif-tjenestespesifikasjon:1.2")
     implementation("no.nav.sbl.dialogarena:diskresjonskodev1-tjenestespesifikasjon:1.0.0")
     implementation("no.nav.syfo.tjenester:egenAnsatt-v1-tjenestespesifikasjon:1.0.1")
@@ -75,8 +81,7 @@ dependencies {
     implementation("javax.inject:javax.inject:1")
     implementation("net.logstash.logback:logstash-logback-encoder:4.10")
     implementation("org.slf4j:slf4j-api:1.7.25")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.71")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.2.71")
+
     implementation("org.projectlombok:lombok:1.16.22")
     annotationProcessor("org.projectlombok:lombok:1.18.6")
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
