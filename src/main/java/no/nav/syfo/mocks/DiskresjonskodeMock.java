@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 @ConditionalOnProperty(value = DiskresjonskodeConfig.MOCK_KEY, havingValue = "true")
 public class DiskresjonskodeMock implements DiskresjonskodePortType {
+
+    public final static String DISKRESJONSKODE = "1";
+
     @Override
     public WSHentDiskresjonskodeResponse hentDiskresjonskode(WSHentDiskresjonskodeRequest wsHentDiskresjonskodeRequest) {
-        return new WSHentDiskresjonskodeResponse().withDiskresjonskode("1");
+        return new WSHentDiskresjonskodeResponse().withDiskresjonskode(DISKRESJONSKODE);
     }
 
     @Override
