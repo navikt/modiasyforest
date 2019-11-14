@@ -3,7 +3,7 @@ package no.nav.syfo.controller;
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.Sykeforloep;
 import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.services.SykeforloepService;
+import no.nav.syfo.services.OppfolgingstilfelleService;
 import no.nav.syfo.services.TilgangService;
 import no.nav.syfo.utils.Metrikk;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +21,17 @@ import static no.nav.syfo.oidc.OIDCIssuer.INTERN;
 public class SykeforloepController {
 
     private Metrikk metrikk;
-    private SykeforloepService sykeforloepService;
+    private OppfolgingstilfelleService oppfolgingstilfelleService;
     private TilgangService tilgangService;
 
     @Inject
     public SykeforloepController(
             Metrikk metrikk,
-            SykeforloepService sykeforloepService,
+            OppfolgingstilfelleService oppfolgingstilfelleService,
             TilgangService tilgangService
     ) {
         this.metrikk = metrikk;
-        this.sykeforloepService = sykeforloepService;
+        this.oppfolgingstilfelleService = oppfolgingstilfelleService;
         this.tilgangService = tilgangService;
     }
 
@@ -42,6 +42,6 @@ public class SykeforloepController {
 
         tilgangService.sjekkVeiledersTilgangTilPerson(fnr);
 
-        return sykeforloepService.hentSykeforloep(fnr, OIDCIssuer.INTERN);
+        return oppfolgingstilfelleService.getOppfolgingstilfelle(fnr, OIDCIssuer.INTERN);
     }
 }

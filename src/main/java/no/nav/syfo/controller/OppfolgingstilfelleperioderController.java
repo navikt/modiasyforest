@@ -2,7 +2,7 @@ package no.nav.syfo.controller;
 
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.Oppfolgingstilfelle;
-import no.nav.syfo.services.SykeforloepService;
+import no.nav.syfo.services.OppfolgingstilfelleService;
 import no.nav.syfo.services.TilgangService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +20,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class OppfolgingstilfelleperioderController {
 
     private TilgangService tilgangsKontroll;
-    private SykeforloepService sykeforloepService;
+    private OppfolgingstilfelleService oppfolgingstilfelleService;
 
     @Inject
     public OppfolgingstilfelleperioderController(
             final TilgangService tilgangsKontroll,
-            final SykeforloepService sykeforloepService
+            final OppfolgingstilfelleService oppfolgingstilfelleService
     ) {
         this.tilgangsKontroll = tilgangsKontroll;
-        this.sykeforloepService = sykeforloepService;
+        this.oppfolgingstilfelleService = oppfolgingstilfelleService;
     }
 
     @ProtectedWithClaims(issuer = INTERN)
@@ -39,6 +39,6 @@ public class OppfolgingstilfelleperioderController {
     ) {
         tilgangsKontroll.sjekkVeiledersTilgangTilPerson(fnr);
 
-        return sykeforloepService.hentOppfolgingstilfelleperioder(fnr, orgnummer);
+        return oppfolgingstilfelleService.hentOppfolgingstilfelleperioder(fnr, orgnummer);
     }
 }

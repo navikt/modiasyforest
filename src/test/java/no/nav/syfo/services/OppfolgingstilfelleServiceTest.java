@@ -28,10 +28,10 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LocalApplication.class)
 @DirtiesContext
-public class SykeforloepServiceTest {
+public class OppfolgingstilfelleServiceTest {
 
     @Inject
-    private SykeforloepService sykeforloepService;
+    private OppfolgingstilfelleService oppfolgingstilfelleService;
 
     @MockBean
     private AktorConsumer aktorConsumer;
@@ -60,7 +60,7 @@ public class SykeforloepServiceTest {
                                                                 .withSykmelding(SykmeldingMocks.getWSSykmelding())
                                                 )))
                         ));
-        List<Sykeforloep> sykeforloep = sykeforloepService.hentSykeforloep("12345678901", OIDCIssuer.INTERN);
+        List<Sykeforloep> sykeforloep = oppfolgingstilfelleService.getOppfolgingstilfelle("12345678901", OIDCIssuer.INTERN);
         assertThat(sykeforloep.get(0).oppfoelgingsdato).isEqualTo(now());
         assertThat(sykeforloep.get(0).hendelser.size()).isEqualTo(1);
         assertThat(sykeforloep.get(0).sykmeldinger.size()).isEqualTo(1);

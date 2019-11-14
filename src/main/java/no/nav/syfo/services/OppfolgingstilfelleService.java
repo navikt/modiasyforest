@@ -42,9 +42,9 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
-public class SykeforloepService {
+public class OppfolgingstilfelleService {
 
-    private static final Logger log = getLogger(SykeforloepService.class);
+    private static final Logger log = getLogger(OppfolgingstilfelleService.class);
 
     @Value("${dev}")
     private String dev;
@@ -57,7 +57,7 @@ public class SykeforloepService {
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
 
     @Inject
-    public SykeforloepService(
+    public OppfolgingstilfelleService(
             OIDCRequestContextHolder contextHolder,
             AktorConsumer aktorConsumer,
             NaermesteLederService naermesteLederService,
@@ -75,7 +75,7 @@ public class SykeforloepService {
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
-    public List<Sykeforloep> hentSykeforloep(String fnr, String oidcIssuer) {
+    public List<Sykeforloep> getOppfolgingstilfelle(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente sykeforløp med fnr og oidcIssuer {}");
             throw new IllegalArgumentException();
@@ -99,10 +99,10 @@ public class SykeforloepService {
                     .map(wsOppfoelgingstilfelle -> tilSykeforloep(wsOppfoelgingstilfelle, fnr))
                     .collect(toList());
         } catch (HentOppfoelgingstilfelleListeSikkerhetsbegrensning e) {
-            log.warn("Fikk sikkerhetsbegrensning ved henting av sykeforloep for person", e);
+            log.warn("Fikk sikkerhetsbegrensning ved henting av oppfolgingstilfelleListe for person", e);
             throw new ForbiddenException();
         } catch (RuntimeException e) {
-            log.error("Fikk runtimeexception ved henting av sykeforloep for person", e);
+            log.error("Fikk runtimeexception ved henting av oppfolgingstilfelleListe for person", e);
             throw e;
         }
     }
