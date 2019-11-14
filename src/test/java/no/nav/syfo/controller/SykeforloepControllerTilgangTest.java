@@ -1,7 +1,7 @@
 package no.nav.syfo.controller;
 
 import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.services.SykeforloepService;
+import no.nav.syfo.services.OppfolgingstilfelleService;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -21,13 +21,13 @@ public class SykeforloepControllerTilgangTest extends AbstractControllerTilgangT
     private SykeforloepController sykeforloepController;
 
     @MockBean
-    private SykeforloepService sykeforloepService;
+    private OppfolgingstilfelleService oppfolgingstilfelleService;
 
     @Test
     public void har_tilgang() {
         loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
         mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, OK);
-        when(sykeforloepService.hentSykeforloep(ARBEIDSTAKER_FNR, OIDCIssuer.INTERN)).thenReturn(emptyList());
+        when(oppfolgingstilfelleService.getOppfolgingstilfelle(ARBEIDSTAKER_FNR, OIDCIssuer.INTERN)).thenReturn(emptyList());
         sykeforloepController.hentOppfoelgingstilfeller(ARBEIDSTAKER_FNR);
     }
 
