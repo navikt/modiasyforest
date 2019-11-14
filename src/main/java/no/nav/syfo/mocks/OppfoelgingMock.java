@@ -7,6 +7,7 @@ import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.meldinger.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import static java.time.LocalDate.now;
@@ -15,6 +16,12 @@ import static java.util.Arrays.asList;
 @Service
 @ConditionalOnProperty(value = SykefravaerOppfoelgingConfig.MOCK_KEY, havingValue = "true")
 public class OppfoelgingMock implements SykefravaersoppfoelgingV1 {
+
+    public static final String OPPFOLGINGSTILFELLE_PERIODE_AKTIVITET = "Aktivitet";
+    public static final int OPPFOLGINGSTILFELLE_PERIODE_GRAD = 80;
+    public static final LocalDate OPPFOLGINGSTILFELLE_PERIODE_FOM = LocalDate.now().minusDays(1);
+    public static final LocalDate OPPFOLGINGSTILFELLE_PERIODE_TOM = LocalDate.now().plusDays(1);
+
     @Override
     public WSHentNaermesteLederListeResponse hentNaermesteLederListe(WSHentNaermesteLederListeRequest request) {
         return new WSHentNaermesteLederListeResponse().withNaermesteLederListe(asList(
@@ -37,7 +44,14 @@ public class OppfoelgingMock implements SykefravaersoppfoelgingV1 {
 
     @Override
     public WSHentSykeforlopperiodeResponse hentSykeforlopperiode(WSHentSykeforlopperiodeRequest wsHentSykeforlopperiodeRequest) throws HentSykeforlopperiodeSikkerhetsbegrensning {
-        return null;
+        return new WSHentSykeforlopperiodeResponse()
+                .withSykeforlopperiodeListe(
+                        new WSSykeforlopperiode()
+                                .withAktivitet(OPPFOLGINGSTILFELLE_PERIODE_AKTIVITET)
+                                .withGrad(OPPFOLGINGSTILFELLE_PERIODE_GRAD)
+                                .withFom(OPPFOLGINGSTILFELLE_PERIODE_FOM)
+                                .withTom(OPPFOLGINGSTILFELLE_PERIODE_TOM)
+                );
     }
 
     @Override
