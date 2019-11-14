@@ -1,4 +1,4 @@
-package no.nav.syfo.mock;
+package no.nav.syfo.testutils;
 
 import no.nav.syfo.controller.domain.Bruker;
 import no.nav.syfo.controller.domain.Kontaktinfo;
@@ -6,7 +6,7 @@ import no.nav.syfo.controller.domain.adresse.*;
 
 import java.math.BigInteger;
 
-public class brukerMock {
+public class BrukerMock {
 
     public static Bruker brukerMedAdresser() {
         return new Bruker()

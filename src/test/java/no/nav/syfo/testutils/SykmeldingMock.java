@@ -1,4 +1,4 @@
-package no.nav.syfo.mock;
+package no.nav.syfo.testutils;
 
 import no.nav.syfo.controller.domain.sykmelding.*;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import static java.time.LocalDate.now;
 import static java.util.Arrays.asList;
 
-public class sykmeldingMock {
+public class SykmeldingMock {
 
     public static List<Sykmelding> sykmeldingerMock() {
         return asList(
