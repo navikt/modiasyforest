@@ -1,4 +1,4 @@
-package no.nav.syfo.utils;
+package no.nav.syfo.oidc;
 
 import no.nav.syfo.services.ws.OnBehalfOfOutInterceptor;
 import no.nav.security.oidc.OIDCConstants;

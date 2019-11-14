@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
 import static no.nav.syfo.config.CacheConfig.CACHENAME_DKIFFNR;
-import static no.nav.syfo.utils.OIDCUtil.tokenFraOIDC;
+import static no.nav.syfo.oidc.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 

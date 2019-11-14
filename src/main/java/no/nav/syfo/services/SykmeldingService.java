@@ -21,7 +21,7 @@ import java.util.List;
 
 import static java.util.Collections.emptyList;
 import static no.nav.syfo.mappers.SykmeldingMapper.sykmeldinger;
-import static no.nav.syfo.utils.OIDCUtil.tokenFraOIDC;
+import static no.nav.syfo.oidc.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 

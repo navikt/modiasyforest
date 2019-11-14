@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.*;
 
 import static java.util.Collections.singletonList;
-import static no.nav.syfo.utils.OIDCUtil.leggTilOnBehalfOfOutInterceptorForOIDC;
+import static no.nav.syfo.oidc.OIDCUtil.leggTilOnBehalfOfOutInterceptorForOIDC;
 
 @Configuration
 public class SykepengesoknadConfig {
