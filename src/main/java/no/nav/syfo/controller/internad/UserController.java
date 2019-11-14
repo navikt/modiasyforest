@@ -2,7 +2,6 @@ package no.nav.syfo.controller.internad;
 
 import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.Bruker;
-import no.nav.syfo.domain.Fnr;
 import no.nav.syfo.services.*;
 import org.springframework.web.bind.annotation.*;
 

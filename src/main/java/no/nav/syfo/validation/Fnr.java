@@ -1,4 +1,4 @@
-package no.nav.syfo.domain;
+package no.nav.syfo.validation;
 
 import lombok.Value;
 
