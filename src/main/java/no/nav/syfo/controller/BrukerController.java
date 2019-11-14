@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.ws.rs.Produces;
 
-import static java.lang.System.getProperty;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static no.nav.syfo.mappers.BrukerMapper.ws2bruker;
-import static no.nav.syfo.mock.brukerMock.brukerMedAdresser;
 import static no.nav.syfo.oidc.OIDCIssuer.INTERN;
 import static no.nav.syfo.utils.MapUtil.map;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -42,9 +40,6 @@ public class BrukerController {
     public Bruker hentNavn(@RequestParam(value = "fnr") String fnr) {
         tilgangsKontroll.sjekkVeiledersTilgangTilPerson(fnr);
 
-        if ("true".equals(getProperty("local.mock"))) {
-            return brukerMedAdresser();
-        }
         return map(brukerprofilService.hentBruker(fnr), ws2bruker)
                 .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr, OIDCIssuer.INTERN))
                 .arbeidssituasjon("ARBEIDSTAKER");

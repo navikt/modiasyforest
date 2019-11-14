@@ -14,9 +14,7 @@ import javax.ws.rs.Produces;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.getProperty;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static no.nav.syfo.mock.sykmeldingMock.sykmeldingerMock;
 import static no.nav.syfo.oidc.OIDCIssuer.INTERN;
 import static no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes.SKJERMES_FOR_ARBEIDSGIVER;
 
@@ -50,9 +48,6 @@ public class SykmeldingController {
 
         tilgangService.sjekkVeiledersTilgangTilPerson(fnr);
 
-        if ("true".equals(getProperty("local.mock"))) {
-            return sykmeldingerMock();
-        }
         List<WSSkjermes> filter = new ArrayList<>();
         if ("arbeidsgiver".equals(type)) {
             filter.add(SKJERMES_FOR_ARBEIDSGIVER);
