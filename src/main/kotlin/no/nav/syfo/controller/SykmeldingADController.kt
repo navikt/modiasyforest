@@ -26,7 +26,7 @@ constructor(
     @GetMapping(produces = [APPLICATION_JSON])
     fun getSykmeldinger(
             @RequestParam(value = "fnr") fnr: String,
-            @RequestParam(value = "type", required = false) type: String
+            @RequestParam(value = "type", required = false) type: String?
     ): List<Sykmelding> {
         metrikk.tellEndepunktKall("hent_sykmeldinger")
 
