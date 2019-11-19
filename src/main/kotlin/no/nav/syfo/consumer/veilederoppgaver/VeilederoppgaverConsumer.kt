@@ -31,13 +31,10 @@ class VeilederoppgaverConsumer(
         headers.add(HttpHeaders.AUTHORIZATION, credentials)
         val request = HttpEntity<Any>(headers)
 
-        val acccessToPersonUriWithFnr = getVeilederoppgaverUriTemplate.build(singletonMap<String, String>(FNR, fnr))
-
-        LOG.info("JTRACE: call syfoveilederoppgaver with url {}", acccessToPersonUriWithFnr)
-        LOG.info("JTRACE: call syfoveilederoppgaver with cred cred {} and {}", syfoveilederoppgaverUsername.length.toString(), syfoveilederoppgaverPassword.length.toString())
+        val getVeilederoppgaverForFnrUri = getVeilederoppgaverUriTemplate.build(singletonMap<String, String>(FNR, fnr))
 
         val response = template.exchange<List<Veilederoppgave>>(
-                acccessToPersonUriWithFnr,
+                getVeilederoppgaverForFnrUri,
                 HttpMethod.GET,
                 request,
                 object : ParameterizedTypeReference<List<Veilederoppgave>>() {}
