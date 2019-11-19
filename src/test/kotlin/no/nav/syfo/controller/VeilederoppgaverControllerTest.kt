@@ -2,6 +2,7 @@ package no.nav.syfo.controller
 
 import no.nav.security.oidc.context.OIDCRequestContextHolder
 import no.nav.syfo.LocalApplication
+import no.nav.syfo.consumer.veilederoppgaver.UpdateVeilederoppgave
 import no.nav.syfo.services.TilgangService
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.UserConstants
@@ -58,6 +59,15 @@ class VeilederoppgaverControllerTest {
 
     private lateinit var mockRestServiceServerVeilederOppgaver: MockRestServiceServer
 
+    private val veilerderOppgaveId  = 1L
+    private val updateVeilederoppgave = UpdateVeilederoppgave(
+            uuid = "",
+            id = 1L,
+            tildeltIdent = "",
+            sistEndretAv = "",
+            status = ""
+    )
+
     @Before
     @Throws(ParseException::class)
     fun setup() {
@@ -92,6 +102,33 @@ class VeilederoppgaverControllerTest {
         veilederoppgaverController.getVeilederoppgaver(ARBEIDSTAKER_FNR)
     }
 
+    @Test
+    fun updateVeilederoppgave() {
+        `when`(tilgangService.isVeilederGrantedAccessToSYFO).thenReturn(true)
+
+        val jsonValue = "1"
+
+        mockUpdateVeilederoppgave(jsonValue)
+
+        val veilederoppgaveId = veilederoppgaverController.updateVeilederoppgave(veilerderOppgaveId, updateVeilederoppgave)
+
+        assertThat(veilederoppgaveId.toString()).isEqualTo(jsonValue)
+    }
+
+    @Test(expected = ForbiddenException::class)
+    fun updateVeilederoppgaveNoAccess() {
+        doThrow(ForbiddenException::class.java).`when`(tilgangService).throwExceptionIfVeilederWithoutAccessToSYFO()
+
+        veilederoppgaverController.updateVeilederoppgave(veilerderOppgaveId, updateVeilederoppgave)
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun updateVeilederoppgaveAccessServerErrror() {
+        doThrow(HttpServerErrorException.InternalServerError::class.java).`when`(tilgangService).throwExceptionIfVeilederWithoutAccessToSYFO()
+
+        veilederoppgaverController.updateVeilederoppgave(veilerderOppgaveId, updateVeilederoppgave)
+    }
+
     private fun mockVeilederoppgaver(fnr: String, jsonValue: String) {
         val uriString = fromHttpUrl(veilederoppgaverUrl)
                 .queryParam(TilgangService.FNR, fnr)
@@ -99,6 +136,17 @@ class VeilederoppgaverControllerTest {
 
         mockRestServiceServerVeilederOppgaver.expect(once(), requestTo(uriString))
                 .andExpect(method(HttpMethod.GET))
+                .andExpect(header(HttpHeaders.AUTHORIZATION, basicCredentials(apiUsername, apiPassword)))
+                .andRespond(withSuccess(jsonValue, MediaType.APPLICATION_JSON))
+    }
+
+    private fun mockUpdateVeilederoppgave(jsonValue: String) {
+        val uriString = fromHttpUrl(veilederoppgaverUrl)
+                .path("/actions")
+                .toUriString()
+
+        mockRestServiceServerVeilederOppgaver.expect(once(), requestTo(uriString))
+                .andExpect(method(HttpMethod.PUT))
                 .andExpect(header(HttpHeaders.AUTHORIZATION, basicCredentials(apiUsername, apiPassword)))
                 .andRespond(withSuccess(jsonValue, MediaType.APPLICATION_JSON))
     }
