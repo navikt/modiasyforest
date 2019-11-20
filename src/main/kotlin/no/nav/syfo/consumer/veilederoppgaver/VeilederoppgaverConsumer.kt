@@ -1,7 +1,6 @@
 package no.nav.syfo.consumer.veilederoppgaver
 
 import no.nav.syfo.util.basicCredentials
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
@@ -19,17 +18,17 @@ class VeilederoppgaverConsumer(
         private val template: RestTemplate
 ) {
     private val getVeilederoppgaverUriTemplate: UriComponentsBuilder
+    private val updateVeilederoppgaverUriTemplate: UriComponentsBuilder
 
     init {
         getVeilederoppgaverUriTemplate = fromHttpUrl(syfoveilederoppgaverUrl)
                 .queryParam(FNR, FNR_PLACEHOLDER)
+        updateVeilederoppgaverUriTemplate = fromHttpUrl(syfoveilederoppgaverUrl)
+                .path("/actions")
     }
 
     fun getVeilederoppgaver(fnr: String): List<Veilederoppgave> {
-        val credentials = basicCredentials(syfoveilederoppgaverUsername, syfoveilederoppgaverPassword)
-        val headers = HttpHeaders()
-        headers.add(HttpHeaders.AUTHORIZATION, credentials)
-        val request = HttpEntity<Any>(headers)
+        val request = HttpEntity<Any>(authorizationHeader())
 
         val getVeilederoppgaverForFnrUri = getVeilederoppgaverUriTemplate.build(singletonMap<String, String>(FNR, fnr))
 
@@ -42,9 +41,31 @@ class VeilederoppgaverConsumer(
         return response.body ?: emptyList()
     }
 
+    fun updateVeilederoppgave(updateVeilederoppgave: UpdateVeilederoppgave): Long? {
+        val request: HttpEntity<UpdateVeilederoppgave> = HttpEntity(updateVeilederoppgave, authorizationHeader())
+
+        val updateVeilederoppgaveUriWith = updateVeilederoppgaverUriTemplate
+                .build()
+                .toUri()
+
+        val response = template.exchange<Long>(
+                updateVeilederoppgaveUriWith,
+                HttpMethod.PUT,
+                request,
+                object : ParameterizedTypeReference<Long>() {}
+        )
+        return response.body
+    }
+
+    private fun authorizationHeader(): HttpHeaders {
+        val credentials = basicCredentials(syfoveilederoppgaverUsername, syfoveilederoppgaverPassword)
+        val headers = HttpHeaders()
+        headers.add(HttpHeaders.AUTHORIZATION, credentials)
+        return headers
+    }
+
     companion object {
 
-        private val LOG = LoggerFactory.getLogger(VeilederoppgaverConsumer::class.java)
         const val FNR = "fnr"
         const val FNR_PLACEHOLDER = "{$FNR}"
     }
