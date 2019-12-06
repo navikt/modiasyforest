@@ -26,7 +26,6 @@ public class CacheConfig {
     public static final String CACHENAME_SYKEPENGESOKNAD = "sykepengesoknad";
     public static final String CACHENAME_SYKMELDING = "sykmelding";
     public static final String CACHENAME_TPSBRUKER = "tpsbruker";
-    public static final String CACHENAME_TPSNAVN = "tpsnavn";
 
     @Bean
     public CacheManager cacheManager() {
@@ -44,8 +43,7 @@ public class CacheConfig {
                 new ConcurrentMapCache(CACHENAME_SYFOSYKEFORLOP),
                 new ConcurrentMapCache(CACHENAME_SYKEPENGESOKNAD),
                 new ConcurrentMapCache(CACHENAME_SYKMELDING),
-                new ConcurrentMapCache(CACHENAME_TPSBRUKER),
-                new ConcurrentMapCache(CACHENAME_TPSNAVN)
+                new ConcurrentMapCache(CACHENAME_TPSBRUKER)
         ));
         return cacheManager;
     }
