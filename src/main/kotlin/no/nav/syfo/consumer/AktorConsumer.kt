@@ -1,6 +1,5 @@
 package no.nav.syfo.consumer
 
-import no.nav.syfo.config.CacheConfig
 import no.nav.syfo.log
 import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2
 import no.nav.tjeneste.virksomhet.aktoer.v2.HentAktoerIdForIdentPersonIkkeFunnet
@@ -19,7 +18,7 @@ constructor(private val aktoerV2: AktoerV2) {
 
     val log = log()
 
-    @Cacheable(cacheNames = [CacheConfig.CACHENAME_AKTORID], key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = ["aktoerid"], key = "#fnr", condition = "#fnr != null")
     fun hentAktoerIdForFnr(fnr: String): String {
         if (StringUtils.isBlank(fnr) || !fnr.matches("\\d{11}$".toRegex())) {
             log.error("Prøvde å hente aktoerId med fnr")
@@ -38,7 +37,7 @@ constructor(private val aktoerV2: AktoerV2) {
 
     }
 
-    @Cacheable(cacheNames = [CacheConfig.CACHENAME_AKTORFNR], key = "#aktoerId", condition = "#aktoerId != null")
+    @Cacheable(cacheNames = ["aktoerfnr"], key = "#aktoerId", condition = "#aktoerId != null")
     fun hentFnrForAktoer(aktoerId: String): String {
         if (StringUtils.isBlank(aktoerId) || !aktoerId.matches("\\d{13}$".toRegex())) {
             log.error("Prøvde å hente fnr med aktoerId {}", aktoerId)
