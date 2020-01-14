@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
-import static no.nav.syfo.config.CacheConfig.CACHENAME_DKIFFNR;
 import static no.nav.syfo.oidc.OIDCUtil.tokenFraOIDC;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -36,7 +35,7 @@ public class DkifService {
         this.contextHolder = contextHolder;
     }
 
-    @Cacheable(cacheNames = CACHENAME_DKIFFNR, key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = "dkiffnr", key = "#fnr", condition = "#fnr != null")
     public Kontaktinfo hentKontaktinfoFnr(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente kontaktinfo med fnr");

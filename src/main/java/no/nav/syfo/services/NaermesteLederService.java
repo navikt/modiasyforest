@@ -18,8 +18,6 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static no.nav.syfo.config.CacheConfig.CACHENAME_SYFOFINNLEDERE;
-import static no.nav.syfo.config.CacheConfig.CACHENAME_SYFOLEDERE;
 import static no.nav.syfo.mappers.NaermesteLederMapper.tilNaermesteLeder;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -46,7 +44,7 @@ public class NaermesteLederService {
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
-    @Cacheable(cacheNames = CACHENAME_SYFOLEDERE, key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = "syfoledere", key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> hentNaermesteledere(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente naermesteledere med fnr");
@@ -82,7 +80,7 @@ public class NaermesteLederService {
                 .collect(toList());
     }
 
-    @Cacheable(cacheNames = CACHENAME_SYFOFINNLEDERE, key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = "syfofinnledere", key = "#fnr", condition = "#fnr != null")
     public List<NaermesteLeder> finnNarmesteLedere(String fnr) {
         String aktoerId = aktorConsumer.hentAktoerIdForFnr(fnr);
 

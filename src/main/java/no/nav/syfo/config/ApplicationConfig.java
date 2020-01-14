@@ -1,5 +1,6 @@
 package no.nav.syfo.config;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -12,6 +13,7 @@ import static java.util.Arrays.asList;
 
 @EnableScheduling
 @Configuration
+@EnableCaching
 public class ApplicationConfig {
 
     @Bean

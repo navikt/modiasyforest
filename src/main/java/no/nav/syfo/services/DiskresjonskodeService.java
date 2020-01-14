@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
-import static no.nav.syfo.config.CacheConfig.CACHENAME_DISKRESJONSKODE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -24,7 +23,7 @@ public class DiskresjonskodeService {
         this.diskresjonskodePortType = diskresjonskodePortType;
     }
 
-    @Cacheable(cacheNames = CACHENAME_DISKRESJONSKODE, key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = "diskresjonskode", key = "#fnr", condition = "#fnr != null")
     public String diskresjonskode(String fnr) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
             log.error("Prøvde å hente diskresjonskode med fnr");

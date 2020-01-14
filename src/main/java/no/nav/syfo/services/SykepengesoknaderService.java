@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.syfo.config.CacheConfig.CACHENAME_SYKEPENGESOKNAD;
 import static no.nav.syfo.mappers.WS2SykepengesoknadMapper.ws2Sykepengesoknad;
 import static no.nav.syfo.utils.MapUtil.mapListe;
 import static no.nav.syfo.oidc.OIDCUtil.tokenFraOIDC;
@@ -50,7 +49,7 @@ public class SykepengesoknaderService {
         this.sykepengesoknadConfig = sykepengesoknadConfig;
     }
 
-    @Cacheable(cacheNames = CACHENAME_SYKEPENGESOKNAD, key = "#aktoerId.concat(#oidcIssuer)", condition = "#aktoerId != null && #oidcIssuer != null")
+    @Cacheable(cacheNames = "sykepengesoknad", key = "#aktoerId.concat(#oidcIssuer)", condition = "#aktoerId != null && #oidcIssuer != null")
     public List<Sykepengesoknad> hentSykepengesoknader(String aktoerId, String oidcIssuer) {
         if (isBlank(aktoerId) || !aktoerId.matches("\\d{13}$")) {
             log.error("Pøvde å hente sykepengesoknader med aktoerId {}", aktoerId);
