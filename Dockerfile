@@ -7,5 +7,5 @@ ENV JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom \
                -Dhttps.proxyHost=webproxy-nais.nav.no \
                -Dhttps.proxyPort=8088 \
                -Dhttp.nonProxyHosts=*.adeo.no|*.preprod.local|*oera-q.local|*.oera.no \
-               -Xmx1024M \
-               -Xms512M"
+               -Xmx512M \
+               -Xms256M"
