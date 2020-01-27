@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache>
     <defaultCache eternal="true" maxElementsInMemory="1000" overflowToDisk="false"/>
-    <cache name="aktoerid" maxElementsInMemory="10000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="aktoerfnr" maxElementsInMemory="10000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="arbeidsforhold" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="diskresjonskode" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="dkiffnr" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="egenansatt" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="organisasjonnavn" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="syfofinnledere" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="syfoledere" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="sykepengesoknad" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
-    <cache name="tpsbruker" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="300"/>
+    <cache name="aktoerid" maxElementsInMemory="10000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="aktoerfnr" maxElementsInMemory="10000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="arbeidsforhold" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="diskresjonskode" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="dkiffnr" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="egenansatt" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="organisasjonnavn" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="syfofinnledere" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="syfoledere" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="sykepengesoknad" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
+    <cache name="tpsbruker" maxElementsInMemory="5000" overflowToDisk="false" eternal="false" timeToLiveSeconds="3600" timeToIdleSeconds="600"/>
 </ehcache>
