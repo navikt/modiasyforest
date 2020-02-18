@@ -75,7 +75,7 @@ dependencies {
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion")
 
     implementation("io.micrometer:micrometer-registry-prometheus:1.0.6")
-    implementation("org.springframework.boot:spring-boot-starter-cache:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion")
     implementation("javax.ws.rs:javax.ws.rs-api:2.0.1")
     implementation("org.apache.commons:commons-lang3:3.5")
     implementation("javax.inject:javax.inject:1")

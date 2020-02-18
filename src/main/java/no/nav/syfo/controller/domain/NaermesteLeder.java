@@ -1,6 +1,5 @@
 package no.nav.syfo.controller.domain;
 
-
 import java.time.LocalDate;
 
 public class NaermesteLeder {
@@ -81,4 +80,5 @@ public class NaermesteLeder {
         this.arbeidsgiverForskuttererLoenn = arbeidsgiverForskuttererLoenn;
         return this;
     }
+
 }
