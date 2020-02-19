@@ -1,7 +1,8 @@
 package no.nav.syfo.controller.domain;
 
-public class Arbeidsgiver {
+import java.io.Serializable;
 
+public class Arbeidsgiver implements Serializable {
     public String navn;
     public String orgnummer;
 

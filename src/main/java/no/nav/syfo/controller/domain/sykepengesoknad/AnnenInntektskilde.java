@@ -1,6 +1,8 @@
 package no.nav.syfo.controller.domain.sykepengesoknad;
 
-public class AnnenInntektskilde {
+import java.io.Serializable;
+
+public class AnnenInntektskilde implements Serializable {
     public boolean sykmeldt;
     public AnnenInntektskildeType annenInntektskildeType;
 

@@ -1,10 +1,11 @@
 package no.nav.syfo.controller.domain.sykepengesoknad.oppsummering;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
 
-public class Svar {
+public class Svar implements Serializable {
     public Ledetekst ledetekst;
     public Svartype type;
     public Tilleggstekst tilleggstekst;

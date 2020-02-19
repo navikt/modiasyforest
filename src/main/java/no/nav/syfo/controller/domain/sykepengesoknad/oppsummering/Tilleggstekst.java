@@ -1,6 +1,8 @@
 package no.nav.syfo.controller.domain.sykepengesoknad.oppsummering;
 
-public class Tilleggstekst {
+import java.io.Serializable;
+
+public class Tilleggstekst implements Serializable {
     public Ledetekst ledetekst;
     public Svartype type;
 

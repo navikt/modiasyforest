@@ -1,8 +1,9 @@
 package no.nav.syfo.controller.domain.sykepengesoknad.oppsummering;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Oppsummering {
+public class Oppsummering implements Serializable {
     public List<Sporsmal> soknad;
     public Sporsmal bekreftetKorrektInformasjon;
     public Tilleggstekst vaerKlarOverAt;

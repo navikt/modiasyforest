@@ -1,8 +1,9 @@
 package no.nav.syfo.controller.domain.sykepengesoknad;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Utdanning {
+public class Utdanning implements Serializable {
     public LocalDate utdanningStartdato;
     public boolean erUtdanningFulltidsstudium;
 

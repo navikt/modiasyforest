@@ -1,11 +1,11 @@
 package no.nav.syfo.controller.domain.sykepengesoknad.oppsummering;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
 
-public class Sporsmal {
-
+public class Sporsmal implements Serializable {
     public Ledetekst ledetekst;
     public List<Svar> svar = emptyList();
     public Sporsmalstype type;
