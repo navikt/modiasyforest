@@ -9,7 +9,7 @@ version = "1.0.0"
 val cxfVersion = "3.3.3"
 val oidcSpringSupportVersion = "0.2.4"
 val springBootVersion = "2.1.8.RELEASE"
-val kotlinLibVersion = "1.2.71"
+val kotlinLibVersion = "1.3.31"
 val kotlinJacksonVersion = "2.9.8"
 
 plugins {
@@ -21,7 +21,7 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31")
         classpath("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
         classpath("org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438")
         classpath("com.sun.activation:javax.activation:1.2.0")
