@@ -4,12 +4,8 @@ import no.nav.security.spring.oidc.validation.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.Bruker;
 import no.nav.syfo.services.*;
 import org.springframework.web.bind.annotation.*;
-
 import javax.inject.Inject;
-
-import static no.nav.syfo.mappers.BrukerMapper.ws2bruker;
 import static no.nav.syfo.oidc.OIDCIssuer.AZURE;
-import static no.nav.syfo.utils.MapUtil.map;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -36,7 +32,7 @@ public class UserController {
     public Bruker getUser(@RequestParam(value = "fnr") String fnr) {
         tilgangsKontroll.throwExceptionIfVeilederWithoutAccess(fnr);
 
-        return map(brukerprofilService.hentBruker(fnr), ws2bruker)
+        return brukerprofilService.hentBruker(fnr)
                 .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr, AZURE))
                 .arbeidssituasjon("ARBEIDSTAKER");
     }

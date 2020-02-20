@@ -1,9 +1,9 @@
 package no.nav.syfo.controller.domain;
 
-
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class NaermesteLeder {
+public class NaermesteLeder implements Serializable {
 
     public String navn;
     public Long id;

@@ -1,8 +1,9 @@
 package no.nav.syfo.controller.domain.sykepengesoknad;
 
+import java.io.Serializable;
 
 // TODO: Endre navn til noe som forteller bedre hva det er, f.eks. Sykmeldingperiode
-public class Aktivitet {
+public class Aktivitet implements Serializable {
     public Datospenn periode;
     public int grad;
     // TODO: Endre navn til noe som kommuniserer bedre hva det er et avvik fra, f.eks. AvvikFraSykmeldingperiode

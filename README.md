@@ -9,3 +9,7 @@ Start opp via `LocalApplication.main`. Kjører på port 8084.
 
 #Veien til prod
 Bygg og Pipeline jobber ligger i jenkins: https://jenkins-digisyfo.adeo.no/job/digisyfo/job/modiasyforest/
+
+#Redis Cache
+modiasyforest bruker redis for cache.
+Redis pod må startes manuelt ved å kjøre følgdende kommando: `kubectl apply -f redis-config.yaml`.

@@ -2,11 +2,11 @@ package no.nav.syfo.controller.domain.sykepengesoknad;
 
 import no.nav.syfo.controller.domain.sykepengesoknad.oppsummering.Oppsummering;
 import no.nav.syfo.controller.domain.Arbeidsgiver;
-
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Sykepengesoknad {
+public class Sykepengesoknad implements Serializable {
 
     public String id;
     public String sykmeldingId;

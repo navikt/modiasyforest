@@ -8,11 +8,12 @@ import no.nav.syfo.controller.domain.adresse.Bostedsadresse;
 import no.nav.syfo.controller.domain.adresse.MidlertidigAdresseNorge;
 import no.nav.syfo.controller.domain.adresse.MidlertidigAdresseUtland;
 import no.nav.syfo.controller.domain.adresse.PostAdresse;
+import java.io.Serializable;
 
 @Data
 @Accessors(fluent = true)
 @EqualsAndHashCode
-public class Bruker {
+public class Bruker implements Serializable {
     public String navn;
     public Kontaktinfo kontaktinfo;
     public String arbeidssituasjon;

@@ -1,6 +1,8 @@
 package no.nav.syfo.controller.domain.sykepengesoknad;
 
-public class Avvik {
+import java.io.Serializable;
+
+public class Avvik implements Serializable {
     public Double arbeidstimerNormalUke;
     public Integer arbeidsgrad;
     public Double timer;

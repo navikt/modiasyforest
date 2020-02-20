@@ -5,14 +5,10 @@ import no.nav.syfo.controller.domain.Bruker;
 import no.nav.syfo.oidc.OIDCIssuer;
 import no.nav.syfo.services.*;
 import org.springframework.web.bind.annotation.*;
-
 import javax.inject.Inject;
 import javax.ws.rs.Produces;
-
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static no.nav.syfo.mappers.BrukerMapper.ws2bruker;
 import static no.nav.syfo.oidc.OIDCIssuer.INTERN;
-import static no.nav.syfo.utils.MapUtil.map;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -40,7 +36,7 @@ public class BrukerController {
     public Bruker hentNavn(@RequestParam(value = "fnr") String fnr) {
         tilgangsKontroll.sjekkVeiledersTilgangTilPerson(fnr);
 
-        return map(brukerprofilService.hentBruker(fnr), ws2bruker)
+        return brukerprofilService.hentBruker(fnr)
                 .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr, OIDCIssuer.INTERN))
                 .arbeidssituasjon("ARBEIDSTAKER");
     }

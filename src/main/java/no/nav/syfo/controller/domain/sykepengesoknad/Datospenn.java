@@ -1,9 +1,9 @@
 package no.nav.syfo.controller.domain.sykepengesoknad;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Datospenn {
-
+public class Datospenn implements Serializable {
     public LocalDate fom;
     public LocalDate tom;
 

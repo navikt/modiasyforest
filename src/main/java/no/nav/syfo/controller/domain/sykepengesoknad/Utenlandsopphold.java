@@ -1,8 +1,9 @@
 package no.nav.syfo.controller.domain.sykepengesoknad;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Utenlandsopphold {
+public class Utenlandsopphold implements Serializable {
     public List<Datospenn> perioder;
     public Boolean soektOmSykepengerIPerioden;
 
