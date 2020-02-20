@@ -1,12 +1,11 @@
 package no.nav.syfo.controller;
 
 import no.nav.syfo.LocalApplication;
+import no.nav.syfo.controller.domain.Bruker;
 import no.nav.syfo.oidc.OIDCIssuer;
 import no.nav.syfo.controller.domain.Kontaktinfo;
 import no.nav.syfo.services.BrukerprofilService;
 import no.nav.syfo.services.DkifService;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker;
-import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSPersonnavn;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +40,7 @@ public class BrukerControllerTilgangTest extends AbstractControllerTilgangTest {
         loggInnVeileder(oidcRequestContextHolder, VEILEDER_ID);
         mockSvarFraTilgangskontroll(ARBEIDSTAKER_FNR, OK);
 
-        when(brukerprofilService.hentBruker(ARBEIDSTAKER_FNR)).thenReturn(new WSBruker().withPersonnavn(new WSPersonnavn()));
+        when(brukerprofilService.hentBruker(ARBEIDSTAKER_FNR)).thenReturn(new Bruker());
         when(dkifService.hentKontaktinfoFnr(ARBEIDSTAKER_FNR, OIDCIssuer.INTERN)).thenReturn(new Kontaktinfo());
 
         brukerRessurs.hentNavn(ARBEIDSTAKER_FNR);

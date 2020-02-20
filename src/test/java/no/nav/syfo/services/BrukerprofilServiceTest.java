@@ -30,7 +30,7 @@ public class BrukerprofilServiceTest {
     @Test
     public void captitalizerNavnet() throws HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning, HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt, HentKontaktinformasjonOgPreferanserPersonIkkeFunnet {
         when(brukerprofilV3.hentKontaktinformasjonOgPreferanser(any())).thenReturn(new WSHentKontaktinformasjonOgPreferanserResponse().withBruker(new WSBruker().withPersonnavn(new WSPersonnavn().withFornavn("TROND-VIGGO").withEtternavn("TESTESEN"))));
-        Bruker bruker = map(brukerprofilService.hentBruker("12345678901"), ws2bruker);
+        Bruker bruker = brukerprofilService.hentBruker("12345678901");
         final String navn = bruker.navn;
         assertThat(navn).isEqualTo("Trond-Viggo Testesen");
     }
