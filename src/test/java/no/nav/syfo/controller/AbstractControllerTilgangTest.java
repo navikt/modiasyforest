@@ -18,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.inject.Inject;
 
-import static no.nav.syfo.services.TilgangService.TILGANG_TIL_BRUKER_PATH;
 import static no.nav.syfo.services.TilgangService.TILGANG_TIL_BRUKER_VIA_AZURE_PATH;
 import static no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -60,20 +59,6 @@ public abstract class AbstractControllerTilgangTest {
     public void tearDown() {
         mockRestServiceServer.verify();
         loggUtAlle(oidcRequestContextHolder);
-    }
-
-    public void mockSvarFraTilgangskontroll(String fnr, HttpStatus status) {
-        String uriString = fromHttpUrl(tilgangskontrollUrl)
-                .path(TILGANG_TIL_BRUKER_PATH)
-                .queryParam(TilgangService.FNR, fnr)
-                .toUriString();
-
-        String idToken = oidcRequestContextHolder.getOIDCValidationContext().getToken(OIDCIssuer.INTERN).getIdToken();
-
-        mockRestServiceServer.expect(manyTimes(), requestTo(uriString))
-                .andExpect(method(HttpMethod.GET))
-                .andExpect(header(AUTHORIZATION, "Bearer " + idToken))
-                .andRespond(withStatus(status));
     }
 
     public void mockSvarFraTilgangTilBrukerViaAzure(String fnr, HttpStatus status) {

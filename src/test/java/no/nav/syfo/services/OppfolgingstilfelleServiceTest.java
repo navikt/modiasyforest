@@ -60,7 +60,7 @@ public class OppfolgingstilfelleServiceTest {
                                                                 .withSykmelding(SykmeldingMocks.getWSSykmelding())
                                                 )))
                         ));
-        List<Sykeforloep> sykeforloep = oppfolgingstilfelleService.getOppfolgingstilfelle("12345678901", OIDCIssuer.INTERN);
+        List<Sykeforloep> sykeforloep = oppfolgingstilfelleService.getOppfolgingstilfelle("12345678901", OIDCIssuer.AZURE);
         assertThat(sykeforloep.get(0).oppfoelgingsdato).isEqualTo(now());
         assertThat(sykeforloep.get(0).hendelser.size()).isEqualTo(1);
         assertThat(sykeforloep.get(0).sykmeldinger.size()).isEqualTo(1);
