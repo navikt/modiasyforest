@@ -25,9 +25,7 @@ class CacheConfig {
         cacheConfigurations[TILGANGTILBRUKER] = defaultConfig
         cacheConfigurations[TILGANGTILTJENESTEN] = defaultConfig
         cacheConfigurations[TILGANGTILENHET] = defaultConfig
-        cacheConfigurations[CACHENAME_EGENANSATT] = defaultConfig
         cacheConfigurations[CACHENAME_ENHET_OVERORDNET_ENHETER] = defaultConfig
-        cacheConfigurations[CACHENAME_GEOGRAFISK_TILHORIGHET_ENHETER] = defaultConfig
         cacheConfigurations[CACHENAME_VEILEDER_ENHETER] = defaultConfig
         cacheConfigurations[CACHENAME_VEILEDER_LDAP] = defaultConfig
         cacheConfigurations[CACHENAME_PERSON_INFO] = defaultConfig
@@ -43,9 +41,7 @@ class CacheConfig {
         const val TILGANGTILBRUKER = "aktoerid"
         const val TILGANGTILTJENESTEN = "aktoerfnr"
         const val TILGANGTILENHET = "arbeidsforhold"
-        const val CACHENAME_EGENANSATT = "diskresjonskode"
         const val CACHENAME_ENHET_OVERORDNET_ENHETER = "dkiffnr"
-        const val CACHENAME_GEOGRAFISK_TILHORIGHET_ENHETER = "egenansatt"
         const val CACHENAME_VEILEDER_ENHETER = "organisasjonnavn"
         const val CACHENAME_VEILEDER_LDAP = "syfofinnledere"
         const val CACHENAME_PERSON_INFO = "syfoledere"

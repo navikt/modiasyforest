@@ -3,15 +3,12 @@ package no.nav.syfo.controller
 import no.nav.syfo.controller.domain.NaermesteLeder
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding
 import no.nav.syfo.services.NaermesteLederService
-import no.nav.syfo.services.SykmeldingService
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
 import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
-import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.WSSkjermes
 import org.junit.*
 import org.mockito.ArgumentMatchers.anyListOf
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus.*
@@ -22,8 +19,6 @@ import javax.ws.rs.ForbiddenException
 
 class NarmestelederControllerTest : AbstractControllerTilgangTest() {
 
-    @MockBean
-    private lateinit var sykmeldingService: SykmeldingService
     @MockBean
     private lateinit var naermesteLederService: NaermesteLederService
 
@@ -45,7 +40,6 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
     fun getNarmesteledereHasAccess() {
         mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, OK)
 
-        `when`(sykmeldingService.hentSykmeldinger(anyString(), anyListOf(WSSkjermes::class.java), anyString())).thenReturn(emptyList())
         `when`(naermesteLederService.hentNaermesteledere(ARBEIDSTAKER_FNR)).thenReturn(emptyList())
         `when`(naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(anyListOf(NaermesteLeder::class.java), anyListOf(Sykmelding::class.java))).thenReturn(emptyList())
 
