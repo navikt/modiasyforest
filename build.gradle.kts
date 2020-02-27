@@ -53,7 +53,6 @@ dependencies {
     implementation("no.nav.syfo.tjenester:dkif-tjenestespesifikasjon:1.2")
     implementation("no.nav.sbl.dialogarena:diskresjonskodev1-tjenestespesifikasjon:1.0.0")
     implementation("no.nav.syfo.tjenester:egenAnsatt-v1-tjenestespesifikasjon:1.0.1")
-    implementation("no.nav.sbl.dialogarena:organisasjonv4-tjenestespesifikasjon:1.0.1")
     implementation("no.nav.syfo.tjenester:sykmeldingv1-tjenestespesifikasjon:1.1.18")
     implementation("no.nav.tjenestespesifikasjoner:nav-arbeidsforhold-v3-tjenestespesifikasjon:1.2019.03.05-14.13-d95264192bc7")
     implementation("no.nav.syfo.tjenester:aktoer-v2:1.0")

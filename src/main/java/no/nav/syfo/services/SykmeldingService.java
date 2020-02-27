@@ -92,11 +92,4 @@ public class SykmeldingService {
                 .filter(sykmelding -> sykmelding.mottakendeArbeidsgiver != null)
                 .forEach(sykmelding -> sykmelding.innsendtArbeidsgivernavn = sykmelding.mottakendeArbeidsgiver.navn);
     }
-
-    public Sykmelding hentSykmelding(String sykmeldingId, String fnr) {
-        return hentSykmeldinger(fnr, emptyList(), OIDCIssuer.INTERN).stream()
-                .filter(sykmelding -> sykmelding.id.equals(sykmeldingId))
-                .findFirst()
-                .orElseThrow(NotFoundException::new);
-    }
 }
