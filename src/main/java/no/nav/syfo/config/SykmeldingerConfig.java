@@ -1,8 +1,10 @@
 package no.nav.syfo.config;
 
 import no.nav.syfo.services.ws.*;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.*;
-import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.*;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.HentOppfoelgingstilfelleListeSikkerhetsbegrensning;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest;
+import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;
 import org.apache.cxf.frontend.ClientProxy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,11 +29,6 @@ public class SykmeldingerConfig {
         STSClientConfig.configureRequestSamlTokenOnBehalfOfOidc(port);
         this.port = port;
         return port;
-    }
-
-    public WSHentSykmeldingListeResponse hentSykmeldingListe(WSHentSykmeldingListeRequest request, String OIDCToken) throws HentSykmeldingListeSikkerhetsbegrensning {
-        leggTilOnBehalfOfOutInterceptorForOIDC(ClientProxy.getClient(port), OIDCToken);
-        return port.hentSykmeldingListe(request);
     }
 
     public WSHentOppfoelgingstilfelleListeResponse hentOppfoelgingstilfelleListe(WSHentOppfoelgingstilfelleListeRequest request, String OIDCToken) throws HentOppfoelgingstilfelleListeSikkerhetsbegrensning {
