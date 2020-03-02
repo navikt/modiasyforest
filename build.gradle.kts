@@ -7,7 +7,8 @@ group = "no.nav.syfo"
 version = "1.0.0"
 
 val cxfVersion = "3.3.3"
-val oidcSpringSupportVersion = "0.2.4"
+val oidcSupportVersion = "0.2.7"
+val oidcSupportTestVersion = "0.2.4"
 val springBootVersion = "2.1.8.RELEASE"
 val kotlinLibVersion = "1.3.31"
 val kotlinJacksonVersion = "2.9.8"
@@ -62,8 +63,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-jersey:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-logging:$springBootVersion")
-    implementation("no.nav.security:oidc-support:$oidcSpringSupportVersion")
-    implementation("no.nav.security:oidc-spring-support:$oidcSpringSupportVersion")
+    implementation("no.nav.security:oidc-support:$oidcSupportVersion")
+    implementation("no.nav.security:oidc-spring-support:$oidcSupportVersion")
 
     implementation("org.apache.cxf:cxf-rt-features-logging:$cxfVersion")
     implementation("org.apache.cxf:cxf-rt-ws-security:$cxfVersion")
@@ -82,7 +83,7 @@ dependencies {
     implementation("org.projectlombok:lombok:1.16.22")
     annotationProcessor("org.projectlombok:lombok:1.18.6")
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testCompile("no.nav.security:oidc-spring-test:$oidcSpringSupportVersion")
+    testCompile("no.nav.security:oidc-spring-test:$oidcSupportTestVersion")
 }
 
 tasks {
