@@ -8,9 +8,11 @@ import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.digitalkontaktinformasjon.v1.meldinger.WSHentDigitalKontaktinformasjonRequest;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.retry.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.xml.ws.soap.SOAPFaultException;
 import java.time.OffsetDateTime;
 
 import static java.util.Optional.ofNullable;
@@ -35,6 +37,10 @@ public class DkifService {
         this.contextHolder = contextHolder;
     }
 
+    @Retryable(
+            value = {SOAPFaultException.class},
+            backoff = @Backoff(delay = 200, maxDelay = 1000)
+    )
     @Cacheable(cacheNames = "dkiffnr", key = "#fnr", condition = "#fnr != null")
     public Kontaktinfo hentKontaktinfoFnr(String fnr, String oidcIssuer) {
         if (isBlank(fnr) || !fnr.matches("\\d{11}$")) {
@@ -70,6 +76,12 @@ public class DkifService {
             log.error("Fikk en uventet feil mot DKIF med fnr. Kaster feil videre", e);
             throw e;
         }
+    }
+
+    @Recover
+    public void recover(SOAPFaultException e) {
+        log.error("Feil ved kall hentKontaktinfo for Ident etter maks antall kall", e);
+        throw e;
     }
 
     public boolean harVerfisertSiste18Mnd(WSEpostadresse epostadresse, WSMobiltelefonnummer mobiltelefonnummer) {
