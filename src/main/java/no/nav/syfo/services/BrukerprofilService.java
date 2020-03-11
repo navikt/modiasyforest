@@ -7,10 +7,12 @@ import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent;
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.meldinger.WSHentKontaktinformasjonOgPreferanserRequest;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.retry.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import static no.nav.syfo.mappers.BrukerMapper.ws2bruker;
 import static no.nav.syfo.utils.MapUtil.map;
@@ -28,6 +30,10 @@ public class BrukerprofilService {
         this.brukerprofilV3 = brukerprofilV3;
     }
 
+    @Retryable(
+            value = {SOAPFaultException.class},
+            backoff = @Backoff(delay = 200, maxDelay = 1000)
+    )
     @Cacheable(cacheNames = "tpsbruker", key = "#fnr", condition = "#fnr != null")
     public Bruker hentBruker(String fnr) {
         if (!fnr.matches("\\d{11}$")) {
@@ -52,5 +58,11 @@ public class BrukerprofilService {
             log.error("Fikk RuntimeException mot TPS med ved oppslag", e);
             throw e;
         }
+    }
+
+    @Recover
+    public void recover(SOAPFaultException e) {
+        log.error("Feil ved kall hentKontaktinfo for Ident etter maks antall kall", e);
+        throw e;
     }
 }
