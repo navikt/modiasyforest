@@ -25,11 +25,9 @@ public class TilgangService {
 
     public static final String FNR = "fnr";
     public static final String TILGANG_TIL_BRUKER_VIA_AZURE_PATH = "/bruker";
-    public static final String ACCESS_TO_SYFO_WITH_AZURE_PATH = "/syfo";
     private static final String FNR_PLACEHOLDER = "{" + FNR + "}";
     private final RestTemplate template;
     private final UriComponentsBuilder tilgangTilBrukerViaAzureUriTemplate;
-    private final UriComponentsBuilder accessToSYFOWithAzureUriTemplate;
 
     public TilgangService(
             OIDCRequestContextHolder oidcContextHolder,
@@ -40,8 +38,6 @@ public class TilgangService {
         tilgangTilBrukerViaAzureUriTemplate = fromHttpUrl(tilgangskontrollUrl)
                 .path(TILGANG_TIL_BRUKER_VIA_AZURE_PATH)
                 .queryParam(FNR, FNR_PLACEHOLDER);
-        accessToSYFOWithAzureUriTemplate = fromHttpUrl(tilgangskontrollUrl)
-                .path(ACCESS_TO_SYFO_WITH_AZURE_PATH);
         this.template = template;
     }
 
@@ -52,20 +48,9 @@ public class TilgangService {
         }
     }
 
-    public void throwExceptionIfVeilederWithoutAccessToSYFO() {
-        if (!isVeilederGrantedAccessToSYFO()) {
-            throw new ForbiddenException();
-        }
-    }
-
     public boolean isVeilederGrantedAccessToUserWithAD(String fnr) {
         URI tilgangTilBrukerViaAzureUriMedFnr = tilgangTilBrukerViaAzureUriTemplate.build(singletonMap(FNR, fnr));
         return checkAccess(tilgangTilBrukerViaAzureUriMedFnr, OIDCIssuer.AZURE);
-    }
-
-    public boolean isVeilederGrantedAccessToSYFO() {
-        URI accessToSyfoUri = accessToSYFOWithAzureUriTemplate.build().toUri();
-        return kallUriMedTemplate(accessToSyfoUri);
     }
 
     private boolean checkAccess(URI uri, String oidcIssuer) {
@@ -76,19 +61,6 @@ public class TilgangService {
                     createEntity(oidcIssuer),
                     String.class
             );
-            return true;
-        } catch (HttpClientErrorException e) {
-            if (e.getRawStatusCode() == 403) {
-                return false;
-            } else {
-                throw e;
-            }
-        }
-    }
-
-    private boolean kallUriMedTemplate(URI uri) {
-        try {
-            template.getForObject(uri, Object.class);
             return true;
         } catch (HttpClientErrorException e) {
             if (e.getRawStatusCode() == 403) {
