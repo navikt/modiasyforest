@@ -37,6 +37,3 @@ dev: true
 local.mock: false
 
 tilgangskontrollapi.url: "https://www.ikke.no"
-syfoveilederoppgaver.system.v1.url: "http://www.syfoveilederoppgaver.no"
-syfoveilederoppgaver.systemapi.username: "veilederoppgaverusername"
-syfoveilederoppgaver.systemapi.password: "veilederoppgaverpassword"
