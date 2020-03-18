@@ -2,7 +2,11 @@ package no.nav.syfo.controller.internad;
 
 import no.nav.security.oidc.api.ProtectedWithClaims;
 import no.nav.syfo.controller.domain.Bruker;
-import no.nav.syfo.services.*;
+import no.nav.syfo.controller.domain.Kontaktinfo;
+import no.nav.syfo.dkif.DigitalKontaktinfo;
+import no.nav.syfo.dkif.DkifConsumer;
+import no.nav.syfo.services.BrukerprofilService;
+import no.nav.syfo.services.TilgangService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -16,17 +20,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
 
     private final BrukerprofilService brukerprofilService;
-    private final DkifService dkifService;
+    private final DkifConsumer dkifConsumer;
     private final TilgangService tilgangsKontroll;
 
     @Inject
     public UserController(
             BrukerprofilService brukerprofilService,
-            DkifService dkifService,
+            DkifConsumer dkifConsumer,
             TilgangService tilgangsKontroll
     ) {
         this.brukerprofilService = brukerprofilService;
-        this.dkifService = dkifService;
+        this.dkifConsumer = dkifConsumer;
         this.tilgangsKontroll = tilgangsKontroll;
     }
 
@@ -34,8 +38,15 @@ public class UserController {
     public Bruker getUser(@RequestParam(value = "fnr") String fnr) {
         tilgangsKontroll.throwExceptionIfVeilederWithoutAccess(fnr);
 
+        DigitalKontaktinfo digitalKontaktinfo = dkifConsumer.kontaktinformasjon(fnr);
+        Kontaktinfo kontaktinfo = new Kontaktinfo()
+                .fnr(fnr)
+                .skalHaVarsel(digitalKontaktinfo.getKanVarsles())
+                .epost(digitalKontaktinfo.getEpostadresse())
+                .tlf(digitalKontaktinfo.getMobiltelefonnummer());
+
         return brukerprofilService.hentBruker(fnr)
-                .kontaktinfo(dkifService.hentKontaktinfoFnr(fnr, AZURE))
+                .kontaktinfo(kontaktinfo)
                 .arbeidssituasjon("ARBEIDSTAKER");
     }
 }

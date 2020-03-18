@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.Collections;
 
 import static java.util.Collections.singletonMap;
-import static no.nav.syfo.util.CredentialUtilKt.bearerHeader;
+import static no.nav.syfo.util.CredentialUtilKt.bearerCredentials;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
 @Service
@@ -74,7 +74,7 @@ public class TilgangService {
     private HttpEntity<String> createEntity(String issuer) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.set(HttpHeaders.AUTHORIZATION, bearerHeader(OIDCUtil.tokenFraOIDC(oidcContextHolder, issuer)));
+        headers.set(HttpHeaders.AUTHORIZATION, bearerCredentials(OIDCUtil.tokenFraOIDC(oidcContextHolder, issuer)));
         return new HttpEntity<>(headers);
     }
 }
