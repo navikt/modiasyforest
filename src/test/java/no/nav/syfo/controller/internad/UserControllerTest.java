@@ -3,9 +3,8 @@ package no.nav.syfo.controller.internad;
 import no.nav.syfo.LocalApplication;
 import no.nav.syfo.controller.AbstractControllerTilgangTest;
 import no.nav.syfo.controller.domain.Bruker;
-import no.nav.syfo.controller.domain.Kontaktinfo;
-import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.services.DkifService;
+import no.nav.syfo.dkif.DigitalKontaktinfo;
+import no.nav.syfo.dkif.DkifConsumer;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +16,7 @@ import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
 import java.text.ParseException;
 
+import static no.nav.syfo.testhelper.DKIFKontakinformasjonResponseGeneratorKt.generateDigitalKontaktinfo;
 import static no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD;
 import static no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle;
 import static no.nav.syfo.testhelper.UserConstants.*;
@@ -30,7 +30,7 @@ import static org.springframework.http.HttpStatus.*;
 public class UserControllerTest extends AbstractControllerTilgangTest {
 
     @MockBean
-    private DkifService dkifService;
+    private DkifConsumer dkifConsumer;
 
     @Inject
     private UserController userController;
@@ -49,7 +49,8 @@ public class UserControllerTest extends AbstractControllerTilgangTest {
     public void getUserHasAccess() {
         mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, OK);
 
-        when(dkifService.hentKontaktinfoFnr(ARBEIDSTAKER_FNR, OIDCIssuer.AZURE)).thenReturn(new Kontaktinfo());
+        DigitalKontaktinfo digitalKontaktinfo = generateDigitalKontaktinfo();
+        when(dkifConsumer.kontaktinformasjon(ARBEIDSTAKER_FNR)).thenReturn(digitalKontaktinfo);
 
         Bruker user = userController.getUser(ARBEIDSTAKER_FNR);
 

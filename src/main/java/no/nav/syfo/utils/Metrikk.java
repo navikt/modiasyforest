@@ -23,6 +23,16 @@ public class Metrikk {
         ).increment();
     }
 
+    public void countOutgoingReponse(String navn, Integer statusCode) {
+        registry.counter(
+                addPrefix(navn),
+                Tags.of(
+                        "type", "info",
+                        "status", statusCode.toString()
+                )
+        ).increment();
+    }
+
     public void tellHentSykepengesoknader403() {
         String navn = "hentSykepengesoknader.403";
         registry.counter(

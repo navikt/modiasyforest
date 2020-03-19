@@ -15,6 +15,10 @@ srvmodiasyforest:
   username: "kek"
   password: "bur"
 
+srv:
+  username: "username"
+  password: "password"
+
 aktoer.v2.endpointurl: "aktoerv2.url"
 sykefravaersoppfoelging.v1.endpointurl: "sykefravaeroppfoelgingv1.url"
 brukeroppgave.v1.endpointurl: "brukeroppgavev1.url"
