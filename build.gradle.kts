@@ -52,7 +52,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinLibVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$kotlinJacksonVersion")
 
-    implementation("no.nav.syfo.tjenester:dkif-tjenestespesifikasjon:1.2")
     implementation("no.nav.sbl.dialogarena:organisasjonv4-tjenestespesifikasjon:1.0.1")
     implementation("no.nav.syfo.tjenester:sykmeldingv1-tjenestespesifikasjon:1.1.18")
     implementation("no.nav.syfo.tjenester:aktoer-v2:1.0")
