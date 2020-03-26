@@ -23,14 +23,12 @@ aktoer.v2.endpointurl: "aktoerv2.url"
 sykefravaersoppfoelging.v1.endpointurl: "sykefravaeroppfoelgingv1.url"
 brukeroppgave.v1.endpointurl: "brukeroppgavev1.url"
 virksomhet:
-  organisasjon.v4.endpointurl: "organisasjonv4.url"
   arbeidsfordeling.v1.endpointurl: "arbeidsfordelingv1.url"
 
 fasit.environment.name: 'local'
 
 aktoer.withmock: true
 brukerprofilv3.withmock: true
-organisasjon.ereg.withmock: true
 oppfoelging.syfoservice.withmock: true
 sykepengesoknad.syfoservice.withmock: true
 sykmelding.syfoservice.withmock: true
