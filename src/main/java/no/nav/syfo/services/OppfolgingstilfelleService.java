@@ -7,6 +7,8 @@ import no.nav.syfo.controller.domain.*;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.controller.domain.tidslinje.Hendelse;
 import no.nav.syfo.controller.domain.tidslinje.Hendelsestype;
+import no.nav.syfo.ereg.EregConsumer;
+import no.nav.syfo.ereg.Virksomhetsnummer;
 import no.nav.syfo.mappers.SykmeldingMapper;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentSykeforlopperiodeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
@@ -50,8 +52,8 @@ public class OppfolgingstilfelleService {
     private String dev;
     private OIDCRequestContextHolder contextHolder;
     private AktorConsumer aktorConsumer;
+    private EregConsumer eregConsumer;
     private NaermesteLederService naermesteLederService;
-    private OrganisasjonService organisasjonService;
     private SykmeldingerConfig sykmeldingerConfig;
     private SykmeldingV1 sykmeldingV1;
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
@@ -60,16 +62,16 @@ public class OppfolgingstilfelleService {
     public OppfolgingstilfelleService(
             OIDCRequestContextHolder contextHolder,
             AktorConsumer aktorConsumer,
+            EregConsumer eregConsumer,
             NaermesteLederService naermesteLederService,
-            OrganisasjonService organisasjonService,
             SykmeldingerConfig sykmeldingerConfig,
             SykmeldingV1 sykmeldingV1,
             SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1
     ) {
         this.contextHolder = contextHolder;
         this.aktorConsumer = aktorConsumer;
+        this.eregConsumer = eregConsumer;
         this.naermesteLederService = naermesteLederService;
-        this.organisasjonService = organisasjonService;
         this.sykmeldingerConfig = sykmeldingerConfig;
         this.sykmeldingV1 = sykmeldingV1;
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
@@ -151,7 +153,9 @@ public class OppfolgingstilfelleService {
 
     private Stream<Hendelse> tilHendelseNyNaermesteLeder(Stream<WSHendelse> wsHendelseStream, String fnr) {
         try {
-            Function<NaermesteLeder, NaermesteLeder> berikMedOrgNavn = nl -> nl.withOrganisasjonsnavn(organisasjonService.hentNavn(nl.orgnummer));
+            Function<NaermesteLeder, NaermesteLeder> berikMedOrgNavn = nl -> nl.withOrganisasjonsnavn(
+                    eregConsumer.virksomhetsnavn(new Virksomhetsnummer(nl.orgnummer))
+            );
 
             Map<Long, NaermesteLeder> naermesteLedere = naermesteLederService.finnNarmesteLedere(fnr)
                     .stream()

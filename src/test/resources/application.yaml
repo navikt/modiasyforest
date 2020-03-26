@@ -39,4 +39,5 @@ sykefravaersoppfoelging.syfoservice.withmock: false
 dev: true
 local.mock: false
 
+ereg.baseurl: "http://ereg"
 tilgangskontrollapi.url: "https://www.ikke.no"
