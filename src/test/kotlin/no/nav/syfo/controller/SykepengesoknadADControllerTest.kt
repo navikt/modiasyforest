@@ -1,6 +1,7 @@
 package no.nav.syfo.controller
 
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad
+import no.nav.syfo.ereg.EregConsumer
 import no.nav.syfo.mocks.SykepengesoeknadV1Mock.wsSykepengesoknadListe
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
@@ -8,12 +9,16 @@ import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus.*
 import java.text.ParseException
 import javax.inject.Inject
 import javax.ws.rs.ForbiddenException
 
 class SykepengesoknadADControllerTest : AbstractControllerTilgangTest() {
+
+    @MockBean
+    private lateinit var eregConsumer: EregConsumer
 
     @Inject
     private lateinit var sykepengesoknadController: SykepengesoknadADController

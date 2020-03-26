@@ -3,6 +3,8 @@ package no.nav.syfo.services;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.syfo.config.SykepengesoknadConfig;
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad;
+import no.nav.syfo.ereg.EregConsumer;
+import no.nav.syfo.ereg.Virksomhetsnummer;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.HentSykepengesoeknadListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeRequest;
@@ -19,8 +21,8 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.syfo.mappers.WS2SykepengesoknadMapper.ws2Sykepengesoknad;
-import static no.nav.syfo.utils.MapUtil.mapListe;
 import static no.nav.syfo.oidc.OIDCUtil.tokenFraOIDC;
+import static no.nav.syfo.utils.MapUtil.mapListe;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -32,19 +34,19 @@ public class SykepengesoknaderService {
     @Value("${dev}")
     private String dev;
     private OIDCRequestContextHolder contextHolder;
+    private EregConsumer eregConsumer;
     private SykepengesoeknadV1 sykepengesoeknadV1;
     private SykepengesoknadConfig sykepengesoknadConfig;
-    private OrganisasjonService organisasjonService;
 
     @Inject
     public SykepengesoknaderService(
             OIDCRequestContextHolder contextHolder,
-            OrganisasjonService organisasjonService,
+            EregConsumer eregConsumer,
             SykepengesoeknadV1 sykepengesoeknadV1,
             SykepengesoknadConfig sykepengesoknadConfig
     ) {
         this.contextHolder = contextHolder;
-        this.organisasjonService = organisasjonService;
+        this.eregConsumer = eregConsumer;
         this.sykepengesoeknadV1 = sykepengesoeknadV1;
         this.sykepengesoknadConfig = sykepengesoknadConfig;
     }
@@ -82,7 +84,7 @@ public class SykepengesoknaderService {
     private final Function<Sykepengesoknad, Sykepengesoknad> berikMedArbeidsgiverNavn =
             soknad -> soknad
                     .withArbeidsgiver(soknad.arbeidsgiver
-                            .withNavn(organisasjonService
-                                    .hentNavn(soknad.arbeidsgiver.orgnummer)));
+                            .withNavn(eregConsumer
+                                    .virksomhetsnavn(new Virksomhetsnummer(soknad.arbeidsgiver.orgnummer))));
 
 }

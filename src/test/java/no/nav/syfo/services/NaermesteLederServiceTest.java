@@ -3,6 +3,8 @@ package no.nav.syfo.services;
 import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
+import no.nav.syfo.ereg.EregConsumer;
+import no.nav.syfo.ereg.Virksomhetsnummer;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
@@ -20,6 +22,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -32,14 +35,14 @@ public class NaermesteLederServiceTest {
     @Mock
     private AktorConsumer aktorConsumer;
     @Mock
-    private OrganisasjonService organisasjonService;
+    private EregConsumer eregConsumer;
     @InjectMocks
     private NaermesteLederService naermesteLederService;
 
     @Before
     public void setup() {
         when(aktorConsumer.hentAktoerIdForFnr(anyString())).thenReturn("12345678901");
-        when(organisasjonService.hentNavn(anyString())).thenReturn("Testbedriften");
+        when(eregConsumer.virksomhetsnavn(any(Virksomhetsnummer.class))).thenReturn("Testbedriften");
     }
 
     @Test
@@ -51,14 +54,14 @@ public class NaermesteLederServiceTest {
                         .withMobil("123")
                         .withNavn("Navn")
                         .withEpost("test@nav.no")
-                        .withOrgnummer("12345678"),
+                        .withOrgnummer("123456789"),
                 new WSNaermesteLeder()
                         .withNaermesteLederStatus(new WSNaermesteLederStatus()
                                 .withErAktiv(true))
                         .withMobil("123")
                         .withNavn("Navn")
                         .withEpost("test@nav.no")
-                        .withOrgnummer("12345678"),
+                        .withOrgnummer("123456789"),
                 new WSNaermesteLeder()
                         .withNaermesteLederStatus(new WSNaermesteLederStatus()
                                 .withErAktiv(true))

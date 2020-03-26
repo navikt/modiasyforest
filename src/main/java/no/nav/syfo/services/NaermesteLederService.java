@@ -3,6 +3,8 @@ package no.nav.syfo.services;
 import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
+import no.nav.syfo.ereg.EregConsumer;
+import no.nav.syfo.ereg.Virksomhetsnummer;
 import no.nav.syfo.utils.DistinctFilter;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
@@ -31,16 +33,16 @@ public class NaermesteLederService {
 
     private AktorConsumer aktorConsumer;
 
-    private OrganisasjonService organisasjonService;
+    private EregConsumer eregConsumer;
 
     @Inject
     public NaermesteLederService(
             AktorConsumer aktorConsumer,
-            OrganisasjonService organisasjonService,
+            EregConsumer eregConsumer,
             SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1
     ) {
         this.aktorConsumer = aktorConsumer;
-        this.organisasjonService = organisasjonService;
+        this.eregConsumer = eregConsumer;
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
     }
 
@@ -55,7 +57,7 @@ public class NaermesteLederService {
                     .withAktoerId(aktorConsumer.hentAktoerIdForFnr(fnr))
                     .withKunAktive(true)).getNaermesteLederListe().stream()
                     .distinct()
-                    .map(element -> tilNaermesteLeder(element, organisasjonService.hentNavn(element.getOrgnummer())))
+                    .map(element -> tilNaermesteLeder(element, eregConsumer.virksomhetsnavn(new Virksomhetsnummer(element.getOrgnummer()))))
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
             log.warn("Fikk sikkerhetsbegrensning {} ved henting av naermeste ledere for person", e.getFaultInfo().getFeilaarsak().toUpperCase(), e);
