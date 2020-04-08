@@ -8,8 +8,6 @@ version = "1.0.0"
 
 val cxfVersion = "3.3.3"
 val oidcSupportVersion = "0.2.18"
-val springBootVersion = "2.1.8.RELEASE"
-val springRetryVersion = "1.2.4.RELEASE"
 val kotlinLibVersion = "1.3.70"
 val kotlinJacksonVersion = "2.9.8"
 
@@ -18,6 +16,8 @@ plugins {
     id("com.github.johnrengelman.shadow") version "4.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.3.70"
     id("java")
+    id("org.springframework.boot") version "2.2.6.RELEASE"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
 }
 
 buildscript {
@@ -58,12 +58,13 @@ dependencies {
     implementation("no.nav.syfo.tjenester:sykepengesoeknadv1-tjenestespesifikasjon:1.0.17")
     implementation("no.nav.syfo.tjenester:digisyfo-sykepengesoeknadoppsummering:1.0.2")
 
-    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-jersey:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-logging:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
-    implementation("org.springframework.retry:spring-retry:$springRetryVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-jersey")
+    implementation("org.springframework.boot:spring-boot-starter-logging")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.retry:spring-retry")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 
     implementation("no.nav.security:oidc-spring-support:$oidcSupportVersion")
     testImplementation("no.nav.security:oidc-test-support:$oidcSupportVersion")
@@ -75,16 +76,15 @@ dependencies {
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion")
 
     implementation("io.micrometer:micrometer-registry-prometheus:1.0.6")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("javax.ws.rs:javax.ws.rs-api:2.0.1")
     implementation("org.apache.commons:commons-lang3:3.5")
     implementation("javax.inject:javax.inject:1")
     implementation("net.logstash.logback:logstash-logback-encoder:4.10")
     implementation("org.slf4j:slf4j-api:1.7.25")
 
-    implementation("org.projectlombok:lombok:1.16.22")
-    annotationProcessor("org.projectlombok:lombok:1.18.6")
-    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+    implementation("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 }
 
 tasks {
