@@ -16,7 +16,7 @@ val kotlinJacksonVersion = "2.9.8"
 plugins {
     kotlin("jvm") version "1.3.70"
     id("com.github.johnrengelman.shadow") version "4.0.3"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.50"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.70"
     id("java")
 }
 
