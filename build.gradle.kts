@@ -7,8 +7,7 @@ group = "no.nav.syfo"
 version = "1.0.0"
 
 val cxfVersion = "3.3.3"
-val oidcSupportVersion = "0.2.7"
-val oidcSupportTestVersion = "0.2.4"
+val oidcSupportVersion = "0.2.18"
 val springBootVersion = "2.1.8.RELEASE"
 val springRetryVersion = "1.2.4.RELEASE"
 val kotlinLibVersion = "1.3.31"
@@ -66,8 +65,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
     implementation("org.springframework.retry:spring-retry:$springRetryVersion")
 
-    implementation("no.nav.security:oidc-support:$oidcSupportVersion")
     implementation("no.nav.security:oidc-spring-support:$oidcSupportVersion")
+    testImplementation("no.nav.security:oidc-test-support:$oidcSupportVersion")
 
     implementation("org.apache.cxf:cxf-rt-features-logging:$cxfVersion")
     implementation("org.apache.cxf:cxf-rt-ws-security:$cxfVersion")
@@ -86,7 +85,6 @@ dependencies {
     implementation("org.projectlombok:lombok:1.16.22")
     annotationProcessor("org.projectlombok:lombok:1.18.6")
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testCompile("no.nav.security:oidc-spring-test:$oidcSupportTestVersion")
 }
 
 tasks {
