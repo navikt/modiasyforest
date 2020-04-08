@@ -10,11 +10,11 @@ val cxfVersion = "3.3.3"
 val oidcSupportVersion = "0.2.18"
 val springBootVersion = "2.1.8.RELEASE"
 val springRetryVersion = "1.2.4.RELEASE"
-val kotlinLibVersion = "1.3.31"
+val kotlinLibVersion = "1.3.70"
 val kotlinJacksonVersion = "2.9.8"
 
 plugins {
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.70"
     id("com.github.johnrengelman.shadow") version "4.0.3"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.3.50"
     id("java")
