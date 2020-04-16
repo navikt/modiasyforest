@@ -39,3 +39,9 @@ local.mock: false
 
 ereg.baseurl: "http://ereg"
 tilgangskontrollapi.url: "https://www.ikke.no"
+
+client.id: clientId
+client.secret: clientSecret
+ad.accesstoken.url: 'http://accesstoken.url'
+syfonarmesteleder.url: "http://syfonarmesteleder.url"
+syfonarmesteleder.id: "syfonarmestelederID"
