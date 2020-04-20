@@ -2,9 +2,7 @@ package no.nav.syfo.config
 
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.EnableCaching
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
+import org.springframework.context.annotation.*
 import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
@@ -32,6 +30,7 @@ class CacheConfig {
         cacheConfigurations[CACHENAME_PERSON_INFO] = defaultConfig
         cacheConfigurations[CACHENAME_SYKEPENGESOKNAD] = defaultConfig
         cacheConfigurations[CACHENAME_TPSBRUKER] = defaultConfig
+        cacheConfigurations[CACHENAME_NARMESTELEDER_LEDERE] = defaultConfig
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
                 .withInitialCacheConfigurations(cacheConfigurations)
@@ -48,6 +47,7 @@ class CacheConfig {
         const val CACHENAME_VEILEDER_LDAP = "syfofinnledere"
         const val CACHENAME_PERSON_INFO = "syfoledere"
         const val CACHENAME_SYKEPENGESOKNAD = "sykepengesoknad"
-        const val CACHENAME_TPSBRUKER= "tpsbruker"
+        const val CACHENAME_TPSBRUKER = "tpsbruker"
+        const val CACHENAME_NARMESTELEDER_LEDERE = "ledere"
     }
 }
