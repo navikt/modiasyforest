@@ -93,7 +93,7 @@ public class NaermesteLederService {
             )
                     .getNaermesteLederListe()
                     .stream()
-                    .map(this::naermesteLeder)
+                    .map(element -> tilNaermesteLeder(element, eregConsumer.virksomhetsnavn(new Virksomhetsnummer(element.getOrgnummer()))))
                     .collect(toList());
         } catch (HentNaermesteLederListeSikkerhetsbegrensning e) {
             log.warn("Fikk sikkerhetsbegrensning ved henting av naermeste ledere for person", e);
