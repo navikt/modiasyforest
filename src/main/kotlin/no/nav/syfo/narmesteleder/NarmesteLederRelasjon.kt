@@ -1,5 +1,6 @@
 package no.nav.syfo.narmesteleder
 
+import java.io.Serializable
 import java.time.LocalDate
 
 data class NarmesteLederRelasjon(
@@ -12,9 +13,9 @@ data class NarmesteLederRelasjon(
         val arbeidsgiverForskutterer: Boolean?,
         val skrivetilgang: Boolean,
         val tilganger: List<Tilgang>
-)
+) : Serializable
 
-enum class Tilgang {
+enum class Tilgang : Serializable {
     SYKMELDING,
     SYKEPENGESOKNAD,
     MOTE,
