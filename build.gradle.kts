@@ -10,6 +10,8 @@ val cxfVersion = "3.3.3"
 val oidcSupportVersion = "0.2.18"
 val kotlinLibVersion = "1.3.70"
 val kotlinJacksonVersion = "2.9.8"
+val tjenesteSpesifikasjonerVersion = "1.2020.06.23-15.31-57b909d0a05c"
+val syfotjenesterVersion = "1.2020.06.26-13.27-bec776183ad5"
 
 plugins {
     kotlin("jvm") version "1.3.70"
@@ -38,12 +40,26 @@ allOpen {
     annotation("org.springframework.stereotype.Component")
 }
 
+val githubUser: String by project
+val githubPassword: String by project
 repositories {
     mavenCentral()
     jcenter()
-    maven(url = "https://repo.adeo.no/repository/maven-releases/")
     maven(url = "https://dl.bintray.com/kotlin/kotlinx/")
-    maven(url = "http://packages.confluent.io/maven/")
+    maven {
+        url = uri("https://maven.pkg.github.com/navikt/syfotjenester")
+        credentials {
+            username = githubUser
+            password = githubPassword
+        }
+    }
+    maven {
+        url = uri("https://maven.pkg.github.com/navikt/tjenestespesifikasjoner")
+        credentials {
+            username = githubUser
+            password = githubPassword
+        }
+    }
 }
 
 dependencies {
@@ -53,12 +69,13 @@ dependencies {
 
     implementation("org.apache.httpcomponents:httpclient:4.5.6")
 
-    implementation("no.nav.syfo.tjenester:sykmeldingv1-tjenestespesifikasjon:1.1.18")
-    implementation("no.nav.syfo.tjenester:aktoer-v2:1.0")
-    implementation("no.nav.syfo.tjenester:brukerprofil-v3-tjenestespesifikasjon:3.0.1")
-    implementation("no.nav.syfo.tjenester:sykefravaersoppfoelgingv1-tjenestespesifikasjon:1.0.20")
-    implementation("no.nav.syfo.tjenester:sykepengesoeknadv1-tjenestespesifikasjon:1.0.17")
-    implementation("no.nav.syfo.tjenester:digisyfo-sykepengesoeknadoppsummering:1.0.2")
+    implementation("no.nav.tjenestespesifikasjoner:brukerprofil-v3-tjenestespesifikasjon:$tjenesteSpesifikasjonerVersion")
+
+    implementation("no.nav.syfotjenester:aktorid-v2:$syfotjenesterVersion")
+    implementation("no.nav.syfotjenester:digisyfo-sykepengesoeknadoppsummering:$syfotjenesterVersion")
+    implementation("no.nav.syfotjenester:sykefravaersoppfoelgingv1-tjenestespesifikasjon:$syfotjenesterVersion")
+    implementation("no.nav.syfotjenester:sykepengesoeknadv1-tjenestespesifikasjon:$syfotjenesterVersion")
+    implementation("no.nav.syfotjenester:sykmeldingv1-tjenestespesifikasjon:$syfotjenesterVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
