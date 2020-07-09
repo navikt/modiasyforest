@@ -3,7 +3,7 @@ package no.nav.syfo.narmesteleder
 import no.nav.syfo.azuread.AzureAdTokenConsumer
 import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_NARMESTELEDER_LEDERE
 import no.nav.syfo.util.*
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -17,10 +17,10 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @Component
 class NarmesteLederConsumer @Autowired constructor(
-        private val azureAdTokenConsumer: AzureAdTokenConsumer,
-        private val metrikk: Metrikk,
-        private val restTemplate: RestTemplate,
-        @Value("\${syfonarmesteleder.id}") private val syfonarmestelederId: String
+    private val azureAdTokenConsumer: AzureAdTokenConsumer,
+    private val metrikk: Metrikk,
+    private val restTemplate: RestTemplate,
+    @Value("\${syfonarmesteleder.id}") private val syfonarmestelederId: String
 ) {
     @Cacheable(value = [CACHENAME_NARMESTELEDER_LEDERE], key = "#aktorId", condition = "#aktorId != null")
     fun narmesteLederRelasjonerLedere(aktorId: String): List<NarmesteLederRelasjon> {

@@ -1,6 +1,6 @@
 package no.nav.syfo.azuread
 
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.*
 import org.springframework.http.*
@@ -15,11 +15,11 @@ import java.util.*
 
 @Component
 class AzureAdTokenConsumer @Autowired constructor(
-        private val metrikk: Metrikk,
-        @Qualifier("restTemplateWithProxy") private val restTemplateWithProxy: RestTemplate,
-        @Value("\${ad.accesstoken.url}") private val url: String,
-        @Value("\${client.id}") private val clientId: String,
-        @Value("\${client.secret}") private val clientSecret: String
+    private val metrikk: Metrikk,
+    @Qualifier("restTemplateWithProxy") private val restTemplateWithProxy: RestTemplate,
+    @Value("\${ad.accesstoken.url}") private val url: String,
+    @Value("\${client.id}") private val clientId: String,
+    @Value("\${client.secret}") private val clientSecret: String
 ) {
     private val azureAdTokenMap: MutableMap<String, AzureAdResponse> = HashMap()
 

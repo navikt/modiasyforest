@@ -3,7 +3,7 @@ package no.nav.syfo.ereg
 import no.nav.syfo.config.CacheConfig
 import no.nav.syfo.sts.StsConsumer
 import no.nav.syfo.util.*
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
@@ -15,10 +15,10 @@ import javax.inject.Inject
 
 @Service
 class EregConsumer @Inject constructor(
-        @Value("\${ereg.baseurl}") private val baseUrl: String,
-        private val metric: Metrikk,
-        private val restTemplate: RestTemplate,
-        private val stsConsumer: StsConsumer
+    @Value("\${ereg.baseurl}") private val baseUrl: String,
+    private val metric: Metrikk,
+    private val restTemplate: RestTemplate,
+    private val stsConsumer: StsConsumer
 ) {
     fun eregReponse(virksomhetsnummer: Virksomhetsnummer): EregOrganisasjonResponse {
         try {

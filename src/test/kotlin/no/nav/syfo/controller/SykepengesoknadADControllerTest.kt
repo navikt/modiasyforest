@@ -2,7 +2,7 @@ package no.nav.syfo.controller
 
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad
 import no.nav.syfo.ereg.EregConsumer
-import no.nav.syfo.mocks.SykepengesoeknadV1Mock.wsSykepengesoknadListe
+import no.nav.syfo.mocks.SykepengesoeknadV1Mock.Companion.wsSykepengesoknadListe
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
 import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID

@@ -1,7 +1,10 @@
 package no.nav.syfo.controller
 
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.mocks.OppfoelgingMock.*
+import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_AKTIVITET
+import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_FOM
+import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_GRAD
+import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_TOM
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.UserConstants.*
 import org.assertj.core.api.Assertions.assertThat
