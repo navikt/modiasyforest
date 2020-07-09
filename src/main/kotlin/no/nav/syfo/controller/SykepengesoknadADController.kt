@@ -5,7 +5,7 @@ import no.nav.syfo.consumer.AktorConsumer
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad
 import no.nav.syfo.oidc.OIDCIssuer.AZURE
 import no.nav.syfo.services.SykepengesoknaderService
-import no.nav.syfo.services.TilgangService
+import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.metric.Metrikk
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
@@ -20,14 +20,14 @@ constructor(
     private val metrikk: Metrikk,
     private val aktorConsumer: AktorConsumer,
     private val sykepengesoknaderService: SykepengesoknaderService,
-    private val tilgangService: TilgangService
+    private val tilgangConsumer: TilgangConsumer
 ) {
 
     @GetMapping(produces = [APPLICATION_JSON])
     fun getSykepengesoknader(@RequestParam(value = "fnr") fnr: String): List<Sykepengesoknad> {
         metrikk.tellEndepunktKall("hent_sykepengesoknader")
 
-        tilgangService.throwExceptionIfVeilederWithoutAccess(fnr)
+        tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
 
         try {
             return sykepengesoknaderService.hentSykepengesoknader(aktorConsumer.hentAktoerIdForFnr(fnr), AZURE)

@@ -6,7 +6,7 @@ import no.nav.syfo.controller.domain.NaermesteLeder
 import no.nav.syfo.narmesteleder.NarmesteLederConsumer
 import no.nav.syfo.oidc.OIDCIssuer.AZURE
 import no.nav.syfo.services.NaermesteLederService
-import no.nav.syfo.services.TilgangService
+import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.metric.Metrikk
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
@@ -21,14 +21,14 @@ constructor(
     private val metrikk: Metrikk,
     private val naermesteLederService: NaermesteLederService,
     private val narmesteLederConsumer: NarmesteLederConsumer,
-    private val tilgangService: TilgangService
+    private val tilgangConsumer: TilgangConsumer
 ) {
 
     @GetMapping(value = ["/naermesteleder"], produces = [APPLICATION_JSON])
     fun getNarmesteledere(@RequestParam(value = "fnr") fnr: String): List<NaermesteLeder> {
         metrikk.tellEndepunktKall("hent_naermesteledere")
 
-        tilgangService.throwExceptionIfVeilederWithoutAccess(fnr)
+        tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
 
 
         val naermesteledere = naermesteLederService.hentNaermesteledere(fnr)
@@ -43,7 +43,7 @@ constructor(
     fun getAllNarmesteledere(@RequestParam(value = "fnr") fnr: String): List<NaermesteLeder> {
         metrikk.tellEndepunktKall("hent_narmesteleder_all")
 
-        tilgangService.throwExceptionIfVeilederWithoutAccess(fnr)
+        tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
 
         val naermesteledere = naermesteLederService.finnNarmesteLedere(fnr)
         var idcounter: Long = 0

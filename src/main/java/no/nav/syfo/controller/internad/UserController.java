@@ -6,7 +6,7 @@ import no.nav.syfo.controller.domain.Kontaktinfo;
 import no.nav.syfo.dkif.DigitalKontaktinfo;
 import no.nav.syfo.dkif.DkifConsumer;
 import no.nav.syfo.services.BrukerprofilService;
-import no.nav.syfo.services.TilgangService;
+import no.nav.syfo.consumer.TilgangConsumer;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -21,13 +21,13 @@ public class UserController {
 
     private final BrukerprofilService brukerprofilService;
     private final DkifConsumer dkifConsumer;
-    private final TilgangService tilgangsKontroll;
+    private final TilgangConsumer tilgangsKontroll;
 
     @Inject
     public UserController(
             BrukerprofilService brukerprofilService,
             DkifConsumer dkifConsumer,
-            TilgangService tilgangsKontroll
+            TilgangConsumer tilgangsKontroll
     ) {
         this.brukerprofilService = brukerprofilService;
         this.dkifConsumer = dkifConsumer;
