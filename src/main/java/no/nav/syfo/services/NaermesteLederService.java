@@ -20,7 +20,7 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static no.nav.syfo.mappers.NaermesteLederMapper.tilNaermesteLeder;
+import static no.nav.syfo.mappers.NaermesteLederMapperKt.tilNaermesteLeder;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.slf4j.LoggerFactory.getLogger;
 
