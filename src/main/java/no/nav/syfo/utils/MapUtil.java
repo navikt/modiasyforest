@@ -70,10 +70,6 @@ public class MapUtil {
         return of(fra).map(exp).orElseThrow(() -> new RuntimeException("Resultatet fra exp ble null"));
     }
 
-    public static <T, R> R mapMangetilEn(List<T> fra, Predicate<T> selector, Function<T, R> exp) {
-        return ofNullable(fra).flatMap(g -> g.stream().filter(selector).map(exp).findFirst()).orElse(null);
-    }
-
     public static <T, R> List<R> mapListe(List<T> fra, Predicate<T> filter, Function<T, R> exp) {
         return ofNullable(fra).map(f -> mapStream(f.stream().filter(filter), exp).collect(toList())).orElse(new ArrayList<>());
     }
