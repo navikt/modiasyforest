@@ -5,7 +5,7 @@ import no.nav.syfo.controller.domain.Bruker;
 import no.nav.syfo.controller.domain.Kontaktinfo;
 import no.nav.syfo.dkif.DigitalKontaktinfo;
 import no.nav.syfo.dkif.DkifConsumer;
-import no.nav.syfo.services.BrukerprofilService;
+import no.nav.syfo.consumer.BrukerprofilConsumer;
 import no.nav.syfo.consumer.TilgangConsumer;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +19,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/api/internad/brukerinfo")
 public class UserController {
 
-    private final BrukerprofilService brukerprofilService;
+    private final BrukerprofilConsumer brukerprofilConsumer;
     private final DkifConsumer dkifConsumer;
     private final TilgangConsumer tilgangsKontroll;
 
     @Inject
     public UserController(
-            BrukerprofilService brukerprofilService,
+            BrukerprofilConsumer brukerprofilConsumer,
             DkifConsumer dkifConsumer,
             TilgangConsumer tilgangsKontroll
     ) {
-        this.brukerprofilService = brukerprofilService;
+        this.brukerprofilConsumer = brukerprofilConsumer;
         this.dkifConsumer = dkifConsumer;
         this.tilgangsKontroll = tilgangsKontroll;
     }
@@ -45,7 +45,7 @@ public class UserController {
                 .epost(digitalKontaktinfo.getEpostadresse())
                 .tlf(digitalKontaktinfo.getMobiltelefonnummer());
 
-        return brukerprofilService.hentBruker(fnr)
+        return brukerprofilConsumer.hentBruker(fnr)
                 .kontaktinfo(kontaktinfo)
                 .arbeidssituasjon("ARBEIDSTAKER");
     }
