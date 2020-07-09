@@ -4,7 +4,7 @@ import no.nav.melding.virksomhet.sykepengesoeknadoppsummering.v1.sykepengesoekna
 import no.nav.syfo.controller.domain.Arbeidsgiver;
 import no.nav.syfo.controller.domain.sykepengesoknad.*;
 import no.nav.syfo.controller.domain.sykepengesoknad.oppsummering.*;
-import no.nav.syfo.utils.JAXB;
+import no.nav.syfo.util.JAXB;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.informasjon.*;
 
 import javax.xml.bind.JAXBElement;

@@ -5,7 +5,7 @@ import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.ereg.EregConsumer;
 import no.nav.syfo.ereg.Virksomhetsnummer;
-import no.nav.syfo.utils.DistinctFilter;
+import no.nav.syfo.util.DistinctFilter;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1;
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder;
