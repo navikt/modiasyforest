@@ -2,7 +2,7 @@ package no.nav.syfo.mappers;
 
 import no.nav.syfo.controller.domain.sykmelding.Periode;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
-import no.nav.syfo.testutils.SykmeldingMocks;
+import no.nav.syfo.testhelper.SykmeldingMocks;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;

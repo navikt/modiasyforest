@@ -5,7 +5,7 @@ import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.consumer.NaermesteLederConsumer;
 import no.nav.syfo.controller.domain.Sykeforloep;
 import no.nav.syfo.oidc.OIDCIssuer;
-import no.nav.syfo.testutils.SykmeldingMocks;
+import no.nav.syfo.testhelper.SykmeldingMocks;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeResponse;

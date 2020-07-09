@@ -7,7 +7,10 @@ import no.nav.syfo.narmesteleder.NarmesteLederConsumer
 import no.nav.syfo.consumer.NaermesteLederConsumer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
-import no.nav.syfo.testhelper.UserConstants.*
+import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_AKTORID
+import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
+import no.nav.syfo.testhelper.UserConstants.LEDER_AKTORID
+import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.*
 import org.mockito.ArgumentMatchers.anyListOf

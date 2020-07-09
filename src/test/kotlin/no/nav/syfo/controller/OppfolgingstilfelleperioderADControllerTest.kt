@@ -6,7 +6,9 @@ import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_F
 import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_GRAD
 import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_TOM
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
-import no.nav.syfo.testhelper.UserConstants.*
+import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
+import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
+import no.nav.syfo.testhelper.UserConstants.VIRKSOMHETSNUMMER
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
