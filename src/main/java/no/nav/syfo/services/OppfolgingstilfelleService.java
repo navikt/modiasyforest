@@ -1,7 +1,7 @@
 package no.nav.syfo.services;
 
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
-import no.nav.syfo.config.SykmeldingerConfig;
+import no.nav.syfo.config.consumer.SykmeldingerConfig;
 import no.nav.syfo.consumer.AktorConsumer;
 import no.nav.syfo.controller.domain.*;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;

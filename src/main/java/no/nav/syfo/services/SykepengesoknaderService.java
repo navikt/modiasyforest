@@ -1,7 +1,7 @@
 package no.nav.syfo.services;
 
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
-import no.nav.syfo.config.SykepengesoknadConfig;
+import no.nav.syfo.config.consumer.SykepengesoknadConfig;
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad;
 import no.nav.syfo.ereg.EregConsumer;
 import no.nav.syfo.ereg.Virksomhetsnummer;
