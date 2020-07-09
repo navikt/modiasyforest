@@ -1,7 +1,7 @@
 package no.nav.syfo.api.exception
 
 import no.nav.security.spring.oidc.validation.interceptor.OIDCUnauthorizedException
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.slf4j.LoggerFactory
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.ControllerAdvice

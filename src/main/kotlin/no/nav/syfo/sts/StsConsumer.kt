@@ -1,7 +1,7 @@
 package no.nav.syfo.sts
 
 import no.nav.syfo.util.basicCredentials
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
@@ -14,10 +14,10 @@ import java.time.LocalDateTime
 
 @Service
 class StsConsumer(
-        private val metric: Metrikk,
-        @Value("\${srv.username}") private val username: String,
-        @Value("\${srv.password}") private val password: String,
-        private val template: RestTemplate
+    private val metric: Metrikk,
+    @Value("\${srv.username}") private val username: String,
+    @Value("\${srv.password}") private val password: String,
+    private val template: RestTemplate
 ) {
     private val getStsTokenUriTemplate: UriComponentsBuilder = fromHttpUrl(getStsTokenUrl())
 

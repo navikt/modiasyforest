@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.*
 import org.junit.runner.RunWith

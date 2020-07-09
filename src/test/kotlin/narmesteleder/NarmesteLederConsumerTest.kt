@@ -7,7 +7,7 @@ import no.nav.syfo.LocalApplication
 import no.nav.syfo.azuread.AzureAdTokenConsumer
 import no.nav.syfo.narmesteleder.NarmesteLederConsumer
 import no.nav.syfo.narmesteleder.NarmesteLederRelasjon
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.*
 import org.junit.runner.RunWith

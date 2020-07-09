@@ -6,7 +6,7 @@ import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad
 import no.nav.syfo.oidc.OIDCIssuer.AZURE
 import no.nav.syfo.services.SykepengesoknaderService
 import no.nav.syfo.services.TilgangService
-import no.nav.syfo.utils.Metrikk
+import no.nav.syfo.metric.Metrikk
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
 import javax.ws.rs.ForbiddenException
@@ -17,10 +17,10 @@ import javax.ws.rs.core.MediaType.APPLICATION_JSON
 @RequestMapping(value = ["/api/internad/sykepengesoknader"])
 class SykepengesoknadADController @Inject
 constructor(
-        private val metrikk: Metrikk,
-        private val aktorConsumer: AktorConsumer,
-        private val sykepengesoknaderService: SykepengesoknaderService,
-        private val tilgangService: TilgangService
+    private val metrikk: Metrikk,
+    private val aktorConsumer: AktorConsumer,
+    private val sykepengesoknaderService: SykepengesoknaderService,
+    private val tilgangService: TilgangService
 ) {
 
     @GetMapping(produces = [APPLICATION_JSON])
