@@ -4,7 +4,7 @@ import no.nav.security.oidc.api.ProtectedWithClaims
 import no.nav.syfo.consumer.AktorConsumer
 import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad
 import no.nav.syfo.oidc.OIDCIssuer.AZURE
-import no.nav.syfo.services.SykepengesoknaderService
+import no.nav.syfo.consumer.SykepengesoknaderConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.metric.Metrikk
 import org.springframework.web.bind.annotation.*
@@ -19,7 +19,7 @@ class SykepengesoknadADController @Inject
 constructor(
     private val metrikk: Metrikk,
     private val aktorConsumer: AktorConsumer,
-    private val sykepengesoknaderService: SykepengesoknaderService,
+    private val sykepengesoknaderConsumer: SykepengesoknaderConsumer,
     private val tilgangConsumer: TilgangConsumer
 ) {
 
@@ -30,7 +30,7 @@ constructor(
         tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
 
         try {
-            return sykepengesoknaderService.hentSykepengesoknader(aktorConsumer.hentAktoerIdForFnr(fnr), AZURE)
+            return sykepengesoknaderConsumer.hentSykepengesoknader(aktorConsumer.hentAktoerIdForFnr(fnr), AZURE)
         } catch (e: ForbiddenException) {
             metrikk.tellHentSykepengesoknader403()
             throw e
