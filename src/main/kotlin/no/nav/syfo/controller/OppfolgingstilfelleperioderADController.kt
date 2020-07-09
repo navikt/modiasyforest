@@ -1,10 +1,10 @@
 package no.nav.syfo.controller
 
 import no.nav.security.oidc.api.ProtectedWithClaims
+import no.nav.syfo.consumer.OppfolgingstilfelleConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.controller.domain.Oppfolgingstilfelle
 import no.nav.syfo.oidc.OIDCIssuer.AZURE
-import no.nav.syfo.services.*
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class OppfolgingstilfelleperioderADController @Inject
 constructor(
     private val tilgangsKontroll: TilgangConsumer,
-    private val oppfolgingstilfelleService: OppfolgingstilfelleService
+    private val oppfolgingstilfelleConsumer: OppfolgingstilfelleConsumer
 ) {
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])
@@ -25,6 +25,6 @@ constructor(
     ): List<Oppfolgingstilfelle> {
         tilgangsKontroll.throwExceptionIfVeilederWithoutAccess(fnr)
 
-        return oppfolgingstilfelleService.hentOppfolgingstilfelleperioder(fnr, orgnummer)
+        return oppfolgingstilfelleConsumer.hentOppfolgingstilfelleperioder(fnr, orgnummer)
     }
 }

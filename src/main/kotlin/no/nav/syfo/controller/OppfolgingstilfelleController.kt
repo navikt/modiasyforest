@@ -3,7 +3,7 @@ package no.nav.syfo.controller
 import no.nav.security.oidc.api.ProtectedWithClaims
 import no.nav.syfo.controller.domain.Sykeforloep
 import no.nav.syfo.oidc.OIDCIssuer.AZURE
-import no.nav.syfo.services.OppfolgingstilfelleService
+import no.nav.syfo.consumer.OppfolgingstilfelleConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.metric.Metrikk
 import org.springframework.web.bind.annotation.*
@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType.APPLICATION_JSON
 class OppfolgingstilfelleController @Inject
 constructor(
     private val metrikk: Metrikk,
-    private val oppfolgingstilfelleService: OppfolgingstilfelleService,
+    private val oppfolgingstilfelleConsumer: OppfolgingstilfelleConsumer,
     private val tilgangConsumer: TilgangConsumer
 ) {
 
@@ -26,6 +26,6 @@ constructor(
 
         tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
 
-        return oppfolgingstilfelleService.getOppfolgingstilfelle(fnr, AZURE)
+        return oppfolgingstilfelleConsumer.getOppfolgingstilfelle(fnr, AZURE)
     }
 }

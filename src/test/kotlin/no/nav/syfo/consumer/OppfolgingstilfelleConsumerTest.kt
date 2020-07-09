@@ -2,7 +2,6 @@ package no.nav.syfo.consumer
 
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.oidc.OIDCIssuer
-import no.nav.syfo.services.OppfolgingstilfelleService
 import no.nav.syfo.testhelper.SykmeldingMocks.getWSSykmelding
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*
@@ -23,9 +22,9 @@ import javax.inject.Inject
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [LocalApplication::class])
 @DirtiesContext
-class OppfolgingstilfelleServiceTest {
+class OppfolgingstilfelleConsumerTest {
     @Inject
-    private lateinit var oppfolgingstilfelleService: OppfolgingstilfelleService
+    private lateinit var oppfolgingstilfelleConsumer: OppfolgingstilfelleConsumer
 
     @MockBean
     private lateinit var aktorConsumer: AktorConsumer
@@ -55,7 +54,7 @@ class OppfolgingstilfelleServiceTest {
                                     .withSykmelding(getWSSykmelding())
                             )))
                 ))
-        val sykeforloep = oppfolgingstilfelleService.getOppfolgingstilfelle("12345678901", OIDCIssuer.AZURE)
+        val sykeforloep = oppfolgingstilfelleConsumer.getOppfolgingstilfelle("12345678901", OIDCIssuer.AZURE)
         Assertions.assertThat(sykeforloep[0].oppfoelgingsdato).isEqualTo(LocalDate.now())
         Assertions.assertThat(sykeforloep[0].hendelser.size).isEqualTo(1)
         Assertions.assertThat(sykeforloep[0].sykmeldinger.size).isEqualTo(1)
