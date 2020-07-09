@@ -51,13 +51,13 @@ public class OppfolgingstilfelleService {
 
     @Value("${dev}")
     private String dev;
-    private OIDCRequestContextHolder contextHolder;
-    private AktorConsumer aktorConsumer;
-    private EregConsumer eregConsumer;
-    private NaermesteLederConsumer naermesteLederConsumer;
-    private SykmeldingerConfig sykmeldingerConfig;
-    private SykmeldingV1 sykmeldingV1;
-    private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
+    private final OIDCRequestContextHolder contextHolder;
+    private final AktorConsumer aktorConsumer;
+    private final EregConsumer eregConsumer;
+    private final NaermesteLederConsumer naermesteLederConsumer;
+    private final SykmeldingerConfig sykmeldingerConfig;
+    private final SykmeldingV1 sykmeldingV1;
+    private final SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
 
     @Inject
     public OppfolgingstilfelleService(

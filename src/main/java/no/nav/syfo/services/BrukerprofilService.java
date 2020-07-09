@@ -23,7 +23,7 @@ public class BrukerprofilService {
 
     private static final Logger log = getLogger(BrukerprofilService.class);
 
-    private BrukerprofilV3 brukerprofilV3;
+    private final BrukerprofilV3 brukerprofilV3;
 
     @Inject
     public BrukerprofilService(BrukerprofilV3 brukerprofilV3) {

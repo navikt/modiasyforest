@@ -33,10 +33,10 @@ public class SykepengesoknaderService {
 
     @Value("${dev}")
     private String dev;
-    private OIDCRequestContextHolder contextHolder;
+    private final OIDCRequestContextHolder contextHolder;
     private EregConsumer eregConsumer;
-    private SykepengesoeknadV1 sykepengesoeknadV1;
-    private SykepengesoknadConfig sykepengesoknadConfig;
+    private final SykepengesoeknadV1 sykepengesoeknadV1;
+    private final SykepengesoknadConfig sykepengesoknadConfig;
 
     @Inject
     public SykepengesoknaderService(
