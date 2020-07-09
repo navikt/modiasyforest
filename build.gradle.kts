@@ -108,7 +108,7 @@ dependencies {
 
 tasks {
     withType<Jar> {
-        manifest.attributes["Main-Class"] = "no.nav.syfo.Application"
+        manifest.attributes["Main-Class"] = "no.nav.syfo.ApplicationKt"
     }
 
     create("printVersion") {
