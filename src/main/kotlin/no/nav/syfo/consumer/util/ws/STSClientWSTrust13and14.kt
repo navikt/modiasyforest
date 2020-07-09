@@ -22,5 +22,4 @@ class STSClientWSTrust13and14(b: Bus) : STSClient(b) {
                                       binaryExchange: String?): SecurityToken {
         return super.requestSecurityToken(appliesTo, action, requestType, binaryExchange)
     }
-
 }

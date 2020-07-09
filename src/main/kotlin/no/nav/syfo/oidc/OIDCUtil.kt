@@ -3,7 +3,7 @@ package no.nav.syfo.oidc
 import no.nav.security.oidc.OIDCConstants
 import no.nav.security.oidc.context.OIDCRequestContextHolder
 import no.nav.security.oidc.context.OIDCValidationContext
-import no.nav.syfo.services.ws.OnBehalfOfOutInterceptor
+import no.nav.syfo.consumer.util.ws.OnBehalfOfOutInterceptor
 import org.apache.cxf.endpoint.Client
 
 object OIDCUtil {

@@ -5,15 +5,17 @@ import org.apache.cxf.jaxws.handler.soap.SOAPMessageContextImpl
 import org.apache.cxf.message.Message
 import org.apache.cxf.service.Service
 import org.apache.cxf.service.model.OperationInfo
-
+import org.slf4j.LoggerFactory
 import javax.xml.namespace.QName
 import javax.xml.ws.handler.MessageContext
 import javax.xml.ws.handler.soap.SOAPHandler
 import javax.xml.ws.handler.soap.SOAPMessageContext
 
-import org.slf4j.LoggerFactory.getLogger
-
 class LogErrorHandler : SOAPHandler<SOAPMessageContext> {
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(LogErrorHandler::class.java)
+    }
 
     override fun getHeaders(): Set<QName>? {
         return null
@@ -27,8 +29,7 @@ class LogErrorHandler : SOAPHandler<SOAPMessageContext> {
         if (context is SOAPMessageContextImpl) {
             val message = context.wrappedMessage
 
-            var exception: Throwable = message.getContent(Exception::class.java)
-
+            var exception: Throwable? = message.getContent(Exception::class.java)
 
             if (exception is Fault && exception.cause != null) {
                 exception = exception.cause ?: Throwable("Det oppstod en feil i WS-kallet")
@@ -59,8 +60,4 @@ class LogErrorHandler : SOAPHandler<SOAPMessageContext> {
     }
 
     override fun close(context: MessageContext) {}
-
-    companion object {
-        private val LOG = getLogger(LogErrorHandler::class.java)
-    }
 }

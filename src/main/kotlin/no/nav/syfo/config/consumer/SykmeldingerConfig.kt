@@ -1,7 +1,7 @@
 package no.nav.syfo.config.consumer
 
+import no.nav.syfo.consumer.util.ws.*
 import no.nav.syfo.oidc.OIDCUtil.leggTilOnBehalfOfOutInterceptorForOIDC
-import no.nav.syfo.services.ws.*
 import no.nav.tjeneste.virksomhet.sykmelding.v1.HentOppfoelgingstilfelleListeSikkerhetsbegrensning
 import no.nav.tjeneste.virksomhet.sykmelding.v1.SykmeldingV1
 import no.nav.tjeneste.virksomhet.sykmelding.v1.meldinger.WSHentOppfoelgingstilfelleListeRequest

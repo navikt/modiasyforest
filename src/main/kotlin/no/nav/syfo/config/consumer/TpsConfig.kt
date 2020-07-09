@@ -1,6 +1,6 @@
 package no.nav.syfo.config.consumer
 
-import no.nav.syfo.services.ws.*
+import no.nav.syfo.consumer.util.ws.*
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.BrukerprofilV3
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

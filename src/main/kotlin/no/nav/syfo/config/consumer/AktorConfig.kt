@@ -1,8 +1,6 @@
 package no.nav.syfo.config.consumer
 
-import no.nav.syfo.consumer.util.ws.LogErrorHandler
-import no.nav.syfo.consumer.util.ws.STSClientConfig
-import no.nav.syfo.consumer.util.ws.WsClient
+import no.nav.syfo.consumer.util.ws.*
 import no.nav.tjeneste.virksomhet.aktoer.v2.AktoerV2
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

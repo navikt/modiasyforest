@@ -1,7 +1,7 @@
 package no.nav.syfo.config.consumer
 
+import no.nav.syfo.consumer.util.ws.*
 import no.nav.syfo.oidc.OIDCUtil.leggTilOnBehalfOfOutInterceptorForOIDC
-import no.nav.syfo.services.ws.*
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.HentSykepengesoeknadListeSikkerhetsbegrensning
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.SykepengesoeknadV1
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.meldinger.WSHentSykepengesoeknadListeRequest
