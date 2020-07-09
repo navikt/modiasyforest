@@ -125,8 +125,9 @@ class OppfolgingstilfelleConsumer @Inject constructor(
             wsHendelseStream.map { wsHendelse: WSHendelse ->
                 val wsHendelseNyNaermesteLeder = wsHendelse as WSHendelseNyNaermesteLeder
                 val id = wsHendelseNyNaermesteLeder.naermesteLederId
+                val leder = naermesteLedereMap[id]
                 tilHendelse(wsHendelse)
-                    .withData("naermesteLeder", naermesteLedereMap[id])
+                    .withData("naermesteLeder", leder)
             }
         } catch (e: RuntimeException) {
             log.error("Fikk runtimeexception ved henting av naermesteledere for person med fnr", e)

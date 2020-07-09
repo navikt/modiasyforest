@@ -2,8 +2,9 @@ package no.nav.syfo.mappers;
 
 import no.nav.melding.virksomhet.sykepengesoeknadoppsummering.v1.sykepengesoeknadoppsummering.*;
 import no.nav.syfo.controller.domain.Arbeidsgiver;
+import no.nav.syfo.controller.domain.sykepengesoknad.Sykepengesoknad;
 import no.nav.syfo.controller.domain.sykepengesoknad.*;
-import no.nav.syfo.controller.domain.sykepengesoknad.oppsummering.*;
+import no.nav.syfo.controller.domain.sykepengesoknad.oppsumering.*;
 import no.nav.syfo.util.JAXB;
 import no.nav.tjeneste.virksomhet.sykepengesoeknad.v1.informasjon.*;
 

@@ -61,8 +61,8 @@ class SykepengesoknaderConsumer @Inject constructor(
     private val berikMedArbeidsgiverNavn = Function { soknad: Sykepengesoknad ->
         soknad
             .withArbeidsgiver(soknad.arbeidsgiver
-                .withNavn(eregConsumer
-                    .virksomhetsnavn(Virksomhetsnummer(soknad.arbeidsgiver.orgnummer))))
+                !!.withNavn(eregConsumer
+                    .virksomhetsnavn(Virksomhetsnummer(soknad.arbeidsgiver!!.orgnummer))))
     }
 
     companion object {

@@ -1,5 +1,5 @@
-package no.nav.syfo.controller.domain.sykepengesoknad;
+package no.nav.syfo.controller.domain.sykepengesoknad
 
-public enum AnnenInntektskildeType {
+enum class AnnenInntektskildeType {
     ANDRE_ARBEIDSFORHOLD, SELVSTENDIG_NAERINGSDRIVENDE, SELVSTENDIG_NAERINGSDRIVENDE_DAGMAMMA, JORDBRUKER_FISKER_REINDRIFTSUTOEVER, FRILANSER, ANNET
 }
