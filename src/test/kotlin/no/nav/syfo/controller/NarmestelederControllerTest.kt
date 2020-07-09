@@ -4,8 +4,7 @@ import no.nav.syfo.consumer.AktorConsumer
 import no.nav.syfo.controller.domain.NaermesteLeder
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding
 import no.nav.syfo.narmesteleder.NarmesteLederConsumer
-import no.nav.syfo.narmesteleder.NarmesteLederRelasjon
-import no.nav.syfo.services.NaermesteLederService
+import no.nav.syfo.consumer.NaermesteLederConsumer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.UserConstants.*
@@ -16,7 +15,6 @@ import org.mockito.Mockito.`when`
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus.*
 import java.text.ParseException
-import java.time.LocalDate
 import java.util.Collections.emptyList
 import javax.inject.Inject
 import javax.ws.rs.ForbiddenException
@@ -27,7 +25,7 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
     private lateinit var aktorConsumer: AktorConsumer
 
     @MockBean
-    private lateinit var naermesteLederService: NaermesteLederService
+    private lateinit var naermesteLederConsumer: NaermesteLederConsumer
 
     @MockBean
     private lateinit var narmesteLederConsumer: NarmesteLederConsumer
@@ -51,8 +49,8 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
     fun getNarmesteledereHasAccess() {
         mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, OK)
 
-        `when`(naermesteLederService.hentNaermesteledere(ARBEIDSTAKER_FNR)).thenReturn(emptyList())
-        `when`(naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(anyListOf(NaermesteLeder::class.java), anyListOf(Sykmelding::class.java))).thenReturn(emptyList())
+        `when`(naermesteLederConsumer.hentNaermesteledere(ARBEIDSTAKER_FNR)).thenReturn(emptyList())
+        `when`(naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(anyListOf(NaermesteLeder::class.java), anyListOf(Sykmelding::class.java))).thenReturn(emptyList())
 
         narmestelederController.getNarmesteledere(ARBEIDSTAKER_FNR)
     }
@@ -77,7 +75,7 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
 
         val expectedNaermesteledere = listOf(NaermesteLeder().withAktoerId(LEDER_AKTORID))
 
-        `when`(naermesteLederService.finnNarmesteLedere(ARBEIDSTAKER_FNR)).thenReturn(expectedNaermesteledere)
+        `when`(naermesteLederConsumer.finnNarmesteLedere(ARBEIDSTAKER_FNR)).thenReturn(expectedNaermesteledere)
 
         val actualNaermesteLedere = narmestelederController.getAllNarmesteledere(ARBEIDSTAKER_FNR)
 

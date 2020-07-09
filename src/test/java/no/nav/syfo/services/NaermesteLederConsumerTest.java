@@ -1,6 +1,7 @@
 package no.nav.syfo.services;
 
 import no.nav.syfo.consumer.AktorConsumer;
+import no.nav.syfo.consumer.NaermesteLederConsumer;
 import no.nav.syfo.controller.domain.NaermesteLeder;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.ereg.EregConsumer;
@@ -28,7 +29,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class NaermesteLederServiceTest {
+public class NaermesteLederConsumerTest {
 
     @Mock
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
@@ -37,7 +38,7 @@ public class NaermesteLederServiceTest {
     @Mock
     private EregConsumer eregConsumer;
     @InjectMocks
-    private NaermesteLederService naermesteLederService;
+    private NaermesteLederConsumer naermesteLederConsumer;
 
     @Before
     public void setup() {
@@ -71,7 +72,7 @@ public class NaermesteLederServiceTest {
                         .withOrgnummer("123456782")
 
         )));
-        List<NaermesteLeder> naermesteledere = naermesteLederService.hentNaermesteledere("12345678901");
+        List<NaermesteLeder> naermesteledere = naermesteLederConsumer.hentNaermesteledere("12345678901");
         //Henter distincte innslag
         assertThat(naermesteledere.size()).isEqualTo(2);
         assertThat(naermesteledere.get(0).navn).isEqualTo("Navn");
@@ -81,7 +82,7 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void hentOrgSomIkkeHarsendtNaermesteLeder() {
-        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+        List<NaermesteLeder> naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("2")
                         .withStatus("SENDT")
@@ -91,7 +92,7 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void hvisOrgHarSendtBlirIkkeSykmeldingenMed() {
-        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(asList(
+        List<NaermesteLeder> naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(asList(
                 new NaermesteLeder().withOrgnummer("1")
         ), asList(
                 new Sykmelding()
@@ -103,7 +104,7 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void ikkeSendteBlirIkkeMed() {
-        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+        List<NaermesteLeder> naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
                         .withStatus("NY")
@@ -113,7 +114,7 @@ public class NaermesteLederServiceTest {
 
     @Test
     public void multipleSendteSykmeldingerTilSammeArbeidsgiverBlirBareEn() {
-        List<NaermesteLeder> naermesteledere = naermesteLederService.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
+        List<NaermesteLeder> naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(emptyList(), asList(
                 new Sykmelding()
                         .withOrgnummer("1")
                         .withStatus("SENDT"),

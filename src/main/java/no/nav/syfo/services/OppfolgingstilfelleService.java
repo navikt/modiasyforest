@@ -3,6 +3,7 @@ package no.nav.syfo.services;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.syfo.config.consumer.SykmeldingerConfig;
 import no.nav.syfo.consumer.AktorConsumer;
+import no.nav.syfo.consumer.NaermesteLederConsumer;
 import no.nav.syfo.controller.domain.*;
 import no.nav.syfo.controller.domain.sykmelding.Sykmelding;
 import no.nav.syfo.controller.domain.tidslinje.Hendelse;
@@ -53,7 +54,7 @@ public class OppfolgingstilfelleService {
     private OIDCRequestContextHolder contextHolder;
     private AktorConsumer aktorConsumer;
     private EregConsumer eregConsumer;
-    private NaermesteLederService naermesteLederService;
+    private NaermesteLederConsumer naermesteLederConsumer;
     private SykmeldingerConfig sykmeldingerConfig;
     private SykmeldingV1 sykmeldingV1;
     private SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1;
@@ -63,7 +64,7 @@ public class OppfolgingstilfelleService {
             OIDCRequestContextHolder contextHolder,
             AktorConsumer aktorConsumer,
             EregConsumer eregConsumer,
-            NaermesteLederService naermesteLederService,
+            NaermesteLederConsumer naermesteLederConsumer,
             SykmeldingerConfig sykmeldingerConfig,
             SykmeldingV1 sykmeldingV1,
             SykefravaersoppfoelgingV1 sykefravaersoppfoelgingV1
@@ -71,7 +72,7 @@ public class OppfolgingstilfelleService {
         this.contextHolder = contextHolder;
         this.aktorConsumer = aktorConsumer;
         this.eregConsumer = eregConsumer;
-        this.naermesteLederService = naermesteLederService;
+        this.naermesteLederConsumer = naermesteLederConsumer;
         this.sykmeldingerConfig = sykmeldingerConfig;
         this.sykmeldingV1 = sykmeldingV1;
         this.sykefravaersoppfoelgingV1 = sykefravaersoppfoelgingV1;
@@ -157,7 +158,7 @@ public class OppfolgingstilfelleService {
                     eregConsumer.virksomhetsnavn(new Virksomhetsnummer(nl.orgnummer))
             );
 
-            Map<Long, NaermesteLeder> naermesteLedere = naermesteLederService.finnNarmesteLedere(fnr)
+            Map<Long, NaermesteLeder> naermesteLedere = naermesteLederConsumer.finnNarmesteLedere(fnr)
                     .stream()
                     .map(berikMedOrgNavn)
                     .collect(toMap(NaermesteLeder::hentId, leder -> leder, (l1, l2) -> l2));

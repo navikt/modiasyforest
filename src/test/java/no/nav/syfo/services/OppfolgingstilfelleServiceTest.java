@@ -2,6 +2,7 @@ package no.nav.syfo.services;
 
 import no.nav.syfo.LocalApplication;
 import no.nav.syfo.consumer.AktorConsumer;
+import no.nav.syfo.consumer.NaermesteLederConsumer;
 import no.nav.syfo.controller.domain.Sykeforloep;
 import no.nav.syfo.oidc.OIDCIssuer;
 import no.nav.syfo.testutils.SykmeldingMocks;
@@ -40,7 +41,7 @@ public class OppfolgingstilfelleServiceTest {
     private SykmeldingV1 sykmeldingV1;
 
     @MockBean
-    private NaermesteLederService naermesteLederService;
+    private NaermesteLederConsumer naermesteLederConsumer;
 
     @Test
     public void hentSykeforloep() throws Exception {
