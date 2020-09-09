@@ -7,6 +7,7 @@ group = "no.nav.syfo"
 version = "1.0.0"
 
 val cxfVersion = "3.3.3"
+val nimbusSDKVersion = "7.0.3"
 val oidcSupportVersion = "0.2.18"
 val kotlinLibVersion = "1.3.70"
 val kotlinJacksonVersion = "2.9.8"
@@ -85,6 +86,7 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
+    implementation("com.nimbusds:oauth2-oidc-sdk:$nimbusSDKVersion")
     implementation("no.nav.security:oidc-spring-support:$oidcSupportVersion")
     testImplementation("no.nav.security:oidc-test-support:$oidcSupportVersion")
 
