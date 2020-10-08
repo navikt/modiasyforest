@@ -1,7 +1,5 @@
 package no.nav.syfo.consumer
 
-import no.nav.syfo.controller.domain.NaermesteLeder
-import no.nav.syfo.controller.domain.sykmelding.Sykmelding
 import no.nav.syfo.ereg.EregConsumer
 import no.nav.syfo.ereg.Virksomhetsnummer
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning
@@ -68,50 +66,5 @@ class NaermesteLederConsumerTest {
         Assertions.assertThat(naermesteledere.size).isEqualTo(2)
         Assertions.assertThat(naermesteledere[0].navn).isEqualTo("Navn")
         Assertions.assertThat(naermesteledere[0].organisasjonsnavn).isEqualTo("Testbedriften")
-    }
-
-    @Test
-    fun hentOrgSomIkkeHarsendtNaermesteLeder() {
-        val naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(emptyList(), listOf(
-            Sykmelding()
-                .withOrgnummer("2")
-                .withStatus("SENDT")
-        ))
-        Assertions.assertThat(naermesteledere.size).isEqualTo(1)
-    }
-
-    @Test
-    fun hvisOrgHarSendtBlirIkkeSykmeldingenMed() {
-        val naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(listOf(
-            NaermesteLeder().withOrgnummer("1")
-        ), listOf(
-            Sykmelding()
-                .withOrgnummer("1")
-                .withStatus("SENDT")
-        ))
-        Assertions.assertThat(naermesteledere.size).isEqualTo(0)
-    }
-
-    @Test
-    fun ikkeSendteBlirIkkeMed() {
-        val naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(emptyList(), listOf(
-            Sykmelding()
-                .withOrgnummer("1")
-                .withStatus("NY")
-        ))
-        Assertions.assertThat(naermesteledere.size).isEqualTo(0)
-    }
-
-    @Test
-    fun multipleSendteSykmeldingerTilSammeArbeidsgiverBlirBareEn() {
-        val naermesteledere = naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(emptyList(), listOf(
-            Sykmelding()
-                .withOrgnummer("1")
-                .withStatus("SENDT"),
-            Sykmelding()
-                .withOrgnummer("1")
-                .withStatus("SENDT")
-        ))
-        Assertions.assertThat(naermesteledere.size).isEqualTo(1)
     }
 }
