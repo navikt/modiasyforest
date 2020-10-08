@@ -33,14 +33,6 @@ class Metrikk @Inject constructor(
         ).increment()
     }
 
-    fun tellHentSykepengesoknader403() {
-        val navn = "hentSykepengesoknader.403"
-        registry.counter(
-            navn,
-            Tags.of("type", "info")
-        ).increment()
-    }
-
     fun tellHttpKall(kode: Int) {
         registry.counter(
             addPrefix("httpstatus"),
