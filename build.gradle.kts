@@ -73,9 +73,7 @@ dependencies {
     implementation("no.nav.tjenestespesifikasjoner:brukerprofil-v3-tjenestespesifikasjon:$tjenesteSpesifikasjonerVersion")
 
     implementation("no.nav.syfotjenester:aktorid-v2:$syfotjenesterVersion")
-    implementation("no.nav.syfotjenester:digisyfo-sykepengesoeknadoppsummering:$syfotjenesterVersion")
     implementation("no.nav.syfotjenester:sykefravaersoppfoelgingv1-tjenestespesifikasjon:$syfotjenesterVersion")
-    implementation("no.nav.syfotjenester:sykepengesoeknadv1-tjenestespesifikasjon:$syfotjenesterVersion")
     implementation("no.nav.syfotjenester:sykmeldingv1-tjenestespesifikasjon:$syfotjenesterVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-web")

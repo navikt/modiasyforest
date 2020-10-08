@@ -1,7 +1,5 @@
 package no.nav.syfo.controller.domain.sykmelding;
 
-import no.nav.syfo.controller.domain.sykepengesoknad.Datospenn;
-
 import java.util.List;
 
 public class Skjemasporsmal {

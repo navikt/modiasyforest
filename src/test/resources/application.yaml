@@ -30,7 +30,6 @@ fasit.environment.name: 'local'
 aktoer.withmock: true
 brukerprofilv3.withmock: true
 oppfoelging.syfoservice.withmock: true
-sykepengesoknad.syfoservice.withmock: true
 sykmelding.syfoservice.withmock: true
 sykefravaersoppfoelging.syfoservice.withmock: false
 

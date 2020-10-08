@@ -1,6 +1,6 @@
 package no.nav.syfo.mappers;
 
-import no.nav.syfo.controller.domain.sykepengesoknad.Datospenn;
+import no.nav.syfo.controller.domain.sykmelding.Datospenn;
 import no.nav.syfo.controller.domain.sykmelding.*;
 import no.nav.tjeneste.virksomhet.sykmelding.v1.informasjon.*;
 

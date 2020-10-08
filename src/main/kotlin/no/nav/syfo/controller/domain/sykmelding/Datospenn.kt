@@ -1,4 +1,4 @@
-package no.nav.syfo.controller.domain.sykepengesoknad
+package no.nav.syfo.controller.domain.sykmelding
 
 import java.io.Serializable
 import java.time.LocalDate
