@@ -2,7 +2,6 @@ package no.nav.syfo.controller
 
 import no.nav.syfo.consumer.AktorConsumer
 import no.nav.syfo.controller.domain.NaermesteLeder
-import no.nav.syfo.controller.domain.sykmelding.Sykmelding
 import no.nav.syfo.narmesteleder.NarmesteLederConsumer
 import no.nav.syfo.consumer.NaermesteLederConsumer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
@@ -13,7 +12,6 @@ import no.nav.syfo.testhelper.UserConstants.LEDER_AKTORID
 import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.*
-import org.mockito.ArgumentMatchers.anyListOf
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus.*
@@ -53,7 +51,6 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
         mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, OK)
 
         `when`(naermesteLederConsumer.hentNaermesteledere(ARBEIDSTAKER_FNR)).thenReturn(emptyList())
-        `when`(naermesteLederConsumer.hentOrganisasjonerSomIkkeHarSvart(anyListOf(NaermesteLeder::class.java), anyListOf(Sykmelding::class.java))).thenReturn(emptyList())
 
         narmestelederController.getNarmesteledere(ARBEIDSTAKER_FNR)
     }

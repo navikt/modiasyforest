@@ -1,11 +1,9 @@
 package no.nav.syfo.consumer
 
 import no.nav.syfo.controller.domain.NaermesteLeder
-import no.nav.syfo.controller.domain.sykmelding.Sykmelding
 import no.nav.syfo.ereg.EregConsumer
 import no.nav.syfo.ereg.Virksomhetsnummer
 import no.nav.syfo.mappers.tilNaermesteLeder
-import no.nav.syfo.util.DistinctFilter
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder
@@ -14,7 +12,6 @@ import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
-import java.util.function.Function
 import java.util.stream.Collectors
 import javax.inject.Inject
 import javax.ws.rs.ForbiddenException
@@ -45,24 +42,6 @@ class NaermesteLederConsumer @Inject constructor(
             log.error("Fikk Runtimefeil ved henting av naermeste ledere for person", e)
             throw e
         }
-    }
-
-    fun hentOrganisasjonerSomIkkeHarSvart(naermesteledere: List<NaermesteLeder>, sykmeldinger: List<Sykmelding>): List<NaermesteLeder> {
-        val distinctFilter = DistinctFilter<Sykmelding, String>()
-        return sykmeldinger.stream()
-            .filter { sykmelding: Sykmelding -> "SENDT" == sykmelding.status }
-            .filter(distinctFilter.on(Function { naermesteleder: Sykmelding -> naermesteleder.orgnummer }))
-            .filter { sykmelding: Sykmelding ->
-                naermesteledere.stream()
-                    .noneMatch { naermesteleder: NaermesteLeder -> sykmelding.orgnummer == naermesteleder.orgnummer }
-            }
-            .map { sykmelding: Sykmelding ->
-                NaermesteLeder()
-                    .withOrganisasjonsnavn(sykmelding.innsendtArbeidsgivernavn)
-                    .withOrgnummer(sykmelding.orgnummer)
-                    .withErOppgitt(false)
-            }
-            .collect(Collectors.toList())
     }
 
     @Cacheable(cacheNames = ["syfofinnledere"], key = "#fnr", condition = "#fnr != null")
