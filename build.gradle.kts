@@ -100,9 +100,6 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.5")
     implementation("net.logstash.logback:logstash-logback-encoder:4.10")
     implementation("org.slf4j:slf4j-api:1.7.25")
-
-    implementation("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
 }
 
 tasks {
