@@ -11,7 +11,6 @@ val javaxActivationVersion = "1.2.0"
 val jaxRiVersion = "2.3.2"
 val nimbusSDKVersion = "7.0.3"
 val oidcSupportVersion = "0.2.18"
-val kotlinLibVersion = "1.3.70"
 val kotlinJacksonVersion = "2.9.8"
 val tjenesteSpesifikasjonerVersion = "1.2020.06.23-15.31-57b909d0a05c"
 val syfotjenesterVersion = "1.2020.06.26-13.27-bec776183ad5"
@@ -63,8 +62,9 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinLibVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinLibVersion")
+    implementation(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$kotlinJacksonVersion")
 
     implementation("org.apache.httpcomponents:httpclient:4.5.6")
