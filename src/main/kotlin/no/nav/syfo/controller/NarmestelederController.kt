@@ -2,7 +2,7 @@ package no.nav.syfo.controller
 
 import no.nav.security.oidc.api.ProtectedWithClaims
 import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
-import no.nav.syfo.oidc.OIDCIssuer.AZURE
+import no.nav.syfo.api.auth.OIDCIssuer.AZURE
 import no.nav.syfo.consumer.narmesteleder.NaermesteLederConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.metric.Metrikk

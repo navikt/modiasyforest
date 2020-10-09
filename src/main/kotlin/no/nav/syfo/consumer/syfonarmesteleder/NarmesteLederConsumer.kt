@@ -1,6 +1,6 @@
-package no.nav.syfo.narmesteleder
+package no.nav.syfo.consumer.syfonarmesteleder
 
-import no.nav.syfo.azuread.AzureAdTokenConsumer
+import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
 import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_NARMESTELEDER_LEDERE
 import no.nav.syfo.util.*
 import no.nav.syfo.metric.Metrikk

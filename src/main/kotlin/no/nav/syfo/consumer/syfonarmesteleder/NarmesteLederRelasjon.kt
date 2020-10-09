@@ -1,4 +1,4 @@
-package no.nav.syfo.narmesteleder
+package no.nav.syfo.consumer.syfonarmesteleder
 
 import java.io.Serializable
 import java.time.LocalDate

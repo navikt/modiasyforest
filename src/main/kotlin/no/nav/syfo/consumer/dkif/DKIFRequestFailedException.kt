@@ -1,4 +1,4 @@
-package no.nav.syfo.dkif
+package no.nav.syfo.consumer.dkif
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus

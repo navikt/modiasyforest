@@ -1,7 +1,7 @@
-package no.nav.syfo.dkif
+package no.nav.syfo.consumer.dkif
 
 import no.nav.syfo.config.CacheConfig
-import no.nav.syfo.sts.StsConsumer
+import no.nav.syfo.consumer.sts.StsConsumer
 import no.nav.syfo.util.*
 import no.nav.syfo.metric.Metrikk
 import org.slf4j.LoggerFactory

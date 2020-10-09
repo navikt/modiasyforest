@@ -1,8 +1,8 @@
 package no.nav.syfo.consumer
 
 import no.nav.syfo.consumer.narmesteleder.NaermesteLederConsumer
-import no.nav.syfo.ereg.EregConsumer
-import no.nav.syfo.ereg.Virksomhetsnummer
+import no.nav.syfo.consumer.ereg.EregConsumer
+import no.nav.syfo.consumer.ereg.Virksomhetsnummer
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder

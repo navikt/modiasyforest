@@ -1,4 +1,4 @@
-package no.nav.syfo.ereg
+package no.nav.syfo.consumer.ereg
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 

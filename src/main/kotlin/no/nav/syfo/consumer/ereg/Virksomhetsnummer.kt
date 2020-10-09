@@ -1,4 +1,4 @@
-package no.nav.syfo.ereg
+package no.nav.syfo.consumer.ereg
 
 data class Virksomhetsnummer(val value: String) {
     private val nineDigits = Regex("\\d{9}")

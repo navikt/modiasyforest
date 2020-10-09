@@ -1,8 +1,8 @@
 package no.nav.syfo.consumer
 
 import no.nav.security.oidc.context.OIDCRequestContextHolder
-import no.nav.syfo.oidc.OIDCIssuer
-import no.nav.syfo.oidc.OIDCUtil.tokenFraOIDC
+import no.nav.syfo.api.auth.OIDCIssuer
+import no.nav.syfo.api.auth.OIDCUtil.tokenFraOIDC
 import no.nav.syfo.util.bearerCredentials
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.*

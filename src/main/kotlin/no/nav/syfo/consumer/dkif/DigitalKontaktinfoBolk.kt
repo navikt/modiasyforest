@@ -1,4 +1,4 @@
-package no.nav.syfo.dkif
+package no.nav.syfo.consumer.dkif
 
 import java.io.Serializable
 

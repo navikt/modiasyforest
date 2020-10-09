@@ -1,7 +1,7 @@
 package no.nav.syfo.controller
 
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.dkif.DkifConsumer
+import no.nav.syfo.consumer.dkif.DkifConsumer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR

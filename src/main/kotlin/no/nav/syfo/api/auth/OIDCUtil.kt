@@ -1,4 +1,4 @@
-package no.nav.syfo.oidc
+package no.nav.syfo.api.auth
 
 import no.nav.security.oidc.OIDCConstants
 import no.nav.security.oidc.context.OIDCRequestContextHolder

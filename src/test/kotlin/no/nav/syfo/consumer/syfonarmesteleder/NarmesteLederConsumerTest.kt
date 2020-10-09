@@ -1,10 +1,10 @@
-package no.nav.syfo.narmesteleder
+package no.nav.syfo.consumer.syfonarmesteleder
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.azuread.AzureAdTokenConsumer
+import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
 import no.nav.syfo.metric.Metrikk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.*

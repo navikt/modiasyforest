@@ -3,7 +3,7 @@ package no.nav.syfo.controller
 import no.nav.security.oidc.context.OIDCRequestContextHolder
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.consumer.TilgangConsumer
-import no.nav.syfo.oidc.OIDCIssuer
+import no.nav.syfo.api.auth.OIDCIssuer
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import org.junit.After
 import org.junit.Before

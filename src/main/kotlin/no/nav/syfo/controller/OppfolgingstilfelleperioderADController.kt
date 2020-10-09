@@ -4,7 +4,7 @@ import no.nav.security.oidc.api.ProtectedWithClaims
 import no.nav.syfo.consumer.OppfolgingstilfelleConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.controller.domain.Oppfolgingstilfelle
-import no.nav.syfo.oidc.OIDCIssuer.AZURE
+import no.nav.syfo.api.auth.OIDCIssuer.AZURE
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
