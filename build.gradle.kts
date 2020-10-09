@@ -7,6 +7,8 @@ group = "no.nav.syfo"
 version = "1.0.0"
 
 val cxfVersion = "3.3.3"
+val javaxActivationVersion = "1.2.0"
+val jaxRiVersion = "2.3.2"
 val nimbusSDKVersion = "7.0.3"
 val oidcSupportVersion = "0.2.18"
 val kotlinLibVersion = "1.3.70"
@@ -28,7 +30,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31")
         classpath("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
         classpath("org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438")
-        classpath("com.sun.activation:javax.activation:1.2.0")
         classpath("com.sun.xml.ws:jaxws-tools:2.3.1") {
             exclude(group = "com.sun.xml.ws", module = "policy")
         }
@@ -92,6 +93,9 @@ dependencies {
     implementation("org.apache.cxf:cxf-rt-transports-http:$cxfVersion")
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion")
 
+    implementation("com.sun.xml.ws:jaxws-ri:$jaxRiVersion")
+    implementation("com.sun.activation:javax.activation:$javaxActivationVersion")
+
     implementation("io.micrometer:micrometer-registry-prometheus:1.0.6")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("javax.ws.rs:javax.ws.rs-api:2.0.1")
@@ -102,6 +106,11 @@ dependencies {
 
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks {
@@ -127,11 +136,7 @@ tasks {
         mergeServiceFiles()
     }
 
-    named<KotlinCompile>("compileKotlin") {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-
-    named<KotlinCompile>("compileTestKotlin") {
-        kotlinOptions.jvmTarget = "1.8"
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "11"
     }
 }
