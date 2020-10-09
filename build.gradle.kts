@@ -15,9 +15,9 @@ val tjenesteSpesifikasjonerVersion = "1.2020.06.23-15.31-57b909d0a05c"
 val syfotjenesterVersion = "1.2020.06.26-13.27-bec776183ad5"
 
 plugins {
-    kotlin("jvm") version "1.3.70"
+    kotlin("jvm") version "1.4.10"
     id("com.github.johnrengelman.shadow") version "4.0.3"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.70"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.10"
     id("java")
     id("org.springframework.boot") version "2.2.6.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
