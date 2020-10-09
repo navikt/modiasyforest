@@ -62,8 +62,6 @@ spec:
       value: https://wasapp.adeo.no/tpsws/Brukerprofil_v3
     - name: DIGITALKONTAKINFORMASJON_V1_URL
       value: https://dkif.nais.adeo.no/ws/DigitalKontaktinformasjon/v1
-    - name: SYKMELDING_V1_URL
-      value: https://modapp.adeo.no/syfo/services/Sykmelding_v1
     - name: SYKEFRAVAERSOPPFOELGING_V1_URL
       value: https://modapp.adeo.no/syfo/services/Sykefravaersoppfoelging_v1
     - name: EREG_BASEURL
