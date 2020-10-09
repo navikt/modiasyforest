@@ -16,7 +16,7 @@ val syfotjenesterVersion = "1.2020.06.26-13.27-bec776183ad5"
 
 plugins {
     kotlin("jvm") version "1.4.10"
-    id("com.github.johnrengelman.shadow") version "4.0.3"
+    id("com.github.johnrengelman.shadow") version "6.0.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.10"
     id("java")
     id("org.springframework.boot") version "2.2.6.RELEASE"
