@@ -19,22 +19,6 @@ constructor(
     private val naermesteLederConsumer: NaermesteLederConsumer,
     private val tilgangConsumer: TilgangConsumer
 ) {
-
-    @GetMapping(value = ["/naermesteleder"], produces = [APPLICATION_JSON])
-    fun getNarmesteledere(@RequestParam(value = "fnr") fnr: String): List<NaermesteLeder> {
-        metrikk.tellEndepunktKall("hent_naermesteledere")
-
-        tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
-
-
-        val naermesteledere = naermesteLederConsumer.hentNaermesteledere(fnr)
-        var idcounter: Long = 0
-        for (naermesteleder in naermesteledere) {
-            naermesteleder.id = idcounter++
-        }
-        return naermesteledere
-    }
-
     @GetMapping(value = ["/allnaermesteledere"], produces = [APPLICATION_JSON])
     fun getAllNarmesteledere(@RequestParam(value = "fnr") fnr: String): List<NaermesteLeder> {
         metrikk.tellEndepunktKall("hent_narmesteleder_all")

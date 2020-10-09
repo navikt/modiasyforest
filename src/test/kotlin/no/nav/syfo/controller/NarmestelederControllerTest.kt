@@ -16,7 +16,6 @@ import org.mockito.Mockito.`when`
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus.*
 import java.text.ParseException
-import java.util.Collections.emptyList
 import javax.inject.Inject
 import javax.ws.rs.ForbiddenException
 
@@ -44,29 +43,6 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
     @After
     override fun tearDown() {
         loggUtAlle(oidcRequestContextHolder)
-    }
-
-    @Test
-    fun getNarmesteledereHasAccess() {
-        mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, OK)
-
-        `when`(naermesteLederConsumer.hentNaermesteledere(ARBEIDSTAKER_FNR)).thenReturn(emptyList())
-
-        narmestelederController.getNarmesteledere(ARBEIDSTAKER_FNR)
-    }
-
-    @Test(expected = ForbiddenException::class)
-    fun getNarmesteledereNoAccess() {
-        mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, FORBIDDEN)
-
-        narmestelederController.getNarmesteledere(ARBEIDSTAKER_FNR)
-    }
-
-    @Test(expected = RuntimeException::class)
-    fun getNarmesteledereAccessServerError() {
-        mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, INTERNAL_SERVER_ERROR)
-
-        narmestelederController.getNarmesteledere(ARBEIDSTAKER_FNR)
     }
 
     @Test

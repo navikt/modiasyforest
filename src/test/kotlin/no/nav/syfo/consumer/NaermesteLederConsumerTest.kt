@@ -56,15 +56,15 @@ class NaermesteLederConsumerTest {
                 .withOrgnummer("123456789"),
             WSNaermesteLeder()
                 .withNaermesteLederStatus(WSNaermesteLederStatus()
-                    .withErAktiv(true))
+                    .withErAktiv(false))
                 .withMobil("321")
                 .withNavn("Navn2")
                 .withEpost("test2@nav.no")
                 .withOrgnummer("123456782")
         )))
-        val naermesteledere = naermesteLederConsumer.hentNaermesteledere("12345678901")
+        val naermesteledere = naermesteLederConsumer.finnNarmesteLedere("12345678901")
         //Henter distincte innslag
-        Assertions.assertThat(naermesteledere.size).isEqualTo(2)
+        Assertions.assertThat(naermesteledere.size).isEqualTo(3)
         Assertions.assertThat(naermesteledere[0].navn).isEqualTo("Navn")
         Assertions.assertThat(naermesteledere[0].organisasjonsnavn).isEqualTo("Testbedriften")
     }

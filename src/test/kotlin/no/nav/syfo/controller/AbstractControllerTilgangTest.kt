@@ -49,7 +49,7 @@ abstract class AbstractControllerTilgangTest {
         loggUtAlle(oidcRequestContextHolder)
     }
 
-    fun mockSvarFraTilgangTilBrukerViaAzure(fnr: String, status: HttpStatus?) {
+    fun mockSvarFraTilgangTilBrukerViaAzure(fnr: String, status: HttpStatus) {
         val uriString = UriComponentsBuilder.fromHttpUrl(tilgangskontrollUrl)
             .path(TilgangConsumer.TILGANG_TIL_BRUKER_VIA_AZURE_PATH)
             .queryParam(TilgangConsumer.FNR, fnr)
