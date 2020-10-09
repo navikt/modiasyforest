@@ -1,13 +1,11 @@
 package no.nav.syfo.controller
 
 import no.nav.security.oidc.api.ProtectedWithClaims
-import no.nav.syfo.consumer.AktorConsumer
-import no.nav.syfo.controller.domain.NaermesteLeder
-import no.nav.syfo.narmesteleder.NarmesteLederConsumer
-import no.nav.syfo.oidc.OIDCIssuer.AZURE
 import no.nav.syfo.consumer.NaermesteLederConsumer
 import no.nav.syfo.consumer.TilgangConsumer
+import no.nav.syfo.controller.domain.NaermesteLeder
 import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.oidc.OIDCIssuer.AZURE
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
 import javax.ws.rs.core.MediaType.APPLICATION_JSON
@@ -17,10 +15,8 @@ import javax.ws.rs.core.MediaType.APPLICATION_JSON
 @RequestMapping(value = ["/api/internad"])
 class NarmestelederController @Inject
 constructor(
-    private val aktorConsumer: AktorConsumer,
     private val metrikk: Metrikk,
     private val naermesteLederConsumer: NaermesteLederConsumer,
-    private val narmesteLederConsumer: NarmesteLederConsumer,
     private val tilgangConsumer: TilgangConsumer
 ) {
 
