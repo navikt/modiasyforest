@@ -46,7 +46,7 @@ class NaermesteLederConsumer @Inject constructor(
 
     @Cacheable(cacheNames = ["syfofinnledere"], key = "#fnr", condition = "#fnr != null")
     fun finnNarmesteLedere(fnr: String): List<NaermesteLeder> {
-        val aktoerId = aktorConsumer.hentAktoerIdForFnr(fnr!!)
+        val aktoerId = aktorConsumer.hentAktoerIdForFnr(fnr)
         return try {
             sykefravaersoppfoelgingV1.hentNaermesteLederListe(WSHentNaermesteLederListeRequest()
                 .withAktoerId(aktoerId)
