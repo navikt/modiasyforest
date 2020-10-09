@@ -1,8 +1,8 @@
 package no.nav.syfo.consumer
 
+import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_BRUKER
 import no.nav.syfo.controller.domain.Bruker
-import no.nav.syfo.mappers.BrukerMapper
-import no.nav.syfo.utils.MapUtil
+import no.nav.syfo.controller.domain.mapper.BrukerMapper.toBruker
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.*
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent
@@ -20,7 +20,7 @@ class BrukerprofilConsumer @Inject constructor(
     private val brukerprofilV3: BrukerprofilV3
 ) {
     @Retryable(value = [SOAPFaultException::class], backoff = Backoff(delay = 200, maxDelay = 1000))
-    @Cacheable(cacheNames = ["tpsbruker"], key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = [CACHENAME_BRUKER], key = "#fnr", condition = "#fnr != null")
     fun hentBruker(fnr: String): Bruker {
         if (!fnr.matches(Regex("\\d{11}$"))) {
             log.error("Prøvde å hente navn med fnr")
@@ -30,7 +30,7 @@ class BrukerprofilConsumer @Inject constructor(
             val wsBruker = brukerprofilV3.hentKontaktinformasjonOgPreferanser(WSHentKontaktinformasjonOgPreferanserRequest()
                 .withIdent(WSNorskIdent()
                     .withIdent(fnr))).bruker as WSBruker
-            MapUtil.map(wsBruker, BrukerMapper.ws2bruker)
+            wsBruker.toBruker()
         } catch (e: HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt) {
             log.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt med FNR", e)
             throw RuntimeException()

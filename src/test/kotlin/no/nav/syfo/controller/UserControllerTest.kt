@@ -1,7 +1,6 @@
 package no.nav.syfo.controller
 
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.controller.internad.UserController
 import no.nav.syfo.dkif.DkifConsumer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle

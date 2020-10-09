@@ -28,7 +28,7 @@ class CacheConfig {
         cacheConfigurations[CACHENAME_VEILEDER_ENHETER] = defaultConfig
         cacheConfigurations[CACHENAME_VEILEDER_LDAP] = defaultConfig
         cacheConfigurations[CACHENAME_PERSON_INFO] = defaultConfig
-        cacheConfigurations[CACHENAME_TPSBRUKER] = defaultConfig
+        cacheConfigurations[CACHENAME_BRUKER] = defaultConfig
         cacheConfigurations[CACHENAME_NARMESTELEDER_LEDERE] = defaultConfig
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
@@ -45,7 +45,7 @@ class CacheConfig {
         const val CACHENAME_VEILEDER_ENHETER = "organisasjonnavn"
         const val CACHENAME_VEILEDER_LDAP = "syfofinnledere"
         const val CACHENAME_PERSON_INFO = "syfoledere"
-        const val CACHENAME_TPSBRUKER = "tpsbruker"
+        const val CACHENAME_BRUKER = "bruker"
         const val CACHENAME_NARMESTELEDER_LEDERE = "ledere"
     }
 }
