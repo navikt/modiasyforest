@@ -17,23 +17,23 @@ import javax.ws.rs.NotFoundException
 class AktorConsumerTest {
 
     @Mock
-    internal var aktoerV2: AktoerV2? = null
+    internal lateinit var aktoerV2: AktoerV2
 
     @InjectMocks
-    private val aktorConsumer: AktorConsumer? = null
+    private lateinit var aktorConsumer: AktorConsumer
 
     @Test(expected = IllegalArgumentException::class)
     fun exceptionVedTomtFNr() {
-        aktorConsumer!!.hentAktoerIdForFnr("")
+        aktorConsumer.hentAktoerIdForFnr("")
     }
 
     @Test
     @Throws(HentAktoerIdForIdentPersonIkkeFunnet::class)
     fun hentAktoerId() {
         val request = WSHentAktoerIdForIdentRequest().withIdent("12345678901")
-        `when`(aktoerV2!!.hentAktoerIdForIdent(request)).thenReturn(WSHentAktoerIdForIdentResponse().withAktoerId("1234567890112312"))
+        `when`(aktoerV2.hentAktoerIdForIdent(request)).thenReturn(WSHentAktoerIdForIdentResponse().withAktoerId("1234567890112312"))
 
-        val aktoerId = aktorConsumer!!.hentAktoerIdForFnr("12345678901")
+        val aktoerId = aktorConsumer.hentAktoerIdForFnr("12345678901")
         assertThat(aktoerId).isEqualTo("1234567890112312")
     }
 
@@ -41,8 +41,8 @@ class AktorConsumerTest {
     @Throws(HentAktoerIdForIdentPersonIkkeFunnet::class)
     fun exceptionVedIkkeFunnet() {
         val request = WSHentAktoerIdForIdentRequest().withIdent("12345678901")
-        `when`(aktoerV2!!.hentAktoerIdForIdent(request)).thenThrow(HentAktoerIdForIdentPersonIkkeFunnet())
+        `when`(aktoerV2.hentAktoerIdForIdent(request)).thenThrow(HentAktoerIdForIdentPersonIkkeFunnet())
 
-        aktorConsumer!!.hentAktoerIdForFnr("12345678901")
+        aktorConsumer.hentAktoerIdForFnr("12345678901")
     }
 }
