@@ -19,7 +19,6 @@ plugins {
     kotlin("jvm") version "1.4.10"
     id("com.github.johnrengelman.shadow") version "6.0.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.10"
-    id("java")
     id("org.springframework.boot") version "2.2.6.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
 }
@@ -104,11 +103,6 @@ dependencies {
 
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks {

@@ -1,6 +1,5 @@
-package no.nav.syfo.mappers
+package no.nav.syfo.consumer.narmesteleder
 
-import no.nav.syfo.controller.domain.NaermesteLeder
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder
 import org.apache.commons.lang3.text.WordUtils
 

@@ -1,9 +1,9 @@
-package no.nav.syfo.consumer
+package no.nav.syfo.consumer.narmesteleder
 
-import no.nav.syfo.controller.domain.NaermesteLeder
+import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_SYFOSERVICE_LEDERE
+import no.nav.syfo.consumer.AktorConsumer
 import no.nav.syfo.ereg.EregConsumer
 import no.nav.syfo.ereg.Virksomhetsnummer
-import no.nav.syfo.mappers.tilNaermesteLeder
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentNaermesteLederListeSikkerhetsbegrensning
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSNaermesteLeder
@@ -22,7 +22,7 @@ class NaermesteLederConsumer @Inject constructor(
     private val eregConsumer: EregConsumer,
     private val sykefravaersoppfoelgingV1: SykefravaersoppfoelgingV1
 ) {
-    @Cacheable(cacheNames = ["syfoledere"], key = "#fnr", condition = "#fnr != null")
+    @Cacheable(cacheNames = [CACHENAME_SYFOSERVICE_LEDERE], key = "#fnr", condition = "#fnr != null")
     fun hentNaermesteledere(fnr: String): List<NaermesteLeder> {
         if (StringUtils.isBlank(fnr) || !fnr.matches(Regex("\\d{11}$"))) {
             log.error("Prøvde å hente naermesteledere med fnr")

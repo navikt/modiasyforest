@@ -1,9 +1,9 @@
 package no.nav.syfo.controller
 
 import no.nav.syfo.consumer.AktorConsumer
-import no.nav.syfo.controller.domain.NaermesteLeder
+import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
 import no.nav.syfo.narmesteleder.NarmesteLederConsumer
-import no.nav.syfo.consumer.NaermesteLederConsumer
+import no.nav.syfo.consumer.narmesteleder.NaermesteLederConsumer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_AKTORID

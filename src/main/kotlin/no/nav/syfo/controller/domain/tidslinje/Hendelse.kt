@@ -1,6 +1,6 @@
 package no.nav.syfo.controller.domain.tidslinje
 
-import no.nav.syfo.controller.domain.NaermesteLeder
+import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
 import java.time.LocalDate
 import java.util.*
 

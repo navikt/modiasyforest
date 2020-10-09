@@ -1,11 +1,11 @@
 package no.nav.syfo.controller
 
 import no.nav.security.oidc.api.ProtectedWithClaims
-import no.nav.syfo.consumer.NaermesteLederConsumer
-import no.nav.syfo.consumer.TilgangConsumer
-import no.nav.syfo.controller.domain.NaermesteLeder
-import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
 import no.nav.syfo.oidc.OIDCIssuer.AZURE
+import no.nav.syfo.consumer.narmesteleder.NaermesteLederConsumer
+import no.nav.syfo.consumer.TilgangConsumer
+import no.nav.syfo.metric.Metrikk
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
 import javax.ws.rs.core.MediaType.APPLICATION_JSON
