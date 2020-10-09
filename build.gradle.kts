@@ -100,7 +100,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("javax.ws.rs:javax.ws.rs-api:2.0.1")
     implementation("org.apache.commons:commons-lang3:3.5")
-    implementation("javax.inject:javax.inject:1")
     implementation("net.logstash.logback:logstash-logback-encoder:4.10")
     implementation("org.slf4j:slf4j-api:1.7.25")
 
