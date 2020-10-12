@@ -22,6 +22,7 @@ class CacheConfig {
                 .entryTtl(Duration.ofHours(2L))
         cacheConfigurations[TILGANGTILBRUKER] = defaultConfig
         cacheConfigurations[TILGANGTILENHET] = defaultConfig
+        cacheConfigurations[CACHENAME_AKTORFNR] = defaultConfig
         cacheConfigurations[CACHENAME_DKIF_IDENT] = defaultConfig
         cacheConfigurations[CACHENAME_EREG_VIRKSOMHETSNAVN] = defaultConfig
         cacheConfigurations[CACHENAME_VEILEDER_ENHETER] = defaultConfig
@@ -37,6 +38,7 @@ class CacheConfig {
     companion object {
         const val TILGANGTILBRUKER = "aktoerid"
         const val TILGANGTILENHET = "arbeidsforhold"
+        const val CACHENAME_AKTORFNR = "aktorfnr"
         const val CACHENAME_DKIF_IDENT = "dkifident"
         const val CACHENAME_EREG_VIRKSOMHETSNAVN = "virksomhetsnavn"
         const val CACHENAME_VEILEDER_ENHETER = "organisasjonnavn"
