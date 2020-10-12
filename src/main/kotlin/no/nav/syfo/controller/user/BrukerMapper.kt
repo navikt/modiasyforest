@@ -1,7 +1,7 @@
-package no.nav.syfo.controller.domain.mapper
+package no.nav.syfo.controller.user
 
-import no.nav.syfo.controller.domain.Bruker
-import no.nav.syfo.controller.domain.adresse.*
+import no.nav.syfo.controller.user.domain.Bruker
+import no.nav.syfo.controller.user.domain.adresse.*
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*
 import org.apache.commons.lang3.text.WordUtils
 import java.util.*

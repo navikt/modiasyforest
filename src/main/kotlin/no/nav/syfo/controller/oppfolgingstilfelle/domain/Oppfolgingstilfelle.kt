@@ -1,4 +1,4 @@
-package no.nav.syfo.controller.domain
+package no.nav.syfo.controller.oppfolgingstilfelle.domain
 
 import java.time.LocalDate
 

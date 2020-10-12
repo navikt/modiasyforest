@@ -1,7 +1,7 @@
-package no.nav.syfo.controller
+package no.nav.syfo.controller.narmesteleder
 
-import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
 import no.nav.syfo.consumer.narmesteleder.NarmesteLederService
+import no.nav.syfo.controller.AbstractControllerTilgangTest
 import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle

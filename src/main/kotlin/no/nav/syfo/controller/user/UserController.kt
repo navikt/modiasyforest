@@ -1,13 +1,13 @@
-package no.nav.syfo.controller
+package no.nav.syfo.controller.user
 
 import no.nav.security.oidc.api.ProtectedWithClaims
 import no.nav.syfo.consumer.BrukerprofilConsumer
 import no.nav.syfo.consumer.TilgangConsumer
-import no.nav.syfo.controller.domain.Bruker
-import no.nav.syfo.controller.domain.Kontaktinfo
 import no.nav.syfo.consumer.dkif.DigitalKontaktinfo
 import no.nav.syfo.consumer.dkif.DkifConsumer
 import no.nav.syfo.api.auth.OIDCIssuer.AZURE
+import no.nav.syfo.controller.user.domain.Bruker
+import no.nav.syfo.controller.user.domain.Kontaktinfo
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject

@@ -1,5 +1,6 @@
 package no.nav.syfo.consumer.narmesteleder
 
+import no.nav.syfo.controller.narmesteleder.NaermesteLeder
 import java.io.Serializable
 import java.time.LocalDate
 

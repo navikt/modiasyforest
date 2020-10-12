@@ -1,7 +1,7 @@
 package no.nav.syfo.consumer
 
 import no.nav.syfo.consumer.aktorregister.AktorregisterConsumer
-import no.nav.syfo.controller.domain.*
+import no.nav.syfo.controller.oppfolgingstilfelle.domain.*
 import no.nav.syfo.domain.Fodselsnummer
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentSykeforlopperiodeSikkerhetsbegrensning
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1

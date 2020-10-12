@@ -1,4 +1,4 @@
-package no.nav.syfo.controller.domain
+package no.nav.syfo.controller.user.domain
 
 import java.io.Serializable
 

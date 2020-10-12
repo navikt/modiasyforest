@@ -5,6 +5,7 @@ import no.nav.syfo.consumer.ereg.EregConsumer
 import no.nav.syfo.consumer.ereg.Virksomhetsnummer
 import no.nav.syfo.consumer.pdl.PdlConsumer
 import no.nav.syfo.consumer.pdl.fullName
+import no.nav.syfo.controller.narmesteleder.NaermesteLeder
 import no.nav.syfo.domain.AktorId
 import no.nav.syfo.domain.Fodselsnummer
 import org.springframework.beans.factory.annotation.Autowired

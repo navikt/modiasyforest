@@ -1,6 +1,6 @@
-package no.nav.syfo.mappers
+package no.nav.syfo.controller.user
 
-import no.nav.syfo.controller.domain.mapper.BrukerMapper.toBruker
+import no.nav.syfo.controller.user.BrukerMapper.toBruker
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.*
 import org.assertj.core.api.Assertions
 import org.junit.Test

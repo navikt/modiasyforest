@@ -1,7 +1,8 @@
-package no.nav.syfo.controller
+package no.nav.syfo.controller.oppfolgingstilfelle
 
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.consumer.sts.StsConsumer
+import no.nav.syfo.controller.AbstractControllerTilgangTest
 import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_AKTIVITET
 import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_FOM
 import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_GRAD
