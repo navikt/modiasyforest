@@ -1,7 +1,8 @@
-package no.nav.syfo.consumer.syfonarmesteleder
+package no.nav.syfo.consumer.narmesteleder
 
 import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
 import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_NARMESTELEDER_LEDERE
+import no.nav.syfo.domain.AktorId
 import no.nav.syfo.util.*
 import no.nav.syfo.metric.Metrikk
 import org.slf4j.LoggerFactory
@@ -22,8 +23,8 @@ class NarmesteLederConsumer @Autowired constructor(
     private val restTemplate: RestTemplate,
     @Value("\${syfonarmesteleder.id}") private val syfonarmestelederId: String
 ) {
-    @Cacheable(value = [CACHENAME_NARMESTELEDER_LEDERE], key = "#aktorId", condition = "#aktorId != null")
-    fun narmesteLederRelasjonerLedere(aktorId: String): List<NarmesteLederRelasjon> {
+    @Cacheable(value = [CACHENAME_NARMESTELEDER_LEDERE], key = "#aktorId.value", condition = "#aktorId.value != null")
+    fun narmesteLederRelasjonerLedere(aktorId: AktorId): List<NarmesteLederRelasjon> {
         try {
             val response = restTemplate.exchange(
                     getLedereUrl(aktorId),
@@ -50,9 +51,9 @@ class NarmesteLederConsumer @Autowired constructor(
         return HttpEntity<Any>(headers)
     }
 
-    private fun getLedereUrl(aktorId: String): String {
+    private fun getLedereUrl(aktorId: AktorId): String {
         return UriComponentsBuilder
-                .fromHttpUrl("$SYFONARMESTELEDER_BASEURL/sykmeldt/$aktorId/narmesteledere")
+                .fromHttpUrl("$SYFONARMESTELEDER_BASEURL/sykmeldt/${aktorId.value}/narmesteledere")
                 .toUriString()
     }
 

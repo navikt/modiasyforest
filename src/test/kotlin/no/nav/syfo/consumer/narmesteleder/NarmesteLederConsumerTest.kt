@@ -1,10 +1,11 @@
-package no.nav.syfo.consumer.syfonarmesteleder
+package no.nav.syfo.consumer.narmesteleder
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
+import no.nav.syfo.domain.AktorId
 import no.nav.syfo.metric.Metrikk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.*
@@ -65,7 +66,7 @@ class NarmesteLederConsumerTest {
     fun `get ledere for aktorID from syfonarmesteleder`() {
         val expectedLedereList: List<NarmesteLederRelasjon> = listOf(
                 NarmesteLederRelasjon(
-                        SYKMELDT_AKTOR_ID,
+                        SYKMELDT_AKTOR_ID.value,
                         VIRKSOMHETSNUMMER,
                         LEDER_AKTOR_ID,
                         "narmesteLederTelefonnummer",
@@ -124,10 +125,10 @@ class NarmesteLederConsumerTest {
     }
 
     companion object {
-        private const val SYKMELDT_AKTOR_ID = "1234567890987"
+        private val SYKMELDT_AKTOR_ID = AktorId("1234567890987")
         private const val LEDER_AKTOR_ID = "7890987654321"
         private const val VIRKSOMHETSNUMMER = "1234"
 
-        private const val LEDERE_URL = "http://syfonarmesteleder/syfonarmesteleder/sykmeldt/$SYKMELDT_AKTOR_ID/narmesteledere"
+        private val LEDERE_URL = "http://syfonarmesteleder/syfonarmesteleder/sykmeldt/${SYKMELDT_AKTOR_ID.value}/narmesteledere"
     }
 }

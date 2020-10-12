@@ -2,8 +2,7 @@ package no.nav.syfo.controller
 
 import no.nav.syfo.consumer.AktorConsumer
 import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
-import no.nav.syfo.consumer.syfonarmesteleder.NarmesteLederConsumer
-import no.nav.syfo.consumer.narmesteleder.NaermesteLederConsumer
+import no.nav.syfo.consumer.narmesteleder.NarmesteLederService
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_AKTORID
@@ -25,10 +24,7 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
     private lateinit var aktorConsumer: AktorConsumer
 
     @MockBean
-    private lateinit var naermesteLederConsumer: NaermesteLederConsumer
-
-    @MockBean
-    private lateinit var narmesteLederConsumer: NarmesteLederConsumer
+    private lateinit var narmesteLederService: NarmesteLederService
 
     @Inject
     private lateinit var narmestelederController: NarmestelederController
@@ -51,7 +47,7 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
 
         val expectedNaermesteledere = listOf(NaermesteLeder().withAktoerId(LEDER_AKTORID))
 
-        `when`(naermesteLederConsumer.finnNarmesteLedere(ARBEIDSTAKER_FNR)).thenReturn(expectedNaermesteledere)
+        `when`(narmesteLederService.narmesteLedere(ARBEIDSTAKER_FNR)).thenReturn(expectedNaermesteledere)
 
         val actualNaermesteLedere = narmestelederController.getAllNarmesteledere(ARBEIDSTAKER_FNR)
 
