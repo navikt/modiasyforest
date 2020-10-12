@@ -5,6 +5,7 @@ import no.nav.syfo.consumer.OppfolgingstilfelleConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.controller.domain.Oppfolgingstilfelle
 import no.nav.syfo.api.auth.OIDCIssuer.AZURE
+import no.nav.syfo.domain.Fodselsnummer
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
@@ -25,6 +26,6 @@ constructor(
     ): List<Oppfolgingstilfelle> {
         tilgangsKontroll.throwExceptionIfVeilederWithoutAccess(fnr)
 
-        return oppfolgingstilfelleConsumer.hentOppfolgingstilfelleperioder(fnr, orgnummer)
+        return oppfolgingstilfelleConsumer.hentOppfolgingstilfelleperioder(Fodselsnummer(fnr), orgnummer)
     }
 }

@@ -2,8 +2,8 @@ package no.nav.syfo.controller
 
 import no.nav.security.oidc.context.OIDCRequestContextHolder
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.api.auth.OIDCIssuer
+import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import org.junit.After
 import org.junit.Before
@@ -36,7 +36,7 @@ abstract class AbstractControllerTilgangTest {
 
     @Inject
     private lateinit var restTemplate: RestTemplate
-    private lateinit var mockRestServiceServer: MockRestServiceServer
+    lateinit var mockRestServiceServer: MockRestServiceServer
 
     @Before
     fun setUp() {
@@ -47,6 +47,7 @@ abstract class AbstractControllerTilgangTest {
     open fun tearDown() {
         mockRestServiceServer.verify()
         loggUtAlle(oidcRequestContextHolder)
+        mockRestServiceServer.reset()
     }
 
     fun mockSvarFraTilgangTilBrukerViaAzure(fnr: String, status: HttpStatus) {

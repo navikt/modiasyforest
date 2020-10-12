@@ -1,6 +1,5 @@
 package no.nav.syfo.testhelper
 
-import no.nav.syfo.mock.AktorMock.Companion.mockAktorId
 import no.nav.syfo.mocks.BrukerprofilMock
 
 object UserConstants {
@@ -14,4 +13,6 @@ object UserConstants {
     const val PERSON_TLF = "12345678"
     const val PERSON_EMAIL = "test@nav.no"
     const val PERSON_NAVN = BrukerprofilMock.PERSON_FORNAVN + " " + BrukerprofilMock.PERSON_ETTERNAVN
+
+    const val STS_TOKEN = "123456789"
 }

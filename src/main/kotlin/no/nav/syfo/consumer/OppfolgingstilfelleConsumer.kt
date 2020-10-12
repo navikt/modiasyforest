@@ -1,6 +1,8 @@
 package no.nav.syfo.consumer
 
+import no.nav.syfo.consumer.aktorregister.AktorregisterConsumer
 import no.nav.syfo.controller.domain.*
+import no.nav.syfo.domain.Fodselsnummer
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.HentSykeforlopperiodeSikkerhetsbegrensning
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.SykefravaersoppfoelgingV1
 import no.nav.tjeneste.virksomhet.sykefravaersoppfoelging.v1.informasjon.WSSykeforlopperiode
@@ -11,13 +13,13 @@ import javax.inject.Inject
 
 @Service
 class OppfolgingstilfelleConsumer @Inject constructor(
-    private val aktorConsumer: AktorConsumer,
+    private val aktorregisterConsumer: AktorregisterConsumer,
     private val sykefravaersoppfoelgingV1: SykefravaersoppfoelgingV1
 ) {
-    fun hentOppfolgingstilfelleperioder(fnr: String, orgnummer: String): List<Oppfolgingstilfelle> {
-        val aktorId = aktorConsumer.hentAktoerIdForFnr(fnr)
+    fun hentOppfolgingstilfelleperioder(fnr: Fodselsnummer, orgnummer: String): List<Oppfolgingstilfelle> {
+        val aktorId = aktorregisterConsumer.aktorId(fnr)
         val request = WSHentSykeforlopperiodeRequest()
-            .withAktoerId(aktorId)
+            .withAktoerId(aktorId.value)
             .withOrgnummer(orgnummer)
         return try {
             val wsHentSykeforlopperiodeResponse = sykefravaersoppfoelgingV1.hentSykeforlopperiode(request)

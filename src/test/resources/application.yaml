@@ -19,7 +19,6 @@ srv:
   username: "username"
   password: "password"
 
-aktoer.v2.endpointurl: "aktoerv2.url"
 sykefravaersoppfoelging.v1.endpointurl: "sykefravaeroppfoelgingv1.url"
 brukeroppgave.v1.endpointurl: "brukeroppgavev1.url"
 virksomhet:
@@ -27,13 +26,13 @@ virksomhet:
 
 fasit.environment.name: 'local'
 
-aktoer.withmock: true
 brukerprofilv3.withmock: true
 oppfoelging.syfoservice.withmock: true
 
 dev: true
 local.mock: false
 
+aktorregister.url: "https://aktorregister"
 ereg.baseurl: "http://ereg"
 tilgangskontrollapi.url: "https://www.ikke.no"
 

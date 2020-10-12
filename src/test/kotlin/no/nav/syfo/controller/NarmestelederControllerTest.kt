@@ -1,11 +1,10 @@
 package no.nav.syfo.controller
 
-import no.nav.syfo.consumer.AktorConsumer
 import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
 import no.nav.syfo.consumer.narmesteleder.NarmesteLederService
+import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
-import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_AKTORID
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
 import no.nav.syfo.testhelper.UserConstants.LEDER_AKTORID
 import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
@@ -21,9 +20,6 @@ import javax.ws.rs.ForbiddenException
 class NarmestelederControllerTest : AbstractControllerTilgangTest() {
 
     @MockBean
-    private lateinit var aktorConsumer: AktorConsumer
-
-    @MockBean
     private lateinit var narmesteLederService: NarmesteLederService
 
     @Inject
@@ -33,7 +29,6 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
     @Throws(ParseException::class)
     fun setup() {
         logInVeilederAD(oidcRequestContextHolder, VEILEDER_ID)
-        `when`(aktorConsumer.hentAktoerIdForFnr(ARBEIDSTAKER_FNR)).thenReturn(ARBEIDSTAKER_AKTORID)
     }
 
     @After
@@ -47,7 +42,7 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
 
         val expectedNaermesteledere = listOf(NaermesteLeder().withAktoerId(LEDER_AKTORID))
 
-        `when`(narmesteLederService.narmesteLedere(ARBEIDSTAKER_FNR)).thenReturn(expectedNaermesteledere)
+        `when`(narmesteLederService.narmesteLedere(Fodselsnummer(ARBEIDSTAKER_FNR))).thenReturn(expectedNaermesteledere)
 
         val actualNaermesteLedere = narmestelederController.getAllNarmesteledere(ARBEIDSTAKER_FNR)
 
