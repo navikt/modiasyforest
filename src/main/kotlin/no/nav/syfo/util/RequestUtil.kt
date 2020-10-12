@@ -8,4 +8,9 @@ const val NAV_CALL_ID_HEADER = "Nav-Call-Id"
 
 const val NAV_PERSONIDENTER_HEADER = "Nav-Personidenter"
 
+const val NAV_CONSUMER_TOKEN_HEADER = "Nav-Consumer-Token"
+
+const val TEMA_HEADER = "Tema"
+const val ALLE_TEMA_HEADERVERDI = "GEN"
+
 fun createCallId(): String = UUID.randomUUID().toString()
