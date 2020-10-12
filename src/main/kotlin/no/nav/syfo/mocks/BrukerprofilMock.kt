@@ -17,10 +17,13 @@ class BrukerprofilMock : BrukerprofilV3 {
     @Throws(HentKontaktinformasjonOgPreferanserSikkerhetsbegrensning::class, HentKontaktinformasjonOgPreferanserPersonIkkeFunnet::class, HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt::class)
     override fun hentKontaktinformasjonOgPreferanser(request: WSHentKontaktinformasjonOgPreferanserRequest): WSHentKontaktinformasjonOgPreferanserResponse {
         return WSHentKontaktinformasjonOgPreferanserResponse()
-            .withBruker(WSBruker()
-                .withPersonnavn(WSPersonnavn()
-                    .withFornavn(PERSON_FORNAVN)
-                    .withEtternavn(PERSON_ETTERNAVN)))
+            .withBruker(
+                WSBruker().withPersonnavn(
+                    WSPersonnavn()
+                        .withFornavn(PERSON_FORNAVN)
+                        .withEtternavn(PERSON_ETTERNAVN)
+                )
+            )
     }
 
     companion object {

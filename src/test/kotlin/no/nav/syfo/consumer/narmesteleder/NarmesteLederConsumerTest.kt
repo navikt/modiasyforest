@@ -65,20 +65,19 @@ class NarmesteLederConsumerTest {
     @Test
     fun `get ledere for aktorID from syfonarmesteleder`() {
         val expectedLedereList: List<NarmesteLederRelasjon> = listOf(
-                NarmesteLederRelasjon(
-                        SYKMELDT_AKTOR_ID.value,
-                        VIRKSOMHETSNUMMER,
-                        LEDER_AKTOR_ID,
-                        "narmesteLederTelefonnummer",
-                        "narmesteLederEpost",
-                        LocalDate.now(),
-                        false,
-                        false,
-                        emptyList()
-                )
+            NarmesteLederRelasjon(
+                SYKMELDT_AKTOR_ID.value,
+                VIRKSOMHETSNUMMER,
+                LEDER_AKTOR_ID,
+                "narmesteLederTelefonnummer",
+                "narmesteLederEpost",
+                LocalDate.now(),
+                false,
+                false,
+                emptyList()
+            )
         )
         mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(LEDERE_URL)).andRespond(withSuccess(ledereAsJsonObject(expectedLedereList), MediaType.APPLICATION_JSON))
-
 
         val actualLedere: List<NarmesteLederRelasjon> = narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
 

@@ -21,7 +21,7 @@ class TilgangConsumer(
     private val template: RestTemplate
 ) {
     private val tilgangTilBrukerViaAzureUriTemplate: UriComponentsBuilder
-    
+
     fun throwExceptionIfVeilederWithoutAccess(fnr: String) {
         val harTilgang = isVeilederGrantedAccessToUserWithAD(fnr)
         if (!harTilgang) {

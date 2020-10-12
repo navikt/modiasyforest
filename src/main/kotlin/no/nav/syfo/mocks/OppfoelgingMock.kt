@@ -12,17 +12,21 @@ import java.time.LocalDate
 @ConditionalOnProperty(value = [SykefravaerOppfoelgingConfig.MOCK_KEY], havingValue = "true")
 class OppfoelgingMock : SykefravaersoppfoelgingV1 {
     override fun hentNaermesteLederListe(request: WSHentNaermesteLederListeRequest): WSHentNaermesteLederListeResponse {
-        return WSHentNaermesteLederListeResponse().withNaermesteLederListe(listOf(
-            WSNaermesteLeder()
-                .withNavn("Test Trondsen")
-                .withEpost("testTron@nav.no")
-                .withOrgnummer("000321000")
-                .withMobil("12356772")
-                .withArbeidsgiverForskuttererLoenn(true)
-                .withNaermesteLederStatus(WSNaermesteLederStatus()
-                    .withErAktiv(true)
-                    .withAktivFom(LocalDate.now()))
-        ))
+        return WSHentNaermesteLederListeResponse().withNaermesteLederListe(
+            listOf(
+                WSNaermesteLeder()
+                    .withNavn("Test Trondsen")
+                    .withEpost("testTron@nav.no")
+                    .withOrgnummer("000321000")
+                    .withMobil("12356772")
+                    .withArbeidsgiverForskuttererLoenn(true)
+                    .withNaermesteLederStatus(
+                        WSNaermesteLederStatus()
+                            .withErAktiv(true)
+                            .withAktivFom(LocalDate.now())
+                    )
+            )
+        )
     }
 
     override fun ping() {}
@@ -59,26 +63,41 @@ class OppfoelgingMock : SykefravaersoppfoelgingV1 {
     }
 
     override fun hentNaermesteLedersAnsattListe(request: WSHentNaermesteLedersAnsattListeRequest): WSHentNaermesteLedersAnsattListeResponse {
-        return WSHentNaermesteLedersAnsattListeResponse().withAnsattListe(listOf(
-            WSAnsatt()
-                .withNaermesteLederStatus(WSNaermesteLederStatus().withAktivFom(LocalDate.now().minusDays(10)).withErAktiv(true))
-                .withAktoerId("1112221112221")
-                .withNaermesteLederId(345)
-                .withNavn("Test Testesen")
-                .withOrgnummer("112211221"),
-            WSAnsatt()
-                .withNaermesteLederStatus(WSNaermesteLederStatus().withAktivTom(LocalDate.now().minusDays(10)).withAktivFom(LocalDate.now().minusDays(20)).withErAktiv(false))
-                .withAktoerId("2223332223332")
-                .withNaermesteLederId(234)
-                .withNavn("Test Testesen")
-                .withOrgnummer("223322332"),
-            WSAnsatt()
-                .withNaermesteLederStatus(WSNaermesteLederStatus().withAktivFom(LocalDate.now().minusDays(10)).withErAktiv(true))
-                .withAktoerId("3334443334443")
-                .withNaermesteLederId(346)
-                .withNavn("Test Testesen")
-                .withOrgnummer("334433443")
-        ))
+        return WSHentNaermesteLedersAnsattListeResponse().withAnsattListe(
+            listOf(
+                WSAnsatt()
+                    .withNaermesteLederStatus(
+                        WSNaermesteLederStatus()
+                            .withAktivFom(LocalDate.now().minusDays(10))
+                            .withErAktiv(true)
+                    )
+                    .withAktoerId("1112221112221")
+                    .withNaermesteLederId(345)
+                    .withNavn("Test Testesen")
+                    .withOrgnummer("112211221"),
+                WSAnsatt()
+                    .withNaermesteLederStatus(
+                        WSNaermesteLederStatus()
+                            .withAktivTom(LocalDate.now().minusDays(10))
+                            .withAktivFom(LocalDate.now().minusDays(20))
+                            .withErAktiv(false)
+                    )
+                    .withAktoerId("2223332223332")
+                    .withNaermesteLederId(234)
+                    .withNavn("Test Testesen")
+                    .withOrgnummer("223322332"),
+                WSAnsatt()
+                    .withNaermesteLederStatus(
+                        WSNaermesteLederStatus()
+                            .withAktivFom(LocalDate.now().minusDays(10))
+                            .withErAktiv(true)
+                    )
+                    .withAktoerId("3334443334443")
+                    .withNaermesteLederId(346)
+                    .withNavn("Test Testesen")
+                    .withOrgnummer("334433443")
+            )
+        )
     }
 
     companion object {

@@ -1,10 +1,10 @@
 package no.nav.syfo.consumer.narmesteleder
 
-import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
 import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_NARMESTELEDER_LEDERE
+import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
 import no.nav.syfo.domain.AktorId
-import no.nav.syfo.util.*
 import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -27,10 +27,10 @@ class NarmesteLederConsumer @Autowired constructor(
     fun narmesteLederRelasjonerLedere(aktorId: AktorId): List<NarmesteLederRelasjon> {
         try {
             val response = restTemplate.exchange(
-                    getLedereUrl(aktorId),
-                    HttpMethod.GET,
-                    entity(),
-                    object : ParameterizedTypeReference<List<NarmesteLederRelasjon>>() {}
+                getLedereUrl(aktorId),
+                HttpMethod.GET,
+                entity(),
+                object : ParameterizedTypeReference<List<NarmesteLederRelasjon>>() {}
             )
             metrikk.countEvent(CALL_SYFONARMESTELEDER_LEDERE_SUCCESS)
 
@@ -53,8 +53,8 @@ class NarmesteLederConsumer @Autowired constructor(
 
     private fun getLedereUrl(aktorId: AktorId): String {
         return UriComponentsBuilder
-                .fromHttpUrl("$SYFONARMESTELEDER_BASEURL/sykmeldt/${aktorId.value}/narmesteledere")
-                .toUriString()
+            .fromHttpUrl("$SYFONARMESTELEDER_BASEURL/sykmeldt/${aktorId.value}/narmesteledere")
+            .toUriString()
     }
 
     companion object {

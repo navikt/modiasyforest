@@ -19,7 +19,6 @@ import javax.xml.parsers.ParserConfigurationException
 class OnBehalfOfOutInterceptor : AbstractPhaseInterceptor<Message>(Phase.SETUP) {
     enum class TokenType(var valueType: String) {
         OIDC("urn:ietf:params:oauth:token-type:jwt");
-
     }
 
     @Throws(Fault::class)
@@ -73,9 +72,11 @@ class OnBehalfOfOutInterceptor : AbstractPhaseInterceptor<Message>(Phase.SETUP) 
 
         private fun wrapWithBinarySecurityToken(token: ByteArray, valueType: String): String {
             val base64encodedToken = Base64.getEncoder().encodeToString(token)
-            return ("<wsse:BinarySecurityToken xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\""
-                + " EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\""
-                + " ValueType=\"" + valueType + "\" >" + base64encodedToken + "</wsse:BinarySecurityToken>")
+            return (
+                "<wsse:BinarySecurityToken xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"" +
+                    " EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\"" +
+                    " ValueType=\"" + valueType + "\" >" + base64encodedToken + "</wsse:BinarySecurityToken>"
+                )
         }
     }
 }

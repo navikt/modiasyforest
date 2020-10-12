@@ -1,7 +1,7 @@
 package no.nav.syfo.consumer.sts
 
-import no.nav.syfo.util.basicCredentials
 import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.util.basicCredentials
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
@@ -32,10 +32,10 @@ class StsConsumer(
 
             try {
                 val response = template.exchange<STSToken>(
-                        stsTokenUri,
-                        HttpMethod.GET,
-                        request,
-                        object : ParameterizedTypeReference<STSToken>() {}
+                    stsTokenUri,
+                    HttpMethod.GET,
+                    request,
+                    object : ParameterizedTypeReference<STSToken>() {}
                 )
                 cachedOidcToken = response.body
                 metric.tellEndepunktKall(METRIC_CALL_STS_SUCCESS)
@@ -71,9 +71,9 @@ class StsConsumer(
 }
 
 data class STSToken(
-        val access_token: String,
-        val token_type: String,
-        val expires_in: Int
+    val access_token: String,
+    val token_type: String,
+    val expires_in: Int
 ) {
     val expirationTime: LocalDateTime = LocalDateTime.now().plusSeconds(expires_in - 10L)
 

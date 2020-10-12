@@ -112,7 +112,7 @@ object BrukerMapper {
             postboksanlegg = this.postboksanlegg,
             postboksnummer = this.postboksnummer
         )
-    
+
     private fun WSGateadresse.tilGateAdresse() =
         Gateadresse(
             gatenavn = this.gatenavn,
