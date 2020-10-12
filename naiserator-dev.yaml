@@ -66,6 +66,8 @@ spec:
       value: https://modapp-q1.adeo.no/syfo/services/Sykefravaersoppfoelging_v1
     - name: EREG_BASEURL
       value: https://modapp-q1.adeo.no
+    - name: PDL_URL
+      value: https://pdl-api.nais.preprod.local/graphql
     - name: TILGANGSKONTROLLAPI_URL
       value: https://syfo-tilgangskontroll.nais.preprod.local/syfo-tilgangskontroll/api/tilgang
     - name: SYFOVEILEDEROPPGAVER_SYSTEM_V1_URL
