@@ -5,6 +5,7 @@ import no.nav.syfo.api.auth.OIDCIssuer.AZURE
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.consumer.narmesteleder.NaermesteLeder
 import no.nav.syfo.consumer.narmesteleder.NarmesteLederService
+import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.metric.Metrikk
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
@@ -27,7 +28,7 @@ constructor(
 
         tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
 
-        val naermesteledere = narmesteLederService.narmesteLedere(fnr)
+        val naermesteledere = narmesteLederService.narmesteLedere(Fodselsnummer(fnr))
         var idcounter: Long = 0
         for (naermesteleder in naermesteledere) {
             naermesteleder.id = idcounter++
