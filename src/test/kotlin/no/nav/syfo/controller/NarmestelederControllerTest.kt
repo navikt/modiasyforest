@@ -47,7 +47,7 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
         val actualNaermesteLedere = narmestelederController.getAllNarmesteledere(ARBEIDSTAKER_FNR)
 
         assertThat(actualNaermesteLedere.size).isEqualTo(expectedNaermesteledere.size)
-        assertThat(actualNaermesteLedere[0].aktoerId).isEqualTo(expectedNaermesteledere[0].aktoerId)
+        assertThat(actualNaermesteLedere.first().aktoerId).isEqualTo(expectedNaermesteledere.first().aktoerId)
     }
 
     @Test(expected = ForbiddenException::class)

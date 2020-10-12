@@ -83,8 +83,8 @@ class NarmesteLederConsumerTest {
         val actualLedere: List<NarmesteLederRelasjon> = narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
 
         assertThat(actualLedere.size).isEqualTo(expectedLedereList.size)
-        assertThat(actualLedere[0].aktorId).isEqualTo(expectedLedereList[0].aktorId)
-        assertThat(actualLedere[0].orgnummer).isEqualTo(expectedLedereList[0].orgnummer)
+        assertThat(actualLedere.first().aktorId).isEqualTo(expectedLedereList.first().aktorId)
+        assertThat(actualLedere.first().orgnummer).isEqualTo(expectedLedereList.first().orgnummer)
         verify(azureAdTokenConsumer).accessToken(syfonarmestelederId)
         verify(metrikk).countEvent("call_syfonarmesteleder_ledere_success")
     }

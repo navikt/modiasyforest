@@ -59,7 +59,7 @@ class OppfolgingstilfelleperioderADControllerTest : AbstractControllerTilgangTes
 
         assertThat(oppfolgingstilfelleList).hasSize(1)
 
-        val oppfolgingstilfelle = oppfolgingstilfelleList[0]
+        val oppfolgingstilfelle = oppfolgingstilfelleList.first()
         assertThat(oppfolgingstilfelle.aktivitet).isEqualTo(OPPFOLGINGSTILFELLE_PERIODE_AKTIVITET)
         assertThat(oppfolgingstilfelle.grad).isEqualTo(OPPFOLGINGSTILFELLE_PERIODE_GRAD)
         assertThat(oppfolgingstilfelle.orgnummer).isEqualTo(VIRKSOMHETSNUMMER)
