@@ -30,10 +30,10 @@ class AzureAdTokenConsumer @Autowired constructor(
             try {
                 val uriString = UriComponentsBuilder.fromHttpUrl(url).toUriString()
                 val result = restTemplateWithProxy.exchange(
-                        uriString,
-                        HttpMethod.POST,
-                        entity(resource),
-                        AzureAdResponse::class.java
+                    uriString,
+                    HttpMethod.POST,
+                    entity(resource),
+                    AzureAdResponse::class.java
                 )
                 azureAdTokenMap[resource] = result.body!!
                 metrikk.countEvent(CALL_AZUREAD_TOKEN_SYSTEM_SUCCESS)

@@ -7,5 +7,5 @@ const val dkifErrorMessage = "Request to get Kontakinformasjon from DKIF Failed"
 
 @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 class DKIFRequestFailedException(
-        message: String = ""
+    message: String = ""
 ) : RuntimeException("$dkifErrorMessage $message")

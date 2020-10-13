@@ -9,7 +9,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import java.time.Duration
 import java.util.*
 
-
 @Configuration
 @EnableCaching
 @Profile("remote")
@@ -18,8 +17,8 @@ class CacheConfig {
     fun cacheManager(redisConnectionFactory: RedisConnectionFactory?): CacheManager {
         val cacheConfigurations: MutableMap<String, RedisCacheConfiguration> = HashMap()
         val defaultConfig: RedisCacheConfiguration = RedisCacheConfiguration
-                .defaultCacheConfig()
-                .entryTtl(Duration.ofHours(2L))
+            .defaultCacheConfig()
+            .entryTtl(Duration.ofHours(2L))
         cacheConfigurations[TILGANGTILENHET] = defaultConfig
         cacheConfigurations[CACHENAME_AKTOR_ID] = defaultConfig
         cacheConfigurations[CACHENAME_AKTOR_FNR] = defaultConfig
@@ -30,9 +29,9 @@ class CacheConfig {
         cacheConfigurations[CACHENAME_BRUKER] = defaultConfig
         cacheConfigurations[CACHENAME_NARMESTELEDER_LEDERE] = defaultConfig
         return RedisCacheManager.builder(redisConnectionFactory)
-                .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
-                .withInitialCacheConfigurations(cacheConfigurations)
-                .build()
+            .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
+            .withInitialCacheConfigurations(cacheConfigurations)
+            .build()
     }
 
     companion object {

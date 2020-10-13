@@ -2,7 +2,7 @@ package no.nav.syfo.controller.user.domain.adresse
 
 import java.math.BigInteger
 
-data class Gateadresse (
+data class Gateadresse(
     val poststed: String? = null,
     val postnummer: String? = null,
     val husnummer: BigInteger? = null,

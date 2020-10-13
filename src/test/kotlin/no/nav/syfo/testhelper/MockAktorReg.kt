@@ -24,21 +24,23 @@ fun mockAndExpectAktorregRequest(mockRestServiceServer: MockRestServiceServer, b
         .queryParam("gjeldende", true)
         .toUriString()
 
-    val identMap = mapOf(ARBEIDSTAKER_FNR to IdentinfoListe(
-        listOf(
-            Identinfo(
-                ident = ARBEIDSTAKER_FNR,
-                identgruppe = IdentType.NorskIdent.name,
-                gjeldende = true
+    val identMap = mapOf(
+        ARBEIDSTAKER_FNR to IdentinfoListe(
+            listOf(
+                Identinfo(
+                    ident = ARBEIDSTAKER_FNR,
+                    identgruppe = IdentType.NorskIdent.name,
+                    gjeldende = true
+                ),
+                Identinfo(
+                    ident = UserConstants.ARBEIDSTAKER_AKTORID,
+                    identgruppe = IdentType.AktoerId.name,
+                    gjeldende = true
+                )
             ),
-            Identinfo(
-                ident = UserConstants.ARBEIDSTAKER_AKTORID,
-                identgruppe = IdentType.AktoerId.name,
-                gjeldende = true
-            )
-        ),
-        feilmelding = null
-    ))
+            feilmelding = null
+        )
+    )
 
     val json = ObjectMapper().writeValueAsString(identMap)
 

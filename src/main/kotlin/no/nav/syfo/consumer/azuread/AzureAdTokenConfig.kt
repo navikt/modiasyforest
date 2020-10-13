@@ -10,7 +10,7 @@ class AzureAdTokenConfig {
     @Bean(name = ["restTemplateWithProxy"])
     fun restTemplateMedProxy(): RestTemplate {
         return RestTemplateBuilder()
-                .additionalCustomizers(NaisProxyCustomizer())
-                .build()
+            .additionalCustomizers(NaisProxyCustomizer())
+            .build()
     }
 }

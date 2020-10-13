@@ -27,8 +27,10 @@ class Metrikk @Inject constructor(
         registry.counter(
             addPrefix(navn),
             Tags.of(
-                "type", "info",
-                "status", statusCode.toString()
+                "type",
+                "info",
+                "status",
+                statusCode.toString()
             )
         ).increment()
     }
@@ -37,13 +39,16 @@ class Metrikk @Inject constructor(
         registry.counter(
             addPrefix("httpstatus"),
             Tags.of(
-                "type", "info",
-                "kode", kode.toString())
+                "type",
+                "info",
+                "kode",
+                kode.toString()
+            )
         ).increment()
     }
 
     private fun addPrefix(navn: String): String {
-        val METRIKK_PREFIX = "modiasyforest_"
-        return METRIKK_PREFIX + navn
+        val metricPrefix = "modiasyforest_"
+        return metricPrefix + navn
     }
 }

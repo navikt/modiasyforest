@@ -71,6 +71,7 @@ class BrukerMapperTest {
         Assertions.assertThat(bruker.midlertidigAdresseUtland?.ustrukturertAdresse?.adresselinje3).isEqualTo("linje3")
         Assertions.assertThat(bruker.midlertidigAdresseUtland?.ustrukturertAdresse?.adresselinje4).isEqualTo("linje4")
     }
+
     private val navnMedMellomnavn = WSPersonnavn()
         .withFornavn("fornavn")
         .withMellomnavn("mellomnavn")
@@ -94,12 +95,13 @@ class BrukerMapperTest {
         .withLandkode(WSLandkoder().withValue("landkoder"))
         .withTilleggsadresse("tilleggsadresse")
         .withEiendomsnavn("eiendomnavn")
-        .withMatrikkelnummer(WSMatrikkelnummer()
-            .withGaardsnummer("gaardsnummer")
-            .withBruksnummer("bruksnummer")
-            .withFestenummer("festenummer")
-            .withSeksjonsnummer("seksjonsnummer")
-            .withUndernummer("undernummer")
+        .withMatrikkelnummer(
+            WSMatrikkelnummer()
+                .withGaardsnummer("gaardsnummer")
+                .withBruksnummer("bruksnummer")
+                .withFestenummer("festenummer")
+                .withSeksjonsnummer("seksjonsnummer")
+                .withUndernummer("undernummer")
         )
         .withPoststed(WSPostnummer().withValue("poststed"))
 

@@ -1,10 +1,10 @@
 package no.nav.syfo.controller.oppfolgingstilfelle
 
 import no.nav.security.oidc.api.ProtectedWithClaims
+import no.nav.syfo.api.auth.OIDCIssuer.AZURE
 import no.nav.syfo.consumer.OppfolgingstilfelleConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.controller.oppfolgingstilfelle.domain.Oppfolgingstilfelle
-import no.nav.syfo.api.auth.OIDCIssuer.AZURE
 import no.nav.syfo.domain.Fodselsnummer
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
@@ -18,11 +18,10 @@ constructor(
     private val tilgangsKontroll: TilgangConsumer,
     private val oppfolgingstilfelleConsumer: OppfolgingstilfelleConsumer
 ) {
-
     @GetMapping(produces = [APPLICATION_JSON_VALUE])
     fun getOppfolgingstilfelleperioder(
-            @RequestParam(value = "fnr") fnr: String,
-            @RequestParam(value = "orgnummer") orgnummer: String
+        @RequestParam(value = "fnr") fnr: String,
+        @RequestParam(value = "orgnummer") orgnummer: String
     ): List<Oppfolgingstilfelle> {
         tilgangsKontroll.throwExceptionIfVeilederWithoutAccess(fnr)
 

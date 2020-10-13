@@ -7,6 +7,9 @@ Applikasjonen kommuniserer med syfoservice og andre tjenester i FSS via WS.
 #Lokal utvikling
 Start opp via `LocalApplication.main`. Kjører på port 8084.
 
+### Lint
+Kjør `./gradlew --continue ktlintCheck`
+
 # Pipeline
 
 Pipeline er på Github Action.

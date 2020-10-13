@@ -1,8 +1,8 @@
 package no.nav.syfo.consumer
 
 import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_BRUKER
-import no.nav.syfo.controller.user.domain.Bruker
 import no.nav.syfo.controller.user.BrukerMapper.toBruker
+import no.nav.syfo.controller.user.domain.Bruker
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.*
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSBruker
 import no.nav.tjeneste.virksomhet.brukerprofil.v3.informasjon.WSNorskIdent
@@ -27,9 +27,12 @@ class BrukerprofilConsumer @Inject constructor(
             throw RuntimeException()
         }
         return try {
-            val wsBruker = brukerprofilV3.hentKontaktinformasjonOgPreferanser(WSHentKontaktinformasjonOgPreferanserRequest()
-                .withIdent(WSNorskIdent()
-                    .withIdent(fnr))).bruker as WSBruker
+            val wsBruker = brukerprofilV3.hentKontaktinformasjonOgPreferanser(
+                WSHentKontaktinformasjonOgPreferanserRequest()
+                    .withIdent(
+                        WSNorskIdent().withIdent(fnr)
+                    )
+            ).bruker as WSBruker
             wsBruker.toBruker()
         } catch (e: HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt) {
             log.error("HentKontaktinformasjonOgPreferanserPersonIdentErUtgaatt med FNR", e)

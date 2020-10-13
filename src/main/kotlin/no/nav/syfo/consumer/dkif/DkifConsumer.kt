@@ -2,8 +2,8 @@ package no.nav.syfo.consumer.dkif
 
 import no.nav.syfo.config.CacheConfig
 import no.nav.syfo.consumer.sts.StsConsumer
-import no.nav.syfo.util.*
 import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.core.ParameterizedTypeReference
@@ -24,10 +24,10 @@ class DkifConsumer(
 
         try {
             val response = template.exchange<DigitalKontaktinfoBolk>(
-                    DKIF_URL,
-                    HttpMethod.GET,
-                    entity(ident, bearer),
-                    object : ParameterizedTypeReference<DigitalKontaktinfoBolk>() {}
+                DKIF_URL,
+                HttpMethod.GET,
+                entity(ident, bearer),
+                object : ParameterizedTypeReference<DigitalKontaktinfoBolk>() {}
             )
             val responseBody = response.body
 
@@ -42,8 +42,8 @@ class DkifConsumer(
                     feil != null -> {
                         if (feil.melding == "Ingen kontaktinformasjon er registrert på personen") {
                             return DigitalKontaktinfo(
-                                    kanVarsles = false,
-                                    personident = ident
+                                kanVarsles = false,
+                                personident = ident
                             )
                         } else {
                             throw DKIFRequestFailedException(feil.melding)

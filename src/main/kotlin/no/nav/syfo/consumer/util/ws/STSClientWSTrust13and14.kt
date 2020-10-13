@@ -3,7 +3,6 @@ package no.nav.syfo.consumer.util.ws
 import org.apache.cxf.Bus
 import org.apache.cxf.ws.security.tokenstore.SecurityToken
 import org.apache.cxf.ws.security.trust.STSClient
-import java.lang.Exception
 
 class STSClientWSTrust13and14(b: Bus) : STSClient(b) {
 
@@ -18,8 +17,12 @@ class STSClientWSTrust13and14(b: Bus) : STSClient(b) {
     }
 
     @Throws(Exception::class)
-    override fun requestSecurityToken(appliesTo: String, action: String?, requestType: String,
-                                      binaryExchange: String?): SecurityToken {
+    override fun requestSecurityToken(
+        appliesTo: String,
+        action: String?,
+        requestType: String,
+        binaryExchange: String?
+    ): SecurityToken {
         return super.requestSecurityToken(appliesTo, action, requestType, binaryExchange)
     }
 }

@@ -2,8 +2,8 @@ package no.nav.syfo.consumer.ereg
 
 import no.nav.syfo.config.CacheConfig
 import no.nav.syfo.consumer.sts.StsConsumer
-import no.nav.syfo.util.*
 import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
@@ -23,10 +23,10 @@ class EregConsumer @Inject constructor(
     fun eregReponse(virksomhetsnummer: Virksomhetsnummer): EregOrganisasjonResponse {
         try {
             val response = restTemplate.exchange(
-                    getEregUrl(virksomhetsnummer),
-                    HttpMethod.GET,
-                    entity(),
-                    EregOrganisasjonResponse::class.java
+                getEregUrl(virksomhetsnummer),
+                HttpMethod.GET,
+                entity(),
+                EregOrganisasjonResponse::class.java
             )
             val eregResponse = response.body!!
             metric.countEvent(METRIC_CALL_EREG_SUCCESS)
@@ -40,9 +40,9 @@ class EregConsumer @Inject constructor(
     }
 
     @Cacheable(
-            value = [CacheConfig.CACHENAME_EREG_VIRKSOMHETSNAVN],
-            key = "#virksomhetsnummer",
-            condition = "#virksomhetsnummer != null"
+        value = [CacheConfig.CACHENAME_EREG_VIRKSOMHETSNAVN],
+        key = "#virksomhetsnummer",
+        condition = "#virksomhetsnummer != null"
     )
     fun virksomhetsnavn(virksomhetsnummer: Virksomhetsnummer): String {
         return eregReponse(virksomhetsnummer).navn()

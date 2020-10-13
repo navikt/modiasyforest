@@ -121,13 +121,13 @@ class AzureAdTokenConsumerTest {
         val module = JavaTimeModule()
         objectMapper.registerModule(module)
         val azureAdResponse = AzureAdResponse(
-                token,
-                "Bearer",
-                "3600",
-                "3600",
-                expiresOn,
-                expiresOn.epochSecond.toString(),
-                resource
+            token,
+            "Bearer",
+            "3600",
+            "3600",
+            expiresOn,
+            expiresOn.epochSecond.toString(),
+            resource
         )
         return try {
             objectMapper.writeValueAsString(azureAdResponse)
