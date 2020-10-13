@@ -1,7 +1,8 @@
 package no.nav.syfo.consumer.pdl
 
-import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.consumer.sts.StsConsumer
+import no.nav.syfo.domain.AktorId
+import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.metric.Metrikk
 import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
@@ -19,9 +20,66 @@ class PdlConsumer(
     private val stsConsumer: StsConsumer,
     private val restTemplate: RestTemplate
 ) {
+    fun aktorId(fodselsnummer: Fodselsnummer, callId: String): AktorId {
+        return identer(fodselsnummer.value, callId).aktorId()
+            ?: throw PdlRequestFailedException("Request to get Ident of Type ${IdentType.AKTORID.name} from PDL Failed")
+    }
+
+    fun fodselsnummer(aktorId: AktorId, callId: String): Fodselsnummer {
+        return identer(aktorId.value, callId).fodselsnummer()
+            ?: throw PdlRequestFailedException("Request to get Ident of Type ${IdentType.FOLKEREGISTERIDENT.name} from PDL Failed")
+    }
+
+    fun identer(ident: String, callId: String): PdlHentIdenter? {
+        val request = PdlHentIdenterRequest(
+            query = getPdlQuery("/pdl/hentIdenter.graphql"),
+            variables = PdlHentIdenterRequestVariables(
+                ident = ident,
+                historikk = false,
+                grupper = listOf(
+                    IdentType.AKTORID.name,
+                    IdentType.FOLKEREGISTERIDENT.name
+                )
+            )
+        )
+        val entity = HttpEntity(
+            request,
+            createRequestHeaders()
+        )
+        try {
+            val pdlReponseEntity = restTemplate.exchange(
+                pdlUrl,
+                HttpMethod.POST,
+                entity,
+                PdlIdenterResponse::class.java
+            )
+            val pdlIdenterReponse = pdlReponseEntity.body!!
+            return if (pdlIdenterReponse.errors != null && pdlIdenterReponse.errors.isNotEmpty()) {
+                metric.countEvent(CALL_PDL_IDENTER_FAIL)
+                pdlIdenterReponse.errors.forEach {
+                    LOG.error("Error while requesting Identer from PersonDataLosningen: ${it.errorMessage()}")
+                }
+                null
+            } else {
+                metric.countEvent(CALL_PDL_IDENTER_SUCCESS)
+                pdlIdenterReponse.data
+            }
+        } catch (exception: RestClientResponseException) {
+            metric.countEvent(CALL_PDL_IDENTER_FAIL)
+            LOG.error("Error from PDL with request-url: $pdlUrl", exception)
+            throw exception
+        }
+    }
+
     fun person(fnr: Fodselsnummer): PdlHentPerson? {
-        val query = this::class.java.getResource("/pdl/hentPerson.graphql").readText().replace("[\n\r]", "")
-        val entity = createRequestEntity(PdlRequest(query, Variables(fnr.value)))
+        val request = PdlRequest(
+            query = getPdlQuery("/pdl/hentPerson.graphql"),
+            variables = Variables(fnr.value)
+        )
+        val entity = HttpEntity(
+            request,
+            createRequestHeaders()
+        )
         try {
             val pdlPerson = restTemplate.exchange(
                 pdlUrl,
@@ -48,14 +106,20 @@ class PdlConsumer(
         }
     }
 
-    private fun createRequestEntity(request: PdlRequest): HttpEntity<PdlRequest> {
+    private fun getPdlQuery(queryFilePath: String): String {
+        return this::class.java.getResource(queryFilePath)
+            .readText()
+            .replace("[\n\r]", "")
+    }
+
+    private fun createRequestHeaders(): HttpHeaders {
         val stsToken: String = stsConsumer.token()
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
         headers.set(TEMA_HEADER, ALLE_TEMA_HEADERVERDI)
         headers.set(AUTHORIZATION, bearerCredentials(stsToken))
         headers.set(NAV_CONSUMER_TOKEN_HEADER, bearerCredentials(stsToken))
-        return HttpEntity(request, headers)
+        return headers
     }
 
     companion object {
@@ -64,5 +128,7 @@ class PdlConsumer(
         private const val CALL_PDL_BASE = "call_pdl"
         const val CALL_PDL_FAIL = "${CALL_PDL_BASE}_fail"
         const val CALL_PDL_SUCCESS = "${CALL_PDL_BASE}_success"
+        const val CALL_PDL_IDENTER_FAIL = "${CALL_PDL_BASE}_identer_fail"
+        const val CALL_PDL_IDENTER_SUCCESS = "${CALL_PDL_BASE}_identer_success"
     }
 }

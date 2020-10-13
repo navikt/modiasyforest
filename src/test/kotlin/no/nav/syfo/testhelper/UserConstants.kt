@@ -16,3 +16,9 @@ object UserConstants {
 
     const val STS_TOKEN = "123456789"
 }
+
+private const val MOCK_AKTORID_PREFIX = "10"
+
+fun mockAktorId(fnr: String): String {
+    return "$MOCK_AKTORID_PREFIX$fnr"
+}

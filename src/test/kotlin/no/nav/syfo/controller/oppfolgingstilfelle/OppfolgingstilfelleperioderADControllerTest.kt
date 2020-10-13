@@ -12,7 +12,7 @@ import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
 import no.nav.syfo.testhelper.UserConstants.STS_TOKEN
 import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
 import no.nav.syfo.testhelper.UserConstants.VIRKSOMHETSNUMMER
-import no.nav.syfo.testhelper.mockAndExpectAktorregRequest
+import no.nav.syfo.testhelper.mockAndExpectPdlIdenterRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -33,8 +33,8 @@ import javax.ws.rs.ForbiddenException
 @SpringBootTest(classes = [LocalApplication::class])
 class OppfolgingstilfelleperioderADControllerTest : AbstractControllerTilgangTest() {
 
-    @Value("\${aktorregister.url}")
-    private lateinit var aktorregisterUrl: String
+    @Value("\${pdl.url}")
+    private lateinit var pdlUrl: String
 
     @MockBean
     private lateinit var stsConsumer: StsConsumer
@@ -54,7 +54,7 @@ class OppfolgingstilfelleperioderADControllerTest : AbstractControllerTilgangTes
 
         mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, OK)
 
-        mockAndExpectAktorregRequest(mockRestServiceServer, aktorregisterUrl)
+        mockAndExpectPdlIdenterRequest(mockRestServiceServer, pdlUrl)
 
         val oppfolgingstilfelleList = oppfolgingstilfelleperioderController.getOppfolgingstilfelleperioder(ARBEIDSTAKER_FNR, VIRKSOMHETSNUMMER)
 

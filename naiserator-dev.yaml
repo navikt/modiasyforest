@@ -58,8 +58,6 @@ spec:
       value: https://sts-q1.preprod.local/SecurityTokenServiceProvider/
     - name: BRUKERPROFIL_V3_URL
       value: https://wasapp-q1.adeo.no/tpsws/Brukerprofil_v3
-    - name: AKTORREGISTER_URL
-      value: https://app-q1.adeo.no/aktoerregister/api/v1
     - name: DIGITALKONTAKINFORMASJON_V1_URL
       value: https://dkif.nais.preprod.local/ws/DigitalKontaktinformasjon/v1
     - name: SYKEFRAVAERSOPPFOELGING_V1_URL

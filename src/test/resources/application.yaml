@@ -32,7 +32,6 @@ oppfoelging.syfoservice.withmock: true
 dev: true
 local.mock: false
 
-aktorregister.url: "https://aktorregister"
 ereg.baseurl: "http://ereg"
 pdl.url: "http://pdl"
 tilgangskontrollapi.url: "https://www.ikke.no"
