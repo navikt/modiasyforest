@@ -78,6 +78,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jersey")
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.retry:spring-retry")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
@@ -95,7 +96,6 @@ dependencies {
     implementation("com.sun.activation:javax.activation:$javaxActivationVersion")
 
     implementation("io.micrometer:micrometer-registry-prometheus:1.0.6")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("javax.ws.rs:javax.ws.rs-api:2.0.1")
     implementation("org.apache.commons:commons-lang3:3.5")
     implementation("net.logstash.logback:logstash-logback-encoder:4.10")
