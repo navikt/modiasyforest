@@ -3,16 +3,13 @@ package no.nav.syfo.controller.oppfolgingstilfelle
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.consumer.sts.StsConsumer
 import no.nav.syfo.controller.AbstractControllerTilgangTest
-import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_AKTIVITET
-import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_FOM
-import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_GRAD
-import no.nav.syfo.mocks.OppfoelgingMock.Companion.OPPFOLGINGSTILFELLE_PERIODE_TOM
+import no.nav.syfo.testhelper.*
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
+import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_AKTORID
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
 import no.nav.syfo.testhelper.UserConstants.STS_TOKEN
 import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
 import no.nav.syfo.testhelper.UserConstants.VIRKSOMHETSNUMMER
-import no.nav.syfo.testhelper.mockAndExpectPdlIdenterRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -36,6 +33,9 @@ class OppfolgingstilfelleperioderADControllerTest : AbstractControllerTilgangTes
     @Value("\${pdl.url}")
     private lateinit var pdlUrl: String
 
+    @Value("\${syfosyketilfelle.url}")
+    private lateinit var syketilfelleUrl: String
+
     @MockBean
     private lateinit var stsConsumer: StsConsumer
 
@@ -56,13 +56,16 @@ class OppfolgingstilfelleperioderADControllerTest : AbstractControllerTilgangTes
 
         mockAndExpectPdlIdenterRequest(mockRestServiceServer, pdlUrl)
 
+        mockAndExpectSyketilfelleRequest(
+            mockRestServiceServer,
+            "$syketilfelleUrl/kafka/oppfolgingstilfelle/beregn/$ARBEIDSTAKER_AKTORID/$VIRKSOMHETSNUMMER"
+        )
+
         val oppfolgingstilfelleList = oppfolgingstilfelleperioderController.getOppfolgingstilfelleperioder(ARBEIDSTAKER_FNR, VIRKSOMHETSNUMMER)
 
         assertThat(oppfolgingstilfelleList).hasSize(1)
 
         val oppfolgingstilfelle = oppfolgingstilfelleList.first()
-        assertThat(oppfolgingstilfelle.aktivitet).isEqualTo(OPPFOLGINGSTILFELLE_PERIODE_AKTIVITET)
-        assertThat(oppfolgingstilfelle.grad).isEqualTo(OPPFOLGINGSTILFELLE_PERIODE_GRAD)
         assertThat(oppfolgingstilfelle.orgnummer).isEqualTo(VIRKSOMHETSNUMMER)
         assertThat(oppfolgingstilfelle.fom).isEqualTo(OPPFOLGINGSTILFELLE_PERIODE_FOM)
         assertThat(oppfolgingstilfelle.tom).isEqualTo(OPPFOLGINGSTILFELLE_PERIODE_TOM)
