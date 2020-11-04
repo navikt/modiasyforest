@@ -60,12 +60,12 @@ spec:
       value: https://wasapp-q1.adeo.no/tpsws/Brukerprofil_v3
     - name: DIGITALKONTAKINFORMASJON_V1_URL
       value: https://dkif.nais.preprod.local/ws/DigitalKontaktinformasjon/v1
-    - name: SYKEFRAVAERSOPPFOELGING_V1_URL
-      value: https://modapp-q1.adeo.no/syfo/services/Sykefravaersoppfoelging_v1
     - name: EREG_BASEURL
       value: https://modapp-q1.adeo.no
     - name: PDL_URL
       value: https://pdl-api.nais.preprod.local/graphql
+    - name: SYFOSYKETILFELLE_URL
+      value: "https://syfosyketilfelle.nais.preprod.local"
     - name: TILGANGSKONTROLLAPI_URL
       value: https://syfo-tilgangskontroll.nais.preprod.local/syfo-tilgangskontroll/api/tilgang
     - name: SYFOVEILEDEROPPGAVER_SYSTEM_V1_URL
