@@ -6,7 +6,6 @@ import no.nav.syfo.metric.Metrikk
 import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClientResponseException
