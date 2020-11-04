@@ -23,11 +23,11 @@ class DkifConsumer(
         val bearer = stsConsumer.token()
 
         try {
-            val response = template.exchange<DigitalKontaktinfoBolk>(
+            val response = template.exchange(
                 DKIF_URL,
                 HttpMethod.GET,
                 entity(ident, bearer),
-                object : ParameterizedTypeReference<DigitalKontaktinfoBolk>() {}
+                DigitalKontaktinfoBolk::class.java
             )
             val responseBody = response.body
 
