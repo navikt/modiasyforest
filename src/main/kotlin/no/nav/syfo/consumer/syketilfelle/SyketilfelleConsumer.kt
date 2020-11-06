@@ -31,6 +31,10 @@ class SyketilfelleConsumer(
                 entity(),
                 KOppfolgingstilfelle::class.java
             )
+            if (response.statusCodeValue == 204) {
+                LOG.info("Syketilfelle returned HTTP-${response.statusCodeValue}: No Oppfolgingstilfelle was found for AktorId")
+                return null
+            }
             val responseBody: KOppfolgingstilfelle = response.body!!
             metric.countEvent(CALL_SYFOSYKETILFELLE_PERSON_SUCCESS)
             return responseBody
