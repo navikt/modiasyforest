@@ -6,14 +6,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 group = "no.nav.syfo"
 version = "1.0.0"
 
-val cxfVersion = "3.3.3"
 val javaxActivationVersion = "1.2.0"
 val jaxRiVersion = "2.3.2"
 val nimbusSDKVersion = "7.0.3"
 val oidcSupportVersion = "0.2.18"
 val kotlinJacksonVersion = "2.9.8"
-val tjenesteSpesifikasjonerVersion = "1.2020.06.23-15.31-57b909d0a05c"
-val syfotjenesterVersion = "1.2020.06.26-13.27-bec776183ad5"
 
 plugins {
     kotlin("jvm") version "1.4.10"
@@ -22,17 +19,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "9.4.0"
     id("org.springframework.boot") version "2.2.6.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
-}
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31")
-        classpath("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
-        classpath("org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438")
-        classpath("com.sun.xml.ws:jaxws-tools:2.3.1") {
-            exclude(group = "com.sun.xml.ws", module = "policy")
-        }
-    }
 }
 
 allOpen {
@@ -69,10 +55,6 @@ dependencies {
 
     implementation("org.apache.httpcomponents:httpclient:4.5.6")
 
-    implementation("no.nav.tjenestespesifikasjoner:brukerprofil-v3-tjenestespesifikasjon:$tjenesteSpesifikasjonerVersion")
-
-    implementation("no.nav.syfotjenester:sykefravaersoppfoelgingv1-tjenestespesifikasjon:$syfotjenesterVersion")
-
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-jersey")
@@ -86,18 +68,10 @@ dependencies {
     implementation("no.nav.security:oidc-spring-support:$oidcSupportVersion")
     testImplementation("no.nav.security:oidc-test-support:$oidcSupportVersion")
 
-    implementation("org.apache.cxf:cxf-rt-features-logging:$cxfVersion")
-    implementation("org.apache.cxf:cxf-rt-ws-security:$cxfVersion")
-    implementation("org.apache.cxf:cxf-rt-ws-policy:$cxfVersion")
-    implementation("org.apache.cxf:cxf-rt-transports-http:$cxfVersion")
-    implementation("org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion")
-
     implementation("com.sun.xml.ws:jaxws-ri:$jaxRiVersion")
     implementation("com.sun.activation:javax.activation:$javaxActivationVersion")
 
     implementation("io.micrometer:micrometer-registry-prometheus:1.0.6")
-    implementation("javax.ws.rs:javax.ws.rs-api:2.0.1")
-    implementation("org.apache.commons:commons-lang3:3.5")
     implementation("net.logstash.logback:logstash-logback-encoder:4.10")
     implementation("org.slf4j:slf4j-api:1.7.25")
 }

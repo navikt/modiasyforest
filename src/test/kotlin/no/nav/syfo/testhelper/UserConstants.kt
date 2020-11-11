@@ -1,7 +1,5 @@
 package no.nav.syfo.testhelper
 
-import no.nav.syfo.mocks.BrukerprofilMock
-
 object UserConstants {
     const val ARBEIDSTAKER_FNR = "12345678912"
     val ARBEIDSTAKER_AKTORID = mockAktorId(ARBEIDSTAKER_FNR)
@@ -12,7 +10,11 @@ object UserConstants {
     const val VEILEDER_ID = "Z999999"
     const val PERSON_TLF = "12345678"
     const val PERSON_EMAIL = "test@nav.no"
-    const val PERSON_NAVN = BrukerprofilMock.PERSON_FORNAVN + " " + BrukerprofilMock.PERSON_ETTERNAVN
+
+    const val PERSON_NAME_FIRST = "First"
+    const val PERSON_NAME_MIDDLE = "Middle"
+    const val PERSON_NAME_LAST = "Last"
+    const val PERSON_NAVN_FULL = PERSON_NAME_FIRST + PERSON_NAME_MIDDLE + PERSON_NAME_LAST
 
     const val STS_TOKEN = "123456789"
 }

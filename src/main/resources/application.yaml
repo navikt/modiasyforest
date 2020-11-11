@@ -28,5 +28,3 @@ spring:
   redis:
     host: modiasyforest-redis
     port: 6379
-
-dev: false
