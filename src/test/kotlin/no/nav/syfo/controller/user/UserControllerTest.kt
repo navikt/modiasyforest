@@ -2,13 +2,16 @@ package no.nav.syfo.controller.user
 
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.consumer.dkif.DkifConsumer
+import no.nav.syfo.consumer.pdl.PdlConsumer
+import no.nav.syfo.consumer.pdl.fullName
 import no.nav.syfo.controller.AbstractControllerTilgangTest
+import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.testhelper.OidcTestHelper.logInVeilederAD
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
-import no.nav.syfo.testhelper.UserConstants.PERSON_NAVN
 import no.nav.syfo.testhelper.UserConstants.VEILEDER_ID
 import no.nav.syfo.testhelper.generateDigitalKontaktinfo
+import no.nav.syfo.testhelper.generatePdlHentPerson
 import org.junit.*
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -28,6 +31,9 @@ class UserControllerTest : AbstractControllerTilgangTest() {
     @MockBean
     private lateinit var dkifConsumer: DkifConsumer
 
+    @MockBean
+    private lateinit var pdlConsumer: PdlConsumer
+
     @Inject
     private lateinit var userController: UserController
 
@@ -46,9 +52,11 @@ class UserControllerTest : AbstractControllerTilgangTest() {
     fun userHasAccess() {
         mockSvarFraTilgangTilBrukerViaAzure(ARBEIDSTAKER_FNR, HttpStatus.OK)
         val digitalKontaktinfo = generateDigitalKontaktinfo()
+        val pdlResponse = generatePdlHentPerson(null)
         Mockito.`when`(dkifConsumer.kontaktinformasjon(ARBEIDSTAKER_FNR)).thenReturn(digitalKontaktinfo)
+        Mockito.`when`(pdlConsumer.person(Fodselsnummer(ARBEIDSTAKER_FNR))).thenReturn(pdlResponse)
         val user = userController.getUser(ARBEIDSTAKER_FNR)
-        Assert.assertEquals(PERSON_NAVN, user.navn)
+        Assert.assertEquals(pdlResponse.fullName(), user.navn)
     }
 
     @Test(expected = ForbiddenException::class)

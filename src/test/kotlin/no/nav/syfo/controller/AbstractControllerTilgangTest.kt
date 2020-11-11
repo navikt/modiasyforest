@@ -28,9 +28,6 @@ abstract class AbstractControllerTilgangTest {
     @Value("\${tilgangskontrollapi.url}")
     private lateinit var tilgangskontrollUrl: String
 
-    @Value("\${dev}")
-    private lateinit var dev: String
-
     @Inject
     lateinit var oidcRequestContextHolder: OIDCRequestContextHolder
 

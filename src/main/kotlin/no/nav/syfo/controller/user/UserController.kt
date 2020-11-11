@@ -2,12 +2,14 @@ package no.nav.syfo.controller.user
 
 import no.nav.security.oidc.api.ProtectedWithClaims
 import no.nav.syfo.api.auth.OIDCIssuer.AZURE
-import no.nav.syfo.consumer.BrukerprofilConsumer
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.consumer.dkif.DigitalKontaktinfo
 import no.nav.syfo.consumer.dkif.DkifConsumer
+import no.nav.syfo.consumer.pdl.PdlConsumer
+import no.nav.syfo.consumer.pdl.fullName
 import no.nav.syfo.controller.user.domain.Bruker
 import no.nav.syfo.controller.user.domain.Kontaktinfo
+import no.nav.syfo.domain.Fodselsnummer
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
@@ -16,8 +18,8 @@ import javax.inject.Inject
 @ProtectedWithClaims(issuer = AZURE)
 @RequestMapping(value = ["/api/internad/brukerinfo"])
 class UserController @Inject constructor(
-    private val brukerprofilConsumer: BrukerprofilConsumer,
     private val dkifConsumer: DkifConsumer,
+    private val pdlConsumer: PdlConsumer,
     private val tilgangsKontroll: TilgangConsumer
 ) {
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -31,10 +33,10 @@ class UserController @Inject constructor(
             epost = digitalKontaktinfo.epostadresse,
             tlf = digitalKontaktinfo.mobiltelefonnummer
         )
-        return brukerprofilConsumer.hentBruker(fnr)
-            .copy(
-                kontaktinfo = kontaktinfo,
-                arbeidssituasjon = "ARBEIDSTAKER"
-            )
+        return Bruker(
+            navn = pdlConsumer.person(Fodselsnummer(fnr))?.fullName(),
+            kontaktinfo = kontaktinfo,
+            arbeidssituasjon = "ARBEIDSTAKER"
+        )
     }
 }
