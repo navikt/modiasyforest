@@ -41,6 +41,10 @@ spec:
     paths:
       - kvPath: "/azuread/data/prod/creds/modiasyforest"
         mountPath: "/secrets/azuread/modiasyforest"
+      - kvPath: "/serviceuser/data/prod/srvmodiasyforest"
+        mountPath: "/secrets/serviceuser/modiasyforest"
+      - kvPath: "/kv/prod/fss/modiasyforest/default"
+        mountPath: "/secrets/vault"
   env:
     - name: APP_NAME
       value: "modiasyforest"
