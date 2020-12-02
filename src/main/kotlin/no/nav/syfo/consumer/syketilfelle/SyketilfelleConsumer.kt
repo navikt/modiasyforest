@@ -2,6 +2,7 @@ package no.nav.syfo.consumer.syketilfelle
 
 import no.nav.syfo.consumer.sts.StsConsumer
 import no.nav.syfo.consumer.syketilfelle.domain.KOppfolgingstilfelle
+import no.nav.syfo.consumer.syketilfelle.domain.KOppfolgingstilfellePerson
 import no.nav.syfo.domain.AktorId
 import no.nav.syfo.metric.Metrikk
 import no.nav.syfo.util.*
@@ -45,6 +46,31 @@ class SyketilfelleConsumer(
         }
     }
 
+    fun getOppfolgingstilfelleNoArbeidsgiver(
+        aktorId: AktorId,
+        callId: String
+    ): KOppfolgingstilfellePerson? {
+        try {
+            val response = restTemplate.exchange(
+                getSyfosyketilfelleUrl(aktorId),
+                HttpMethod.GET,
+                entity(),
+                KOppfolgingstilfellePerson::class.java
+            )
+            if (response.statusCodeValue == 204) {
+                LOG.info("Syketilfelle returned HTTP-${response.statusCodeValue}: No Oppfolgingstilfelle was found for AktorId")
+                return null
+            }
+            val responseBody: KOppfolgingstilfellePerson = response.body!!
+            metric.countEvent(CALL_SYFOSYKETILFELLE_PERSON_SUCCESS)
+            return responseBody
+        } catch (e: RestClientResponseException) {
+            LOG.error("Request to get Oppfolgingstilfelle for Person from Syfosyketilfelle failed with status ${e.rawStatusCode} and message: ${e.responseBodyAsString}")
+            metric.countEvent(CALL_SYFOSYKETILFELLE_PERSON_FAIL)
+            throw e
+        }
+    }
+
     private fun entity(): HttpEntity<*> {
         val token = stsConsumer.token()
         val headers = HttpHeaders()
@@ -59,6 +85,12 @@ class SyketilfelleConsumer(
         virksomhetsnummer: String
     ): String {
         return "$syketilfelleUrl/kafka/oppfolgingstilfelle/beregn/${aktorId.value}/$virksomhetsnummer"
+    }
+
+    private fun getSyfosyketilfelleUrl(
+        aktorId: AktorId
+    ): String {
+        return "$syketilfelleUrl/kafka/oppfolgingstilfelle/beregn/${aktorId.value}/utenarbeidsgiver"
     }
 
     companion object {
