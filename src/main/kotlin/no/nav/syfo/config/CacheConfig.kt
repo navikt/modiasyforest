@@ -37,6 +37,6 @@ class CacheConfig {
         const val CACHENAME_EREG_VIRKSOMHETSNAVN = "virksomhetsnavn"
         const val CACHENAME_VEILEDER_ENHETER = "organisasjonnavn"
         const val CACHENAME_SYFOSERVICE_LEDERE = "syfoservicefinnledere"
-        const val CACHENAME_NARMESTELEDER_LEDERE = "ledere"
+        const val CACHENAME_NARMESTELEDER_LEDERE = "narmesteledere"
     }
 }

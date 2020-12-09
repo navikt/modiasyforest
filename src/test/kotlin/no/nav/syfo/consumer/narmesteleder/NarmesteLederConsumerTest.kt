@@ -72,6 +72,7 @@ class NarmesteLederConsumerTest {
                 "narmesteLederTelefonnummer",
                 "narmesteLederEpost",
                 LocalDate.now(),
+                LocalDate.now(),
                 false,
                 false,
                 emptyList()
