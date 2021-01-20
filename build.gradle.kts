@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 group = "no.nav.syfo"
 version = "1.0.0"
 
+val apacheHttpClientVersion = "4.5.13"
 val javaxActivationVersion = "1.2.0"
 val jaxRiVersion = "2.3.2"
 val nimbusSDKVersion = "7.0.3"
@@ -55,7 +56,7 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$kotlinJacksonVersion")
 
-    implementation("org.apache.httpcomponents:httpclient:4.5.6")
+    implementation("org.apache.httpcomponents:httpclient:$apacheHttpClientVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
