@@ -6,6 +6,8 @@ import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.consumer.narmesteleder.NarmesteLederService
 import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.util.NAV_PERSONIDENT_HEADER
+import org.springframework.util.MultiValueMap
 import org.springframework.web.bind.annotation.*
 import javax.inject.Inject
 import javax.ws.rs.core.MediaType.APPLICATION_JSON
@@ -21,17 +23,23 @@ constructor(
 ) {
     @GetMapping(value = ["/allnaermesteledere"], produces = [APPLICATION_JSON])
     fun getAllNarmesteledere(
-        @RequestParam(value = "fnr") fnr: String
+        @RequestParam(value = "fnr") fnr: String?,
+        @RequestHeader headers: MultiValueMap<String, String>
     ): List<NaermesteLeder> {
         metrikk.tellEndepunktKall("hent_narmesteleder_all")
+        val requestedPersonIdent: String? = fnr ?: headers.getFirst(NAV_PERSONIDENT_HEADER)
 
-        tilgangConsumer.throwExceptionIfVeilederWithoutAccess(fnr)
+        if (requestedPersonIdent.isNullOrEmpty()) {
+            throw IllegalArgumentException("Did not find a PersonIdent in request headers or in Request param")
+        } else {
+            tilgangConsumer.throwExceptionIfVeilederWithoutAccess(requestedPersonIdent)
 
-        val naermesteledere = narmesteLederService.narmesteLedere(Fodselsnummer(fnr))
-        var idcounter: Long = 0
-        for (naermesteleder in naermesteledere) {
-            naermesteleder.id = idcounter++
+            val naermesteledere = narmesteLederService.narmesteLedere(Fodselsnummer(requestedPersonIdent))
+            var idcounter: Long = 0
+            for (naermesteleder in naermesteledere) {
+                naermesteleder.id = idcounter++
+            }
+            return naermesteledere
         }
-        return naermesteledere
     }
 }
