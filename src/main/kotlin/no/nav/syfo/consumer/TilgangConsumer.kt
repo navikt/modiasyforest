@@ -1,6 +1,6 @@
 package no.nav.syfo.consumer
 
-import no.nav.security.oidc.context.OIDCRequestContextHolder
+import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.syfo.api.auth.OIDCIssuer
 import no.nav.syfo.api.auth.OIDCUtil.tokenFraOIDC
 import no.nav.syfo.util.bearerCredentials
@@ -17,7 +17,7 @@ import javax.ws.rs.ForbiddenException
 @Service
 class TilgangConsumer(
     @Value("\${tilgangskontrollapi.url}") tilgangskontrollUrl: String,
-    private val oidcContextHolder: OIDCRequestContextHolder,
+    private val tokenValidationContextHolder: TokenValidationContextHolder,
     private val template: RestTemplate
 ) {
     private val tilgangTilBrukerViaAzureUriTemplate: UriComponentsBuilder
@@ -55,7 +55,7 @@ class TilgangConsumer(
     private fun createEntity(issuer: String): HttpEntity<String> {
         val headers = HttpHeaders()
         headers.accept = listOf(MediaType.APPLICATION_JSON)
-        headers[HttpHeaders.AUTHORIZATION] = bearerCredentials(tokenFraOIDC(oidcContextHolder, issuer))
+        headers[HttpHeaders.AUTHORIZATION] = bearerCredentials(tokenFraOIDC(tokenValidationContextHolder, issuer))
         return HttpEntity(headers)
     }
 

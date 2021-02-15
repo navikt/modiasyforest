@@ -45,7 +45,7 @@ class OppfolgingstilfelleperioderADControllerTest : AbstractControllerTilgangTes
     @Before
     @Throws(ParseException::class)
     fun setup() {
-        logInVeilederAD(oidcRequestContextHolder, VEILEDER_ID)
+        logInVeilederAD(tokenValidationContextHolder, VEILEDER_ID)
     }
 
     @Test

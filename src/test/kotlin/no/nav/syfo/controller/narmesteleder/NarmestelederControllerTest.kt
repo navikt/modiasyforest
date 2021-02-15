@@ -31,12 +31,12 @@ class NarmestelederControllerTest : AbstractControllerTilgangTest() {
     @Before
     @Throws(ParseException::class)
     fun setup() {
-        logInVeilederAD(oidcRequestContextHolder, VEILEDER_ID)
+        logInVeilederAD(tokenValidationContextHolder, VEILEDER_ID)
     }
 
     @After
     override fun tearDown() {
-        loggUtAlle(oidcRequestContextHolder)
+        loggUtAlle(tokenValidationContextHolder)
     }
 
     @Test

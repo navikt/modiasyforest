@@ -1,6 +1,6 @@
 package no.nav.syfo.controller
 
-import no.nav.security.oidc.context.OIDCRequestContextHolder
+import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.api.auth.OIDCIssuer
 import no.nav.syfo.consumer.TilgangConsumer
@@ -29,7 +29,7 @@ abstract class AbstractControllerTilgangTest {
     private lateinit var tilgangskontrollUrl: String
 
     @Inject
-    lateinit var oidcRequestContextHolder: OIDCRequestContextHolder
+    lateinit var tokenValidationContextHolder: TokenValidationContextHolder
 
     @Inject
     private lateinit var restTemplate: RestTemplate
@@ -43,7 +43,7 @@ abstract class AbstractControllerTilgangTest {
     @After
     open fun tearDown() {
         mockRestServiceServer.verify()
-        loggUtAlle(oidcRequestContextHolder)
+        loggUtAlle(tokenValidationContextHolder)
         mockRestServiceServer.reset()
     }
 
@@ -52,7 +52,7 @@ abstract class AbstractControllerTilgangTest {
             .path(TilgangConsumer.TILGANG_TIL_BRUKER_VIA_AZURE_PATH)
             .queryParam(TilgangConsumer.FNR, fnr)
             .toUriString()
-        val idToken = oidcRequestContextHolder.oidcValidationContext.getToken(OIDCIssuer.AZURE).idToken
+        val idToken = tokenValidationContextHolder.tokenValidationContext.getJwtToken(OIDCIssuer.AZURE).tokenAsString
         mockRestServiceServer.expect(ExpectedCount.manyTimes(), MockRestRequestMatchers.requestTo(uriString))
             .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
             .andExpect(MockRestRequestMatchers.header(HttpHeaders.AUTHORIZATION, "Bearer $idToken"))

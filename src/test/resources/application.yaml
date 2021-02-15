@@ -6,6 +6,13 @@ server:
   servlet:
     context-path: /modiasyforest
 
+no.nav.security.jwt:
+  issuer:
+    veileder:
+      discoveryurl: http://metadata
+      accepted_audience: aud-localhost
+      cookie_name: localhost-idtoken
+
 srv:
   username: "username"
   password: "password"

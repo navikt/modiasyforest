@@ -1,6 +1,6 @@
 package no.nav.syfo.controller.user
 
-import no.nav.security.oidc.api.ProtectedWithClaims
+import no.nav.security.token.support.core.api.ProtectedWithClaims
 import no.nav.syfo.api.auth.OIDCIssuer.AZURE
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.consumer.dkif.DigitalKontaktinfo

@@ -9,8 +9,7 @@ version = "1.0.0"
 val apacheHttpClientVersion = "4.5.13"
 val javaxActivationVersion = "1.2.0"
 val jaxRiVersion = "2.3.2"
-val nimbusSDKVersion = "7.0.3"
-val oidcSupportVersion = "0.2.18"
+val tokenValidationSpringSupportVersion = "1.3.2"
 val kotlinJacksonVersion = "2.9.8"
 val prometheusVersion = "1.5.5"
 val slf4jVersion = "1.7.30"
@@ -67,9 +66,8 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    implementation("com.nimbusds:oauth2-oidc-sdk:$nimbusSDKVersion")
-    implementation("no.nav.security:oidc-spring-support:$oidcSupportVersion")
-    testImplementation("no.nav.security:oidc-test-support:$oidcSupportVersion")
+    implementation("no.nav.security:token-validation-spring:$tokenValidationSpringSupportVersion")
+    testImplementation("no.nav.security:token-validation-test-support:$tokenValidationSpringSupportVersion")
 
     implementation("com.sun.xml.ws:jaxws-ri:$jaxRiVersion")
     implementation("com.sun.activation:javax.activation:$javaxActivationVersion")

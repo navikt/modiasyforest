@@ -1,9 +1,8 @@
-no.nav.security.oidc:
-  issuers: veileder
+no.nav.security.jwt:
   issuer:
     veileder:
-      discoveryurl: <syfonais>
-      accepted_audience: <syfonais>
+      discoveryurl: <nais-manifest>
+      accepted_audience: <nais-manifest>
       cookie_name: isso-idtoken
 
 logging.config: classpath:logback-spring.xml
