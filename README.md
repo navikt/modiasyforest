@@ -18,7 +18,7 @@ Commits til ikke-master-branch bygges uten automatisk deploy.
 
 #Redis Cache
 modiasyforest bruker redis for cache.
-Redis pod må startes manuelt ved å kjøre følgdende kommando: `kubectl apply -f redis-config.yaml`.
+Redis pod må startes manuelt ved å kjøre følgdende kommando: `kubectl apply -f .nais/redis-config.yaml`.
 
 ## Hente pakker fra Github Package Registry
 Noen pakker hentes fra Github Package Registry som krever autentisering.

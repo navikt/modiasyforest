@@ -68,7 +68,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
-          RESOURCE: naiserator-dev.yaml
+          RESOURCE: .nais/naiserator-dev.yaml
 
   deploy-prod:
     if: github.ref == 'refs/heads/master'
@@ -81,15 +81,4 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
-          RESOURCE: naiserator-prod.yaml
-
-  pling:
-    if: github.ref == 'refs/heads/master'
-    name: Pling!
-    needs: deploy-prod
-    runs-on: ubuntu-latest
-    steps:
-      - name: Pling
-        run: |
-          curl -s "https://syfoping.herokuapp.com/regDeploy?deployedBy=${COMMITER_NAME}&app=${APP_NAME}"
-
+          RESOURCE: .nais/naiserator-prod.yaml
