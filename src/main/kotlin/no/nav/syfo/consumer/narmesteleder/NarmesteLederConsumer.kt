@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClientResponseException
 import org.springframework.web.client.RestTemplate
@@ -34,7 +36,10 @@ class NarmesteLederConsumer @Autowired constructor(
             )
             metrikk.countEvent(CALL_SYFONARMESTELEDER_LEDERE_SUCCESS)
 
-            return response.body!!
+            return response?.body ?: run {
+                LOG.error("Request to get Ledere from Syfonarmesteleder was null. Response: $response")
+                emptyList()
+            }
         } catch (e: RestClientResponseException) {
             LOG.error("Request to get Ledere from Syfonarmesteleder failed with status ${e.rawStatusCode} and message: ${e.responseBodyAsString}")
             metrikk.countEvent(CALL_SYFONARMESTELEDER_LEDERE_FAIL)
