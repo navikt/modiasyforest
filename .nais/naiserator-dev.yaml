@@ -72,8 +72,6 @@ spec:
       value: "https://syfosyketilfelle.nais.preprod.local"
     - name: TILGANGSKONTROLLAPI_URL
       value: https://syfo-tilgangskontroll.nais.preprod.local/syfo-tilgangskontroll/api/tilgang
-    - name: SYFOVEILEDEROPPGAVER_SYSTEM_V1_URL
-      value: https://syfoveilederoppgaver-q1.nais.preprod.local/syfoveilederoppgaver/api/system/veilederoppgaver/v1
     - name: AD_ACCESSTOKEN_URL
       value: https://login.microsoftonline.com/navq.onmicrosoft.com/oauth2/token
     - name: SYFONARMESTELEDER_ID
