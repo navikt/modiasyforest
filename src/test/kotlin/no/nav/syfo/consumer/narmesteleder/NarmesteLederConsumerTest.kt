@@ -45,14 +45,27 @@ class NarmesteLederConsumerTest {
     @Value("\${syfonarmesteleder.id}")
     private lateinit var syfonarmestelederId: String
 
+    @Value("\${syfonarmesteleder.url}")
+    private lateinit var syfonarmestelederUrl: String
+
     private lateinit var narmesteLederConsumer: NarmesteLederConsumer
 
     private lateinit var mockRestServiceServer: MockRestServiceServer
 
+    private lateinit var ledereUrl: String
+
     @Before
     fun setup() {
+        ledereUrl = "$syfonarmestelederUrl/syfonarmesteleder/sykmeldt/${SYKMELDT_AKTOR_ID.value}/narmesteledere"
+
         this.mockRestServiceServer = MockRestServiceServer.bindTo(restTemplate).build()
-        narmesteLederConsumer = NarmesteLederConsumer(azureAdTokenConsumer, metrikk, restTemplate, syfonarmestelederId)
+        narmesteLederConsumer = NarmesteLederConsumer(
+            azureAdTokenConsumer,
+            metrikk,
+            restTemplate,
+            syfonarmestelederUrl,
+            syfonarmestelederId,
+        )
 
         `when`(azureAdTokenConsumer.accessToken(syfonarmestelederId)).thenReturn("token")
     }
@@ -78,7 +91,7 @@ class NarmesteLederConsumerTest {
                 emptyList()
             )
         )
-        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(LEDERE_URL)).andRespond(withSuccess(ledereAsJsonObject(expectedLedereList), MediaType.APPLICATION_JSON))
+        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(ledereUrl)).andRespond(withSuccess(ledereAsJsonObject(expectedLedereList), MediaType.APPLICATION_JSON))
 
         val actualLedere: List<NarmesteLederRelasjon> = narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
 
@@ -92,7 +105,7 @@ class NarmesteLederConsumerTest {
     @Test
     fun `get ledere accepts empty list as result`() {
         val expectedEmptyLedereList: List<NarmesteLederRelasjon> = emptyList()
-        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(LEDERE_URL)).andRespond(withSuccess(ledereAsJsonObject(expectedEmptyLedereList), MediaType.APPLICATION_JSON))
+        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(ledereUrl)).andRespond(withSuccess(ledereAsJsonObject(expectedEmptyLedereList), MediaType.APPLICATION_JSON))
 
         val actualLedere: List<NarmesteLederRelasjon> = narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
 
@@ -104,7 +117,7 @@ class NarmesteLederConsumerTest {
     @Test(expected = RestClientResponseException::class)
     fun `get ledere catches RestClientResponseException and counts metric`() {
         val errorMessage = "Feilmelding"
-        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(LEDERE_URL)).andRespond(withServerError().body(errorMessage))
+        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(ledereUrl)).andRespond(withServerError().body(errorMessage))
 
         try {
             narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
@@ -128,7 +141,5 @@ class NarmesteLederConsumerTest {
         private val SYKMELDT_AKTOR_ID = AktorId("1234567890987")
         private const val LEDER_AKTOR_ID = "7890987654321"
         private const val VIRKSOMHETSNUMMER = "1234"
-
-        private val LEDERE_URL = "http://syfonarmesteleder/syfonarmesteleder/sykmeldt/${SYKMELDT_AKTOR_ID.value}/narmesteledere"
     }
 }

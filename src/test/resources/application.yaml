@@ -17,8 +17,10 @@ srv:
   username: "username"
   password: "password"
 
+dkif.url: "https://dkif.nais.no"
 ereg.baseurl: "http://ereg"
 pdl.url: "http://pdl"
+security.token.service.rest.url: "https://sts.nais.no"
 syfosyketilfelle.url: "http://syfosyketilfelle"
 tilgangskontrollapi.url: "https://www.ikke.no"
 
