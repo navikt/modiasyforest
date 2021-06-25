@@ -62,12 +62,18 @@ spec:
       value: 9b4e07a3-4f4c-4bab-b866-87f62dff480d,97085f8d-2aa8-4a4e-ba8c-10bcc5691191
     - name: SECURITYTOKENSERVICE_URL
       value: https://sts.adeo.no/SecurityTokenServiceProvider/
+    - name: DKIF_URL
+      value: "https://dkif.nais.adeo.no"
     - name: EREG_BASEURL
       value: https://modapp.adeo.no
     - name: PDL_URL
       value: https://pdl-api.nais.adeo.no/graphql
     - name: TILGANGSKONTROLLAPI_URL
       value: https://syfo-tilgangskontroll.nais.adeo.no/syfo-tilgangskontroll/api/tilgang
+    - name: SECURITY_TOKEN_SERVICE_REST_URL
+      value: "https://security-token-service.nais.adeo.no"
+    - name: SYFONARMESTELEDER_URL
+      value: "https://syfonarmesteleder.nais.adeo.no"
     - name: SYFOSYKETILFELLE_URL
       value: "https://syfosyketilfelle.nais.adeo.no"
     - name: AD_ACCESSTOKEN_URL

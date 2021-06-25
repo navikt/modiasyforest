@@ -62,10 +62,16 @@ spec:
       value: 38e07d31-659d-4595-939a-f18dce3446c5,33ad42cc-b88c-45c9-b640-8c8a4c93d3a1
     - name: SECURITYTOKENSERVICE_URL
       value: https://sts-q1.preprod.local/SecurityTokenServiceProvider/
+    - name: DKIF_URL
+      value: "https://dkif.nais.preprod.local"
     - name: EREG_BASEURL
       value: https://modapp-q1.adeo.no
     - name: PDL_URL
       value: https://pdl-api.nais.preprod.local/graphql
+    - name: SECURITY_TOKEN_SERVICE_REST_URL
+      value: "https://security-token-service.nais.preprod.local"
+    - name: SYFONARMESTELEDER_URL
+      value: "https://syfonarmesteleder.nais.preprod.local"
     - name: SYFOSYKETILFELLE_URL
       value: "https://syfosyketilfelle.nais.preprod.local"
     - name: TILGANGSKONTROLLAPI_URL

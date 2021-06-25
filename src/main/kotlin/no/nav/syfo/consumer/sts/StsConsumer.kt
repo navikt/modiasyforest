@@ -3,7 +3,6 @@ package no.nav.syfo.consumer.sts
 import no.nav.syfo.metric.Metrikk
 import no.nav.syfo.util.basicCredentials
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
 import org.springframework.stereotype.Service
 import org.springframework.web.client.HttpClientErrorException
@@ -15,6 +14,7 @@ import java.time.LocalDateTime
 @Service
 class StsConsumer(
     private val metric: Metrikk,
+    @Value("\${security.token.service.rest.url}") private val baseUrl: String,
     @Value("\${srv.username}") private val username: String,
     @Value("\${srv.password}") private val password: String,
     private val template: RestTemplate
@@ -31,11 +31,11 @@ class StsConsumer(
             val stsTokenUri = getStsTokenUriTemplate.build().toUri()
 
             try {
-                val response = template.exchange<STSToken>(
+                val response = template.exchange(
                     stsTokenUri,
                     HttpMethod.GET,
                     request,
-                    object : ParameterizedTypeReference<STSToken>() {}
+                    STSToken::class.java
                 )
                 cachedOidcToken = response.body
                 metric.tellEndepunktKall(METRIC_CALL_STS_SUCCESS)
@@ -48,10 +48,6 @@ class StsConsumer(
         return cachedOidcToken!!.access_token
     }
 
-    fun isTokenCached(): Boolean {
-        return cachedOidcToken !== null
-    }
-
     companion object {
         const val METRIC_CALL_STS = "call_sts"
         const val METRIC_CALL_STS_SUCCESS = "call_sts_success"
@@ -59,7 +55,7 @@ class StsConsumer(
     }
 
     private fun getStsTokenUrl(): String {
-        return "http://security-token-service/rest/v1/sts/token?grant_type=client_credentials&scope=openid"
+        return "$baseUrl/rest/v1/sts/token?grant_type=client_credentials&scope=openid"
     }
 
     private fun authorizationHeader(): HttpHeaders {

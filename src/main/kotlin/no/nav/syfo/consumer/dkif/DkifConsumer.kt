@@ -5,6 +5,7 @@ import no.nav.syfo.consumer.sts.StsConsumer
 import no.nav.syfo.metric.Metrikk
 import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.*
 import org.springframework.stereotype.Service
@@ -13,17 +14,24 @@ import org.springframework.web.client.RestTemplate
 
 @Service
 class DkifConsumer(
+    @Value("\${dkif.url}") private val dkifUrl: String,
     private val metric: Metrikk,
     private val stsConsumer: StsConsumer,
     private val template: RestTemplate
 ) {
+    private val dkifKontaktinfoUrl: String
+
+    init {
+        dkifKontaktinfoUrl = "$dkifUrl$DKIF_KONTAKTINFO_PATH"
+    }
+
     @Cacheable(cacheNames = [CacheConfig.CACHENAME_DKIF_IDENT], key = "#ident", condition = "#ident != null")
     fun kontaktinformasjon(ident: String): DigitalKontaktinfo {
         val bearer = stsConsumer.token()
 
         try {
             val response = template.exchange(
-                DKIF_URL,
+                dkifKontaktinfoUrl,
                 HttpMethod.GET,
                 entity(ident, bearer),
                 DigitalKontaktinfoBolk::class.java
@@ -65,13 +73,6 @@ class DkifConsumer(
         }
     }
 
-    companion object {
-        private val LOG = LoggerFactory.getLogger(DkifConsumer::class.java)
-
-        const val METRIC_CALL_DKIF = "call_dkif"
-        const val DKIF_URL = "http://dkif/api/v1/personer/kontaktinformasjon"
-    }
-
     private fun entity(ident: String, token: String): HttpEntity<String> {
         val headers = HttpHeaders()
 
@@ -82,5 +83,12 @@ class DkifConsumer(
         headers[NAV_PERSONIDENTER_HEADER] = ident
 
         return HttpEntity(headers)
+    }
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(DkifConsumer::class.java)
+
+        const val METRIC_CALL_DKIF = "call_dkif"
+        const val DKIF_KONTAKTINFO_PATH = "/api/v1/personer/kontaktinformasjon"
     }
 }

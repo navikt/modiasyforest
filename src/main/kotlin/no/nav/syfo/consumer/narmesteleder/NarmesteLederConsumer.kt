@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
+import org.springframework.http.*
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClientResponseException
 import org.springframework.web.client.RestTemplate
@@ -23,8 +21,15 @@ class NarmesteLederConsumer @Autowired constructor(
     private val azureAdTokenConsumer: AzureAdTokenConsumer,
     private val metrikk: Metrikk,
     private val restTemplate: RestTemplate,
+    @Value("\${syfonarmesteleder.url}") private val syfonarmestelederUrl: String,
     @Value("\${syfonarmesteleder.id}") private val syfonarmestelederId: String
 ) {
+    private val syfonarmestelederBaseUrl: String
+
+    init {
+        syfonarmestelederBaseUrl = "$syfonarmestelederUrl$SYFONARMESTELEDER_BASE_PATH"
+    }
+
     @Cacheable(value = [CACHENAME_NARMESTELEDER_LEDERE], key = "#aktorId.value", condition = "#aktorId.value != null")
     fun narmesteLederRelasjonerLedere(aktorId: AktorId): List<NarmesteLederRelasjon> {
         try {
@@ -36,7 +41,7 @@ class NarmesteLederConsumer @Autowired constructor(
             )
             metrikk.countEvent(CALL_SYFONARMESTELEDER_LEDERE_SUCCESS)
 
-            return response?.body ?: run {
+            return response.body ?: run {
                 LOG.error("Request to get Ledere from Syfonarmesteleder was null. Response: $response")
                 emptyList()
             }
@@ -58,13 +63,13 @@ class NarmesteLederConsumer @Autowired constructor(
 
     private fun getLedereUrl(aktorId: AktorId): String {
         return UriComponentsBuilder
-            .fromHttpUrl("$SYFONARMESTELEDER_BASEURL/sykmeldt/${aktorId.value}/narmesteledere")
+            .fromHttpUrl("$syfonarmestelederBaseUrl/sykmeldt/${aktorId.value}/narmesteledere")
             .toUriString()
     }
 
     companion object {
         private val LOG = LoggerFactory.getLogger(NarmesteLederConsumer::class.java)
-        private const val SYFONARMESTELEDER_BASEURL = "http://syfonarmesteleder/syfonarmesteleder"
+        private const val SYFONARMESTELEDER_BASE_PATH = "/syfonarmesteleder"
 
         private const val CALL_SYFONARMESTELEDER_LEDERE_BASE = "call_syfonarmesteleder_ledere"
         private const val CALL_SYFONARMESTELEDER_LEDERE_FAIL = "${CALL_SYFONARMESTELEDER_LEDERE_BASE}_fail"
