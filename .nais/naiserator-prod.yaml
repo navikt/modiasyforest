@@ -37,7 +37,6 @@ spec:
     - "https://modiasyforest.intern.nav.no"
     - "https://modiasyforest.prod-fss-pub.nais.io"
     - "https://modiasyforest.nais.adeo.no"
-    - "https://app.adeo.no/modiasyforest"
   vault:
     enabled: true
     paths:
