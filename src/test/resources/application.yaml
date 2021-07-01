@@ -13,6 +13,16 @@ no.nav.security.jwt:
       accepted_audience: aud-localhost
       cookie_name: localhost-idtoken
 
+azure:
+  app:
+    client:
+      id: "1345678"
+      secret: "secret"
+  openid:
+    config:
+      token:
+        endpoint: "https://login.microsoftonline.com/id/oauth2/v2.0/token"
+
 srv:
   username: "username"
   password: "password"
@@ -22,6 +32,7 @@ ereg.baseurl: "http://ereg"
 pdl.url: "http://pdl"
 security.token.service.rest.url: "https://sts.nais.no"
 syfosyketilfelle.url: "http://syfosyketilfelle"
+syfotilgangskontroll.client.id: "syfotilgangskontrollId"
 tilgangskontrollapi.url: "https://www.ikke.no"
 
 client.id: clientId

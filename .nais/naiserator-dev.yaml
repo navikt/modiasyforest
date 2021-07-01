@@ -88,6 +88,8 @@ spec:
       value: "https://syfonarmesteleder.nais.preprod.local"
     - name: SYFOSYKETILFELLE_URL
       value: "https://syfosyketilfelle.nais.preprod.local"
+    - name: SYFOTILGANGSKONTROLL_CLIENT_ID
+      value: "32e36aa5-1d12-452a-9b1e-9f3f557cbb4d"
     - name: TILGANGSKONTROLLAPI_URL
       value: https://syfo-tilgangskontroll.nais.preprod.local/syfo-tilgangskontroll/api/tilgang
     - name: AD_ACCESSTOKEN_URL
