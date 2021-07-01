@@ -37,6 +37,21 @@ spec:
     - "https://modiasyforest.intern.nav.no"
     - "https://modiasyforest.prod-fss-pub.nais.io"
     - "https://modiasyforest.nais.adeo.no"
+  accessPolicy:
+    inbound:
+      rules:
+        - application: syfomodiaperson
+          namespace: teamsykefravr
+          cluster: prod-fss
+  azure:
+    application:
+      enabled: true
+      tenant: nav.no
+      replyURLs:
+        - "https://modiasyforest.intern.nav.no/oauth2/callback"
+      claims:
+        extra:
+          - "NAVident"
   vault:
     enabled: true
     paths:
