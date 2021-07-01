@@ -1,4 +1,4 @@
-package no.nav.syfo.controller.oppfolgingstilfelle
+package no.nav.syfo.controller.oppfolgingstilfelle.v1
 
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import no.nav.syfo.api.auth.OIDCIssuer.AZURE

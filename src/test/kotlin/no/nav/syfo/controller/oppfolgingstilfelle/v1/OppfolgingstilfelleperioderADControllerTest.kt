@@ -1,4 +1,4 @@
-package no.nav.syfo.controller.oppfolgingstilfelle
+package no.nav.syfo.controller.oppfolgingstilfelle.v1
 
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.consumer.sts.StsConsumer

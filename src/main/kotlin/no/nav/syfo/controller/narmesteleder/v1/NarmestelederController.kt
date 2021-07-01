@@ -1,9 +1,10 @@
-package no.nav.syfo.controller.narmesteleder
+package no.nav.syfo.controller.narmesteleder.v1
 
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import no.nav.syfo.api.auth.OIDCIssuer.AZURE
 import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.consumer.narmesteleder.NarmesteLederService
+import no.nav.syfo.controller.narmesteleder.NaermesteLeder
 import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.metric.Metrikk
 import no.nav.syfo.util.NAV_PERSONIDENT_HEADER

@@ -1,4 +1,4 @@
-package no.nav.syfo.controller.user
+package no.nav.syfo.controller.user.v1
 
 import no.nav.syfo.LocalApplication
 import no.nav.syfo.consumer.dkif.DkifConsumer
