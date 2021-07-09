@@ -91,7 +91,7 @@ spec:
     - name: SYFOTILGANGSKONTROLL_CLIENT_ID
       value: "32e36aa5-1d12-452a-9b1e-9f3f557cbb4d"
     - name: TILGANGSKONTROLLAPI_URL
-      value: https://syfo-tilgangskontroll.nais.preprod.local/syfo-tilgangskontroll/api/tilgang
+      value: "https://syfo-tilgangskontroll.dev.intern.nav.no/syfo-tilgangskontroll/api/tilgang"
     - name: AD_ACCESSTOKEN_URL
       value: https://login.microsoftonline.com/navq.onmicrosoft.com/oauth2/token
     - name: SYFONARMESTELEDER_ID
