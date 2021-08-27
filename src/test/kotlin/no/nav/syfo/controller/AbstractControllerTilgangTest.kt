@@ -2,8 +2,6 @@ package no.nav.syfo.controller
 
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.api.auth.OIDCIssuer
-import no.nav.syfo.consumer.TilgangConsumer
 import no.nav.syfo.consumer.TilgangConsumer.Companion.TILGANG_TIL_BRUKER_VIA_AZURE_V2_PATH
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.generateAzureAdV2TokenResponse
@@ -81,18 +79,6 @@ abstract class AbstractControllerTilgangTest {
         mockRestServiceServer.expect(ExpectedCount.manyTimes(), MockRestRequestMatchers.requestTo(uriString))
             .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
             .andExpect(MockRestRequestMatchers.header(HttpHeaders.AUTHORIZATION, "Bearer ${generateAzureAdV2TokenResponse().access_token}"))
-            .andRespond(MockRestResponseCreators.withStatus(status))
-    }
-
-    fun mockSvarFraTilgangTilBrukerViaAzure(fnr: String, status: HttpStatus) {
-        val uriString = UriComponentsBuilder.fromHttpUrl(tilgangskontrollUrl)
-            .path(TilgangConsumer.TILGANG_TIL_BRUKER_VIA_AZURE_PATH)
-            .queryParam(TilgangConsumer.FNR, fnr)
-            .toUriString()
-        val idToken = tokenValidationContextHolder.tokenValidationContext.getJwtToken(OIDCIssuer.AZURE).tokenAsString
-        mockRestServiceServer.expect(ExpectedCount.manyTimes(), MockRestRequestMatchers.requestTo(uriString))
-            .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
-            .andExpect(MockRestRequestMatchers.header(HttpHeaders.AUTHORIZATION, "Bearer $idToken"))
             .andRespond(MockRestResponseCreators.withStatus(status))
     }
 }
