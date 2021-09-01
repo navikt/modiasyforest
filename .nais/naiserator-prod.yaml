@@ -54,8 +54,6 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: "/azuread/data/prod/creds/modiasyforest"
-        mountPath: "/secrets/azuread/modiasyforest"
       - kvPath: "/serviceuser/data/prod/srvmodiasyforest"
         mountPath: "/secrets/serviceuser/modiasyforest"
       - kvPath: "/kv/prod/fss/modiasyforest/default"
@@ -77,17 +75,15 @@ spec:
       value: https://modapp.adeo.no
     - name: PDL_URL
       value: https://pdl-api.nais.adeo.no/graphql
+    - name: NARMESTELEDER_URL
+      value: "https://narmesteleder.nav.no"
+    - name: NARMESTELEDER_CLIENT_ID
+      value: "046419dd-8baa-4343-b192-a14d7c260b38"
     - name: SYFOTILGANGSKONTROLL_CLIENT_ID
       value: "prod-fss.teamsykefravr.syfo-tilgangskontroll"
     - name: TILGANGSKONTROLLAPI_URL
       value: https://syfo-tilgangskontroll.nais.adeo.no/syfo-tilgangskontroll/api/tilgang
     - name: SECURITY_TOKEN_SERVICE_REST_URL
       value: "https://security-token-service.nais.adeo.no"
-    - name: SYFONARMESTELEDER_URL
-      value: "https://syfonarmesteleder.nais.adeo.no"
     - name: SYFOSYKETILFELLE_URL
       value: "https://syfosyketilfelle.nais.adeo.no"
-    - name: AD_ACCESSTOKEN_URL
-      value: https://login.microsoftonline.com/navno.onmicrosoft.com/oauth2/token
-    - name: SYFONARMESTELEDER_ID
-      value: ccf8c36f-27e6-4e76-8250-9a49939df7ef

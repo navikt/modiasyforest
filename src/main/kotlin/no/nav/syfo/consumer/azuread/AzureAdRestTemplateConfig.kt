@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.client.RestTemplate
 
 @Configuration
-class AzureAdTokenConfig {
+class AzureAdRestTemplateConfig {
     @Bean(name = ["restTemplateWithProxy"])
     fun restTemplateMedProxy(): RestTemplate {
         return RestTemplateBuilder()

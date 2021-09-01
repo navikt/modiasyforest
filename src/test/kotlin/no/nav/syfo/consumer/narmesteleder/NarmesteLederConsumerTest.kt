@@ -4,9 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
-import no.nav.syfo.domain.AktorId
+import no.nav.syfo.consumer.azuread.v2.AzureAdV2TokenConsumer
+import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.metric.Metrikk
+import no.nav.syfo.testhelper.UserConstants.ARBEIDSTAKER_FNR
+import no.nav.syfo.testhelper.UserConstants.LEDER_FNR
+import no.nav.syfo.testhelper.UserConstants.VIRKSOMHETSNUMMER
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.*
 import org.junit.runner.RunWith
@@ -26,6 +29,7 @@ import org.springframework.test.web.client.response.MockRestResponseCreators.wit
 import org.springframework.web.client.RestClientResponseException
 import org.springframework.web.client.RestTemplate
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import javax.inject.Inject
 
 @RunWith(SpringRunner::class)
@@ -34,7 +38,7 @@ import javax.inject.Inject
 class NarmesteLederConsumerTest {
 
     @MockBean
-    private lateinit var azureAdTokenConsumer: AzureAdTokenConsumer
+    private lateinit var azureAdTokenConsumer: AzureAdV2TokenConsumer
 
     @MockBean
     private lateinit var metrikk: Metrikk
@@ -42,11 +46,11 @@ class NarmesteLederConsumerTest {
     @Inject
     private lateinit var restTemplate: RestTemplate
 
-    @Value("\${syfonarmesteleder.id}")
-    private lateinit var syfonarmestelederId: String
+    @Value("\${narmesteleder.id}")
+    private lateinit var narmestelederId: String
 
-    @Value("\${syfonarmesteleder.url}")
-    private lateinit var syfonarmestelederUrl: String
+    @Value("\${narmesteleder.url}")
+    private lateinit var narmestelederUrl: String
 
     private lateinit var narmesteLederConsumer: NarmesteLederConsumer
 
@@ -56,18 +60,16 @@ class NarmesteLederConsumerTest {
 
     @Before
     fun setup() {
-        ledereUrl = "$syfonarmestelederUrl/syfonarmesteleder/sykmeldt/${SYKMELDT_AKTOR_ID.value}/narmesteledere"
-
         this.mockRestServiceServer = MockRestServiceServer.bindTo(restTemplate).build()
         narmesteLederConsumer = NarmesteLederConsumer(
             azureAdTokenConsumer,
             metrikk,
             restTemplate,
-            syfonarmestelederUrl,
-            syfonarmestelederId,
+            narmestelederUrl,
+            narmestelederId,
         )
-
-        `when`(azureAdTokenConsumer.accessToken(syfonarmestelederId)).thenReturn("token")
+        ledereUrl = narmesteLederConsumer.narmestelederListUrl
+        `when`(azureAdTokenConsumer.getSystemToken(narmestelederId)).thenReturn("token")
     }
 
     @After
@@ -77,57 +79,69 @@ class NarmesteLederConsumerTest {
 
     @Test
     fun `get ledere for aktorID from syfonarmesteleder`() {
-        val expectedLedereList: List<NarmesteLederRelasjon> = listOf(
-            NarmesteLederRelasjon(
-                SYKMELDT_AKTOR_ID.value,
-                VIRKSOMHETSNUMMER,
-                LEDER_AKTOR_ID,
-                "narmesteLederTelefonnummer",
-                "narmesteLederEpost",
-                LocalDate.now(),
-                LocalDate.now(),
-                false,
-                false,
-                emptyList()
+        val expectedLedereList = listOf(
+            NarmesteLederRelasjonDTO(
+                narmesteLederRelasjon = NarmesteLederDTO(
+                    fnr = ARBEIDSTAKER_FNR,
+                    orgnummer = VIRKSOMHETSNUMMER,
+                    narmesteLederFnr = LEDER_FNR,
+                    narmesteLederTelefonnummer = "narmesteLederTelefonnummer",
+                    narmesteLederEpost = "narmesteLederEpost",
+                    aktivFom = LocalDate.now(),
+                    aktivTom = LocalDate.now(),
+                    arbeidsgiverForskutterer = false,
+                    tilganger = emptyList(),
+                    timestamp = OffsetDateTime.now(),
+                    navn = "Leder Ledersen",
+                )
             )
         )
-        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(ledereUrl)).andRespond(withSuccess(ledereAsJsonObject(expectedLedereList), MediaType.APPLICATION_JSON))
+        mockRestServiceServer.expect(
+            ExpectedCount.once(),
+            MockRestRequestMatchers.requestTo(ledereUrl)
+        ).andRespond(withSuccess(ledereAsJsonObject(expectedLedereList), MediaType.APPLICATION_JSON))
 
-        val actualLedere: List<NarmesteLederRelasjon> = narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
+        val actualLedere: List<NarmesteLederRelasjonDTO> = narmesteLederConsumer.narmesteLederRelasjonerLedere(Fodselsnummer(ARBEIDSTAKER_FNR))
 
         assertThat(actualLedere.size).isEqualTo(expectedLedereList.size)
-        assertThat(actualLedere.first().aktorId).isEqualTo(expectedLedereList.first().aktorId)
-        assertThat(actualLedere.first().orgnummer).isEqualTo(expectedLedereList.first().orgnummer)
-        verify(azureAdTokenConsumer).accessToken(syfonarmestelederId)
+        assertThat(actualLedere.first().narmesteLederRelasjon.fnr).isEqualTo(expectedLedereList.first().narmesteLederRelasjon.fnr)
+        assertThat(actualLedere.first().narmesteLederRelasjon.orgnummer).isEqualTo(expectedLedereList.first().narmesteLederRelasjon.orgnummer)
+        verify(azureAdTokenConsumer).getSystemToken(narmestelederId)
         verify(metrikk).countEvent("call_syfonarmesteleder_ledere_success")
     }
 
     @Test
     fun `get ledere accepts empty list as result`() {
-        val expectedEmptyLedereList: List<NarmesteLederRelasjon> = emptyList()
-        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(ledereUrl)).andRespond(withSuccess(ledereAsJsonObject(expectedEmptyLedereList), MediaType.APPLICATION_JSON))
+        val expectedEmptyLedereList: List<NarmesteLederRelasjonDTO> = emptyList()
+        mockRestServiceServer.expect(
+            ExpectedCount.once(),
+            MockRestRequestMatchers.requestTo(ledereUrl),
+        ).andRespond(withSuccess(ledereAsJsonObject(expectedEmptyLedereList), MediaType.APPLICATION_JSON))
 
-        val actualLedere: List<NarmesteLederRelasjon> = narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
+        val actualLedere: List<NarmesteLederRelasjonDTO> = narmesteLederConsumer.narmesteLederRelasjonerLedere(Fodselsnummer(ARBEIDSTAKER_FNR))
 
         assertThat(actualLedere.size).isEqualTo(expectedEmptyLedereList.size)
-        verify(azureAdTokenConsumer).accessToken(syfonarmestelederId)
+        verify(azureAdTokenConsumer).getSystemToken(narmestelederId)
         verify(metrikk).countEvent("call_syfonarmesteleder_ledere_success")
     }
 
     @Test(expected = RestClientResponseException::class)
     fun `get ledere catches RestClientResponseException and counts metric`() {
         val errorMessage = "Feilmelding"
-        mockRestServiceServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(ledereUrl)).andRespond(withServerError().body(errorMessage))
+        mockRestServiceServer.expect(
+            ExpectedCount.once(),
+            MockRestRequestMatchers.requestTo(ledereUrl),
+        ).andRespond(withServerError().body(errorMessage))
 
         try {
-            narmesteLederConsumer.narmesteLederRelasjonerLedere(SYKMELDT_AKTOR_ID)
+            narmesteLederConsumer.narmesteLederRelasjonerLedere(Fodselsnummer(ARBEIDSTAKER_FNR))
         } catch (e: Exception) {
             verify(metrikk).countEvent("call_syfonarmesteleder_ledere_fail")
             throw e
         }
     }
 
-    fun ledereAsJsonObject(narmesteLedere: List<NarmesteLederRelasjon>): String {
+    fun ledereAsJsonObject(narmesteLedere: List<NarmesteLederRelasjonDTO>): String {
         val objectMapper = ObjectMapper()
         objectMapper.registerModule(JavaTimeModule())
         return try {
@@ -135,11 +149,5 @@ class NarmesteLederConsumerTest {
         } catch (e: JsonProcessingException) {
             throw RuntimeException(e)
         }
-    }
-
-    companion object {
-        private val SYKMELDT_AKTOR_ID = AktorId("1234567890987")
-        private const val LEDER_AKTOR_ID = "7890987654321"
-        private const val VIRKSOMHETSNUMMER = "1234"
     }
 }

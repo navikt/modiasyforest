@@ -4,39 +4,39 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import no.nav.syfo.controller.narmesteleder.NaermesteLeder
 import java.io.Serializable
 import java.time.LocalDate
+import java.time.OffsetDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class NarmesteLederRelasjon(
-    val aktorId: String,
+data class NarmesteLederDTO(
+    val fnr: String,
     val orgnummer: String,
-    val narmesteLederAktorId: String,
-    val narmesteLederTelefonnummer: String?,
-    val narmesteLederEpost: String?,
+    val narmesteLederFnr: String,
+    val narmesteLederTelefonnummer: String,
+    val narmesteLederEpost: String,
     val aktivFom: LocalDate,
-    val aktivTom: LocalDate?,
-    val arbeidsgiverForskutterer: Boolean?,
-    val skrivetilgang: Boolean,
-    val tilganger: List<Tilgang>
+    val aktivTom: LocalDate? = null,
+    val arbeidsgiverForskutterer: Boolean? = null,
+    val tilganger: List<Tilgang>,
+    val timestamp: OffsetDateTime,
+    val navn: String?
 ) : Serializable
 
-enum class Tilgang : Serializable {
+enum class Tilgang {
     SYKMELDING,
     SYKEPENGESOKNAD,
     MOTE,
-    OPPFOLGINGSPLAN
+    OPPFOLGINGSPLAN,
 }
 
-fun NarmesteLederRelasjon.toNaermesteLeder(
-    navn: String,
+fun NarmesteLederDTO.toNaermesteLeder(
     virksomhetsnavn: String
 ): NaermesteLeder {
     return NaermesteLeder()
         .withId(null)
         .withEpost(this.narmesteLederEpost)
         .withTlf(this.narmesteLederTelefonnummer)
-        .withNavn(navn)
+        .withNavn(this.navn)
         .withOrganisasjonsnavn(virksomhetsnavn)
-        .withAktoerId(this.narmesteLederAktorId)
         .withFomDato(this.aktivFom)
         .withOrgnummer(this.orgnummer)
         .withArbeidsgiverForskuttererLoenn(this.arbeidsgiverForskutterer)

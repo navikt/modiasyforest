@@ -28,8 +28,5 @@ syfosyketilfelle.url: "http://syfosyketilfelle"
 syfotilgangskontroll.client.id: "syfotilgangskontrollId"
 tilgangskontrollapi.url: "https://www.ikke.no"
 
-client.id: clientId
-client.secret: clientSecret
-ad.accesstoken.url: 'http://accesstoken.url'
-syfonarmesteleder.url: "http://syfonarmesteleder.url"
-syfonarmesteleder.id: "syfonarmestelederID"
+narmesteleder.url: "http://syfonarmesteleder.url"
+narmesteleder.id: "syfonarmestelederID"

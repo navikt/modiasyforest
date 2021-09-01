@@ -1,8 +1,8 @@
 package no.nav.syfo.consumer.narmesteleder
 
 import no.nav.syfo.config.CacheConfig.Companion.CACHENAME_NARMESTELEDER_LEDERE
-import no.nav.syfo.consumer.azuread.AzureAdTokenConsumer
-import no.nav.syfo.domain.AktorId
+import no.nav.syfo.consumer.azuread.v2.AzureAdV2TokenConsumer
+import no.nav.syfo.domain.Fodselsnummer
 import no.nav.syfo.metric.Metrikk
 import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
@@ -14,30 +14,29 @@ import org.springframework.http.*
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClientResponseException
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.util.UriComponentsBuilder
 
 @Component
 class NarmesteLederConsumer @Autowired constructor(
-    private val azureAdTokenConsumer: AzureAdTokenConsumer,
+    private val azureAdTokenConsumer: AzureAdV2TokenConsumer,
     private val metrikk: Metrikk,
     private val restTemplate: RestTemplate,
-    @Value("\${syfonarmesteleder.url}") private val syfonarmestelederUrl: String,
-    @Value("\${syfonarmesteleder.id}") private val syfonarmestelederId: String
+    @Value("\${narmesteleder.url}") private val narmestelederUrl: String,
+    @Value("\${narmesteleder.id}") private val narmestelederClientId: String
 ) {
-    private val syfonarmestelederBaseUrl: String
+    val narmestelederListUrl: String
 
     init {
-        syfonarmestelederBaseUrl = "$syfonarmestelederUrl$SYFONARMESTELEDER_BASE_PATH"
+        narmestelederListUrl = "$narmestelederUrl$NARMESTELEDERE_PATH"
     }
 
-    @Cacheable(value = [CACHENAME_NARMESTELEDER_LEDERE], key = "#aktorId.value", condition = "#aktorId.value != null")
-    fun narmesteLederRelasjonerLedere(aktorId: AktorId): List<NarmesteLederRelasjon> {
+    @Cacheable(value = [CACHENAME_NARMESTELEDER_LEDERE], key = "#personIdentNumber.value", condition = "#personIdentNumber.value != null")
+    fun narmesteLederRelasjonerLedere(personIdentNumber: Fodselsnummer): List<NarmesteLederRelasjonDTO> {
         try {
             val response = restTemplate.exchange(
-                getLedereUrl(aktorId),
+                narmestelederListUrl,
                 HttpMethod.GET,
-                entity(),
-                object : ParameterizedTypeReference<List<NarmesteLederRelasjon>>() {}
+                entity(personIdentNumber = personIdentNumber),
+                object : ParameterizedTypeReference<List<NarmesteLederRelasjonDTO>>() {}
             )
             metrikk.countEvent(CALL_SYFONARMESTELEDER_LEDERE_SUCCESS)
 
@@ -52,24 +51,21 @@ class NarmesteLederConsumer @Autowired constructor(
         }
     }
 
-    private fun entity(): HttpEntity<*> {
-        val token = azureAdTokenConsumer.accessToken(syfonarmestelederId)
+    private fun entity(personIdentNumber: Fodselsnummer): HttpEntity<*> {
+        val token = azureAdTokenConsumer.getSystemToken(scopeClientId = narmestelederClientId)
         val headers = HttpHeaders()
         headers[HttpHeaders.AUTHORIZATION] = bearerCredentials(token)
         headers[NAV_CALL_ID_HEADER] = createCallId()
         headers[NAV_CONSUMER_ID_HEADER] = APP_CONSUMER_ID
+        headers[SYKMELDT_FNR_HEADER] = personIdentNumber.value
         return HttpEntity<Any>(headers)
-    }
-
-    private fun getLedereUrl(aktorId: AktorId): String {
-        return UriComponentsBuilder
-            .fromHttpUrl("$syfonarmestelederBaseUrl/sykmeldt/${aktorId.value}/narmesteledere")
-            .toUriString()
     }
 
     companion object {
         private val LOG = LoggerFactory.getLogger(NarmesteLederConsumer::class.java)
-        private const val SYFONARMESTELEDER_BASE_PATH = "/syfonarmesteleder"
+
+        const val NARMESTELEDERE_PATH = "/sykmeldt/narmesteledere?utvidet=ja"
+        const val SYKMELDT_FNR_HEADER = "Sykmeldt-Fnr"
 
         private const val CALL_SYFONARMESTELEDER_LEDERE_BASE = "call_syfonarmesteleder_ledere"
         private const val CALL_SYFONARMESTELEDER_LEDERE_FAIL = "${CALL_SYFONARMESTELEDER_LEDERE_BASE}_fail"
