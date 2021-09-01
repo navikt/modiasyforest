@@ -2,10 +2,11 @@ package no.nav.syfo.controller
 
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.syfo.LocalApplication
-import no.nav.syfo.consumer.TilgangConsumer.Companion.TILGANG_TIL_BRUKER_VIA_AZURE_V2_PATH
+import no.nav.syfo.consumer.TilgangConsumer.Companion.TILGANGSKONTROLL_PERSON_PATH
 import no.nav.syfo.testhelper.OidcTestHelper.loggUtAlle
 import no.nav.syfo.testhelper.generateAzureAdV2TokenResponse
 import no.nav.syfo.testhelper.mockAndExpectAzureADV2
+import no.nav.syfo.util.NAV_PERSONIDENT_HEADER
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
@@ -72,13 +73,13 @@ abstract class AbstractControllerTilgangTest {
         )
 
         val uriString = UriComponentsBuilder.fromHttpUrl(tilgangskontrollUrl)
-            .path(TILGANG_TIL_BRUKER_VIA_AZURE_V2_PATH)
-            .path("/$fnr")
+            .path(TILGANGSKONTROLL_PERSON_PATH)
             .toUriString()
 
         mockRestServiceServer.expect(ExpectedCount.manyTimes(), MockRestRequestMatchers.requestTo(uriString))
             .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
             .andExpect(MockRestRequestMatchers.header(HttpHeaders.AUTHORIZATION, "Bearer ${generateAzureAdV2TokenResponse().access_token}"))
+            .andExpect(MockRestRequestMatchers.header(NAV_PERSONIDENT_HEADER, fnr))
             .andRespond(MockRestResponseCreators.withStatus(status))
     }
 }
