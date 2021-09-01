@@ -4,6 +4,7 @@ import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.syfo.api.auth.OIDCIssuer
 import no.nav.syfo.api.auth.OIDCUtil.tokenFraOIDC
 import no.nav.syfo.consumer.azuread.v2.AzureAdV2TokenConsumer
+import no.nav.syfo.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.*
@@ -19,6 +20,12 @@ class TilgangConsumer(
     private val tokenValidationContextHolder: TokenValidationContextHolder,
     private val template: RestTemplate
 ) {
+    private val tilgangskontrollPersonUrl: String
+
+    init {
+        tilgangskontrollPersonUrl = "$tilgangskontrollUrl$TILGANGSKONTROLL_PERSON_PATH"
+    }
+
     fun throwExceptionIfVeilederWithoutAccessOBO(fnr: String) {
         val harTilgang = isVeilederGrantedAccessToUserWithADOBO(fnr)
         if (!harTilgang) {
@@ -32,14 +39,11 @@ class TilgangConsumer(
             scopeClientId = syfotilgangskontrollClientId,
             token = token
         )
-
-        val url = accessToUserV2Url(fnr)
-
         return try {
             template.exchange(
-                url,
+                tilgangskontrollPersonUrl,
                 HttpMethod.GET,
-                createEntity(token = oboToken),
+                createEntity(token = oboToken, personIdentNumber = fnr),
                 String::class.java
             )
             true
@@ -56,20 +60,22 @@ class TilgangConsumer(
         }
     }
 
-    fun accessToUserV2Url(personIdentNumber: String): String {
-        return "$tilgangskontrollUrl$TILGANG_TIL_BRUKER_VIA_AZURE_V2_PATH/$personIdentNumber"
-    }
-
-    private fun createEntity(token: String): HttpEntity<String> {
+    private fun createEntity(
+        personIdentNumber: String,
+        token: String
+    ): HttpEntity<String> {
         val headers = HttpHeaders()
         headers.accept = listOf(MediaType.APPLICATION_JSON)
         headers.setBearerAuth(token)
+        headers[NAV_PERSONIDENT_HEADER] = personIdentNumber
+        headers[NAV_CALL_ID_HEADER] = createCallId()
+        headers[NAV_CONSUMER_ID_HEADER] = APP_CONSUMER_ID
         return HttpEntity(headers)
     }
 
     companion object {
         private val log = LoggerFactory.getLogger(TilgangConsumer::class.java)
 
-        const val TILGANG_TIL_BRUKER_VIA_AZURE_V2_PATH = "/navident/bruker"
+        const val TILGANGSKONTROLL_PERSON_PATH = "/navident/person"
     }
 }
