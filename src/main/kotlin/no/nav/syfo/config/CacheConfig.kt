@@ -19,12 +19,16 @@ class CacheConfig {
         val defaultConfig: RedisCacheConfiguration = RedisCacheConfiguration
             .defaultCacheConfig()
             .entryTtl(Duration.ofHours(2L))
+        val tokensConfig: RedisCacheConfiguration = RedisCacheConfiguration
+            .defaultCacheConfig()
+            .entryTtl(Duration.ofHours(1L))
         cacheConfigurations[TILGANGTILENHET] = defaultConfig
         cacheConfigurations[CACHENAME_DKIF_IDENT] = defaultConfig
         cacheConfigurations[CACHENAME_EREG_VIRKSOMHETSNAVN] = defaultConfig
         cacheConfigurations[CACHENAME_VEILEDER_ENHETER] = defaultConfig
         cacheConfigurations[CACHENAME_SYFOSERVICE_LEDERE] = defaultConfig
         cacheConfigurations[CACHENAME_NARMESTELEDER_LEDERE] = defaultConfig
+        cacheConfigurations[CACHENAME_TOKENS] = tokensConfig
         return RedisCacheManager.builder(redisConnectionFactory)
             .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
             .withInitialCacheConfigurations(cacheConfigurations)
@@ -38,5 +42,6 @@ class CacheConfig {
         const val CACHENAME_VEILEDER_ENHETER = "organisasjonnavn"
         const val CACHENAME_SYFOSERVICE_LEDERE = "syfoservicefinnledere"
         const val CACHENAME_NARMESTELEDER_LEDERE = "narmesteledere"
+        const val CACHENAME_TOKENS = "tokens"
     }
 }
