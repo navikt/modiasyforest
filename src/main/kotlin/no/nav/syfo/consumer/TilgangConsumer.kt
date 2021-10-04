@@ -2,6 +2,8 @@ package no.nav.syfo.consumer
 
 import no.nav.security.token.support.core.context.TokenValidationContextHolder
 import no.nav.syfo.api.auth.OIDCIssuer
+import no.nav.syfo.api.auth.OIDCUtil.getConsumerClientIdFraOIDC
+import no.nav.syfo.api.auth.OIDCUtil.getNAVIdentFraOIDC
 import no.nav.syfo.api.auth.OIDCUtil.tokenFraOIDC
 import no.nav.syfo.consumer.azuread.v2.AzureAdV2TokenConsumer
 import no.nav.syfo.util.*
@@ -35,9 +37,15 @@ class TilgangConsumer(
 
     private fun isVeilederGrantedAccessToUserWithADOBO(fnr: String): Boolean {
         val token = tokenFraOIDC(tokenValidationContextHolder, OIDCIssuer.INTERN_AZUREAD_V2)
+        val veilederId = getNAVIdentFraOIDC(tokenValidationContextHolder)
+            ?: throw RuntimeException("Missing veilderid from oidc-token")
+        val azp = getConsumerClientIdFraOIDC(tokenValidationContextHolder)
+            ?: throw RuntimeException("Missing azp from oidc-token")
         val oboToken = azureAdV2TokenConsumer.getOnBehalfOfToken(
             scopeClientId = syfotilgangskontrollClientId,
-            token = token
+            token = token,
+            veilederId = veilederId,
+            azp = azp,
         )
         return try {
             template.exchange(

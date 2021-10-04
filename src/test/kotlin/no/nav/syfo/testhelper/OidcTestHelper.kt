@@ -14,7 +14,7 @@ object OidcTestHelper {
     @JvmStatic
     @Throws(ParseException::class)
     fun logInVeilederADV2(tokenValidationContextHolder: TokenValidationContextHolder, veilederIdent: String) {
-        val claimsSet = JWTClaimsSet.parse("{\"NAVident\":\"$veilederIdent\"}")
+        val claimsSet = JWTClaimsSet.parse("{\"NAVident\":\"$veilederIdent\", \"azp\":\"clientid\"}")
         val jwt = JwtTokenGenerator.createSignedJWT(claimsSet)
         settOIDCValidationContext(tokenValidationContextHolder, jwt, OIDCIssuer.INTERN_AZUREAD_V2)
     }
