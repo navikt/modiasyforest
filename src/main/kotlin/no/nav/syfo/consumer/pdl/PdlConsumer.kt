@@ -25,11 +25,6 @@ class PdlConsumer(
             ?: throw PdlRequestFailedException("Request to get Ident of Type ${IdentType.AKTORID.name} from PDL Failed")
     }
 
-    fun fodselsnummer(aktorId: AktorId, callId: String): Fodselsnummer {
-        return identer(aktorId.value, callId).fodselsnummer()
-            ?: throw PdlRequestFailedException("Request to get Ident of Type ${IdentType.FOLKEREGISTERIDENT.name} from PDL Failed")
-    }
-
     fun identer(ident: String, callId: String): PdlHentIdenter? {
         val request = PdlHentIdenterRequest(
             query = getPdlQuery("/pdl/hentIdenter.graphql"),
