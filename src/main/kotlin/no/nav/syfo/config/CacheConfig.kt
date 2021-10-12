@@ -7,7 +7,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import java.time.Duration
-import java.util.*
 
 @Configuration
 @EnableCaching
@@ -22,12 +21,7 @@ class CacheConfig {
         val tokensConfig: RedisCacheConfiguration = RedisCacheConfiguration
             .defaultCacheConfig()
             .entryTtl(Duration.ofHours(1L))
-        cacheConfigurations[TILGANGTILENHET] = defaultConfig
         cacheConfigurations[CACHENAME_DKIF_IDENT] = defaultConfig
-        cacheConfigurations[CACHENAME_EREG_VIRKSOMHETSNAVN] = defaultConfig
-        cacheConfigurations[CACHENAME_VEILEDER_ENHETER] = defaultConfig
-        cacheConfigurations[CACHENAME_SYFOSERVICE_LEDERE] = defaultConfig
-        cacheConfigurations[CACHENAME_NARMESTELEDER_LEDERE] = defaultConfig
         cacheConfigurations[CACHENAME_TOKENS] = tokensConfig
         return RedisCacheManager.builder(redisConnectionFactory)
             .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
@@ -36,12 +30,7 @@ class CacheConfig {
     }
 
     companion object {
-        const val TILGANGTILENHET = "arbeidsforhold"
         const val CACHENAME_DKIF_IDENT = "dkifident"
-        const val CACHENAME_EREG_VIRKSOMHETSNAVN = "virksomhetsnavn"
-        const val CACHENAME_VEILEDER_ENHETER = "organisasjonnavn"
-        const val CACHENAME_SYFOSERVICE_LEDERE = "syfoservicefinnledere"
-        const val CACHENAME_NARMESTELEDER_LEDERE = "narmesteledere"
         const val CACHENAME_TOKENS = "tokens"
     }
 }
